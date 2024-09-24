@@ -22,7 +22,18 @@ public class Account {
 
     public Account() {
     }
-
+    public Account(String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address) {
+        
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+        this.mobile = mobile;
+        this.address = address;
+        
+    }
     public Account(int userId, String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address, int roleId) {
         this.userId = userId;
         this.userName = userName;

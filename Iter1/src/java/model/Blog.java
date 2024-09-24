@@ -11,19 +11,23 @@ package model;
 public class Blog {
     private int blogId;
     private int postId;
-    private String blogInfo;
+    private int brandId;
+    private String blogInfo1;
     private String blogTitle;
     private String blogImage;
+    private String blogInfo2;
 
     public Blog() {
     }
 
-    public Blog(int blogId, int postId, String blogInfo, String blogTitle, String blogImage) {
+    public Blog(int blogId, int postId, int brandId, String blogInfo1, String blogTitle, String blogImage, String blogInfo2) {
         this.blogId = blogId;
         this.postId = postId;
-        this.blogInfo = blogInfo;
+        this.brandId = brandId;
+        this.blogInfo1 = blogInfo1;
         this.blogTitle = blogTitle;
         this.blogImage = blogImage;
+        this.blogInfo2 = blogInfo2;
     }
 
     public int getBlogId() {
@@ -42,12 +46,20 @@ public class Blog {
         this.postId = postId;
     }
 
-    public String getBlogInfo() {
-        return blogInfo;
+    public int getBrandId() {
+        return brandId;
     }
 
-    public void setBlogInfo(String blogInfo) {
-        this.blogInfo = blogInfo;
+    public void setBrandId(int brandId) {
+        this.brandId = brandId;
+    }
+
+    public String getBlogInfo1() {
+        return blogInfo1;
+    }
+
+    public void setBlogInfo1(String blogInfo1) {
+        this.blogInfo1 = blogInfo1;
     }
 
     public String getBlogTitle() {
@@ -65,7 +77,14 @@ public class Blog {
     public void setBlogImage(String blogImage) {
         this.blogImage = blogImage;
     }
- 
+
+    public String getBlogInfo2() {
+        return blogInfo2;
+    }
+
+    public void setBlogInfo2(String blogInfo2) {
+        this.blogInfo2 = blogInfo2;
+    }
     
     
     

@@ -47,20 +47,4 @@ public class RoleDAO extends DBContext {
         }
         return "Unknown";
     }
-    
-    public RoleDAO() {
-        if (connection != null) {
-            System.out.println("Kết nối cơ sở dữ liệu thành công!");
-        } else {
-            System.out.println("Kết nối cơ sở dữ liệu thất bại!");
-        }
-    }
-
-    public static void main(String[] args) {
-        RoleDAO rdao = new RoleDAO();
-        List<Role> role = rdao.getAllRole();
-        for (int i = 0; i < role.size(); i++) {
-            System.out.println(role.get(i).getRoleName());
-        }
-    }
 }

@@ -26,9 +26,11 @@ public class BlogDAO extends DBContext {
             while (rs.next()) {
                 return new Blog(rs.getInt(1),
                         rs.getInt(2),
-                        rs.getString(3),
+                        rs.getInt(3),
                         rs.getString(4),
-                        rs.getString(5));
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -45,9 +47,11 @@ public class BlogDAO extends DBContext {
             while (rs.next()) {
                 Blog p = new Blog(rs.getInt(1),
                         rs.getInt(2),
-                        rs.getString(3),
+                        rs.getInt(3),
                         rs.getString(4),
-                        rs.getString(5));
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7));
                 list.add(p);
             }
         } catch (SQLException e) {

@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Role;
 import model.Segment;
 
 /**
@@ -32,13 +31,5 @@ public class SegmentDAO extends DBContext{
             System.out.println(e);
         }
         return list;
-    }
-    
-    public static void main(String[] args) {
-        SegmentDAO sdao = new SegmentDAO();
-        List <Segment> s = sdao.getAllSegment();
-        for(int i =0 ;i<s.size();i++){
-            System.out.println(s.get(i).getSegmentName());
-        }
     }
 }

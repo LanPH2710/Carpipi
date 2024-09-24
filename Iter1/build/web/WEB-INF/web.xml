@@ -17,10 +17,6 @@
         <servlet-class>controller.BlogDetailServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>TestServlet</servlet-name>
-        <servlet-class>controller.TestServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>AddCustomerServlet</servlet-name>
         <servlet-class>controller.AddCustomerServlet</servlet-class>
     </servlet>
@@ -39,10 +35,6 @@
     <servlet-mapping>
         <servlet-name>BlogDetailServlet</servlet-name>
         <url-pattern>/blogdetail</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>TestServlet</servlet-name>
-        <url-pattern>/test</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddCustomerServlet</servlet-name>

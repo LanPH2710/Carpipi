@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Blog;
 import model.Brand;
 
 /**
@@ -33,5 +32,20 @@ public class BrandDAO extends DBContext {
             System.out.println(e);
         }
         return list;
+    }
+
+    public String getBrandById(int brandId) {
+        String sql = "select * from Brand where brandId=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, brandId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                return rs.getString(2);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
     }
 }

@@ -11,7 +11,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
 
@@ -60,14 +59,13 @@ public class CustomerListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AccountDAO adao = new AccountDAO();
-        HttpSession session = request.getSession();
         // Sắp xếp theo yêu cầu hoặc mặc định theo tên
         String sort = request.getParameter("sort");
         List<Account> p = null;
         if (sort != null && !sort.isEmpty()) {
             switch (sort) {
                 case "name":
-                    p = adao.sortCustommerByName();
+                    p = adao.sortCustomerByName();
                     break;
                 case "email":
                     p = adao.sortCustommerByEmail();
@@ -98,10 +96,10 @@ public class CustomerListServlet extends HttpServlet {
         List<Account> listAcc = adao.getCustomerListByPage(p, start, end);
 
         // Truyền giá trị lại cho view
-        session.setAttribute("customerList", listAcc);
-        session.setAttribute("page", page);
-        session.setAttribute("num", num);
-        session.setAttribute("sort", sort); // Giữ lại lựa chọn sắp xếp
+        request.setAttribute("customerList", listAcc);
+        request.setAttribute("page", page);
+        request.setAttribute("num", num);
+        request.setAttribute("sort", sort); // Giữ lại lựa chọn sắp xếp
         request.getRequestDispatcher("CustomerList.jsp").forward(request, response);
     }
 

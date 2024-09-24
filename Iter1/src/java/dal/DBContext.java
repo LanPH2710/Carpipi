@@ -4,28 +4,28 @@
  */
 package dal;
 
+/**
+ *
+ * @author Admin
+ */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- *
- * @author phamd
- */
 public class DBContext {
-
-    public Connection connection;
-
+    protected Connection connection;
     public DBContext() {
+        String url = "jdbc:mysql://localhost:3306/shopauto"; // Update with your DB name
+        String user = "root"; // MySQL username
+        String password = "sa123"; // MySQL password
+        
         try {
-            // Edit URL , username, password to authenticate with your MS SQL Server
-            String url = "jdbc:sqlserver://localhost:1433;databaseName= ShopTest";
-            String username = "sa";
-            String password = "12345678";
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection(url, username, password);
-        } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println(ex);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+             connection = DriverManager.getConnection(url, user, password);
+            System.out.println("Connection successful!");
+
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("Connection failed!");
         }
     }
 }

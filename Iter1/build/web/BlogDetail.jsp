@@ -113,16 +113,16 @@
 
                 <!-- Thông tin meta (tác giả, ngày) -->
                 <div class="blog-meta">
-                    <p>Tác giả: Admin | Ngày: 19/09/2024 | Thể loại: Ô tô</p>
+                    <p>Tác giả: ${author} | Ngày: 19/09/2024 | Thể loại: ${brand}</p>
                 </div>
 
                 <!-- Câu chủ đạo blog -->
                 <div class="blog-body">
-                    <h2>${blog.blogInfo}</h2>
+                    <h2>${blog.blogInfo1}</h2>
                     <!-- Hình ảnh minh họa -->
-                    <img src="${blog.blogImage}" alt="Porsche Design" class="blog-image">
+                    <img src="${blog.blogImage}" class="blog-image">
                     <strong class="textImage mb-5">Hehehehe</strong>
-                    <h4>${blog.blogInfo}</h4> 
+                    <h5>${blog.blogInfo2}</h5> 
                 </div>
 
             </div>
@@ -134,7 +134,7 @@
                 <div class="categories">
                     <h3>Danh Mục Bài Viết</h3>
                     <ul>
-                        <c:forEach items="${requestScope.brand}" var="b">
+                        <c:forEach items="${requestScope.brands}" var="b">
                         <li><a href="#">${b.brandName}</a></li>
                         </c:forEach>
                     </ul>

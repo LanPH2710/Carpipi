@@ -7,6 +7,7 @@ package controller;
 
 import dal.BlogDAO;
 import dal.BrandDAO;
+import dal.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -59,9 +60,14 @@ public class BlogDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         BlogDAO bdao = new BlogDAO();
-        Blog blog = bdao.getBlogById(7);
         BrandDAO brdao = new BrandDAO();
-        List<Brand> brand = brdao.getAllBrand();
+        PostDAO postdao = new PostDAO();
+        Blog blog = bdao.getBlogById(1);
+        String brand = brdao.getBrandById(blog.getBrandId());
+        String author =postdao.getUserFullNameById(1);
+        List<Brand> brands = brdao.getAllBrand();
+        request.setAttribute("author", author);
+        request.setAttribute("brands", brands);
         request.setAttribute("brand", brand);
         request.setAttribute("blog", blog);
         request.getRequestDispatcher("BlogDetail.jsp").forward(request, response);

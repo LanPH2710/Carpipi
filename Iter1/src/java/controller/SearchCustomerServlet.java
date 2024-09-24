@@ -11,7 +11,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
 
@@ -60,13 +59,10 @@ public class SearchCustomerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AccountDAO adao = new AccountDAO();
-        HttpSession session = request.getSession();
         String search = request.getParameter("search");
         List<Account> listC = adao.searchByEmail(search);
-        List<Account> p = adao.getAllCustommer();
-        session.setAttribute("customerList", p);
-        session.setAttribute("customerList", listC);
-        session.setAttribute("search", search);
+        request.setAttribute("customerList", listC);
+        request.setAttribute("search", search);
         request.getRequestDispatcher("CustomerList.jsp").forward(request, response);
     }
 

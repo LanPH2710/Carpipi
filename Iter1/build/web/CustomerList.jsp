@@ -79,18 +79,18 @@
             </style>
         </head>
         <body>
-            <div class="container">
-                <a href="" class="btn btn-primary" style="margin-top: 20px;">
-                    <i class="material-icons">&#xE5C4;</i> <!-- Icon for back, you can replace with your preferred icon -->
-                    <span>Back</span>
-                </a>
-                <h1>Customer List</h1>
+            <jsp:include page="Header.jsp"></jsp:include>
+                <div class="container">
+                    <a href="" class="btn btn-primary" style="margin-top: 20px;">
+                        <span>X</span>
+                    </a>
+                    <h1>Customer List</h1>
 
-                <!-- Search Form -->
-                <form action="searchcustomer" method="get">
-                    <div class="form-row">
-                        <div class="form-group col-md-5">
-                            <input type="text" name="search" class="form-control" placeholder="Search by Email" value="${search}">
+                    <!-- Search Form -->
+                    <form action="searchcustomer" method="get">
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <input type="text" name="search" class="form-control" placeholder="Search by Email" value="${search}">
                         </div> 
                         <div class="form-group col-md-3">
                             <button type="submit" class="btn btn-primary">Sreach</button>
@@ -108,7 +108,7 @@
                                 <option value="phone">Phone</option>
                             </select>
                         </div>
-                    </div
+                    </div>
                 </form>
                 <div class="col-sm-6">
                     <a href="#addCustomerModal" class="btn btn-success btn-sm mb-3" data-toggle="modal">Add New</a>
@@ -128,7 +128,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${sessionScope.customerList}" var="customer">
+                        <c:forEach items="${requestScope.customerList}" var="customer">
                             <tr>
                                 <td>${customer.userId}</td>
                                 <td>${customer.firstName}</td>
@@ -147,7 +147,7 @@
                 </table>
 
                 <div class="pagination">
-                    <c:forEach begin="${1}" end="${sessionScope.num}" var="i">
+                    <c:forEach begin="${1}" end="${requestScope.num}" var="i">
                         <c:choose>
                             <c:when test="${i == page}">
                                 <a href="customerlist?page=${i}" class="active">${i}</a>

@@ -118,6 +118,30 @@ public class AccountDAO extends DBContext {
         }
         return list;
     }
+    
+    public void insertAccount(Account acc) {
+        try {
+            String sql = "INSERT INTO account "
+                    + "(userName, password, firstName, lastName, gender, email, mobile, address, roleId) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stm = connection.prepareStatement(sql);
+
+            // Bắt đầu từ vị trí 1
+            stm.setString(1, acc.getUserName());
+            stm.setString(2, acc.getPassword());
+            stm.setString(3, acc.getFirstName());
+            stm.setString(4, acc.getLastName());
+            stm.setString(5, acc.getGender());
+            stm.setString(6, acc.getEmail());
+            stm.setString(7, acc.getMobile());
+            stm.setString(8, acc.getAddress());
+            stm.setInt(9, 4); 
+
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
 
     public List<Account> sortCustomerByName() {
         List<Account> list = new ArrayList<>();

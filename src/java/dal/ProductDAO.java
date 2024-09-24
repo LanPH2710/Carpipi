@@ -98,53 +98,53 @@ public class ProductDAO extends DBContext {
         return images;
     }
 
-    
-//    public static void main(String[] args) throws SQLException {
-//        // Tạo đối tượng ProductDAO
-//        ProductDAO productDAO = new ProductDAO();
+ 
+////    public static void main(String[] args) throws SQLException {
+////        // Tạo đối tượng ProductDAO
+////        ProductDAO productDAO = new ProductDAO();
+////
+////        // Kiểm tra phương thức getProductById
+////        int testProductId = 1; // Thay đổi giá trị productId cho phù hợp với dữ liệu của bạn
+////        System.out.println("----- Kiểm tra phương thức getProductById -----");
+////        Product product = productDAO.getProductById(testProductId);
+////        
+////        if (product != null) {
+////            System.out.println("Product ID: " + product.getProductId());
+////            System.out.println("Name: " + product.getName());
+////            System.out.println("Seat Number: " + product.getSeatNumber());
+////            System.out.println("Price: " + product.getPrice());
+////            System.out.println("Fuel: " + product.getFuel());
+////            System.out.println("Stock: " + product.getStock());
+////            System.out.println("Description: " + product.getDescription());
+////            System.out.println("VAT: " + product.getVAT());
+////            System.out.println("Supplier ID: " + product.getSupplierId());
+////            System.out.println("Brand ID: " + product.getBrandId());
+////            System.out.println("Segment ID: " + product.getSegmentId());
+////            System.out.println("Style ID: " + product.getStyleId());
+////        } else {
+////            System.out.println("Không tìm thấy sản phẩm với ID: " + testProductId);
+////        }
+////
+////        // Kiểm tra phương thức getImagesByProductId
+////        System.out.println("----- Kiểm tra phương thức getImagesByProductId -----");
+////        List<ProductImage> images = productDAO.getImagesByProductId(testProductId);
+////        if (images != null && !images.isEmpty()) {
+////            System.out.println("Danh sách hình ảnh của sản phẩm:");
+////            for (ProductImage image : images) {
+////                System.out.println("Image ID: " + image.getImageId() + ", URL: " + image.getImageUrl());
+////            }
+////        } else {
+////            System.out.println("Không tìm thấy hình ảnh cho sản phẩm với ID: " + testProductId);
+////        }
+////
+////        // Đóng kết nối sau khi kiểm tra xong (nếu cần)
+////        try {
+////            productDAO.connection.close(); // Đóng kết nối với cơ sở dữ liệu
+////        } catch (SQLException e) {
+////            System.out.println("Lỗi khi đóng kết nối: " + e.getMessage());
+////        }
+////    }
+////    
 //
-//        // Kiểm tra phương thức getProductById
-//        int testProductId = 1; // Thay đổi giá trị productId cho phù hợp với dữ liệu của bạn
-//        System.out.println("----- Kiểm tra phương thức getProductById -----");
-//        Product product = productDAO.getProductById(testProductId);
-//        
-//        if (product != null) {
-//            System.out.println("Product ID: " + product.getProductId());
-//            System.out.println("Name: " + product.getName());
-//            System.out.println("Seat Number: " + product.getSeatNumber());
-//            System.out.println("Price: " + product.getPrice());
-//            System.out.println("Fuel: " + product.getFuel());
-//            System.out.println("Stock: " + product.getStock());
-//            System.out.println("Description: " + product.getDescription());
-//            System.out.println("VAT: " + product.getVAT());
-//            System.out.println("Supplier ID: " + product.getSupplierId());
-//            System.out.println("Brand ID: " + product.getBrandId());
-//            System.out.println("Segment ID: " + product.getSegmentId());
-//            System.out.println("Style ID: " + product.getStyleId());
-//        } else {
-//            System.out.println("Không tìm thấy sản phẩm với ID: " + testProductId);
-//        }
-//
-//        // Kiểm tra phương thức getImagesByProductId
-//        System.out.println("----- Kiểm tra phương thức getImagesByProductId -----");
-//        List<ProductImage> images = productDAO.getImagesByProductId(testProductId);
-//        if (images != null && !images.isEmpty()) {
-//            System.out.println("Danh sách hình ảnh của sản phẩm:");
-//            for (ProductImage image : images) {
-//                System.out.println("Image ID: " + image.getImageId() + ", URL: " + image.getImageUrl());
-//            }
-//        } else {
-//            System.out.println("Không tìm thấy hình ảnh cho sản phẩm với ID: " + testProductId);
-//        }
-//
-//        // Đóng kết nối sau khi kiểm tra xong (nếu cần)
-//        try {
-//            productDAO.connection.close(); // Đóng kết nối với cơ sở dữ liệu
-//        } catch (SQLException e) {
-//            System.out.println("Lỗi khi đóng kết nối: " + e.getMessage());
-//        }
-//    }
 //    
-
-    
 }

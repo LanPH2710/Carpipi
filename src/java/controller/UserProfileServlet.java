@@ -20,7 +20,7 @@ import model.Account;
  *
  * @author tuana
  */
-public class UserProfileServlet extends HttpServlet {
+public class UserProfileServlet extends BaseRequiredAuthenController {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -103,5 +103,10 @@ public class UserProfileServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    protected void processRequests(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }

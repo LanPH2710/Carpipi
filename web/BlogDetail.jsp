@@ -104,7 +104,7 @@
         </style>
     </head>
     <body>
-        <jsp:include page="Header.jsp"></jsp:include>
+        <jsp:include page="header.jsp"></jsp:include>
             <div class="container">
                 <!-- Nội dung blog -->
                 <div class="blog-content">
@@ -113,7 +113,7 @@
 
                 <!-- Thông tin meta (tác giả, ngày) -->
                 <div class="blog-meta">
-                    <p>Tác giả: ${author} | Ngày: 19/09/2024 | Thể loại: ${brand}</p>
+                    <p>Tác giả: ${author} | Ngày: ${blog.blogTime} | Thể loại: ${brand}</p>
                 </div>
 
                 <!-- Câu chủ đạo blog -->
@@ -121,7 +121,7 @@
                     <h2>${blog.blogInfo1}</h2>
                     <!-- Hình ảnh minh họa -->
                     <img src="${blog.blogImage}" class="blog-image">
-                    <strong class="textImage mb-5">Hehehehe</strong>
+                    <strong class="textImage mb-5">${blog.blogImageText}</strong>
                     <h5>${blog.blogInfo2}</h5> 
                 </div>
 
@@ -141,6 +141,6 @@
                 </div>
             </div>
         </div>
-        <jsp:include page="Footer.jsp"></jsp:include>
+        <jsp:include page="footer.jsp"></jsp:include>
     </body>
 </html>

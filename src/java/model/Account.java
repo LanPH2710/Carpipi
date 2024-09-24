@@ -6,9 +6,25 @@ package model;
 
 /**
  *
- * @author tuana
+ * @author Sonvu
  */
 public class Account {
+    
+//    CREATE TABLE Account (
+//    userId INT PRIMARY KEY,
+//    userName VARCHAR(255),
+//    password VARCHAR(255),
+//    firstName VARCHAR(255),
+//    lastName VARCHAR(255),
+//    gender VARCHAR(10),
+//    email VARCHAR(255),
+//    mobile VARCHAR(20),
+//    address VARCHAR(255),
+//    roleId INT,
+//    CONSTRAINT fk_role FOREIGN KEY (roleId) REFERENCES Roles(roleId)
+//);
+    
+    
     private int userId;
     private String userName;
     private String password;
@@ -18,23 +34,9 @@ public class Account {
     private String email;
     private String mobile;
     private String address;
-    private int roleId;
+    private String roleId;
 
-    public Account() {
-    }
-    public Account(String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address) {
-        
-        this.userName = userName;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.email = email;
-        this.mobile = mobile;
-        this.address = address;
-        
-    }
-    public Account(int userId, String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address, int roleId) {
+    public Account(int userId, String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address, String roleId) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
@@ -45,6 +47,14 @@ public class Account {
         this.mobile = mobile;
         this.address = address;
         this.roleId = roleId;
+    }
+
+    public Account() {
+    }
+
+    public Account(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
     }
 
     public int getUserId() {
@@ -119,12 +129,17 @@ public class Account {
         this.address = address;
     }
 
-    public int getRoleId() {
+    public String getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(String roleId) {
         this.roleId = roleId;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" + "userId=" + userId + ", userName=" + userName + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender + ", email=" + email + ", mobile=" + mobile + ", address=" + address + ", roleId=" + roleId + '}';
     }
     
     

@@ -36,6 +36,20 @@ public class Account {
         this.roleId = roleId;
     }
 
+    public Account(String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address, int roleId) {
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+        this.mobile = mobile;
+        this.address = address;
+        this.roleId = roleId;
+    }
+    
+    
+
     public int getUserId() {
         return userId;
     }

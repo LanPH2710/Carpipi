@@ -1,6 +1,6 @@
 <%-- 
-    Document   : home
-    Created on : Sep 23, 2024, 4:32:04 PM
+    Document   : test
+    Created on : Sep 24, 2024, 4:20:26 PM
     Author     : Sonvu
 --%>
 
@@ -13,7 +13,5 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        
-        <a href="login.jsp">Login</a>
     </body>
 </html>

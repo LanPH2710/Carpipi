@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.GoogleAccount;
+import context.DBContext;
 
 /**
  *
@@ -38,7 +39,7 @@ public class LoginDAO extends DBContext {
                 account.setEmail(rs.getString(7));
                 account.setMobile(rs.getString(8));
                 account.setAddress(rs.getString(6));
-                account.setRoleId(rs.getString(8));
+                account.setRoleId(rs.getInt(8));
 
                 return account;
 
@@ -72,7 +73,7 @@ public class LoginDAO extends DBContext {
                 account.setEmail(rs.getString(7));
                 account.setMobile(rs.getString(8));
                 account.setAddress(rs.getString(6));
-                account.setRoleId(rs.getString(8));
+                account.setRoleId(rs.getInt(8));
 
                 return account;
 

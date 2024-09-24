@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.user;
+package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Account;
-import dao.AccountDAO;
+import dal.AccountDAO;
 
 /**
  *
@@ -88,10 +88,10 @@ public class RegisterController extends HttpServlet {
 //            request.setAttribute("message", "Passwords do not match");
 //            request.getRequestDispatcher("Register.jsp").forward(request, response);
 //        }
-        AccountDAO dao = new AccountDAO();
-        Account accRegister = dao.checkEmailExists(email);
+        AccountDAO dal = new AccountDAO();
+        Account accRegister = dal.checkEmailExists(email);
         if (accRegister == null) {
-            dao.insertAccount(new Account(userName, password, firstName, lastName, gender, email, mobile, address));
+            dal.insertAccount(new Account(userName, password, firstName, lastName, gender, email, mobile, address));
             request.setAttribute("message", "Registration successful. Please log in.");
             request.getRequestDispatcher("login.jsp").forward(request, response); // Forward sang trang login cùng với message
         } else {

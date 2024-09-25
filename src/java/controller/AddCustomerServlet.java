@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Account;
 
 /**
  *
@@ -82,8 +83,9 @@ public class AddCustomerServlet extends HttpServlet {
             request.getRequestDispatcher("customerlist").forward(request, response);
             return;
         }
+        Account acc = new Account(userName, password, firstName, lastName, gender, email, mobile, address, 4);
         // Thực hiện thêm sản phẩm vào cơ sở dữ liệu
-        adao.addCustomer(userName, password, firstName, lastName, gender, email, mobile, address);
+        adao.insertAccount(acc);
         // Chuyển hướng đến trang quản lý sản phẩm sau khi thêm thành công
         response.sendRedirect("customerlist");
     }

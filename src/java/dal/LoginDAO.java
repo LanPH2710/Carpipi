@@ -86,32 +86,7 @@ public class LoginDAO extends DBContext {
 
     }
 
-    public void inserUser(String username, String fullname, String password, String phone, String address) {
-        String sql = "INSERT INTO [dbo].[Customers]\n"
-                + "           ([Username]\n"
-                + "           ,[Fullname]\n"
-                + "           ,[Password]\n"
-                + "           ,[Phone]\n"
-                + "           ,[Address]\n"
-                + "           ,[RoleId])\n"
-                + "     VALUES\n"
-                + "           (?\n"
-                + "           ,?\n"
-                + "           ,?\n"
-                + "           ,?\n"
-                + "           ,?\n"
-                + "           ,'US')";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, username);
-            ps.setString(2, fullname);
-            ps.setString(3, password);
-            ps.setString(4, password);
-            ps.setString(5, address);
-            ps.executeUpdate();
-        } catch (Exception e) {
-        }
-    }
+    
 
 //     userId INT PRIMARY KEY,
 //    userName VARCHAR(255),
@@ -124,31 +99,32 @@ public class LoginDAO extends DBContext {
 //    address VARCHAR(255),
 //    roleId INT not null,
 //    FOREIGN KEY (roleId) REFERENCES Roles(roleId)
-    public void inserUserByEmail(String id,String username, String password, String firstName, String lastName, String gender, String email, String phone, String address) {
-        String sql = "INSERT INTO [dbo].[Account]\n"
-                + "           ([userId]\n"
-                + "           ,[userName]\n"
-                + "           ,[password]\n"
-                + "           ,[firstName]\n"
-                + "           ,[lastName]\n"
-                + "           ,[gender]\n"
-                + "           ,[email]\n"
-                + "           ,[mobile]\n"
-                + "           ,[address]\n"
-                + "           ,[roleId])\n"
+    public void inserUserByEmail(String id, String username, String password, String firstName, String lastName, String gender, String email, String phone, String address) {
+        String sql = "INSERT INTO Account\n"
+                + "           (userName\n"
+                + "           ,password\n"
+                + "           ,firstName\n"
+                + "           ,lastName\n"
+                + "           ,gender\n"
+                + "           ,email\n"
+                + "           ,mobile\n"
+                + "           ,address\n"
+                + "           ,roleId)\n"
                 + "     VALUES\n"
-                + "           (?,?,?,?,?,?,?,?,?,'2')";
+                + "           (?,?,?,?,?,?,?,?,'4')";
+
+
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, id);
-            ps.setString(2, username);
-            ps.setString(3, password);
-            ps.setString(4, firstName);
-            ps.setString(5, lastName);
-            ps.setString(6, gender);
-            ps.setString(7, email);
+            
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, firstName);
+            ps.setString(4, lastName);
+            ps.setString(5, gender);
+            ps.setString(6, email);
+            ps.setString(7, "");
             ps.setString(8, "");
-            ps.setString(9, "");
 
             ps.executeUpdate();
         } catch (Exception e) {

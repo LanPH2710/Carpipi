@@ -89,7 +89,6 @@
                             </div><!--/.navbar-header-->
                             <!-- End Header Navigation -->
 
-                            <!-- Collect the nav links, forms, and other content for toggling -->
                             <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                                 <li class="active"><a href="HomePage.jsp#home">Trang Chủ</a></li>
                                 <li><a href="HomePage.jsp#featured-cars">Xe tiêu biểu</a></li>
@@ -98,6 +97,7 @@
                                 <li><a href="HomePage.jsp#contact">Liên lạc</a></li>
                                 <li><a href="login.jsp">Đăng Nhập</a></li>
                             </ul>
+
                         </div><!--/.container-->
                     </nav><!--/nav-->
                     <!-- End Navigation -->

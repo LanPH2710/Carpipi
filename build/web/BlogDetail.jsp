@@ -129,18 +129,18 @@
 
             <!-- Thanh bên (sider) -->
             <div class="sidebar">
-                
+
                 <!-- Các thể loại bài viết -->
                 <div class="categories">
                     <h3>Danh Mục Bài Viết</h3>
                     <ul>
                         <c:forEach items="${requestScope.brands}" var="b">
-                        <li><a href="#">${b.brandName}</a></li>
-                        </c:forEach>
+                            <li><a href="#">${b.brandName}</a></li>
+                            </c:forEach>
                     </ul>
                 </div>
             </div>
         </div>
-        <jsp:include page="footer.jsp"></jsp:include>
+        <jsp:include page="footerDemo.jsp"></jsp:include>
     </body>
 </html>

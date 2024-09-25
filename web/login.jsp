@@ -50,7 +50,7 @@
                     <label for="check">Remember me</label>
                 </section>
                 <section>
-                    <a href="forgotPassword">Forgot password</a>
+                    <a href="forgotPassword.jsp">Forgot password</a>
                 </section>
             </div>
 

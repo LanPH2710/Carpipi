@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author ADMIN
  */
-@WebServlet("/ValidateOtp")
+@WebServlet("/valiOtpServlet")
 
 public class valiOtpServlet extends HttpServlet {
    private static final long serialVersionUID = 1L;
@@ -49,7 +49,7 @@ public class valiOtpServlet extends HttpServlet {
 		{
 			request.setAttribute("message","wrong otp");
 			
-		   dispatcher=request.getRequestDispatcher("EnterOtp.jsp");
+		   dispatcher=request.getRequestDispatcher("enterOtp.jsp");
 			dispatcher.forward(request, response);
 		
 		}

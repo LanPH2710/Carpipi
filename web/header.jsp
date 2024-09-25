@@ -4,66 +4,69 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!--font-family-->
-<link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Rufina:400,700" rel="stylesheet">
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+        <style>
+            .headerN {
+                  text-transform: uppercase;
+                    font-weight: 500;
 
-<!-- title of site -->
-<title>CarShop</title>
+                font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+                font-size: 16px;
+                margin: 20px;
 
-<!-- For favicon png -->
-<link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
+            }
 
-<!-- Các link CSS khác -->
-<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-<link rel="stylesheet" href="assets/css/linearicons.css">
-<link rel="stylesheet" href="assets/css/flaticon.css">
-<link rel="stylesheet" href="assets/css/animate.css">
-<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-<link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
-<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-<link rel="stylesheet" href="assets/css/bootsnav.css">    
-<link rel="stylesheet" href="assets/css/style.css">
-<link rel="stylesheet" href="assets/css/responsive.css">
+            .headerLogo {
+                margin-left: 50px;
+            }
 
-<!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-<style>
-    .car-desc {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2; /* number of lines to show */
-        line-clamp: 2;
-        -webkit-box-orient: vertical;
-    }
-</style>
+            .menu {
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
 
-<!-- Nội dung body cần import -->
-<div class="top-area">
-    <div class="header-area">
-        <!-- Start Navigation -->
-        <nav class="navbar navbar-default bootsnav navbar-sticky navbar-scrollspy" data-minus-value-desktop="70" data-minus-value-mobile="55" data-speed="1000">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
-                        <i class="fa fa-bars"></i>
-                    </button>
-                    <a class="navbar-brand" href="index.jsp">Carpipi<span></span></a>
-                </div>
-                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                    <li class="active"><a href="HomePage.jsp#home">Trang Chủ</a></li>
-                    <li><a href="HomePage.jsp#featured-cars">Xe tiêu biểu</a></li>
-                    <li><a href="HomePage.jsp#new-cars">Mẫu mới</a></li>
-                    <li><a href="HomePage.jsp#brand">Hãng</a></li>
-                    <li><a href="HomePage.jsp#contact">Liên lạc</a></li>
-                    <li><a href="login.jsp">Đăng Nhập</a></li>
-                </ul>
+            .navHeader {
+                background-color: black;
+                height: 78px;
+                box-shadow: 5px 5px rgb(225, 227, 228);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="row navHeader">
+            <div class="col-3">
+
+                <a href="" target="_blank" style="text-decoration:none; color: black"> <img class="headerLogo"
+                                                                                            src="img/logoWhite.png" alt="" style="height: 78px;"></a>
+
             </div>
-        </nav>
-        <!-- End Navigation -->
-    </div>
-    <div class="clearfix"></div>
-</div>
+            <div class="col-1"></div>
+            <div class="col-8 menu">
+                <span class="headerN"><a href="" target="_blank" style="text-decoration:none; color: white">Trang Chủ</a></span>
+                <span class="headerN"><a href="" target="_blank" style="text-decoration:none; color: white">Xe tiêu biểu</a></span>
+                <span class="headerN"><a href="" target="_blank" style="text-decoration:none; color: white">Mẫu mới</a></span>
+                <span class="headerN"><a href="" target="_blank" style="text-decoration:none; color: white">Hãng</a></span>
+                <span class="headerN"><a href="" target="_blank" style="text-decoration:none; color: white">Liên lạc</a></span>
+                <span class="headerN"><a href="" target="_blank" style="text-decoration:none; color: white">Đăng Nhập</a></span>
+                <span class="headerN"><a href="" target="_blank" style="text-decoration:none; color: white">Tai Khoan</a></span>
+            </div>
+
+        </div>
+
+
+    </body>
+</html>

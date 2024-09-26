@@ -96,7 +96,7 @@ public class RegisterController extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request, response); // Forward sang trang login cùng với message
         } else {
             request.setAttribute("errorMessage", "Email đã đăng ký.");
-            request.getRequestDispatcher("Register.jsp").forward(request, response);
+            request.getRequestDispatcher("register.jsp").forward(request, response);
         }
 
     }

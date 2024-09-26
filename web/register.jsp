@@ -50,6 +50,9 @@
 
 <body>
     <div class="row">
+<c:if test="${not empty errorMessage}">
+    <div style="color:red;">${errorMessage}</div>
+</c:if>
         <div class="col-4"></div>
         <div class="col-4">
             <div class="mb-4 registerH">

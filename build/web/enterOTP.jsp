@@ -30,6 +30,7 @@
     </head>
 
     <body>
+        <jsp:include page="header.jsp"></jsp:include>
         <div class="form-gap"></div>
         <div class="container">
             <div class="row">

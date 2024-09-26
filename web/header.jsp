@@ -18,6 +18,9 @@
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
         <style>
+            * {
+    box-sizing: border-box;
+}
             .headerN {
                   text-transform: uppercase;
                     font-weight: 500;
@@ -38,8 +41,10 @@
                 justify-content: center;
                 align-items: center;
             }
-
+            
             .navHeader {
+                padding-left: 0;
+    padding-right: 0;
                 background-color: black;
                 height: 78px;
                 box-shadow: 5px 5px rgb(225, 227, 228);
@@ -47,7 +52,7 @@
         </style>
     </head>
     <body>
-        <div class="row navHeader">
+        <div class="row navHeader container-fluid">
             <div class="col-3">
 
                 <a href="" target="_blank" style="text-decoration:none; color: black"> <img class="headerLogo"

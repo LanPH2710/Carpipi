@@ -15,9 +15,9 @@ import java.sql.SQLException;
 public class DBContext {
     protected Connection connection;
     public DBContext() {
-        String url = "jdbc:mysql://localhost:3306/shopauto"; // Update with your DB name
+        String url = "jdbc:mysql://localhost:3306/merge"; // Update with your DB name
         String user = "root"; // MySQL username
-        String password = "sa123"; // MySQL password
+        String password = "1234"; // MySQL password
         
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -27,5 +27,10 @@ public class DBContext {
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Connection failed!");
         }
+    }
+    
+    public static void main(String[] args) {
+        DBContext db = new DBContext();
+        System.out.println(db.connection);
     }
 }

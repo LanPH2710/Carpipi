@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-	
+	<jsp:include page="header.jsp"></jsp:include>
 		<!-- Container containing all contents -->
 		<div class="container reset">
 			<div class="row justify-content-center">

@@ -44,35 +44,39 @@ public class LoginServlet extends HttpServlet {
         String picture = ggAcount.getPicture();
         String password = "1234567a";
 
+        HttpSession session = request.getSession();
         LoginDAO login = new LoginDAO();
-        
+
         try {
             Account account = login.getByEmail(email);
 
-        if (account == null) {
-            login.inserUserByEmail("123", email, password, firstName, lastName, "", email, "", "");
-            Cookie c_user = new Cookie("user", email);
-            Cookie c_pass = new Cookie("pass", password);
-            c_user.setMaxAge(3600 * 24 * 30);
-            c_pass.setMaxAge(3600 * 24 * 30);
-            response.addCookie(c_user);
-            response.addCookie(c_pass);
-            request.getRequestDispatcher("home").forward(request, response);
-        } else {
-            login.getByEmail(email);
-            Cookie c_user = new Cookie("user", email);
-            Cookie c_pass = new Cookie("pass", password);
-            c_user.setMaxAge(3600 * 24 * 30);
-            c_pass.setMaxAge(3600 * 24 * 30);
-            response.addCookie(c_user);
-            response.addCookie(c_pass);
-            
-            request.getRequestDispatcher("home").forward(request, response);
-        }
+            if (account == null) {
+                login.inserUserByEmail("123", email, password, firstName, lastName, "", email, "", "");
+                Cookie c_user = new Cookie("user", email);
+                Cookie c_pass = new Cookie("pass", password);
+                c_user.setMaxAge(3600 * 24 * 30);
+                c_pass.setMaxAge(3600 * 24 * 30);
+                response.addCookie(c_user);
+                response.addCookie(c_pass);
+                session.setAttribute("account", account);
+                session.setMaxInactiveInterval(60 * 600);
+                request.getRequestDispatcher("home").forward(request, response);
+            } else {
+                login.getByEmail(email);
+                Cookie c_user = new Cookie("user", email);
+                Cookie c_pass = new Cookie("pass", password);
+                c_user.setMaxAge(3600 * 24 * 30);
+                c_pass.setMaxAge(3600 * 24 * 30);
+                response.addCookie(c_user);
+                response.addCookie(c_pass);
+                session.setAttribute("account", account);
+                session.setMaxInactiveInterval(60 * 600);
+                request.getRequestDispatcher("home").forward(request, response);
+            }
 
         } catch (Exception e) {
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -101,6 +105,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**

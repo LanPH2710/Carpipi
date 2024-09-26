@@ -38,8 +38,8 @@ public class LoginDAO extends DBContext {
                 account.setGender(rs.getString(6));
                 account.setEmail(rs.getString(7));
                 account.setMobile(rs.getString(8));
-                account.setAddress(rs.getString(6));
-                account.setRoleId(rs.getInt(8));
+                account.setAddress(rs.getString(9));
+                account.setRoleId(rs.getInt(10));
 
                 return account;
 
@@ -72,8 +72,9 @@ public class LoginDAO extends DBContext {
                 account.setGender(rs.getString(6));
                 account.setEmail(rs.getString(7));
                 account.setMobile(rs.getString(8));
-                account.setAddress(rs.getString(6));
-                account.setRoleId(rs.getInt(8));
+                account.setAddress(rs.getString(9));
+                account.setRoleId(rs.getInt(10));
+;
 
                 return account;
 

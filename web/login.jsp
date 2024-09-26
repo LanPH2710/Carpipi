@@ -56,7 +56,7 @@
                     <label for="check">Nhớ mật khẩu</label>
                 </section>
                 <section>
-                    <a href="forgotPassword">Bạn quên mật khẩu ?</a>
+                    <a href="forgotPassword.jsp">Bạn quên mật khẩu ?</a>
                 </section>
             </div>
 

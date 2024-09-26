@@ -3,7 +3,7 @@
     Created on : Sep 17, 2024, 12:21:57 AM
     Author     : nguye
 --%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -81,9 +81,9 @@
         <!--welcome-hero start -->
         <section id="home" class="welcome-hero">
 
-          
-           
-           <!-- top-area Start -->
+
+
+            <!-- top-area Start -->
             <div class="top-area">
                 <div class="header-area">
                     <!-- Start Navigation -->
@@ -109,7 +109,34 @@
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
                                     <li class="scroll"><a href="#brand">Hãng</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
-                                    <li><a href="login.jsp">Đăng Nhập</a></li>
+                                        <c:if test="${sessionScope.account == null}">
+                                        <!-- Hiển thị nút "Đăng Nhập" khi chưa đăng nhập -->
+                                        <li><a href="login.jsp">Đăng Nhập</a></li>
+                                        </c:if>
+
+                                    <!-- Kiểm tra nếu người dùng đã đăng nhập -->
+                                    <c:if test="${sessionScope.account != null}">
+                                        <!-- Đặt "Welcome" trong thẻ <li> giống như nút "Đăng Nhập" -->
+                                        <li>
+                                            <c:choose>
+                                                <c:when test="${sessionScope.account.roleId == 1}">
+                                                    Welcome, Admin ${sessionScope.account.firstName}!
+                                                </c:when>
+                                                <c:when test="${sessionScope.account.roleId == 2}">
+                                                    Welcome, Marketing ${sessionScope.account.firstName}!
+                                                </c:when>
+                                                <c:when test="${sessionScope.account.roleId == 3}">
+                                                    Welcome, Sales ${sessionScope.account.firstName}!
+                                                </c:when>
+                                                <c:when test="${sessionScope.account.roleId == 4}">
+                                                    Welcome, Customer ${sessionScope.account.firstName}!
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Welcome, Guest!
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </li>
+                                    </c:if>
                                 </ul><!--/.nav -->
                             </div><!-- /.navbar-collapse -->
                         </div><!--/.container-->

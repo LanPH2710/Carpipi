@@ -28,8 +28,8 @@ public class DBContext {
         //where StudentDBContext is located in dal package, 
         try {
             String user = "root"; // Your MySQL username
-            String pass = "12345"; // Your MySQL password
-            String url = "jdbc:mysql://localhost:3306/newAuto"; // MySQL URL format
+            String pass = "123456"; // Your MySQL password
+            String url = "jdbc:mysql://localhost:3306/merge"; // MySQL URL format
             Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL driver class
             connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException e) {

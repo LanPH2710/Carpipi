@@ -76,13 +76,13 @@ public class LoginByAccountServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = request.getParameter("username");
         String pass = request.getParameter("password");
+        String remember = request.getParameter("remember");
 
         LoginDAO loginDao = new LoginDAO();
         Account account = loginDao.getUsernameAndPassword(username, pass);
 
         if (account != null) // login successfully!
         {
-            String remember = request.getParameter("remember");
             if (remember != null) {
                 Cookie c_user = new Cookie("user", username);
                 Cookie c_pass = new Cookie("pass", pass);

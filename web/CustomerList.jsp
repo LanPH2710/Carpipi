@@ -79,7 +79,7 @@
             </style>
         </head>
         <body>
-            <jsp:include page="Header.jsp"></jsp:include>
+            <jsp:include page="header.jsp"></jsp:include>
                 <div class="container">
                     <a href="" class="btn btn-primary" style="margin-top: 20px;">
                         <span>X</span>

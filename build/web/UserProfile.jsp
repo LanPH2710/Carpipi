@@ -52,7 +52,7 @@
         </style>
     </head>
     <body>
-        <jsp:include page="Header.jsp"></jsp:include>
+        <jsp:include page="header.jsp"></jsp:include>
 
             <form action="userprofile" method="post">
                 <div class="container rounded mt-5 mb-5">
@@ -114,6 +114,6 @@
                 </div>
             </div>
         </form>
-        <jsp:include page="Footer.jsp"></jsp:include>
+        <jsp:include page="footerDemo.jsp"></jsp:include>
     </body>
 </html>

@@ -8,33 +8,23 @@ package model;
  *
  * @author tuana
  */
+import java.util.ArrayList;
+import java.util.List;
+
 public class Product {
     private int productId;
     private String name;
-    private float seatNumber;
+    private int seatNumber;
+    private double price;
+    private String fuel;
     private int stock;
     private String description;
-    private float vat;
+    private double VAT;
     private int supplierId;
     private int brandId;
     private int segmentId;
     private int styleId;
-
-    public Product() {
-    }
-
-    public Product(int productId, String name, float seatNumber, int stock, String description, float vat, int supplierId, int brandId, int segmentId, int styleId) {
-        this.productId = productId;
-        this.name = name;
-        this.seatNumber = seatNumber;
-        this.stock = stock;
-        this.description = description;
-        this.vat = vat;
-        this.supplierId = supplierId;
-        this.brandId = brandId;
-        this.segmentId = segmentId;
-        this.styleId = styleId;
-    }
+    private List<ProductImage> images; 
 
     public int getProductId() {
         return productId;
@@ -52,12 +42,28 @@ public class Product {
         this.name = name;
     }
 
-    public float getSeatNumber() {
+    public int getSeatNumber() {
         return seatNumber;
     }
 
-    public void setSeatNumber(float seatNumber) {
+    public void setSeatNumber(int seatNumber) {
         this.seatNumber = seatNumber;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getFuel() {
+        return fuel;
+    }
+
+    public void setFuel(String fuel) {
+        this.fuel = fuel;
     }
 
     public int getStock() {
@@ -76,12 +82,12 @@ public class Product {
         this.description = description;
     }
 
-    public float getVat() {
-        return vat;
+    public double getVAT() {
+        return VAT;
     }
 
-    public void setVat(float vat) {
-        this.vat = vat;
+    public void setVAT(double VAT) {
+        this.VAT = VAT;
     }
 
     public int getSupplierId() {
@@ -115,6 +121,37 @@ public class Product {
     public void setStyleId(int styleId) {
         this.styleId = styleId;
     }
+
+    public List<ProductImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ProductImage> images) {
+        this.images = images;
+    }
+
+    public Product() {
+    }
+
+    public Product(int productId, String name, int seatNumber, double price, String fuel, int stock, String description, double VAT, int supplierId, int brandId, int segmentId, int styleId, List<ProductImage> images) {
+        this.productId = productId;
+        this.name = name;
+        this.seatNumber = seatNumber;
+        this.price = price;
+        this.fuel = fuel;
+        this.stock = stock;
+        this.description = description;
+        this.VAT = VAT;
+        this.supplierId = supplierId;
+        this.brandId = brandId;
+        this.segmentId = segmentId;
+        this.styleId = styleId;
+        this.images = images;
+    }
+
     
+
+    
+
     
 }

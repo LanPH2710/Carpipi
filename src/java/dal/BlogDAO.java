@@ -4,6 +4,7 @@
  */
 package dal;
 
+import context.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +31,9 @@ public class BlogDAO extends DBContext {
                         rs.getString(4),
                         rs.getString(5),
                         rs.getString(6),
-                        rs.getString(7));
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -51,7 +54,9 @@ public class BlogDAO extends DBContext {
                         rs.getString(4),
                         rs.getString(5),
                         rs.getString(6),
-                        rs.getString(7));
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9));
                 list.add(p);
             }
         } catch (SQLException e) {

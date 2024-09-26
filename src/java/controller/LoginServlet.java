@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.Random;
 import model.Account;
 import model.GoogleAccount;
 
@@ -43,11 +42,12 @@ public class LoginServlet extends HttpServlet {
         String lastName = ggAcount.getFamily_name();
         String email = ggAcount.getEmail();
         String picture = ggAcount.getPicture();
-        int randomNum = (int) (Math.random() * 101); // 0 to 100
         String password = "1234567a";
 
         LoginDAO login = new LoginDAO();
-        Account account = login.getByEmail(email);
+        
+        try {
+            Account account = login.getByEmail(email);
 
         if (account == null) {
             login.inserUserByEmail("123", email, password, firstName, lastName, "", email, "", "");
@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
             c_pass.setMaxAge(3600 * 24 * 30);
             response.addCookie(c_user);
             response.addCookie(c_pass);
-            response.sendRedirect("home.jsp");
+            request.getRequestDispatcher("home").forward(request, response);
         } else {
             login.getByEmail(email);
             Cookie c_user = new Cookie("user", email);
@@ -67,9 +67,12 @@ public class LoginServlet extends HttpServlet {
             response.addCookie(c_user);
             response.addCookie(c_pass);
             
-            response.sendRedirect("home.jsp");
+            request.getRequestDispatcher("home").forward(request, response);
         }
 
+        } catch (Exception e) {
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

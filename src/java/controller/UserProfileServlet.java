@@ -10,7 +10,6 @@ import dal.RoleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -59,7 +58,7 @@ public class UserProfileServlet extends BaseRequiredAuthenController {
     throws ServletException, IOException {
         AccountDAO adao = new AccountDAO();
         HttpSession session = request.getSession();
-        Account user = adao.getAccountById(6);
+        Account user = adao.getAccountById(1);
         session.setAttribute("user1", user);
         RoleDAO rdao = new RoleDAO();
         String role = rdao.getRoleNameById(user.getRoleId());

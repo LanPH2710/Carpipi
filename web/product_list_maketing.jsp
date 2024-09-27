@@ -274,6 +274,8 @@
         </script>
     </head>
     <body>
+                <jsp:include page="header.jsp"></jsp:include>
+
         <div class="container-xl">
             <div class="table-responsive">
                 <div class="table-wrapper">
@@ -395,6 +397,6 @@
 </div>-->
         <!-- Edit Modal HTML -->
 
-
+<jsp:include page="footerDemo.jsp"></jsp:include>
     </body>
 </html>

@@ -52,6 +52,7 @@
         </style>
     </head>
     <body>
+        <jsp:include page="header.jsp"></jsp:include>
 
         <form action="viewcustomer" method="post" enctype="multipart/form-data">
 
@@ -131,5 +132,6 @@
                 </div>
             </div>
         </form>
+                                <jsp:include page="footerDemo.jsp"></jsp:include>
     </body>
 </html>

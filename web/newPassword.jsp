@@ -111,6 +111,6 @@
 			</div>
 		</div>
 	</div>
-	
+	<jsp:include page="footerDemo.jsp"></jsp:include>
 </body>
 </html>

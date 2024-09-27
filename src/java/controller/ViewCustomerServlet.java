@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import dal.AccountDAO;
@@ -20,45 +19,46 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.file.Paths;
+import java.util.List;
 import model.Account;
 
 /**
  *
  * @author tuana
  */
-@MultipartConfig(
-        maxFileSize = 1024 * 1024 * 5, // 5 MB
-        maxRequestSize = 1024 * 1024 * 10 // 10 MB
-)
-public class UserProfileServlet extends HttpServlet{
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+@MultipartConfig()
+public class ViewCustomerServlet extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditUserProfileServlet</title>");  
+            out.println("<title>Servlet ViewCustomerServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EditUserProfileServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ViewCustomerServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -66,20 +66,24 @@ public class UserProfileServlet extends HttpServlet{
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        AccountDAO adao = new AccountDAO();
+            throws ServletException, IOException {
+        int userId = Integer.parseInt(request.getParameter("userId"));
         HttpSession session = request.getSession();
-        Account acc = (Account) session.getAttribute("account");
-        Account user = adao.getAccountById(acc.getUserId());
-        session.setAttribute("user1", user);
+        AccountDAO adao = new AccountDAO();
+        Account acc = adao.getAccountById(userId);
+        //List<Account> listCustomer = adao.getAllAccount();
         RoleDAO rdao = new RoleDAO();
-        String role = rdao.getRoleNameById(user.getRoleId());
-        session.setAttribute("role", role);
-        request.getRequestDispatcher("UserProfile.jsp").forward(request, response);
-    } 
+        int roleId = acc.getRoleId();
+        String role = rdao.getRoleNameById(roleId);
+        session.setAttribute("role1", role);
+        session.setAttribute("acc", acc);
+//        request.setAttribute("listCustomer", listCustomer);
+        request.getRequestDispatcher("EditCustomer.jsp").forward(request, response);
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -88,22 +92,23 @@ public class UserProfileServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
         AccountDAO adao = new AccountDAO();
-        Account user = (Account) session.getAttribute("user1");
+        HttpSession session = request.getSession();
+        Account customer = (Account) session.getAttribute("acc");
+        
         // Lấy thông tin cũ
-        int userId = user.getUserId();
-        String userName = user.getUserName();
-        String password = user.getPassword();
-        int roleId = user.getRoleId();
-        String email = user.getEmail();
-        String avatar = user.getAvatar();
+        int userId = customer.getUserId();
+        String userName = customer.getUserName();
+        String password = customer.getPassword();
+        String avatar = customer.getAvatar();
+        int roleId = customer.getRoleId();
         // Lấy giá trị từ JSP
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String gender = request.getParameter("gender");
         String mobile = request.getParameter("mobile");
         String address = request.getParameter("address");
+        String email = request.getParameter("email");
 
         // Xử lý upload avatar nếu có file mới
         Part file = request.getPart("avatar");
@@ -118,8 +123,7 @@ public class UserProfileServlet extends HttpServlet{
             }
 
             // Lưu file
-            try (InputStream is = file.getInputStream();
-                 FileOutputStream fos = new FileOutputStream(uploadPath)) {
+            try (InputStream is = file.getInputStream(); FileOutputStream fos = new FileOutputStream(uploadPath)) {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
                 while ((bytesRead = is.read(buffer)) != -1) {
@@ -133,15 +137,18 @@ public class UserProfileServlet extends HttpServlet{
 
         // Cập nhật account
         adao.editAccount(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, userId);
-        response.sendRedirect("userprofile");
+        response.sendRedirect("customerlist");
     }
 
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
+
+/**
+ * Returns a short description of the servlet.
+ *
+ * @return a String containing servlet description
+ */
+@Override
+public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

@@ -65,28 +65,17 @@ public class AddCustomerServlet extends HttpServlet {
         String email = request.getParameter("email").trim();
         String mobile = request.getParameter("mobile").trim();
         String address = request.getParameter("address").trim();
-
-        // Kiểm tra các trường thông tin có chứa khoảng trắng không
-        if (userName.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty()
-                || gender.isEmpty() || email.isEmpty() || mobile.isEmpty() || address.isEmpty()) {
-            // Nếu có, hiển thị thông báo lỗi
-            String errorMessage = "You need input text , input again!";
-            request.setAttribute("error", errorMessage);
-            request.getRequestDispatcher("customerlist").forward(request, response);
-            return;
-        }
+        
         //check xem co ton tai account ko
         AccountDAO adao = new AccountDAO();
         if (adao.checkAccountExits(email) != null) {
-            String errorMessage = "Email already exists, please use a different email!";
+            String errorMessage = "Email này đã tồn tại. Xin vui lòng dùng email khác!";
             request.setAttribute("error", errorMessage);
             request.getRequestDispatcher("customerlist").forward(request, response);
             return;
         }
         Account acc = new Account(userName, password, firstName, lastName, gender, email, mobile, address, 4,"avatar-trang-4.jpg");
-        // Thực hiện thêm sản phẩm vào cơ sở dữ liệu
         adao.insertAccount(acc);
-        // Chuyển hướng đến trang quản lý sản phẩm sau khi thêm thành công
         response.sendRedirect("customerlist");
     }
 

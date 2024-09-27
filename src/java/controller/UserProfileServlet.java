@@ -69,8 +69,7 @@ public class UserProfileServlet extends BaseRequiredAuthenController {
         AccountDAO adao = new AccountDAO();
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("account");
-//        Account user = adao.getAccountById(acc.getUserId());
-        Account user = adao.getAccountById(11);
+        Account user = adao.getAccountById(acc.getUserId());
         session.setAttribute("user1", user);
         RoleDAO rdao = new RoleDAO();
         String role = rdao.getRoleNameById(user.getRoleId());

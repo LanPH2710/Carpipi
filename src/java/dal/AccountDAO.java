@@ -36,7 +36,7 @@ public class AccountDAO extends DBContext {
             stm.setString(7, acc.getMobile());
             stm.setString(8, acc.getAddress());
             stm.setInt(9, 4);
-            stm.setString(10, "https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg");
+            stm.setString(10, "avatar-trang-4.jpg");
             stm.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e);

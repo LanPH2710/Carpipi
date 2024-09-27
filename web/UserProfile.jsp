@@ -60,7 +60,7 @@
                         <!-- Avatar and User Info -->
                         <div class="col-md-4 border-right">
                             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                                <img class="rounded-circle mt-5" width="200px" src="img/${user1.avatar}">                          
+                                <img class="rounded-circle mt-5" width="300px" src="img/${user1.avatar}">                          
                             <span class="font-weight-bold">${user1.firstName} ${user1.lastName}</span>
                             <span class="text-black-50">${user1.email}</span>
                         </div>

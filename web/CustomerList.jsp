@@ -81,7 +81,7 @@
         <body>
             <jsp:include page="header.jsp"></jsp:include>
                 <div class="container">
-                    <a href="" class="btn btn-primary" style="margin-top: 20px;">
+                    <a href="home" class="btn btn-primary" style="margin-top: 20px;">
                         <span>X</span>
                     </a>
                     <h1>Customer List</h1>
@@ -118,12 +118,12 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Gender</th>
+                            <th>Họ</th>
+                            <th>Tên</th>
+                            <th>Giới tính</th>
                             <th>Email</th>
-                            <th>Mobile</th>
-                            <th>Address</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -138,8 +138,7 @@
                                 <td>${customer.mobile}</td>
                                 <td>${customer.address}</td>
                                 <th class="actions">
-                                    <a href="viewcustomer?userId=${customer.userId}" class="btn btn-info btn-sm">View</a>
-                                    <a href="editcustomer?userId=${customer.userId}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="viewcustomer?userId=${customer.userId}" class="btn btn-info btn-sm">Xem/Sửa</a>
                                 </th>
                             </tr>
                         </c:forEach>
@@ -172,26 +171,26 @@
                                 </div>
                                 <div class="modal-body">					
                                     <div class="form-group">
-                                        <label>User Name</label>
+                                        <label>Tên đăng ký</label>
                                         <input name="userName" type="text" class="form-control" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Password</label>
+                                        <label>Mật khẩu</label>
                                         <input name="password" type="password" class="form-control" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>First Name</label>
+                                        <label>Họ</label>
                                         <input name="firstName" type="text" class="form-control" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Last Name</label>
+                                        <label>Tên</label>
                                         <input name="lastName" type="text" class="form-control" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Gender</label>
+                                        <label>Giới tính</label>
                                         <select name="gender" aria-label="Select your gender">
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
+                                            <option value="Nam">Nam</option>
+                                            <option value="Nữ">Nữ</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -199,11 +198,11 @@
                                         <input name="email" type="email" class="form-control" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Phone</label>
+                                        <label>Số điện thoại</label>
                                         <input name="mobile" type="text" class="form-control" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Address</label>
+                                        <label>Địa chỉ</label>
                                         <textarea name="address" class="form-control" required></textarea>
                                     </div>
                                 </div>

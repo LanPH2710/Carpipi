@@ -55,6 +55,8 @@ a:hover {
 </style>
 </head>
 <body>
+            <jsp:include page="header.jsp"></jsp:include>
+
     <div class="container">
         <h1>Oops! Something went wrong.</h1>
         <p>We apologize for the inconvenience. Please try again later.</p>
@@ -62,5 +64,6 @@ a:hover {
         <p><a href="login.jsp">Back to Login</a></p>
         
     </div>
+    <jsp:include page="footerDemo.jsp"></jsp:include>
 </body>
 </html>

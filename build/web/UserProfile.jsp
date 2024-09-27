@@ -3,15 +3,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Edit Profile</title>
+        <title>User Profile</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <style>
-            body {
-                background-color: #682773;
-            }
-
             .form-control:focus {
                 box-shadow: none;
                 border-color: #BA68C8;

@@ -83,7 +83,7 @@ public class AddCustomerServlet extends HttpServlet {
             request.getRequestDispatcher("customerlist").forward(request, response);
             return;
         }
-        Account acc = new Account(userName, password, firstName, lastName, gender, email, mobile, address, 4);
+        Account acc = new Account(userName, password, firstName, lastName, gender, email, mobile, address, 4,"avatar-trang-4.jpg");
         // Thực hiện thêm sản phẩm vào cơ sở dữ liệu
         adao.insertAccount(acc);
         // Chuyển hướng đến trang quản lý sản phẩm sau khi thêm thành công

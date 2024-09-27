@@ -19,22 +19,12 @@ public class Account {
     private String mobile;
     private String address;
     private int roleId;
+    private String avatar;
 
     public Account() {
     }
-    public Account(String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address) {
-        
-        this.userName = userName;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.email = email;
-        this.mobile = mobile;
-        this.address = address;
-        
-    }
-    public Account(int userId, String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address, int roleId) {
+
+    public Account(int userId, String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address, int roleId, String avatar) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
@@ -45,9 +35,21 @@ public class Account {
         this.mobile = mobile;
         this.address = address;
         this.roleId = roleId;
+        this.avatar = avatar;
     }
 
-    public Account(String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address, int roleId) {
+    public Account(String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address) {
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+        this.mobile = mobile;
+        this.address = address;
+    }
+
+    public Account(String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address, int roleId, String avatar) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
@@ -57,9 +59,8 @@ public class Account {
         this.mobile = mobile;
         this.address = address;
         this.roleId = roleId;
+        this.avatar = avatar;
     }
-    
-    
 
     public int getUserId() {
         return userId;
@@ -140,7 +141,15 @@ public class Account {
     public void setRoleId(int roleId) {
         this.roleId = roleId;
     }
-    
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     
     
 }

@@ -4,7 +4,6 @@
  */
 package filter;
 
-import dal.LoginDAO;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -15,16 +14,16 @@ import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Account;
 
 /**
  *
  * @author hiule
  */
-public class CustomerFilter implements Filter {
+public class AdminFilter implements Filter {
     
     private static final boolean debug = true;
 
@@ -33,13 +32,13 @@ public class CustomerFilter implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
     
-    public CustomerFilter() {
+    public AdminFilter() {
     }    
     
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("CustomerFilter:DoBeforeProcessing");
+            log("AdminFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -67,7 +66,7 @@ public class CustomerFilter implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("CustomerFilter:DoAfterProcessing");
+            log("AdminFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -102,65 +101,42 @@ public class CustomerFilter implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
         
-          HttpServletRequest req = (HttpServletRequest) request;
-    HttpServletResponse res = (HttpServletResponse) response;
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
 
-    String loginURI = req.getContextPath() + "/error.jsp";
-    String requestURI = req.getRequestURI();
+        HttpSession session = req.getSession(false);
+        String loginURI = req.getContextPath() + "/error.jsp";
 
-    // Check for cookies to determine if the user is logged in
-    Cookie[] cookies = req.getCookies();
-    String email = null;
-    String password = null;
-
-    if (cookies != null) {
-        for (Cookie cookie : cookies) {
-            if ("user".equals(cookie.getName())) {
-                email = cookie.getValue();
-            } else if ("pass".equals(cookie.getName())) {
-                password = cookie.getValue();
+        String requestURI = req.getRequestURI();
+        boolean loggedIn = session != null && session.getAttribute("account") != null;
+        boolean loginRequest = requestURI.equals(loginURI);
+        
+        // Xác định trang yêu cầu admin và manager
+        boolean adminRequest = requestURI.contains("/addcustomer");
+        boolean managerPageRequest = requestURI.contains("/customerlist");
+                                     
+        if (loggedIn) {
+            Account account = (Account) session.getAttribute("account");
+            
+            // Kiểm tra quyền truy cập cho adminRequest
+            if (adminRequest && account.getRoleId() != 1) {
+                res.sendRedirect(loginURI);  // Chỉ admin (roleId = 1) được truy cập
             }
+            // Kiểm tra quyền truy cập cho managerPageRequest
+            else if (managerPageRequest && (account.getRoleId() != 1 && account.getRoleId() != 2)) {
+                res.sendRedirect(loginURI);  // Chỉ admin (roleId = 1) và manager (roleId = 2) được truy cập
+            } 
+            // Nếu thoả mãn các điều kiện trên, cho phép truy cập
+            else {
+                chain.doFilter(request, response);
+            }
+        } else if (loginRequest) {
+            chain.doFilter(request, response);  // Cho phép truy cập trang lỗi (error.jsp)
+        } else {
+            res.sendRedirect(loginURI);  // Điều hướng về trang lỗi nếu không đăng nhập hoặc không có quyền
         }
     }
 
-    boolean loggedIn = email != null && password != null;
-    boolean loginRequest = requestURI.equals(loginURI);
-
-    // managerPageRequest can be add more function of admin
-    boolean managerPageRequest = requestURI.contains("/cart") 
-                                ;
-
-    if (loggedIn) {
-        LoginDAO login = new LoginDAO();
-        Account acc = login.getByEmail(email);
-
-        if (acc != null) {
-            // Check if the user has the correct role for manager pages
-            if (managerPageRequest && acc.getRoleId() != 2) {
-                res.sendRedirect(loginURI);
-                return; // Exit after redirect
-            }
-            // If user is logged in and has access, proceed with the request
-            chain.doFilter(request, response);
-            return; // Exit after processing the request
-        }
-    } 
-
-    if (loginRequest) {
-        // Allow access to login page
-        chain.doFilter(request, response);
-        return; // Exit after processing the request
-    } 
-
-    if (managerPageRequest) {
-        // Redirect to login if trying to access manager pages without being logged in
-        res.sendRedirect(loginURI);
-        return; // Exit after redirect
-    } 
-
-    // For all other requests, proceed with the request
-    chain.doFilter(request, response);
-    }
 
     /**
      * Return the filter configuration object for this filter.
@@ -191,7 +167,7 @@ public class CustomerFilter implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {                
-                log("CustomerFilter:Initializing filter");
+                log("AdminFilter:Initializing filter");
             }
         }
     }
@@ -202,9 +178,9 @@ public class CustomerFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("CustomerFilter()");
+            return ("AdminFilter()");
         }
-        StringBuffer sb = new StringBuffer("CustomerFilter(");
+        StringBuffer sb = new StringBuffer("AdminFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());

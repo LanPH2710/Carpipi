@@ -92,11 +92,11 @@ public class RegisterController extends HttpServlet {
         Account accRegister = dao.checkEmailExists(email);
         if (accRegister == null) {
             dao.insertAccount(new Account(userName, password, firstName, lastName, gender, email, mobile, address));
-            request.setAttribute("message", "Registration successful. Please log in.");
+            request.setAttribute("message", "Đăng ký thành công.");
             request.getRequestDispatcher("login.jsp").forward(request, response); // Forward sang trang login cùng với message
         } else {
-            request.setAttribute("message", "Email is already registered.");
-            request.getRequestDispatcher("Register.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "Email đã đăng ký.");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
         }
 
     }

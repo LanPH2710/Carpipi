@@ -5,11 +5,9 @@
 
 package controller;
 
-import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,44 +15,10 @@ import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author ADMIN
+ * @author Sonvu
  */
-@WebServlet("/valiOtpServlet")
-
-public class valiOtpServlet extends HttpServlet {
-   private static final long serialVersionUID = 1L;
-       
-
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		int value=Integer.parseInt(request.getParameter("otp"));
-		HttpSession session=request.getSession();
-		int otp=(int)session.getAttribute("otp");
-		
-		
-		
-		RequestDispatcher dispatcher=null;
-		
-		
-		if (value==otp) 
-		{
-			
-				request.setAttribute("email", request.getParameter("email"));
-				request.setAttribute("status", "success");
-			  dispatcher=request.getRequestDispatcher("newPassword.jsp");
-			dispatcher.forward(request, response);
-			
-		}
-		else
-		{
-			request.setAttribute("message","wrong otp");
-			
-		   dispatcher=request.getRequestDispatcher("enterOtp.jsp");
-			dispatcher.forward(request, response);
-		
-		}
-		
-	}
+public class LogoutServlet extends HttpServlet {
+   
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -70,10 +34,10 @@ public class valiOtpServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet valiOtpServlet</title>");  
+            out.println("<title>Servlet LogoutServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet valiOtpServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet LogoutServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -89,8 +53,17 @@ public class valiOtpServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
+            throws ServletException, IOException {
+        
+        // Lấy session hiện tại, nếu có
+        HttpSession session = request.getSession(false); // 'false' để không tạo session mới nếu không có
+        
+        if (session != null) {
+            session.invalidate();  // Hủy session hiện tại
+        }
+
+        // Chuyển hướng người dùng về trang đăng nhập hoặc trang chủ
+        response.sendRedirect("login.jsp"); // Hoặc chuyển về trang khác tùy yêu cầu
     } 
 
     /** 

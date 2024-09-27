@@ -104,10 +104,11 @@
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
                                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                                    <li class=" scroll active"><a href="#home">Trang Chủ</a></li>
+<!--                                    <li class=" scroll active"><a href="home">Trang Chủ</a></li>-->
                                     <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
                                     <li class="scroll"><a href="#brand">Hãng</a></li>
+                                    <li class="scroll"><a href="#blog">Tin xe</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
                                         <c:if test="${sessionScope.account == null}">
                                         <!-- Hiển thị nút "Đăng Nhập" khi chưa đăng nhập -->
@@ -120,22 +121,27 @@
                                         <li>
                                             <c:choose>
                                                 <c:when test="${sessionScope.account.roleId == 1}">
-                                                    Welcome, Admin ${sessionScope.account.firstName}!
+                                                    Welcome, Admin ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
                                                 </c:when>
                                                 <c:when test="${sessionScope.account.roleId == 2}">
-                                                    Welcome, Marketing ${sessionScope.account.firstName}!
+                                                    Welcome, Marketing ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
                                                 </c:when>
                                                 <c:when test="${sessionScope.account.roleId == 3}">
-                                                    Welcome, Sales ${sessionScope.account.firstName}!
+                                                    Welcome, Sales ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
                                                 </c:when>
                                                 <c:when test="${sessionScope.account.roleId == 4}">
-                                                    Welcome, Customer ${sessionScope.account.firstName}!
+                                                    Welcome, Customer ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
+                                                </c:when>
+                                                    <c:when test="${sessionScope.account.roleId == 5}">
+                                                    Welcome, Shipper ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
                                                 </c:when>
                                                 <c:otherwise>
                                                     Welcome, Guest!
                                                 </c:otherwise>
                                             </c:choose>
                                         </li>
+                                        <li><a href="userprofile">Profile</a></li>
+                                        <li><a href="logout">Đăng xuất</a></li>
                                     </c:if>
                                 </ul><!--/.nav -->
                             </div><!-- /.navbar-collapse -->

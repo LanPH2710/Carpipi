@@ -57,13 +57,12 @@ public class LogoutServlet extends HttpServlet {
         
         // Lấy session hiện tại, nếu có
         HttpSession session = request.getSession(false); // 'false' để không tạo session mới nếu không có
-        
         if (session != null) {
             session.invalidate();  // Hủy session hiện tại
         }
 
         // Chuyển hướng người dùng về trang đăng nhập hoặc trang chủ
-        response.sendRedirect("login.jsp"); // Hoặc chuyển về trang khác tùy yêu cầu
+        response.sendRedirect("home"); // Hoặc chuyển về trang khác tùy yêu cầu
     } 
 
     /** 

@@ -78,8 +78,16 @@
                 align-items: center;
             }
             .footInfo{
-                color: white; 
+                color: white;
                 font-size: 16px
+            }
+            .footH2{
+                height: 80px;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
             }
             .footH2{
                         height: 80px;
@@ -142,8 +150,9 @@
                                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                                     <i class="fa fa-bars"></i>
                                 </button>
-                                <a href="index.html" target="_blank" style="text-decoration:none; color: black"> <img class="headerLogo"
-                                                                                                                      src="img/logoWnoBG.png" alt="" style="height: 78px;"></a>
+
+                                <a href="home" style="text-decoration:none; color: black"> <img class="headerLogo"
+                                                                                                src="img/logoWnoBG.png" alt="" style="height: 78px;"></a>
                                 <!--                                <a class="navbar-brand" href="index.html">Carpipi<span></span></a>-->
 
                             </div><!--/.navbar-header-->

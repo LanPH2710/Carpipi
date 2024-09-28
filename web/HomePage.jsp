@@ -23,8 +23,8 @@
         <!-- title of site -->
         <title>CarShop</title>
 
-        <!-- For favicon png -->
-        <link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
+        <!-- For logo png -->
+        <link rel="shortcut icon" type="image/icon" href="img/logo3.png"/>
 
         <!--font-awesome.min.css-->
         <link rel="stylesheet" href="assets/css/font-awesome.min.css">

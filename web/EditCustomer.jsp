@@ -11,6 +11,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit Customer</title>
         <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <!-- For logo png -->
+        <link rel="shortcut icon" type="image/icon" href="img/logo3.png"/>
         <style>
             .form-control:focus {
                 box-shadow: none;

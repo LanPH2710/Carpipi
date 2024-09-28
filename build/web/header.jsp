@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!-- meta data -->
 <meta charset="utf-8">
@@ -61,17 +62,32 @@
         <div class="row navHeader container-fluid">
             <div class="col-3 logo">
 
-                <a href="" target="_blank" style="text-decoration:none; color: black"> <img class="headerLogo"
-                                                                                            src="img/logoWhite.png" alt="" style="height: 78px;"></a>
+                <a href="home" style="text-decoration:none; color: black"> <img class="headerLogo"
+                                                                                src="img/logoWhite.png" alt="" style="height: 78px;"></a>
             </div>
             <div class="col-1"></div>
             <div class="col-8 menu">
                 <span class="headerN"><a href="home" style="text-decoration:none; color: white">Xe tiêu biểu</a></span>
-                <span class="headerN"><a href="HomePage.jsp" target="_blank" style="text-decoration:none; color: white">Mẫu mới</a></span>
-                <span class="headerN"><a href="HomePage.jsp" target="_blank" style="text-decoration:none; color: white">Hãng</a></span>
-                <span class="headerN"><a href="HomePage.jsp" target="_blank" style="text-decoration:none; color: white">Tin xe</a></span>
-                <span class="headerN"><a href="HomePage.jsp" target="_blank" style="text-decoration:none; color: white">Liên lạc</a></span>
-                <span class="headerN"><a href="HomePage.jsp" target="_blank" style="text-decoration:none; color: white">Đăng Nhập</a></span>
+                <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Mẫu mới</a></span>
+                <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Hãng</a></span>
+                <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Tin xe</a></span>
+                <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Liên lạc</a></span>
+                
+                        <c:if test="${sessionScope.account == null}">
+                            <!-- Hiển thị nút "Đăng Nhập" khi chưa đăng nhập -->
+                            <span class="headerN"><a style="text-decoration:none; color: white" href="login.jsp">Đăng Nhập</a></span>
+                            </c:if>
+
+                        <!-- Kiểm tra nếu người dùng đã đăng nhập -->
+                        <c:if test="${sessionScope.account != null}">
+                            <!-- Đặt "Welcome" trong thẻ <li> giống như nút "Đăng Nhập" -->
+
+                            <span class="headerN"><a style="text-decoration:none; color: white" href="userprofile">Profile</a></span>
+                            <span class="headerN"><a style="text-decoration:none; color: white" href="logout">Đăng xuất</a></span>
+                            </c:if>
+                    </a>
+                </span>
+
             </div>
 
         </div>

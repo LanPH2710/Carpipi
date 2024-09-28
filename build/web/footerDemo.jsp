@@ -16,145 +16,96 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        .footerH {
-            font-size: large;
-            align-items: center;
-        }
+    
+        <style>
+            .body {
+position: sticky;
+bottom:0;
+            }
+            .footInfo,
+            .footInfoH{
+                color: white;
+                font-size: 16px;
+                    list-style-type: none;
+                    text-decoration:none;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                    padding-top: 15px;
 
-        .footer {
-            padding: 30px;
-   
-        }
-
-        .fa {
-            margin-left: 10px;
-            margin-right: 10px;
-        }
-    </style>
+            }
+            .footH2{
+                text-transform: uppercase;
+                color: white;
+                height: 80px;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+            }
+        </style>
     </head>
     <body>
 
 
-    <div class="row footer" style="background-color: rgb(225, 227, 228);">
-        <span class="col-3">
-            <div>
-                <ul class="footerH">
-                    <b>TRUY CẬP NHANH</b>
-                </ul>
-                <ul>
-                    <a href="" target="_blank" style="text-decoration:none; color:rgb(0, 0, 0)">
-                        LIÊN HỆ
-                    </a>
-                    
-                </ul>
-                <ul>
-                    <a href="" target="_blank" style="text-decoration:none; color:rgb(0, 0, 0)">
-                        ĐIỀU KHOẢN & ĐIỀU KIỆN
-                    </a>
-                </ul>
-                <ul>
-                    <a href="" target="_blank" style="text-decoration:none; color:rgb(0, 0, 0)">
-                        PHƯƠNG THỨC THANH TOÁN
-                    </a>
-                   
-                </ul>
-                <ul>
-                    <a href="" target="_blank" style="text-decoration:none; color:rgb(0, 0, 0)">
-                        GIAO HÀNG VÀ HOÀN TRẢ
-                    </a>
-                    
-                </ul>
-                <ul>
-                    <a href="" target="_blank" style="text-decoration:none; color:rgb(0, 0, 0)">
-                        CHÍNH SÁCH BẢO MẬT
-                    </a>
-                    
-                </ul>
-            </div>
-        </span>
-        <span class="col-3">
-            <div>
-                <ul class="footerH">
-                    <b>LIÊN HỆ CHÚNG TÔI</b>
-                </ul>
-                <ul>
-                    <i class="fa fa-phone"></i>
-                    0987654321
-                </ul>
-                <ul>
-                    <a href="mailto:carpipi@gmail.com" target="_blank" style="text-decoration:none; color: black">
-                        <i class="fa fa-envelope"></i>
-                        carpipi@gmail.com
-                    </a>
+        <!--contact start-->
+        <div class="footer" style="background-color: #333; color: #fff; padding: 20px; text-align: center">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="single-footer-widget">
+                        <div class="footer-logo">
+                            <a href="index.html" target="_blank" style="color: black"> <img class="headerLogo" src="img/logoWnoBG.png" alt="" style="height: 80px;"></a>
+                        </div>
+                        <p class="footInfo" style="color: white; font-size: 16px">
+                            Công ty chúng tôi chuyên phân phối các hãng xe của Đức.
+                        </p>
+                        <div class="footer-contact">
+                            <ul>
+                                <a href="mailto:carpipi@gmail.com" style="text-decoration: none; color: white; font-size: 16px">
+                                    <i class="fa fa-envelope"></i>
+                                    carpipi@gmail.com
+                                </a>
+                            </ul>
+                            <ul style="color: white; font-size: 16px">
+                                <i class="fa fa-phone"></i>
+                                0987654321
+                            </ul>
 
-                </ul>
-                <ul>
-                    <div>
-                        <span>
-                            <a href="" target="_blank" style="text-decoration:none; color:rgb(0, 0, 0)">
-                                <i class="fa fa-facebook fa-lg"></i>
-                            </a>
-                        </span>
-                        <span>
-                            <a href="" target="_blank" style="text-decoration:none; color:rgb(0, 0, 0)">
-                                <i class="fa fa-instagram fa-lg"></i>
-                            </a>
-                        </span>
-                        <span>
-                            <a href="" target="_blank" style="text-decoration:none; color:rgb(0, 0, 0)">
-                                <i class="fa fa-youtube fa-lg"></i>
-                            </a>
-                        </span>
-
+                        </div>
                     </div>
-                </ul>
-                <ul>
-
-                </ul><br>
+                </div>
+                <div class="col-md-5 col-sm-6">
+                    <div class="single-footer-widget" style="color: white; font-size: 16px">
+                        <h2 class="footH2" style=" font-size: 20px; height: 80px">Về Carpipi</h2>
+                        <ul class="footInfoH">
+                            <li><a class="footInfo" href="#">Về chúng tôi</a></li>
+                            <li><a class="footInfo" href="#">Sự nghiệp</a></li>
+                            <li><a class="footInfo" href="#">Điều khoản dịch vụ</a></li>
+                            <li><a class="footInfo" href="#">Chính sách bảo mật </a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <div class="single-footer-widget">
+                        <h2 class="footH2" style="font-size: 22px; margin-bottom: 20px;">Thương Hiệu Hàng Đầu</h2>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6" style="padding-right: 5px;">
+                                <ul class="footInfoH" style="padding: 0; list-style: none;">
+                                    <li><a class="footInfo" href="#" style="color: white; transition: color 0.3s;">BMW</a></li>
+                                    <li><a class="footInfo" href="#" style="color: white; transition: color 0.3s;">Audi</a></li>
+                                    <li><a class="footInfo" href="#" style="color: white; transition: color 0.3s;">Mercedes</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6 col-xs-6" style="padding-left: 5px;"> <!-- Giảm khoảng cách bên trái -->
+                                <ul class="footInfoH" style="padding: 0; list-style: none;">
+                                    <li><a class="footInfo" href="#" style="color: white; transition: color 0.3s;">Volkswagen</a></li>
+                                    <li><a class="footInfo" href="#" style="color: white; transition: color 0.3s;">Porsche</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </span>
-        <span class="col-3">
-            <div>
-                <ul class="footerH">
-                    <b>VỀ CHÚNG TÔI</b>
-                </ul>
-                <ul>
-
-
-                </ul>
-                <ul>
-
-                    Công ty chúng tôi chuyên phân phối các hãng xe của Đức </ul>
-                <ul>
-                    <img src="img/logoWhite.png" alt="" style="width: 240px;height: 135px;">
-                </ul>
-                <ul>
-
-                </ul>
-            </div>
-        </span>
-        <span class="col-3">
-            <div>
-                <ul class="footerH">
-                    <b>THÔNG TIN MỚI</b>
-                </ul>
-                <ul>
-
-
-                </ul>
-                <ul>
-                    Đăng ký thông tin và ưu đãi mới nhất của chúng tôi 
-                </ul>
-                <ul>
-                    <input type="text" placeholder="Nhập Email">
-                </ul>
-                <ul>
-                    <button>Đăng ký</button>
-                </ul>
-            </div>
-        </span>
-
-    </div>
-</body>
+        </div>
+    </body>
 </html>

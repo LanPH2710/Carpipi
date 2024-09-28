@@ -3,15 +3,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Edit Profile</title>
+        <title>User Profile</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <style>
-            body {
-                background-color: #682773;
-            }
-
             .form-control:focus {
                 box-shadow: none;
                 border-color: #BA68C8;
@@ -54,14 +50,14 @@
     <body>
         <jsp:include page="header.jsp"></jsp:include>
 
-            <form action="userprofile" method="post">
+            <form action="userprofile" method="post" enctype="multipart/form-data">
                 <div class="container rounded mt-5 mb-5">
                     <div class="row">
                         <!-- Avatar and User Info -->
                         <div class="col-md-4 border-right">
                             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                                <img class="rounded-circle mt-5" width="150px" src="https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg">
-                                <span class="font-weight-bold">${user1.firstName} ${user1.lastName}</span>
+                                <img class="rounded-circle mt-5" width="300px" src="img/${user1.avatar}">                          
+                            <span class="font-weight-bold">${user1.firstName} ${user1.lastName}</span>
                             <span class="text-black-50">${user1.email}</span>
                         </div>
                     </div>
@@ -74,28 +70,28 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="col-md-6">
-                                    <label class="labels">First Name</label>
+                                    <label class="labels">Họ</label>
                                     <input name="firstName" type="text" class="form-control" value="${user1.firstName}" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="labels">Last Name</label>
+                                    <label class="labels">Tên</label>
                                     <input name="lastName" type="text" class="form-control" value="${user1.lastName}" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="labels">Gender</label>
+                                    <label class="labels">Giới tính</label>
                                     <input name="gender" type="text" class="form-control" value="${user1.gender}" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="labels">Phone Number</label>
+                                    <label class="labels">Số điện thoại</label>
                                     <input name="mobile" type="text" class="form-control" value="${user1.mobile}" required>
                                 </div>
                                 <div class="col-md-12">
-                                    <label class="labels">Address</label>
+                                    <label class="labels">Địa chỉ</label>
                                     <input name="address" type="text" class="form-control" value="${user1.address}" required>
                                 </div>
                                 <!-- Role (Read-Only) -->
                                 <div class="col-md-12">
-                                    <label class="labels">Role</label>
+                                    <label class="labels">Vai trò</label>
                                     <input name="role" type="text" class="form-control" value="${role}" readonly>
                                 </div>
                                 <!-- Email (Read-Only) -->
@@ -103,6 +99,12 @@
                                     <label class="labels">Email</label>
                                     <input name="email" type="text" class="form-control" value="${user1.email}" readonly>
                                 </div>
+                                <div class="col-md-12">
+                                    <label class="labels">Thay đổi ảnh đại diện</label>
+                                    <input name="avatar" type="file" class="form-control" accept="image/*">
+                                    <small class="form-text text-muted">Chỉ cần chọn ảnh mới nếu bạn muốn thay đổi ảnh đại diện.</small>
+                                </div>
+
                             </div>
                             <!-- Save Button -->
                             <div class="mt-5 text-center">

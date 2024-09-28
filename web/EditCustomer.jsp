@@ -1,11 +1,15 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- 
+    Document   : EditCustomer
+    Created on : Sep 27, 2024, 10:27:53 PM
+    Author     : tuana
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>User Profile</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Edit Customer</title>
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <style>
             .form-control:focus {
@@ -50,15 +54,20 @@
     <body>
         <jsp:include page="header.jsp"></jsp:include>
 
-            <form action="userprofile" method="post" enctype="multipart/form-data">
-                <div class="container rounded mt-5 mb-5">
-                    <div class="row">
-                        <!-- Avatar and User Info -->
-                        <div class="col-md-4 border-right">
-                            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                                <img class="rounded-circle mt-5" width="300px" src="img/${user1.avatar}">                          
-                            <span class="font-weight-bold">${user1.firstName} ${user1.lastName}</span>
-                            <span class="text-black-50">${user1.email}</span>
+        <form action="viewcustomer" method="post" enctype="multipart/form-data">
+
+            <div class="container rounded mt-5 mb-5">
+                <a href="customerlist" class="btn btn-primary" style="margin-top: 20px;">
+                    <span>X</span>
+                </a>
+                <div class="row">
+
+                    <!-- Avatar and User Info -->
+                    <div class="col-md-4 border-right">
+                        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                            <img class="rounded-circle mt-5" width="300px" src="img/${acc.avatar}">                          
+                            <span class="font-weight-bold">${acc.firstName} ${acc.lastName}</span>
+                            <span class="text-black-50">${acc.email}</span>
                         </div>
                     </div>
 
@@ -68,41 +77,48 @@
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h4 class="text-right">Edit Profile</h4>
                             </div>
+
                             <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <label class="labels">ID</label>
+                                    <input name="userId" type="text" class="form-control" value="${acc.userId}" readonly>
+                                </div>
                                 <div class="col-md-6">
                                     <label class="labels">Họ</label>
-                                    <input name="firstName" type="text" class="form-control" value="${user1.firstName}" required>
+                                    <input name="firstName" type="text" class="form-control" value="${acc.firstName}" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="labels">Tên</label>
-                                    <input name="lastName" type="text" class="form-control" value="${user1.lastName}" required>
+                                    <input name="lastName" type="text" class="form-control" value="${acc.lastName}" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="labels">Giới tính</label>
-                                    <input name="gender" type="text" class="form-control" value="${user1.gender}" required>
+                                    <select name="gender" class="form-control" required>
+                                        <option value="Nam" ${acc.gender == 'nam' ? 'selected' : ''}>Nam</option>
+                                        <option value="Nữ" ${acc.gender == 'nữ' ? 'selected' : ''}>Nữ</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="labels">Số điện thoại</label>
-                                    <input name="mobile" type="text" class="form-control" value="${user1.mobile}" required>
+                                    <input name="mobile" type="text" class="form-control" value="${acc.mobile}" required>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="labels">Địa chỉ</label>
-                                    <input name="address" type="text" class="form-control" value="${user1.address}" required>
+                                    <input name="address" type="text" class="form-control" value="${acc.address}" required>
                                 </div>
                                 <!-- Role (Read-Only) -->
                                 <div class="col-md-12">
                                     <label class="labels">Vai trò</label>
-                                    <input name="role" type="text" class="form-control" value="${role}" readonly>
+                                    <input name="role" type="text" class="form-control" value="${role1}" readonly>
                                 </div>
                                 <!-- Email (Read-Only) -->
                                 <div class="col-md-12">
                                     <label class="labels">Email</label>
-                                    <input name="email" type="text" class="form-control" value="${user1.email}" readonly>
+                                    <input name="email" type="text" class="form-control" value="${acc.email}" required>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="labels">Thay đổi ảnh đại diện</label>
                                     <input name="avatar" type="file" class="form-control" accept="image/*">
-                                    <small class="form-text text-muted">Chỉ cần chọn ảnh mới nếu bạn muốn thay đổi ảnh đại diện.</small>
                                 </div>
 
                             </div>
@@ -116,6 +132,6 @@
                 </div>
             </div>
         </form>
-        <jsp:include page="footerDemo.jsp"></jsp:include>
+                                <jsp:include page="footerDemo.jsp"></jsp:include>
     </body>
 </html>

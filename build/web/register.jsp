@@ -122,6 +122,7 @@
     </div>
     <div class="col-4"></div>
     </div>
+    <jsp:include page="footerDemo.jsp"></jsp:include>
 </body>
 
 </html>

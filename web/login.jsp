@@ -56,7 +56,7 @@
                     <label for="check">Nhớ mật khẩu</label>
                 </section>
                 <section>
-                    <a href="forgotPassword">Bạn quên mật khẩu ?</a>
+                    <a href="forgotPassword.jsp">Bạn quên mật khẩu ?</a>
                 </section>
             </div>
 
@@ -66,6 +66,6 @@
         </div>
             
         </div>
-        
+        <jsp:include page="footerDemo.jsp"></jsp:include>
     </body>
 </html>

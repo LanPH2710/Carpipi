@@ -3,7 +3,7 @@
     Created on : Sep 17, 2024, 12:21:57 AM
     Author     : nguye
 --%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -69,7 +69,25 @@
                 -webkit-line-clamp: 2; /* number of lines to show */
                 line-clamp: 2;
                 -webkit-box-orient: vertical;
+
             }
+            .hello{
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .footInfo{
+                color: white; 
+                font-size: 16px
+            }
+            .footH2{
+                        height: 80px;
+                        text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                }
         </style>
     </head>
 
@@ -81,11 +99,39 @@
         <!--welcome-hero start -->
         <section id="home" class="welcome-hero">
 
-          
-           
-           <!-- top-area Start -->
+
+
+            <!-- top-area Start -->
             <div class="top-area">
                 <div class="header-area">
+                    <div class="hello">
+                        <c:if test="${sessionScope.account != null}">
+                            <!-- Đặt "Welcome" trong thẻ <li> giống như nút "Đăng Nhập" -->
+                            <ul class="scroll">
+                                <c:choose>
+                                    <c:when test="${sessionScope.account.roleId == 1}">
+                                        Welcome, Admin ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
+                                    </c:when>
+                                    <c:when test="${sessionScope.account.roleId == 2}">
+                                        Welcome, Marketing ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
+                                    </c:when>
+                                    <c:when test="${sessionScope.account.roleId == 3}">
+                                        Welcome, Sales ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
+                                    </c:when>
+                                    <c:when test="${sessionScope.account.roleId == 4}">
+                                        Welcome, Customer ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
+                                    </c:when>
+                                    <c:when test="${sessionScope.account.roleId == 5}">
+                                        Welcome, Shipper ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
+                                    </c:when>
+                                    <c:otherwise>
+                                        Welcome, Guest!
+                                    </c:otherwise>
+                                </c:choose>
+                            </ul>
+
+                        </c:if>
+                    </div>
                     <!-- Start Navigation -->
                     <nav class="navbar navbar-default bootsnav  navbar-sticky navbar-scrollspy"  data-minus-value-desktop="70" data-minus-value-mobile="55" data-speed="1000">
 
@@ -96,7 +142,9 @@
                                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                                     <i class="fa fa-bars"></i>
                                 </button>
-                                <a class="navbar-brand" href="index.html">Carpipi<span></span></a>
+                                <a href="index.html" target="_blank" style="text-decoration:none; color: black"> <img class="headerLogo"
+                                                                                                                      src="img/logoWnoBG.png" alt="" style="height: 78px;"></a>
+                                <!--                                <a class="navbar-brand" href="index.html">Carpipi<span></span></a>-->
 
                             </div><!--/.navbar-header-->
                             <!-- End Header Navigation -->
@@ -104,12 +152,24 @@
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
                                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                                    <li class=" scroll active"><a href="#home">Trang Chủ</a></li>
+                                    <!--                                    <li class=" scroll active"><a href="home">Trang Chủ</a></li>-->
                                     <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
                                     <li class="scroll"><a href="#brand">Hãng</a></li>
+                                    <li class="scroll"><a href="#blog">Tin xe</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
-                                    <li><a href="login.jsp">Đăng Nhập</a></li>
+                                        <c:if test="${sessionScope.account == null}">
+                                        <!-- Hiển thị nút "Đăng Nhập" khi chưa đăng nhập -->
+                                        <li><a href="login.jsp">Đăng Nhập</a></li>
+                                        </c:if>
+
+                                    <!-- Kiểm tra nếu người dùng đã đăng nhập -->
+                                    <c:if test="${sessionScope.account != null}">
+                                        <!-- Đặt "Welcome" trong thẻ <li> giống như nút "Đăng Nhập" -->
+
+                                        <li><a href="userprofile">Profile</a></li>
+                                        <li><a href="logout">Đăng xuất</a></li>
+                                        </c:if>
                                 </ul><!--/.nav -->
                             </div><!-- /.navbar-collapse -->
                         </div><!--/.container-->
@@ -396,50 +456,58 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="single-footer-widget">
                                 <div class="footer-logo">
-                                    <a href="index.html">carvilla</a>
+                                    <a href="index.html" target="_blank" style="text-decoration:none; color: black"> <img class="headerLogo"
+                                                                                                                          src="img/logoWnoBG.png" alt="" style="height: 80px;"></a>
                                 </div>
-                                <p>
-                                    Ased do eiusm tempor incidi ut labore et dolore magnaian aliqua. Ut enim ad minim veniam.
+                                <p style="color: white; font-size: 16px">
+                                    Công ty chúng tôi chuyên phân phối các hãng xe của Đức.
                                 </p>
                                 <div class="footer-contact">
-                                    <p>info@themesine.com</p>
-                                    <p>+1 (885) 2563154554</p>
+                                    <ul>
+                                        <a href="mailto:carpipi@gmail.com" target="_blank" style="text-decoration:none; color: white; font-size: 16px">
+                                            <i class="fa fa-envelope"></i>
+                                            carpipi@gmail.com
+                                        </a>
+                                    </ul>
+                                    <ul style="color: white; font-size: 16px">
+                                        <i class="fa fa-phone"></i>
+                                        0987654321
+                                    </ul>
+
+
+
+
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2 col-sm-6">
-                            <div class="single-footer-widget">
-                                <h2>about devloon</h2>
+                            <div class="single-footer-widget" style="color: white; font-size: 16px">
+                                <h2 class="footH2" style=" font-size: 20px; height: 80px">về carpipi</h2>
                                 <ul>
-                                    <li><a href="#">about us</a></li>
-                                    <li><a href="#">career</a></li>
-                                    <li><a href="#">terms <span> of service</span></a></li>
-                                    <li><a href="#">privacy policy</a></li>
+                                    <li><a class="footInfo" href="#">về chúng tôi</a></li>
+                                    <li><a class="footInfo" href="#">sự nghiệp</a></li>
+                                    <li><a class="footInfo" href="#">điều khoản dịch vụ</a></li>
+                                    <li><a class="footInfo" href="#">chính sách bảo mật </a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-md-3 col-xs-12">
                             <div class="single-footer-widget">
-                                <h2>top brands</h2>
+                                <h2 class="footH2" style=" font-size: 20px; height: 80px">thương hiệu hàng đầu</h2>
                                 <div class="row">
                                     <div class="col-md-7 col-xs-6">
                                         <ul>
-                                            <li><a href="#">BMW</a></li>
-                                            <li><a href="#">lamborghini</a></li>
-                                            <li><a href="#">camaro</a></li>
-                                            <li><a href="#">audi</a></li>
-                                            <li><a href="#">infiniti</a></li>
-                                            <li><a href="#">nissan</a></li>
+                                            <li><a class="footInfo" href="#">BMW</a></li>
+                                            <li><a class="footInfo" href="#">Audi</a></li>
+                                            <li><a class="footInfo" href="#">Mercedes</a></li>
+
                                         </ul>
                                     </div>
                                     <div class="col-md-5 col-xs-6">
                                         <ul>
-                                            <li><a href="#">ferrari</a></li>
-                                            <li><a href="#">porsche</a></li>
-                                            <li><a href="#">land rover</a></li>
-                                            <li><a href="#">aston martin</a></li>
-                                            <li><a href="#">mersedes</a></li>
-                                            <li><a href="#">opel</a></li>
+                                            <li><a class="footInfo" href="#">Wolkswagen</a></li>
+                                            <li><a class="footInfo" href="#">Porsche</a></li>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -447,15 +515,15 @@
                         </div>
                         <div class="col-md-offset-1 col-md-3 col-sm-6">
                             <div class="single-footer-widget">
-                                <h2>news letter</h2>
+                                <h2 class="footH2" style=" font-size: 20px; height: 80px">THÔNG TIN MỚI</h2>
                                 <div class="footer-newsletter">
                                     <p>
-                                        Subscribe to get latest news  update and informations
+                                        Đăng ký thông tin và ưu đãi mới nhất của chúng tôi 
                                     </p>
                                 </div>
                                 <div class="hm-foot-email">
                                     <div class="foot-email-box">
-                                        <input type="text" class="form-control" placeholder="Add Email">
+                                        <input type="text" class="form-control" placeholder="Nhập Email">
                                     </div><!--/.foot-email-box-->
                                     <div class="foot-email-subscribe">
                                         <span><i class="fa fa-arrow-right"></i></span>

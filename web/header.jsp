@@ -18,9 +18,12 @@
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
         <style>
+            * {
+                box-sizing: border-box;
+            }
             .headerN {
-                  text-transform: uppercase;
-                    font-weight: 500;
+                text-transform: uppercase;
+                font-weight: 500;
 
                 font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
                 font-size: 16px;
@@ -32,7 +35,9 @@
                 margin-left: 50px;
             }
 
-            .menu {
+            .menu,
+            .logo
+            {
                 text-align: center;
                 display: flex;
                 justify-content: center;
@@ -40,29 +45,33 @@
             }
 
             .navHeader {
+                z-index: 5;
+                position: sticky;
+                top: 0;
+                padding-left: 0;
+                padding-right: 0;
                 background-color: black;
                 height: 78px;
                 box-shadow: 5px 5px rgb(225, 227, 228);
             }
+
         </style>
     </head>
     <body>
-        <div class="row navHeader">
-            <div class="col-3">
+        <div class="row navHeader container-fluid">
+            <div class="col-3 logo">
 
                 <a href="" target="_blank" style="text-decoration:none; color: black"> <img class="headerLogo"
                                                                                             src="img/logoWhite.png" alt="" style="height: 78px;"></a>
-
             </div>
             <div class="col-1"></div>
             <div class="col-8 menu">
-                <span class="headerN"><a href="HomePage.jsp" target="_blank" style="text-decoration:none; color: white">Trang Chủ</a></span>
-                <span class="headerN"><a href="HomePage.jsp" target="_blank" style="text-decoration:none; color: white">Xe tiêu biểu</a></span>
+                <span class="headerN"><a href="home" style="text-decoration:none; color: white">Xe tiêu biểu</a></span>
                 <span class="headerN"><a href="HomePage.jsp" target="_blank" style="text-decoration:none; color: white">Mẫu mới</a></span>
                 <span class="headerN"><a href="HomePage.jsp" target="_blank" style="text-decoration:none; color: white">Hãng</a></span>
+                <span class="headerN"><a href="HomePage.jsp" target="_blank" style="text-decoration:none; color: white">Tin xe</a></span>
                 <span class="headerN"><a href="HomePage.jsp" target="_blank" style="text-decoration:none; color: white">Liên lạc</a></span>
-                <span class="headerN"><a href="login.jsp" target="_blank" style="text-decoration:none; color: white">Đăng Nhập</a></span>
-                <span class="headerN"><a href="" target="_blank" style="text-decoration:none; color: white">Tai Khoan</a></span>
+                <span class="headerN"><a href="HomePage.jsp" target="_blank" style="text-decoration:none; color: white">Đăng Nhập</a></span>
             </div>
 
         </div>

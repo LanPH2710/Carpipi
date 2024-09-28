@@ -23,8 +23,8 @@
         <!-- title of site -->
         <title>CarShop</title>
 
-        <!-- For favicon png -->
-        <link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
+        <!-- For logo png -->
+        <link rel="shortcut icon" type="image/icon" href="img/logo3.png"/>
 
         <!--font-awesome.min.css-->
         <link rel="stylesheet" href="assets/css/font-awesome.min.css">
@@ -78,6 +78,7 @@
                 align-items: center;
             }
             .footInfo{
+
                 color: white;
                 font-size: 16px
             }
@@ -87,7 +88,15 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+
             }
+            .footH2{
+                        height: 80px;
+                        text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                }
         </style>
     </head>
 
@@ -142,8 +151,11 @@
                                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                                     <i class="fa fa-bars"></i>
                                 </button>
+
                                 <a href="home" style="text-decoration:none; color: black"> <img class="headerLogo"
                                                                                                 src="img/logoWnoBG.png" alt="" style="height: 78px;"></a>
+
+              
                                 <!--                                <a class="navbar-brand" href="index.html">Carpipi<span></span></a>-->
 
                             </div><!--/.navbar-header-->

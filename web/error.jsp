@@ -52,19 +52,18 @@
             a:hover {
                 background-color: #303f9f;
             }
+</style>
+</head>
+<body>
+            <jsp:include page="header.jsp"></jsp:include>
 
-        </style>
-    </head>
-    <body>
+    <div class="container">
+        <h1>Oops! Something went wrong.</h1>
+        <p>We apologize for the inconvenience. Please try again later.</p>
+         <p><a href="home">Back to home</a></p>
+        <p><a href="login.jsp">Back to Login</a></p>
         
-
-            <div class="container">
-                <h1>Oops! Something went wrong.</h1>
-                <p>We apologize for the inconvenience. Please try again later.</p>
-                <p><a href="home">Back to home</a></p>
-                <p><a href="login.jsp">Back to Login</a></p>
-
-            </div>
-       
-    </body>
+    </div>
+    <jsp:include page="footerDemo.jsp"></jsp:include>
+</body>
 </html>

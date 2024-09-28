@@ -14,6 +14,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Admin</title>
+        <!-- For logo png -->
+        <link rel="shortcut icon" type="image/icon" href="img/logo3.png"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -274,6 +276,8 @@
         </script>
     </head>
     <body>
+                <jsp:include page="header.jsp"></jsp:include>
+
         <div class="container-xl">
             <div class="table-responsive">
                 <div class="table-wrapper">
@@ -395,6 +399,6 @@
 </div>-->
         <!-- Edit Modal HTML -->
 
-
+<jsp:include page="footerDemo.jsp"></jsp:include>
     </body>
 </html>

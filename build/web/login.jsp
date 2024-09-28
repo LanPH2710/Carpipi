@@ -9,6 +9,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <!-- For logo png -->
+        <link rel="shortcut icon" type="image/icon" href="img/logo3.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/style_login.css">
         <title>Login</title>
@@ -66,6 +68,6 @@
         </div>
             
         </div>
-        
+        <jsp:include page="footerDemo.jsp"></jsp:include>
     </body>
 </html>

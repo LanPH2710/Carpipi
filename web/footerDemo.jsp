@@ -31,7 +31,6 @@ bottom:0;
                     padding-left: 10px;
                     padding-right: 10px;
                     padding-top: 15px;
-
             }
             .footH2{
                 text-transform: uppercase;

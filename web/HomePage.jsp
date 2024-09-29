@@ -6,6 +6,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
+
 <html class="no-js" lang="en">
 
     <head>
@@ -96,49 +97,38 @@
                                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                                     <i class="fa fa-bars"></i>
                                 </button>
-                                <a class="navbar-brand" href="index.html">Carpipi<span></span></a>
+                                <a class="navbar-brand" href="home">Carpipi<span></span></a>
 
                             </div><!--/.navbar-header-->
+                            <!--/.navbar-header-->
                             <!-- End Header Navigation -->
 
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
                                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                                    <li class=" scroll active"><a href="#home">Trang Chủ</a></li>
+                                    <li class="scroll active"><a href="#home">Trang Chủ</a></li>
                                     <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
                                     <li class="scroll"><a href="#brand">Hãng</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
-                                        <c:if test="${sessionScope.account == null}">
-                                        <!-- Hiển thị nút "Đăng Nhập" khi chưa đăng nhập -->
-                                        <li><a href="login.jsp">Đăng Nhập</a></li>
-                                        </c:if>
-
-                                    <!-- Kiểm tra nếu người dùng đã đăng nhập -->
-                                    <c:if test="${sessionScope.account != null}">
-                                        <!-- Đặt "Welcome" trong thẻ <li> giống như nút "Đăng Nhập" -->
-                                        <li>
-                                            <c:choose>
-                                                <c:when test="${sessionScope.account.roleId == 1}">
-                                                    Welcome, Admin ${sessionScope.account.firstName}!
-                                                </c:when>
-                                                <c:when test="${sessionScope.account.roleId == 2}">
-                                                    Welcome, Marketing ${sessionScope.account.firstName}!
-                                                </c:when>
-                                                <c:when test="${sessionScope.account.roleId == 3}">
-                                                    Welcome, Sales ${sessionScope.account.firstName}!
-                                                </c:when>
-                                                <c:when test="${sessionScope.account.roleId == 4}">
-                                                    Welcome, Customer ${sessionScope.account.firstName}!
-                                                </c:when>
-                                                <c:otherwise>
-                                                    Welcome, Guest!
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </li>
-                                    </c:if>
-                                </ul><!--/.nav -->
-                            </div><!-- /.navbar-collapse -->
+                                        <c:choose>
+                                            <c:when test="${sessionScope.account == null}">
+                                            <li></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                            <li><a>Welcome, ${sessionScope.account.lastName}!</a></li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.account == null}">
+                                            <li><a href="login.jsp">Đăng Nhập</a></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                            <li><a href="logout">Đăng Xuất</a></li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                </ul>
+                            </div>
                         </div><!--/.container-->
                     </nav><!--/nav-->
                     <!-- End Navigation -->

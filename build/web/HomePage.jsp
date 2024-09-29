@@ -78,7 +78,6 @@
                 align-items: center;
             }
             .footInfo{
-
                 color: white;
                 font-size: 16px
             }
@@ -91,12 +90,12 @@
 
             }
             .footH2{
-                        height: 80px;
-                        text-align: center;
+                height: 80px;
+                text-align: center;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                }
+            }
         </style>
     </head>
 
@@ -154,8 +153,6 @@
 
                                 <a href="home" style="text-decoration:none; color: black"> <img class="headerLogo"
                                                                                                 src="img/logoWnoBG.png" alt="" style="height: 78px;"></a>
-
-              
                                 <!--                                <a class="navbar-brand" href="index.html">Carpipi<span></span></a>-->
 
                             </div><!--/.navbar-header-->
@@ -175,10 +172,12 @@
                                         <li><a href="login.jsp">Đăng Nhập</a></li>
                                         </c:if>
 
+                                    <c:if test="${sessionScope.account.roleId == 2}">
+                                        <li><a href="customerlist">Manage Customer</a></li>
+                                        </c:if>
+
                                     <!-- Kiểm tra nếu người dùng đã đăng nhập -->
                                     <c:if test="${sessionScope.account != null}">
-                                        <!-- Đặt "Welcome" trong thẻ <li> giống như nút "Đăng Nhập" -->
-
                                         <li><a href="userprofile">Profile</a></li>
                                         <li><a href="logout">Đăng xuất</a></li>
                                         </c:if>

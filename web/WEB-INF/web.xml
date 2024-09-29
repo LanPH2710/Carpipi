@@ -6,8 +6,19 @@
     </filter>
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
-        <url-pattern>/addcustomer</url-pattern>
-        <url-pattern>/customerlist</url-pattern>
+         <url-pattern>/customerlist</url-pattern>
+        <url-pattern>/userlist</url-pattern>
+        <url-pattern>/userdetails</url-pattern>
+        <url-pattern>/orderlist</url-pattern>
+        <url-pattern>/sliderDetails</url-pattern>
+        <url-pattern>/postList</url-pattern>
+        <url-pattern>/postDetails</url-pattern>
+        <url-pattern>/productDetails</url-pattern>
+        <url-pattern>/feedbacksList</url-pattern>
+        <url-pattern>/setdetails</url-pattern>
+        <url-pattern>/orderDetailsSale</url-pattern>
+        <url-pattern>/orderlist</url-pattern>
+        <url-pattern>/dashboard</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>

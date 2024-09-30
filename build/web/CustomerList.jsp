@@ -7,16 +7,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css" />
-        <!-- Bootstrap 4.5.2 CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <!-- Google Material Icons -->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <!-- Font Awesome Icons -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <!-- Bootstrap 4.5.2 JS -->
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="css/styles.css" />
         <style>
@@ -28,7 +19,7 @@
             }
             .container {
                 max-width: 1200px;
-                margin: 0 auto;
+                margin: 30px 0px 50px 0px;
                 background: #fff;
                 padding: 20px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -215,6 +206,6 @@
                     </div>
                 </div>
             </div>
-                        <jsp:include page="footerDemo.jsp"></jsp:include>
+            <jsp:include page="footerDemo.jsp"></jsp:include>
         </body>
     </html>

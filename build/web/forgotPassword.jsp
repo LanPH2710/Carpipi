@@ -10,15 +10,23 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <!-- For logo png -->
+        <link rel="shortcut icon" type="image/icon" href="img/logo3.png"/>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
         <link
             href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'
             rel='stylesheet'>
+        <style>
+             .full-height {
+        height: 100vh; /* Chiều cao bằng 100% chiều cao của viewport */
+        
+    }
+        </style>
     </head>
     <body oncontextmenu='return false' class='snippet-body'>
         <jsp:include page="header.jsp"></jsp:include>
-        <div class="container  mb-2 mt-5">
+        <div class="container  mb-2 mt-5 full-height">
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-md-10">
                     <div class="forgot">

@@ -23,8 +23,8 @@
         <!-- title of site -->
         <title>CarShop</title>
 
-        <!-- For favicon png -->
-        <link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
+        <!-- For logo png -->
+        <link rel="shortcut icon" type="image/icon" href="img/logo3.png"/>
 
         <!--font-awesome.min.css-->
         <link rel="stylesheet" href="assets/css/font-awesome.min.css">
@@ -78,16 +78,24 @@
                 align-items: center;
             }
             .footInfo{
-                color: white; 
+                color: white;
                 font-size: 16px
             }
             .footH2{
-                        height: 80px;
-                        text-align: center;
+                height: 80px;
+                text-align: center;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                }
+
+            }
+            .footH2{
+                height: 80px;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         </style>
     </head>
 
@@ -104,34 +112,7 @@
             <!-- top-area Start -->
             <div class="top-area">
                 <div class="header-area">
-                    <div class="hello">
-                        <c:if test="${sessionScope.account != null}">
-                            <!-- Đặt "Welcome" trong thẻ <li> giống như nút "Đăng Nhập" -->
-                            <ul class="scroll">
-                                <c:choose>
-                                    <c:when test="${sessionScope.account.roleId == 1}">
-                                        Welcome, Admin ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
-                                    </c:when>
-                                    <c:when test="${sessionScope.account.roleId == 2}">
-                                        Welcome, Marketing ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
-                                    </c:when>
-                                    <c:when test="${sessionScope.account.roleId == 3}">
-                                        Welcome, Sales ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
-                                    </c:when>
-                                    <c:when test="${sessionScope.account.roleId == 4}">
-                                        Welcome, Customer ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
-                                    </c:when>
-                                    <c:when test="${sessionScope.account.roleId == 5}">
-                                        Welcome, Shipper ${sessionScope.account.firstName} ${sessionScope.account.lastName}!
-                                    </c:when>
-                                    <c:otherwise>
-                                        Welcome, Guest!
-                                    </c:otherwise>
-                                </c:choose>
-                            </ul>
 
-                        </c:if>
-                    </div>
                     <!-- Start Navigation -->
                     <nav class="navbar navbar-default bootsnav  navbar-sticky navbar-scrollspy"  data-minus-value-desktop="70" data-minus-value-mobile="55" data-speed="1000">
 
@@ -142,8 +123,9 @@
                                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                                     <i class="fa fa-bars"></i>
                                 </button>
-                                <a href="index.html" target="_blank" style="text-decoration:none; color: black"> <img class="headerLogo"
-                                                                                                                      src="img/logoWnoBG.png" alt="" style="height: 78px;"></a>
+
+                                <a href="home" style="text-decoration:none; color: black"> <img class="headerLogo"
+                                                                                                src="img/logoWnoBG.png" alt="" style="height: 78px;"></a>
                                 <!--                                <a class="navbar-brand" href="index.html">Carpipi<span></span></a>-->
 
                             </div><!--/.navbar-header-->
@@ -158,18 +140,22 @@
                                     <li class="scroll"><a href="#brand">Hãng</a></li>
                                     <li class="scroll"><a href="#blog">Tin xe</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
-                                        <c:if test="${sessionScope.account == null}">
-                                        <!-- Hiển thị nút "Đăng Nhập" khi chưa đăng nhập -->
-                                        <li><a href="login.jsp">Đăng Nhập</a></li>
-                                        </c:if>
-
-                                    <!-- Kiểm tra nếu người dùng đã đăng nhập -->
-                                    <c:if test="${sessionScope.account != null}">
-                                        <!-- Đặt "Welcome" trong thẻ <li> giống như nút "Đăng Nhập" -->
-
-                                        <li><a href="userprofile">Profile</a></li>
-                                        <li><a href="logout">Đăng xuất</a></li>
-                                        </c:if>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.account == null}">
+                                            <li></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                            <li><a href="userprofile">Welcome, ${sessionScope.account.lastName}!</a></li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.account == null}">
+                                            <li><a href="login.jsp">Đăng Nhập</a></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                            <li><a href="logout">Đăng Xuất</a></li>
+                                            </c:otherwise>
+                                        </c:choose>
                                 </ul><!--/.nav -->
                             </div><!-- /.navbar-collapse -->
                         </div><!--/.container-->

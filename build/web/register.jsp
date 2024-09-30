@@ -4,12 +4,15 @@
     Author     : ADMIN
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <!-- For logo png -->
+        <link rel="shortcut icon" type="image/icon" href="img/logo3.png"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -45,21 +48,25 @@
         .form-group {
             margin: 10px;
         }
+        .full-height {
+        height: 100vh; /* Chiều cao bằng 100% chiều cao của viewport */
+        
+    }
     </style>
 </head>
 
 <body>
     <jsp:include page="header.jsp"></jsp:include>
-    <div class="row">
-<c:if test="${not empty errorMessage}">
-    <div style="color:red;">${errorMessage}</div>
-</c:if>
+    <div class="row full-height">
+
         <div class="col-4"></div>
         <div class="col-4">
             <div class="mb-4 registerH">
                 <h1 class="font-weight-bold text-center mb-4">Đăng Ký</h1>
             </div>
-
+            <c:if test="${not empty errorMessage}">
+    <div style="color:red;">${errorMessage}</div>
+</c:if>
             <div class="register">
                 <form action="register" method="post">
                     <div class="form-group">

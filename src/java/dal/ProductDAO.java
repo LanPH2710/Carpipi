@@ -46,39 +46,38 @@ public class ProductDAO extends DBContext {
     }
 
     public Product getProductById(int productId) {
-    Product product = null;
-    try {
-        // Câu truy vấn lấy thông tin sản phẩm dựa trên productId
-        String sql = "SELECT * FROM products WHERE productId = ?";
-        PreparedStatement st = connection.prepareStatement(sql);
-        st.setInt(1, productId);
-        ResultSet rs = st.executeQuery();
-        
-        if (rs.next()) {
-            // Tạo đối tượng Product với các thông tin lấy từ ResultSet
-            product = new Product();
-            product.setProductId(rs.getInt("productId"));
-            product.setName(rs.getString("name"));
-            product.setSeatNumber(rs.getInt("seatNumber"));
-            product.setPrice(rs.getDouble("price"));
-            product.setFuel(rs.getString("fuel"));
-            product.setStock(rs.getInt("stock"));
-            product.setDescription(rs.getString("description"));
-            product.setVAT(rs.getDouble("VAT"));
-            product.setSupplierId(rs.getInt("supplierId"));
-            product.setBrandId(rs.getInt("brandId"));
-            product.setSegmentId(rs.getInt("segmentId"));
-            product.setStyleId(rs.getInt("styleId"));
-            
-            // Lấy danh sách hình ảnh của sản phẩm từ bảng productimages
-            product.setImages(getImagesByProductId(product.getProductId()));
+        Product product = null;
+        try {
+            // Câu truy vấn lấy thông tin sản phẩm dựa trên productId
+            String sql = "SELECT * FROM products WHERE productId = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, productId);
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()) {
+                // Tạo đối tượng Product với các thông tin lấy từ ResultSet
+                product = new Product();
+                product.setProductId(rs.getInt("productId"));
+                product.setName(rs.getString("name"));
+                product.setSeatNumber(rs.getInt("seatNumber"));
+                product.setPrice(rs.getDouble("price"));
+                product.setFuel(rs.getString("fuel"));
+                product.setStock(rs.getInt("stock"));
+                product.setDescription(rs.getString("description"));
+                product.setVAT(rs.getDouble("VAT"));
+                product.setSupplierId(rs.getInt("supplierId"));
+                product.setBrandId(rs.getInt("brandId"));
+                product.setSegmentId(rs.getInt("segmentId"));
+                product.setStyleId(rs.getInt("styleId"));
+
+                // Lấy danh sách hình ảnh của sản phẩm từ bảng productimages
+                product.setImages(getImagesByProductId(product.getProductId()));
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi lấy sản phẩm theo ID: " + e.getMessage());
         }
-    } catch (SQLException e) {
-        System.out.println("Lỗi khi lấy sản phẩm theo ID: " + e.getMessage());
+        return product;
     }
-    return product;
-}
-  
 
     // Phương thức lấy danh sách hình ảnh theo productId
     public List<ProductImage> getImagesByProductId(int productId) throws SQLException {
@@ -98,7 +97,105 @@ public class ProductDAO extends DBContext {
         return images;
     }
 
- 
+    // Son: lấy sản phẩm có id to nhất với nameId là mã số đầu vd: VO, AU, ME, BM, PO
+    public String getProductToScanId(String nameId) {
+        String sql = "SELECT productId \n"
+                + "FROM carpipi.products \n"
+                + "WHERE productId LIKE ? \n"
+                + "ORDER BY productId DESC \n"
+                + "LIMIT 1;";
+
+        String productId = null; // Biến để lưu kết quả trả về
+
+        try {
+            // Giả định bạn đã tạo connection
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setString(1, nameId + "%");
+
+            ResultSet resultSet = st.executeQuery();
+
+            // Lấy productId của bản ghi đầu tiên trong kết quả
+            if (resultSet.next()) {
+                productId = resultSet.getString("productId");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // In lỗi ra console nếu có lỗi xảy ra
+        }
+
+        String newId = toIncreaseId(productId);
+        
+        return newId; // Trả về productId (hoặc null nếu không có kết quả)
+
+    }
+    
+    //Son: Tăng id sản phẩm lên 1 (VO26)
+    public String toIncreaseId(String id) {
+
+        String rootId = id.substring(0, 2);
+        String idd = id.substring(2, id.length());
+
+        int idNumber = Integer.parseInt(idd);
+        idNumber++;
+        String idafter = String.valueOf(idNumber);
+
+        return rootId + idafter;
+    }
+
+//     private int productId;
+//    private String name;
+//    private int seatNumber;
+//    private double price;
+//    private String fuel;
+//    private int stock;
+//    private String description;
+//    private double VAT;
+//    private int supplierId;
+//    private int brandId;
+//    private int segmentId;
+//    private int styleId;
+//    private List<ProductImage> images; 
+    
+    //Son: Thêm sản phẩm 
+    public void insertProduct(String id, String name, int seatNumber, double price, String fuel,
+            int stock, String des, double vat, int suppliesId, int brandId, int segmentId, int styleId) {
+        String sql = "INSERT INTO `carpipi`.`products`\n"
+                + "(`productId`,\n"
+                + "`name`,\n"
+                + "`seatNumber`,\n"
+                + "`price`,\n"
+                + "`fuel`,\n"
+                + "`stock`,\n"
+                + "`description`,\n"
+                + "`VAT`,\n"
+                + "`supplierId`,\n"
+                + "`brandId`,\n"
+                + "`segmentId`,\n"
+                + "`styleId`)\n"
+                + "VALUES\n"
+                + "(?,?,?,?,?,?,?,?,?,?,?,?);";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, id);
+            st.setString(2, name);
+            st.setInt(3, seatNumber);
+            st.setDouble(4, price);
+            st.setString(5, fuel);
+            st.setInt(6, stock);
+            st.setString(7, des);
+            st.setDouble(8, vat);
+            st.setInt(9, suppliesId);
+            st.setInt(10, brandId);
+            st.setInt(11, segmentId);
+            st.setInt(12, styleId);
+
+            st.executeUpdate();
+
+        } catch (Exception e) {
+        }
+
+    }
+
 ////    public static void main(String[] args) throws SQLException {
 ////        // Tạo đối tượng ProductDAO
 ////        ProductDAO productDAO = new ProductDAO();
@@ -147,4 +244,12 @@ public class ProductDAO extends DBContext {
 ////    
 //
 //    
+    
+    public static void main(String[] args) {
+        ProductDAO p = new ProductDAO();
+        String idRoot = p.getProductToScanId("AU");
+       
+        p.insertProduct(idRoot, "1", 1, 1, "", 1, "", 1, 1, 1, 1, 1);
+        
+    }
 }

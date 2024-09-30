@@ -138,7 +138,7 @@
                                     <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
                                     <li class="scroll"><a href="#brand">Hãng</a></li>
-                                    <li class="scroll"><a href="#blog">Tin xe</a></li>
+                                    <li class="active"><a href="BlogList.jsp">Tin xe</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
                                         <c:choose>
                                             <c:when test="${sessionScope.account == null}">

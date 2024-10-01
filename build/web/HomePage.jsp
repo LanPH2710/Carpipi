@@ -138,7 +138,7 @@
                                     <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
                                     <li class="scroll"><a href="#brand">Hãng</a></li>
-                                    <li class="scroll"><a href="#blog">Tin xe</a></li>
+                                    <li class="active"><a href="BlogListServlet">Tin xe</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
                                         <c:choose>
                                             <c:when test="${sessionScope.account == null}">
@@ -368,7 +368,7 @@
                                             <p>
                                                 Seat: ${product.seatNumber} <!-- Hiển thị số ghế -->
                                                 <span class="featured-mi-span"> ${product.fuel}</span> <!-- Hiển thị loại nhiên liệu -->
-                                                automatic <!-- Có thể thay bằng thuộc tính khác nếu cần -->
+                                                automatic 
                                             </p>
                                         </div>
                                     </div>

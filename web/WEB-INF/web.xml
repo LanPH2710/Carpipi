@@ -2,12 +2,13 @@
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <filter>
         <filter-name>AdminFilter</filter-name>
-        <filter-class>filter.AdminFilter</filter-class>
+        <filter-class>filter.Filter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
-         <url-pattern>/customerlist</url-pattern>
+        <url-pattern>/customerlist</url-pattern>
         <url-pattern>/userlist</url-pattern>
+        <url-pattern>/dash</url-pattern>
         <url-pattern>/userdetails</url-pattern>
         <url-pattern>/orderlist</url-pattern>
         <url-pattern>/sliderDetails</url-pattern>
@@ -18,7 +19,6 @@
         <url-pattern>/setdetails</url-pattern>
         <url-pattern>/orderDetailsSale</url-pattern>
         <url-pattern>/orderlist</url-pattern>
-        <url-pattern>/dashboard</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
@@ -60,6 +60,22 @@
         <servlet-name>ViewCustomerServlet</servlet-name>
         <servlet-class>controller.ViewCustomerServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BlogList</servlet-name>
+        <servlet-class>controller.BlogList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogListServlet</servlet-name>
+        <servlet-class>controller.BlogListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductListMarketingServlet</servlet-name>
+        <servlet-class>controller.ProductListMarketingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditByMarketingServlet</servlet-name>
+        <servlet-class>controller.EditByMarketingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -99,5 +115,21 @@
     <servlet-mapping>
         <servlet-name>ViewCustomerServlet</servlet-name>
         <url-pattern>/viewcustomer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogList</servlet-name>
+        <url-pattern>/bloglist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogListServlet</servlet-name>
+        <url-pattern>/BlogListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductListMarketingServlet</servlet-name>
+        <url-pattern>/proformarketing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditByMarketingServlet</servlet-name>
+        <url-pattern>/editbymarketing</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -2,12 +2,13 @@
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <filter>
         <filter-name>AdminFilter</filter-name>
-        <filter-class>filter.AdminFilter</filter-class>
+        <filter-class>filter.FilterRoles</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
-         <url-pattern>/customerlist</url-pattern>
+        <url-pattern>/customerlist</url-pattern>
         <url-pattern>/userlist</url-pattern>
+        <url-pattern>/dash</url-pattern>
         <url-pattern>/userdetails</url-pattern>
         <url-pattern>/orderlist</url-pattern>
         <url-pattern>/sliderDetails</url-pattern>
@@ -18,7 +19,6 @@
         <url-pattern>/setdetails</url-pattern>
         <url-pattern>/orderDetailsSale</url-pattern>
         <url-pattern>/orderlist</url-pattern>
-        <url-pattern>/dashboard</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>

@@ -68,6 +68,10 @@
         <servlet-name>BlogListServlet</servlet-name>
         <servlet-class>controller.BlogListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductListMarketingServlet</servlet-name>
+        <servlet-class>controller.ProductListMarketingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -115,5 +119,9 @@
     <servlet-mapping>
         <servlet-name>BlogListServlet</servlet-name>
         <url-pattern>/BlogListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductListMarketingServlet</servlet-name>
+        <url-pattern>/proformarketing</url-pattern>
     </servlet-mapping>
 </web-app>

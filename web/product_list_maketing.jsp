@@ -1,11 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="java.util.List" %>
 
-<%-- 
-    Document   : admin
-    Created on : Jul 12, 2023, 2:12:03 PM
-    Author     : chi
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,8 +10,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Admin</title>
-        <!-- For logo png -->
-        <link rel="shortcut icon" type="image/icon" href="img/logo3.png"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -24,14 +18,8 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
         <style>
-            body {
-                color: #566787;
-                background: #f5f5f5;
-                font-family: 'Varela Round', sans-serif;
-                font-size: 13px;
-            }
             .table-responsive {
-                margin: 30px 0;
+                margin: 3px 100px;
             }
             .table-wrapper {
                 background: #fff;
@@ -248,6 +236,165 @@
             .modal form label {
                 font-weight: normal;
             }
+
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Poppins", sans-serif;
+            }
+
+            body {
+                min-height: 100vh;
+                background: #F0F4FF;
+            }
+
+            .sidebarr{
+                margin-top: 50px;
+            }
+
+            .sidebar{
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 260px;
+                display: flex;
+                overflow-x: hidden;
+                flex-direction: column;
+                background: none;
+                padding: 2px 10px;
+                margin-top: 140px;
+                transition: all 0.4s ease;
+            }
+
+            .sidebar:hover {
+
+
+
+            }
+
+            .sidebar .sidebar-header {
+                display: flex;
+                align-items: center;
+            }
+
+            .sidebar .logo {
+                width: 40px;
+
+                border-radius: 50%;
+            }
+
+            .sidebar .sidebar-header h2 {
+                color: #fff;
+                font-size: 1.25rem;
+                font-weight: 600;
+                white-space: nowrap;
+                margin-left: 23px;
+            }
+
+            .sidebar-links h4 {
+                color: #161a2d;
+                font-weight: 500;
+                white-space: nowrap;
+                margin: 10px 10px;
+                position: relative;
+            }
+
+            .sidebar-links h4 span {
+
+            }
+
+            .sidebar:hover .sidebar-links h4 span {
+                opacity: 1;
+            }
+
+
+
+            .sidebar:hover .sidebar-links .menu-separator {
+                transition-delay: 0s;
+                transform: scaleX(0);
+            }
+
+            .sidebar-links {
+                list-style: none;
+                margin-top: 10px;
+
+                height: 80%;
+                overflow-y: auto;
+                scrollbar-width: none;
+            }
+
+            .sidebar-links::-webkit-scrollbar {
+                display: none;
+            }
+
+            .sidebar-links li a {
+                display: flex;
+                align-items: center;
+                gap: 0 20px;
+                color: 161a2d;
+                font-weight: 500;
+                white-space: nowrap;
+                padding: 15px 1px;
+
+                text-decoration: none;
+                transition: 0.2s ease;
+            }
+
+            .sidebar-links li a:hover {
+                color: #161a2d;
+                background: #fff;
+                border-radius: 4px;
+            }
+
+            .user-account {
+                margin-top: auto;
+                padding: 12px 10px;
+                margin-left: -10px;
+            }
+
+            .user-profile {
+                display: flex;
+                align-items: center;
+                color: #161a2d;
+                cursor: pointer;
+            }
+
+            .user-profile img {
+                width: 40px;
+
+                border-radius: 50%;
+
+                border: 1px solid #fff;
+            }
+
+
+            .user-profile a{
+                text-decoration: none;
+
+            }
+
+            .user-profile h3 {
+                font-size: 1rem;
+                font-weight: 600;
+            }
+
+            .user-profile span {
+                font-size: 0.775rem;
+                font-weight: 600;
+            }
+
+            .user-detail {
+                margin-left: 23px;
+                white-space: nowrap;
+            }
+
+            .sidebar:hover .user-account {
+                background: #fff;
+                border-radius: 4px;
+            }
         </style>
         <script>
             $(document).ready(function () {
@@ -276,8 +423,6 @@
         </script>
     </head>
     <body>
-                <jsp:include page="header.jsp"></jsp:include>
-
         <div class="container-xl">
             <div class="table-responsive">
                 <div class="table-wrapper">
@@ -307,98 +452,140 @@
                                 <th>Phân khúc</th>
 
                                 <th>Số lượng</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
+                        <%
+    DecimalFormat df = new DecimalFormat("#,##0.00"); // Định dạng số tiền
+                        %>
                         <tbody>
-                            <c:forEach items="${requestScope.productList}" var="productList">
+                            <c:forEach items="${productList}" var="product">
                                 <tr>
-                                    <td>${productList.productId}</td>
-                                    <td>
-                                        <a class="product-img">
-                                            <img style="width: 5rem; height: 5rem;" src="${productList.image}" alt="product">
-                                        </a>
-                                    </td>
-                                    <td>${productList.name}</td>
-                                    <td>${productList.seatNumber}</td>
-                                    <td>${productList.price}</td>
+                                    <td>${product.productId}</td>
+                                    <td></td>
+                                    <td>${product.name}</td>
+                                    <td>${product.seatNumber}</td>
+                                    <td>${df.format(product.price)}</td>
                                     <td>
                                         <c:forEach items="${requestScope.brandList}" var="brandList">
-                                            <c:if test="${brandList.brandId == productList.brandId}">
+                                            <c:if test="${brandList.brandId == product.brandId}">
                                                 ${brandList.brandName}
                                             </c:if>
                                         </c:forEach>
                                     </td>
                                     <td>
                                         <c:forEach items="${requestScope.segmentList}" var="segmentList">
-                                            <c:if test="${segmentList.segmentId == productList.segmentId}">
+                                            <c:if test="${segmentList.segmentId == product.segmentId}">
                                                 ${segmentList.segmentName}
                                             </c:if>
                                         </c:forEach>
                                     </td>
-                                    <td>${productList.stock}</td>
+                                    <td>${product.stock}</td>
+                                    <td>
+                                        <a href="edit?id=${o.id}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a href="delete?id=${o.id}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
 
                     </table>
-
+                    <div class="clearfix">
+                        <c:forEach begin="1" end="${endPage}" var="i">
+                            <a href="#">${i}</a>
+                        </c:forEach>
+                    </div>
                 </div>
             </div>        
         </div>
-        <!-- Edit Modal HTML -->
-        <!--        <div id="addEmployeeModal" class="modal fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form action="add" method="Post">
-                                <div class="modal-header">						
-                                    <h4 class="modal-title">Add Product</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                </div>
-                                <div class="modal-body">					
-                                    <div class="form-group">
-                                        <label>Name</label>
-                                        <input type="text" name="name" class="form-control" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Image</label>
-                                        <input type="text" name="image" class="form-control" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Brand</label>
-                                        <select name="brand">
-       
-    </select>
-</div>
-<div class="form-group">
-    <label>Category</label>
-    <select name="category">
+        <div class="sidebarr">
+            <aside class="sidebar">
 
-        
-    </select>
-</div>
-<div class="form-group">
-    <label>Price</label>
-    <input type="text" name="price" class="form-control" required>
-</div>
-<div class="form-group">
-    <label>Stock</label>
-    <input type="number" name="stock" class="form-control" required>
-</div>
-<div class="form-group">
-    <label>Description</label>
-    <textarea name="description" class="form-control" required></textarea>
-</div>
-</div>
-<div class="modal-footer">
-<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-<input type="submit" class="btn btn-success" value="Add">
-</div>
-</form>
-</div>
-</div>
-</div>-->
+                <ul class="sidebar-links">
+
+                    <h4>
+                        <span>Account</span>
+                        <div class="menu-separator"></div>
+                    </h4>
+                    <li>
+                        <a href="#"><span class="logo"><img class="logo" src="https://clipground.com/images/benz-logo-png-17.png" alt="profile-img"></span>Mercedes</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="logo"><img class="logo" src="https://logos-world.net/wp-content/uploads/2021/04/Porsche-Logo.png" alt="profile-img"></span>Posche</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="logo"><img class="logo" src="https://clipground.com/images/audi-logo-png-4.png" alt="profile-img"></span>Audi</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="logo"><img style="width: 35px" class="logo" src="assets/images/brand/BMW.png"></span>BMW</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="logo"><img style="width: 35px" class="logo" src="https://i.pinimg.com/736x/6f/f0/51/6ff0512fd6d6ccff695ba4bfcee36816.jpg" alt="profile-img"></span>Volkswagen</a>
+                    </li>
+
+                </ul>
+
+            </aside>
+        </div>
+        <!-- Edit Modal HTML -->
+        <div id="addEmployeeModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="add" method="Post">
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Add Product</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">					
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Image</label>
+                                <input type="text" name="image" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Brand</label>
+                                <select name="brand">
+                                    <c:forEach var="o" items="${brand}">
+                                        <option value="${o.id}">${o.name}</option>
+
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select name="category">
+                                    <c:forEach var="o" items="${category}">
+                                        <option value="${o.id}">${o.name}</option>
+
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Price</label>
+                                <input type="text" name="price" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Stock</label>
+                                <input type="number" name="stock" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea name="description" class="form-control" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-success" value="Add">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <!-- Edit Modal HTML -->
 
-<jsp:include page="footerDemo.jsp"></jsp:include>
+
     </body>
 </html>

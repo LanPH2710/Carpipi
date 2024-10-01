@@ -5,6 +5,8 @@
         <group>
             <file>file:/D:/Net_bean_apache_project/Carpipi/web/BlogList.jsp</file>
             <file>file:/D:/Net_bean_apache_project/Carpipi/src/java/context/DBContext.java</file>
+            <file>file:/D:/Net_bean_apache_project/Carpipi/src/java/controller/BlogDetailServlet.java</file>
+            <file>file:/D:/Net_bean_apache_project/Carpipi/web/BlogDetail.jsp</file>
             <file>file:/D:/Net_bean_apache_project/Carpipi/src/java/dal/BlogDAO.java</file>
             <file>file:/D:/Net_bean_apache_project/Carpipi/web/HomePage.jsp</file>
             <file>file:/D:/Net_bean_apache_project/Carpipi/src/java/controller/BlogListServlet.java</file>

@@ -97,11 +97,11 @@ public class AdminFilter implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
-    public void doFilter(ServletRequest request, ServletResponse response,
+     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
         
-        HttpServletRequest req = (HttpServletRequest) request;
+          HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
         HttpSession session = req.getSession(false);
@@ -112,8 +112,24 @@ public class AdminFilter implements Filter {
         boolean loginRequest = requestURI.equals(loginURI);
         
         // Xác định trang yêu cầu admin và manager
-        boolean adminRequest = requestURI.contains("/addcustomer");
-        boolean managerPageRequest = requestURI.contains("/customerlist");
+        boolean adminRequest = 
+                    
+                    
+                    requestURI.contains("/userdetails")||
+                    
+                    requestURI.contains("/orderlist");
+        boolean adminMakettingRequest = requestURI.contains("/sliderDetails") ||
+         requestURI.contains("/addcustomer") ||
+                requestURI.contains("/customerlist")||
+                    requestURI.contains("/postList")||
+                    requestURI.contains("/postDetails")||
+                    requestURI.contains("/productDetails")||
+                    requestURI.contains("/feedbacksList")||
+                    requestURI.contains("/setdetails");
+        boolean saleRequest = requestURI.contains("/orderDetailsSale") ||
+                    requestURI.contains("/orderlist");
+        
+        boolean dashboardRequest = requestURI.contains("/dashboard");
                                      
         if (loggedIn) {
             Account account = (Account) session.getAttribute("account");
@@ -123,8 +139,14 @@ public class AdminFilter implements Filter {
                 res.sendRedirect(loginURI);  // Chỉ admin (roleId = 1) được truy cập
             }
             // Kiểm tra quyền truy cập cho managerPageRequest
-            else if (managerPageRequest && (account.getRoleId() != 1 && account.getRoleId() != 2)) {
-                res.sendRedirect(loginURI);  // Chỉ admin (roleId = 1) và manager (roleId = 2) được truy cập
+            else if (adminMakettingRequest && (account.getRoleId() != 1 && account.getRoleId() != 2)) {
+                res.sendRedirect(loginURI);  
+            } 
+            else if (dashboardRequest && account.getRoleId() ==4 ) {
+                res.sendRedirect(loginURI);  
+            } 
+            else if (saleRequest && (account.getRoleId() != 1 && account.getRoleId() != 3)) {
+                res.sendRedirect(loginURI);  
             } 
             // Nếu thoả mãn các điều kiện trên, cho phép truy cập
             else {

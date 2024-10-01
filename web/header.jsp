@@ -64,8 +64,7 @@
         <div class="row navHeader container-fluid">
             <div class="col-3 logo">
 
-                <a href="home" style="text-decoration:none; color: black"> <img class="headerLogo"
-                                                                                src="img/logoWhite.png" alt="" style="height: 78px;"></a>
+                <a href="home" style="text-decoration:none; color: black"> <img class="headerLogo" src="img/logoWhite.png" alt="" style="height: 78px;"></a>
             </div>
             <div class="col-1"></div>
             <div class="col-8 menu">
@@ -89,7 +88,6 @@
                             </c:if>
                     </a>
                 </span>
-
             </div>
 
         </div>

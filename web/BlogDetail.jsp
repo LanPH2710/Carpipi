@@ -5,8 +5,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Chi Tiết Bài Viết Blog</title>
-        <!-- For logo png -->
-        <link rel="shortcut icon" type="image/icon" href="img/logo3.png"/>
         <style>
             /* resources/css/styles.css */
             body {
@@ -18,7 +16,7 @@
 
             .container {
                 display: flex;
-                margin: 20px auto;
+                margin: 30px 0px 50px 0px;
                 max-width: 1200px;
                 background: #fff;
                 border-radius: 8px;
@@ -52,10 +50,9 @@
             .textImage {
                 color: #b21f2d;
                 font-size: 1em;
-                text-align: center; /* Thêm dòng này */
-                display: block; /* Đảm bảo nó là block để căn giữa */
+                text-align: center;
+                display: block;
             }
-
 
             .blog-footer {
                 font-size: 0.8em;
@@ -76,7 +73,17 @@
                 padding: 10px;
                 border: 1px solid #ddd;
                 border-radius: 4px;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
+            }
+
+            .search-box input[type="submit"] {
+                padding: 5px 10px;
+                border: none;
+                background-color: #007bff;
+                color: white;
+                cursor: pointer;
+                border-radius: 4px;
+                margin-bottom: 50px;
             }
 
             .categories ul {
@@ -103,6 +110,26 @@
             .static-links a:hover {
                 text-decoration: underline;
             }
+
+            .footInfo,
+            .footInfoH{
+                color: white;
+                font-size: 16px;
+                list-style-type: none;
+                text-decoration:none;
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-top: 15px;
+            }
+
+            .footH2{
+                color: white;
+                height: 80px;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         </style>
     </head>
     <body>
@@ -126,23 +153,87 @@
                     <strong class="textImage mb-5">${blog.blogImageText}</strong>
                     <h5>${blog.blogInfo2}</h5> 
                 </div>
-
             </div>
 
             <!-- Thanh bên (sider) -->
             <div class="sidebar">
-                
+
+                <!-- Hộp tìm kiếm bài viết -->
+                <div class="search-box">
+                    <form action="searchblog" method="get">
+                        <input type="text" name="name" placeholder="Tìm kiếm bài viết theo tên.">
+                        <input type="submit" value="Tìm kiếm">
+                    </form>
+                </div>
+
                 <!-- Các thể loại bài viết -->
                 <div class="categories">
                     <h3>Danh Mục Bài Viết</h3>
                     <ul>
                         <c:forEach items="${requestScope.brands}" var="b">
-                        <li><a href="#">${b.brandName}</a></li>
-                        </c:forEach>
+                            <li><a href="#">${b.brandName}</a></li>
+                            </c:forEach>
                     </ul>
                 </div>
             </div>
         </div>
-        <jsp:include page="footerDemo.jsp"></jsp:include>
+
+        <div class="footer" style="background-color: #333; color: #fff; padding: 20px; text-align: center">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="single-footer-widget">
+                        <div class="footer-logo">
+                            <a href="index.html" target="_blank" style="color: black"> <img class="headerLogo" src="img/logoWnoBG.png" alt="" style="height: 80px;"></a>
+                        </div>
+                        <p class="footInfo" style="color: white; font-size: 16px">
+                            Công ty chúng tôi chuyên phân phối các hãng xe của Đức.
+                        </p>
+                        <div class="footer-contact">
+                            <ul>
+                                <a href="mailto:carpipi@gmail.com" style="text-decoration: none; color: white; font-size: 16px">
+                                    <i class="fa fa-envelope"></i>
+                                    carpipi@gmail.com
+                                </a>
+                            </ul>
+                            <ul style="color: white; font-size: 16px">
+                                <i class="fa fa-phone"></i>
+                                0987654321
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-6">
+                    <div class="single-footer-widget" style="color: white; font-size: 16px">
+                        <h2 class="footH2" style=" font-size: 20px; height: 80px">Về Carpipi</h2>
+                        <ul class="footInfoH">
+                            <li><a class="footInfo" href="#">Về chúng tôi</a></li>
+                            <li><a class="footInfo" href="#">Sự nghiệp</a></li>
+                            <li><a class="footInfo" href="#">Điều khoản dịch vụ</a></li>
+                            <li><a class="footInfo" href="#">Chính sách bảo mật </a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <div class="single-footer-widget">
+                        <h2 class="footH2" style="font-size: 22px; margin-bottom: 20px;">Thương Hiệu Hàng Đầu</h2>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6" style="padding-right: 5px;">
+                                <ul class="footInfoH" style="padding: 0; list-style: none;">
+                                    <li><a class="footInfo" href="#" style="color: white; transition: color 0.3s;">BMW</a></li>
+                                    <li><a class="footInfo" href="#" style="color: white; transition: color 0.3s;">Audi</a></li>
+                                    <li><a class="footInfo" href="#" style="color: white; transition: color 0.3s;">Mercedes</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6 col-xs-6" style="padding-left: 5px;"> 
+                                <ul class="footInfoH" style="padding: 0; list-style: none;">
+                                    <li><a class="footInfo" href="#" style="color: white; transition: color 0.3s;">Volkswagen</a></li>
+                                    <li><a class="footInfo" href="#" style="color: white; transition: color 0.3s;">Porsche</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

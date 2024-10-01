@@ -6,8 +6,19 @@
     </filter>
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
-        <url-pattern>/addcustomer</url-pattern>
         <url-pattern>/customerlist</url-pattern>
+        <url-pattern>/userlist</url-pattern>
+        <url-pattern>/userdetails</url-pattern>
+        <url-pattern>/orderlist</url-pattern>
+        <url-pattern>/sliderDetails</url-pattern>
+        <url-pattern>/postList</url-pattern>
+        <url-pattern>/postDetails</url-pattern>
+        <url-pattern>/productDetails</url-pattern>
+        <url-pattern>/feedbacksList</url-pattern>
+        <url-pattern>/setdetails</url-pattern>
+        <url-pattern>/orderDetailsSale</url-pattern>
+        <url-pattern>/orderlist</url-pattern>
+        <url-pattern>/dashboard</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
@@ -49,6 +60,14 @@
         <servlet-name>ViewCustomerServlet</servlet-name>
         <servlet-class>controller.ViewCustomerServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BlogList</servlet-name>
+        <servlet-class>controller.BlogList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogListServlet</servlet-name>
+        <servlet-class>controller.BlogListServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -88,5 +107,13 @@
     <servlet-mapping>
         <servlet-name>ViewCustomerServlet</servlet-name>
         <url-pattern>/viewcustomer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogList</servlet-name>
+        <url-pattern>/bloglist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogListServlet</servlet-name>
+        <url-pattern>/BlogListServlet</url-pattern>
     </servlet-mapping>
 </web-app>

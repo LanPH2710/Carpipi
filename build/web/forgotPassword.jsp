@@ -17,10 +17,16 @@
         <link
             href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'
             rel='stylesheet'>
+        <style>
+             .full-height {
+        height: 100vh; /* Chiều cao bằng 100% chiều cao của viewport */
+        
+    }
+        </style>
     </head>
     <body oncontextmenu='return false' class='snippet-body'>
         <jsp:include page="header.jsp"></jsp:include>
-        <div class="container  mb-2 mt-5">
+        <div class="container  mb-2 mt-5 full-height">
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-md-10">
                     <div class="forgot">

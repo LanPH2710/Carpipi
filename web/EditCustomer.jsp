@@ -11,8 +11,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit Customer</title>
         <link rel="stylesheet" href="css/bootstrap.min.css" />
-        <!-- For logo png -->
-        <link rel="shortcut icon" type="image/icon" href="img/logo3.png"/>
         <style>
             .form-control:focus {
                 box-shadow: none;
@@ -54,8 +52,6 @@
         </style>
     </head>
     <body>
-        <jsp:include page="header.jsp"></jsp:include>
-
         <form action="viewcustomer" method="post" enctype="multipart/form-data">
 
             <div class="container rounded mt-5 mb-5">
@@ -134,6 +130,5 @@
                 </div>
             </div>
         </form>
-                                <jsp:include page="footerDemo.jsp"></jsp:include>
     </body>
 </html>

@@ -4,26 +4,20 @@
  */
 package controller;
 
-import dal.BrandDAO;
-import dal.ProductDAO;
-import dal.SegmentDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import model.Brand;
-import model.Product;
-import model.Segment;
 
 /**
  *
- * @author Sonvu
+ * @author hiule
  */
-public class ProductListForMaketingServlet extends HttpServlet {
+@WebServlet(name = "Dash", urlPatterns = {"/dash"})
+public class Dash extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,22 +33,15 @@ public class ProductListForMaketingServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            ProductDAO pDao = new ProductDAO();
-            BrandDAO bDao = new BrandDAO();
-            SegmentDAO sDao = new SegmentDAO();
-            
-            List<Product> productList = pDao.getAllProducts();
-            request.setAttribute("productList", productList);
-
-//        ArrayList<Category> cl = pDao.;
-//        request.setAttribute("category", cl);
-            List<Brand> brandList = bDao.getAllBrand();
-            request.setAttribute("brandList", brandList);
-            
-            List<Segment> segmentList = sDao.getAllSegment();
-            request.setAttribute("segmentList", segmentList);
-
-            request.getRequestDispatcher("product_list_maketing.jsp").forward(request, response);
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Dash</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Dash </h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

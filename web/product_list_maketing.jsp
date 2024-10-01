@@ -9,7 +9,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Admin</title>
+        <title>Marketing</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -455,38 +455,73 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <%
-    DecimalFormat df = new DecimalFormat("#,##0.00"); // Định dạng số tiền
-                        %>
+
                         <tbody>
-                            <c:forEach items="${productList}" var="product">
-                                <tr>
-                                    <td>${product.productId}</td>
-                                    <td></td>
-                                    <td>${product.name}</td>
-                                    <td>${product.seatNumber}</td>
-                                    <td>${df.format(product.price)}</td>
-                                    <td>
-                                        <c:forEach items="${requestScope.brandList}" var="brandList">
-                                            <c:if test="${brandList.brandId == product.brandId}">
-                                                ${brandList.brandName}
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        <c:forEach items="${requestScope.segmentList}" var="segmentList">
-                                            <c:if test="${segmentList.segmentId == product.segmentId}">
-                                                ${segmentList.segmentName}
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
-                                    <td>${product.stock}</td>
-                                    <td>
-                                        <a href="edit?id=${o.id}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="delete?id=${o.id}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
+
+
+                            <c:if test="${chooseBrand == null}">
+                                <c:forEach items="${productList}" var="product">
+                                    <tr>
+                                        <td>${product.productId}</td>
+                                        <td></td>
+                                        <td>${product.name}</td>
+                                        <td>${product.seatNumber}</td>
+                                        <td>${product.price}</td>
+                                        <td>
+                                            <c:forEach items="${requestScope.brandList}" var="brandList">
+                                                <c:if test="${brandList.brandId == product.brandId}">
+                                                    ${brandList.brandName}
+                                                </c:if>
+                                            </c:forEach>
+                                        </td>
+                                        <td>
+                                            <c:forEach items="${requestScope.segmentList}" var="segmentList">
+                                                <c:if test="${segmentList.segmentId == product.segmentId}">
+                                                    ${segmentList.segmentName}
+                                                </c:if>
+                                            </c:forEach>
+                                        </td>
+                                        <td>${product.stock}</td>
+                                        <td>
+                                            <a href="editbymarketing?id=${product.productId}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                            <a href="delete?id=${o.id}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </c:if>
+
+                                    <c:if test="${chooseBrand != null}">
+                                        <c:forEach items="${productListGetBrand}" var="productBrand">
+                                    <tr>
+                                        <td>${productBrand.productId}</td>
+                                        <td></td>
+                                        <td>${productBrand.name}</td>
+                                        <td>${productBrand.seatNumber}</td>
+                                        <td>${productBrand.price}</td>
+                                        <td>
+                                            <c:forEach items="${requestScope.brandList}" var="brandList">
+                                                <c:if test="${brandList.brandId == productBrand.brandId}">
+                                                    ${brandList.brandName}
+                                                </c:if>
+                                            </c:forEach>
+                                        </td>
+                                        <td>
+                                            <c:forEach items="${requestScope.segmentList}" var="segmentList">
+                                                <c:if test="${segmentList.segmentId == productBrand.segmentId}">
+                                                    ${segmentList.segmentName}
+                                                </c:if>
+                                            </c:forEach>
+                                        </td>
+                                        <td>${productBrand.stock}</td>
+                                        <td>
+                                            <a href="editbymarketing?id=${productBrand.productId}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                            <a href="delete?id=${o.id}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                        
+                                    </c:if>
+
                         </tbody>
 
                     </table>
@@ -508,19 +543,19 @@
                         <div class="menu-separator"></div>
                     </h4>
                     <li>
-                        <a href="#"><span class="logo"><img class="logo" src="https://clipground.com/images/benz-logo-png-17.png" alt="profile-img"></span>Mercedes</a>
+                        <a href="proformarketing?brandId=ME"><span class="logo"><img class="logo" src="https://clipground.com/images/benz-logo-png-17.png" alt="profile-img"></span>Mercedes</a>
                     </li>
                     <li>
-                        <a href="#"><span class="logo"><img class="logo" src="https://logos-world.net/wp-content/uploads/2021/04/Porsche-Logo.png" alt="profile-img"></span>Posche</a>
+                        <a href="proformarketing?brandId=PO"><span class="logo"><img class="logo" src="https://logos-world.net/wp-content/uploads/2021/04/Porsche-Logo.png" alt="profile-img"></span>Posche</a>
                     </li>
                     <li>
-                        <a href="#"><span class="logo"><img class="logo" src="https://clipground.com/images/audi-logo-png-4.png" alt="profile-img"></span>Audi</a>
+                        <a href="proformarketing?brandId=AU"><span class="logo"><img class="logo" src="https://clipground.com/images/audi-logo-png-4.png" alt="profile-img"></span>Audi</a>
                     </li>
                     <li>
-                        <a href="#"><span class="logo"><img style="width: 35px" class="logo" src="assets/images/brand/BMW.png"></span>BMW</a>
+                        <a href="proformarketing?brandId=BM"><span class="logo"><img style="width: 35px" class="logo" src="assets/images/brand/BMW.png"></span>BMW</a>
                     </li>
                     <li>
-                        <a href="#"><span class="logo"><img style="width: 35px" class="logo" src="https://i.pinimg.com/736x/6f/f0/51/6ff0512fd6d6ccff695ba4bfcee36816.jpg" alt="profile-img"></span>Volkswagen</a>
+                        <a href="proformarketing?brandId=VO"><span class="logo"><img style="width: 35px" class="logo" src="https://i.pinimg.com/736x/6f/f0/51/6ff0512fd6d6ccff695ba4bfcee36816.jpg" alt="profile-img"></span>Volkswagen</a>
                     </li>
 
                 </ul>

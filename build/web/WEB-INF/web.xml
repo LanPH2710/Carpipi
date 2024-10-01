@@ -72,6 +72,10 @@
         <servlet-name>ProductListMarketingServlet</servlet-name>
         <servlet-class>controller.ProductListMarketingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditByMarketingServlet</servlet-name>
+        <servlet-class>controller.EditByMarketingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -123,5 +127,9 @@
     <servlet-mapping>
         <servlet-name>ProductListMarketingServlet</servlet-name>
         <url-pattern>/proformarketing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditByMarketingServlet</servlet-name>
+        <url-pattern>/editbymarketing</url-pattern>
     </servlet-mapping>
 </web-app>

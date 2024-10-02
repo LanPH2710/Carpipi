@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <filter>
-        <filter-name>AdminFilter</filter-name>
-        <filter-class>filter.AdminFilter</filter-class>
+        <filter-name>FilterRoles</filter-name>
+        <filter-class>filter.FilterRoles</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>AdminFilter</filter-name>
+        <filter-name>FilterRoles</filter-name>
         <url-pattern>/customerlist</url-pattern>
         <url-pattern>/userlist</url-pattern>
+        <url-pattern>/dash</url-pattern>
         <url-pattern>/userdetails</url-pattern>
         <url-pattern>/orderlist</url-pattern>
         <url-pattern>/sliderDetails</url-pattern>
@@ -17,9 +18,8 @@
         <url-pattern>/feedbacksList</url-pattern>
         <url-pattern>/setdetails</url-pattern>
         <url-pattern>/orderDetailsSale</url-pattern>
-        <url-pattern>/orderlist</url-pattern>
-        <url-pattern>/dashboard</url-pattern>
     </filter-mapping>
+s
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
         <servlet-class>controller.UserProfileServlet</servlet-class>
@@ -72,6 +72,10 @@
         <servlet-name>ProductListMarketingServlet</servlet-name>
         <servlet-class>controller.ProductListMarketingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditByMarketingServlet</servlet-name>
+        <servlet-class>controller.EditByMarketingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -123,5 +127,9 @@
     <servlet-mapping>
         <servlet-name>ProductListMarketingServlet</servlet-name>
         <url-pattern>/proformarketing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditByMarketingServlet</servlet-name>
+        <url-pattern>/editbymarketing</url-pattern>
     </servlet-mapping>
 </web-app>

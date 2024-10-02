@@ -45,6 +45,41 @@ public class ProductDAO extends DBContext {
         return products;
     }
 
+    
+    public List<Product> getAllProductsById(String id){
+        List<Product> products = new ArrayList<>();
+        try {
+            String sql = "select * from carpipi.products where productid like ?"; // Thay đổi tên bảng cho đúng
+            PreparedStatement st = connection.prepareStatement(sql);
+                        st.setString(1, id + "%");
+
+            ResultSet resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProductId(resultSet.getString("productId"));
+                product.setName(resultSet.getString("name"));
+                product.setSeatNumber(resultSet.getInt("seatNumber"));
+                product.setPrice(resultSet.getDouble("price"));
+                product.setFuel(resultSet.getString("fuel"));
+                product.setStock(resultSet.getInt("stock"));
+                product.setDescription(resultSet.getString("description"));
+                product.setVAT(resultSet.getDouble("VAT"));
+                product.setSupplierId(resultSet.getInt("supplierId"));
+                product.setBrandId(resultSet.getInt("brandId"));
+                product.setSegmentId(resultSet.getInt("segmentId"));
+                product.setStyleId(resultSet.getInt("styleId"));
+
+                // Lấy danh sách hình ảnh của sản phẩm
+                product.setImages(getImagesByProductId(product.getProductId()));
+
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return products;
+    }
+    
     public Product getProductById(String productId) { // Thay đổi kiểu tham số về String
         Product product = null;
         try {
@@ -277,9 +312,6 @@ public class ProductDAO extends DBContext {
 }  */
    public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
-        String idRoot = p.getProductToScanId("AU");
-
-        p.insertProduct(idRoot, "1", 1, 1, "", 1, "", 1, 1, 1, 1, 1);
-
+        System.out.println(p.getAllProductsById(""));
     }
 }

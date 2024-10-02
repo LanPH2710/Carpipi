@@ -14,6 +14,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import model.Brand;
 import model.Product;
@@ -60,6 +61,8 @@ public class ProductListMarketingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+                String brandId = request.getParameter("brandId");
+
         ProductDAO pDao = new ProductDAO();
         BrandDAO bDao = new BrandDAO();
         SegmentDAO sDao = new SegmentDAO();
@@ -69,10 +72,22 @@ public class ProductListMarketingServlet extends HttpServlet {
 
         List<Brand> brandList = bDao.getAllBrand();
         request.setAttribute("brandList", brandList);
-
+        
+        
         List<Segment> segmentList = sDao.getAllSegment();
         request.setAttribute("segmentList", segmentList);
         
+        
+        List<Product> productListGetBrand = new ArrayList<>();
+        if(brandId != null){
+            productListGetBrand = pDao.getAllProductsById(brandId);
+                
+
+        }else{
+            brandId = null;
+        }
+        request.setAttribute("chooseBrand", brandId);
+        request.setAttribute("productListGetBrand", productListGetBrand);
         request.getRequestDispatcher("product_list_maketing.jsp").forward(request, response);
     } 
 

@@ -23,7 +23,7 @@ import model.Account;
  *
  * @author hiule
  */
-public class FilterRoles implements Filter {
+public class FilterRole implements Filter {
     
     private static final boolean debug = true;
 
@@ -32,13 +32,13 @@ public class FilterRoles implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
     
-    public FilterRoles() {
+    public FilterRole() {
     }    
     
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AdminFilter:DoBeforeProcessing");
+            log("FilterRole:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -66,7 +66,7 @@ public class FilterRoles implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AdminFilter:DoAfterProcessing");
+            log("FilterRole:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -97,11 +97,10 @@ public class FilterRoles implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
-     public void doFilter(ServletRequest request, ServletResponse response,
+    public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        
-          HttpServletRequest req = (HttpServletRequest) request;
+         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
         HttpSession session = req.getSession(false);
@@ -125,12 +124,13 @@ public class FilterRoles implements Filter {
                     requestURI.contains("/postDetails")||
                     requestURI.contains("/productDetails")||
                     requestURI.contains("/feedbacksList")||
-                    requestURI.contains("/setdetails")||
-                    requestURI.contains("/dash");
+                    requestURI.contains("/setdetails") ||
+                   requestURI.contains("/dash") ;
+                    
         boolean saleRequest = requestURI.contains("/orderDetailsSale") ||
                     requestURI.contains("/orderlist");
         
-        boolean dashboardRequest = requestURI.contains("/dashboard");
+//        boolean dashboardRequest = requestURI.contains("/dashboard");
                                      
         if (loggedIn) {
             Account account = (Account) session.getAttribute("account");
@@ -143,9 +143,9 @@ public class FilterRoles implements Filter {
             else if (adminMakettingRequest && (account.getRoleId() != 1 && account.getRoleId() != 2)) {
                 res.sendRedirect(loginURI);  
             } 
-            else if (dashboardRequest && account.getRoleId() ==4 ) {
-                res.sendRedirect(loginURI);  
-            } 
+//            else if (dashboardRequest && account.getRoleId() ==4 ) {
+//                res.sendRedirect(loginURI);  
+//            } 
             else if (saleRequest && (account.getRoleId() != 1 && account.getRoleId() != 3)) {
                 res.sendRedirect(loginURI);  
             } 
@@ -159,7 +159,6 @@ public class FilterRoles implements Filter {
             res.sendRedirect(loginURI);  // Điều hướng về trang lỗi nếu không đăng nhập hoặc không có quyền
         }
     }
-
 
     /**
      * Return the filter configuration object for this filter.
@@ -190,7 +189,7 @@ public class FilterRoles implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {                
-                log("AdminFilter:Initializing filter");
+                log("FilterRole:Initializing filter");
             }
         }
     }
@@ -201,9 +200,9 @@ public class FilterRoles implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("AdminFilter()");
+            return ("FilterRole()");
         }
-        StringBuffer sb = new StringBuffer("AdminFilter(");
+        StringBuffer sb = new StringBuffer("FilterRole(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());

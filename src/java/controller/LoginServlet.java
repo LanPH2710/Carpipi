@@ -49,30 +49,19 @@ public class LoginServlet extends HttpServlet {
 
         try {
             Account account = login.getByEmail(email);
+            
 
             if (account == null) {
-                login.inserUserByEmail("123", email, password, firstName, lastName, "", email, "", "");
-                Cookie c_user = new Cookie("user", email);
-                Cookie c_pass = new Cookie("pass", password);
-                c_user.setMaxAge(3600 * 24 * 30);
-                c_pass.setMaxAge(3600 * 24 * 30);
-                response.addCookie(c_user);
-                response.addCookie(c_pass);
+                login.inserUserByEmail(email, password, firstName, lastName, "", email, "", "", picture);
+                account = login.getByEmail(email);
+                
+            } 
+               
                 session.setAttribute("account", account);
                 session.setMaxInactiveInterval(60 * 600);
                 request.getRequestDispatcher("home").forward(request, response);
-            } else {
-                login.getByEmail(email);
-                Cookie c_user = new Cookie("user", email);
-                Cookie c_pass = new Cookie("pass", password);
-                c_user.setMaxAge(3600 * 24 * 30);
-                c_pass.setMaxAge(3600 * 24 * 30);
-                response.addCookie(c_user);
-                response.addCookie(c_pass);
-                session.setAttribute("account", account);
-                session.setMaxInactiveInterval(60 * 600);
-                request.getRequestDispatcher("home").forward(request, response);
-            }
+                System.out.println("Da cp");
+            
 
         } catch (Exception e) {
         }

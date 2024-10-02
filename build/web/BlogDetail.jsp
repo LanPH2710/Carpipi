@@ -1,12 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.time.LocalDateTime, java.time.format.DateTimeFormatter" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Chi Tiết Bài Viết Blog</title>
         <style>
-            /* resources/css/styles.css */
             body {
                 font-family: Arial, sans-serif;
                 margin: 0;
@@ -111,6 +110,20 @@
                 text-decoration: underline;
             }
 
+            .comment-section {
+                background-color: #f9f9f9;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+
+            .comment-item {
+                border-bottom: 1px solid #ddd;
+                padding: 10px 0;
+                margin-bottom: 10px;
+            }
+
+
             .footInfo,
             .footInfoH{
                 color: white;
@@ -135,38 +148,61 @@
     <body>
         <jsp:include page="header.jsp"></jsp:include>
             <div class="container">
-                <!-- Nội dung blog -->
                 <div class="blog-content">
-                    <!-- Tiêu đề blog -->
                     <h1 class="blog-title">${blog.blogTitle}</h1>
-
-                <!-- Thông tin meta (tác giả, ngày) -->
-                <div class="blog-meta">
+                <div>
                     <p>Tác giả: ${author} | Ngày: ${blog.blogTime} | Thể loại: ${brand}</p>
                 </div>
-
-                <!-- Câu chủ đạo blog -->
                 <div class="blog-body">
                     <h2>${blog.blogInfo1}</h2>
-                    <!-- Hình ảnh minh họa -->
                     <img src="${blog.blogImage}" class="blog-image">
                     <strong class="textImage mb-5">${blog.blogImageText}</strong>
-                    <h5>${blog.blogInfo2}</h5> 
+                    <h5 style="margin-bottom: 100px">${blog.blogInfo2}</h5> 
+                </div>
+                <div class="comment-section">
+                    <h3>Bình luận và Đánh giá</h3>
+                    <div class="comments-list mb-5">
+                        <c:forEach items="${comment}" var="comment">
+                            <div class="comment-item">
+                                <div class="comment-info">     
+<!--                                    <small>${comment.commentDate}</small>-->
+                                </div>
+                                <div class="rating-stars">
+                                    <c:forEach begin="1" end="${comment.rating}">
+                                        &#9733;
+                                    </c:forEach>
+                                </div>
+                                <p>${comment.commentInfor}</p>
+                            </div>
+                        </c:forEach>
+                    </div>
+                    <c:choose>
+                        <c:when test="${sessionScope.account != null}">
+                            <form action="blogdetail?blogId=${blog.blogId}" method="post">
+                                <textarea name="commentInfor" rows="4" class="form-control mb-3" placeholder="Nhập bình luận của bạn" required></textarea>
+                                <label for="rating">Đánh giá:</label>
+                                <select name="rating" class="form-control mb-3" required>
+                                    <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+                                    <option value="4">&#9733;&#9733;&#9733;&#9733;</option>
+                                    <option value="3">&#9733;&#9733;&#9733;</option>
+                                    <option value="2">&#9733;&#9733;</option>
+                                    <option value="1">&#9733;</option>
+                                </select>
+                                <%
+                                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                                    String formattedDate = LocalDateTime.now().format(dtf);
+                                %>
+                                <input type="hidden" name="commentDate" value="<%= LocalDateTime.now() %>">
+                                <input type="submit" value="Gửi bình luận" class="btn btn-primary">
+                            </form>
+                        </c:when>
+                        <c:otherwise>
+                            <p>Bạn cần <a href="login.jsp">đăng nhập</a> để bình luận.</p>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
-
-            <!-- Thanh bên (sider) -->
             <div class="sidebar">
-
-                <!-- Hộp tìm kiếm bài viết -->
-                <div class="search-box">
-                    <form action="searchblog" method="get">
-                        <input type="text" name="name" placeholder="Tìm kiếm bài viết theo tên.">
-                        <input type="submit" value="Tìm kiếm">
-                    </form>
-                </div>
-
-                <!-- Các thể loại bài viết -->
                 <div class="categories">
                     <h3>Danh Mục Bài Viết</h3>
                     <ul>
@@ -177,7 +213,6 @@
                 </div>
             </div>
         </div>
-
         <div class="footer" style="background-color: #333; color: #fff; padding: 20px; text-align: center">
             <div class="row">
                 <div class="col-md-3 col-sm-6">

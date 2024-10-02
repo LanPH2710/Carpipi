@@ -23,7 +23,7 @@ import model.Account;
  *
  * @author hiule
  */
-public class AdminFilter implements Filter {
+public class FilterRoles implements Filter {
     
     private static final boolean debug = true;
 
@@ -32,7 +32,7 @@ public class AdminFilter implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
     
-    public AdminFilter() {
+    public FilterRoles() {
     }    
     
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
@@ -125,7 +125,8 @@ public class AdminFilter implements Filter {
                     requestURI.contains("/postDetails")||
                     requestURI.contains("/productDetails")||
                     requestURI.contains("/feedbacksList")||
-                    requestURI.contains("/setdetails");
+                    requestURI.contains("/setdetails")||
+                    requestURI.contains("/dash");
         boolean saleRequest = requestURI.contains("/orderDetailsSale") ||
                     requestURI.contains("/orderlist");
         

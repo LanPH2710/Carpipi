@@ -4,6 +4,7 @@
     Author     : nguye
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,7 +90,7 @@
                                     <div class="courses-thumb courses-thumb-secondary">
                                         <div class="courses-top">
                                             <div class="courses-image">
-                                                <img src="${blog.blogImage}" class="img-responsive" alt="${blog.blogImageText}">
+                                                <img src="${blog.blogImage}" class="img-responsive" alt="${blog.blogInfo1}">
                                             </div>
                                             <div class="courses-date">
                                                 <span title="Brand"><i class="fa fa-user"></i>${blog.brandId}</span>

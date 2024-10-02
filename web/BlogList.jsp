@@ -99,10 +99,10 @@
                                             </div>
                                         </div>
                                         <div class="courses-detail">
-                                            <h3><a href="blogdetail">${blog.blogTitle}</a></h3>
+                                            <h3><a href="blogdetail?blogId=${blog.blogId}">${blog.blogTitle}</a></h3>
                                         </div>
                                         <div class="courses-info">
-                                            <a href="blogdetail" class="section-btn btn btn-primary btn-block">Read More</a>
+                                            <a href="blogdetail?blogId=${blog.blogId}" class="section-btn btn btn-primary btn-block">Read More</a>
                                         </div>
                                     </div>
                                 </div>

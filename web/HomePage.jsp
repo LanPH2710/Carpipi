@@ -163,7 +163,7 @@
                                         </c:choose>
                                         <c:choose>
                                             <c:when test="${sessionScope.account == null}">
-                                            <li><a href="login.jsp">Đăng Nhập</a></li>
+                                            <li><a href="byaccount">Đăng Nhập</a></li>
                                             </c:when>
                                             <c:otherwise>
                                             <li><a href="logout">Đăng Xuất</a></li>

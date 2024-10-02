@@ -64,4 +64,36 @@ public class BlogDAO extends DBContext {
         }
         return list;
     }
+    
+    public Integer getPostIdByBlogId(int blogId) {
+        int postId = 0;
+        String sql = "SELECT postId FROM Blog WHERE blogId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, blogId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                 postId = rs.getInt("postId");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return postId;
+    }
+    
+    public Integer getUserIdByPostId(int postId){
+        int userId=0;
+        String sql = "SELECT userId FROM post WHERE postId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, postId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                 userId = rs.getInt("userId");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return postId;
+    }
 }

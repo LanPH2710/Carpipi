@@ -164,11 +164,18 @@
                     <div class="comments-list mb-5">
                         <c:forEach items="${comment}" var="comment">
                             <div class="comment-item">
+                                <c:set var="userDisplayed" value="false" />
+                                <c:forEach items="${listacc}" var="acc"> 
+                                    <c:if test="${acc.userId == comment.userId && !userDisplayed}">
+                                        <strong>${acc.firstName} ${acc.lastName}</strong>
+                                        <c:set var="userDisplayed" value="true" />
+                                    </c:if>
+                                </c:forEach>
                                 <div class="comment-info">     
-<!--                                    <small>${comment.commentDate}</small>-->
+                                    <small>${comment.commentDate}</small>
                                 </div>
                                 <div class="rating-stars">
-                                    <c:forEach begin="1" end="${comment.rating}">
+                                    <c:forEach begin="1" end="${comment.commentRating}">
                                         &#9733;
                                     </c:forEach>
                                 </div>
@@ -200,6 +207,8 @@
                             <p>Bạn cần <a href="login.jsp">đăng nhập</a> để bình luận.</p>
                         </c:otherwise>
                     </c:choose>
+
+
                 </div>
             </div>
             <div class="sidebar">

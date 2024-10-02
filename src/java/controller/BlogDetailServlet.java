@@ -79,10 +79,10 @@ public class BlogDetailServlet extends HttpServlet {
         String author = postdao.getUserFullNameById(userId);
         List<Brand> brands = brdao.getAllBrand();
         cbdao.getCommentBlogByBlogId(blogId);
-//        List<CommentBlog> comment = cbdao.getCommentBlogByBlogId(blogId);
+        List<CommentBlog> comment = cbdao.getCommentBlogByBlogId(blogId);
         List<Account> acc = cbdao.getUserNameByBlogId(blogId);
         request.setAttribute("listacc", acc);
-  //      request.setAttribute("comment", comment);
+        request.setAttribute("comment", comment);
         request.setAttribute("author", author);
         request.setAttribute("brands", brands);
         request.setAttribute("brand", brand);

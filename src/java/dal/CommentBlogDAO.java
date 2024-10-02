@@ -22,7 +22,7 @@ public class CommentBlogDAO extends DBContext {
 
     public List<CommentBlog> getCommentBlogByBlogId(int blogId) {
         List<CommentBlog> list = new ArrayList<>();
-        String sql = "SELECT * FROM comment WHERE blogId=?";
+        String sql = "SELECT * FROM comment WHERE blogId=? ORDER BY commentTime DESC";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, blogId);

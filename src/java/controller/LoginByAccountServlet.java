@@ -59,18 +59,22 @@ public class LoginByAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        Cookie arr[] = request.getCookies();
-        if(arr != null){
+
+        Cookie[] arr = request.getCookies();
+        System.out.println(arr);
+        if (arr != null) {
             for (Cookie cookie : arr) {
-                if(cookie.getName().equalsIgnoreCase("userCookie")){
+                System.out.println("Cookie Name: " + cookie.getName());
+                System.out.println("Cookie Value: " + cookie.getValue());
+                if (cookie.getName().equalsIgnoreCase("userCookie")) {
                     request.setAttribute("userName", cookie.getValue());
                 }
-                if(cookie.getName().equalsIgnoreCase("passCookie"))
+                if (cookie.getName().equalsIgnoreCase("passCookie")) {
                     request.setAttribute("passWord", cookie.getValue());
+                }
             }
         }
+
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 

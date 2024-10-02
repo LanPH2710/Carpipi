@@ -53,6 +53,7 @@
                 background: #f8f8f8;
                 color: #888f9d;
                 text-transform: capitalize;
+                text-transform: none; /* Prevent first letter capitalization */
             }
 
             .name-group {

@@ -48,7 +48,7 @@ bottom:0;
 
 
         <!--contact start-->
-        <div class="footer" style="background-color: #333; color: #fff; padding: 20px; text-align: center">
+        <div class="footer" style="background-color: black; color: #fff; padding: 20px; text-align: center">
             <div class="row">
                 <div class="col-md-3 col-sm-6">
                     <div class="single-footer-widget">

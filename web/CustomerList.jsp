@@ -14,9 +14,14 @@
             body {
                 font-family: Arial, sans-serif;
                 background-color: #f4f4f4;
-                margin: 0;
-                padding: 20px;
-            }
+                }
+                .list{
+                   margin: 0;
+                padding: 20px; 
+                }    
+                
+            
+            
             .container {
                 max-width: 1200px;
                 margin: 30px 0px 50px 0px;
@@ -71,7 +76,7 @@
         </head>
         <body>
             <jsp:include page="header.jsp"></jsp:include>
-                <div class="container">
+                <div class="container list">
                     <a href="home" class="btn btn-primary" style="margin-top: 20px;">
                         <span>X</span>
                     </a>

@@ -483,10 +483,10 @@
                             <div class="single-footer-widget" style="color: white; font-size: 16px; display: flex; flex-direction: column; align-items: center;">
                                 <h2 class="footH2" style=" font-size: 20px; height: 80px; text-align: center;">về carpipi</h2>
                                 <ul style="list-style: none; padding: 0; margin: 0; text-align: center;">
-                                    <li><a class="footInfo" href="#" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">về chúng tôi</a></li>
-                                    <li><a class="footInfo" href="#" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">sự nghiệp</a></li>
-                                    <li><a class="footInfo" href="#" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">điều khoản dịch vụ</a></li>
-                                    <li><a class="footInfo" href="#" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">chính sách bảo mật</a></li>
+                                    <li><a class="footInfo" href="carpipiInfo.jsp" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">về chúng tôi</a></li>
+                                    <li><a class="footInfo" href="carpipiInfo.jsp" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">sự nghiệp</a></li>
+                                    <li><a class="footInfo" href="carpipiInfo.jsp" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">điều khoản dịch vụ</a></li>
+                                    <li><a class="footInfo" href="carpipiInfo.jsp" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">chính sách bảo mật</a></li>
                                 </ul>
                             </div>
                         </div>

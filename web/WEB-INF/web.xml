@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-     <filter>
+ <filter>
         <filter-name>FilterRole</filter-name>
         <filter-class>filter.FilterRole</filter-class>
     </filter>
@@ -60,6 +60,22 @@
         <servlet-name>ViewCustomerServlet</servlet-name>
         <servlet-class>controller.ViewCustomerServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BlogList</servlet-name>
+        <servlet-class>controller.BlogList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogListServlet</servlet-name>
+        <servlet-class>controller.BlogListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductListMarketingServlet</servlet-name>
+        <servlet-class>controller.ProductListMarketingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditByMarketingServlet</servlet-name>
+        <servlet-class>controller.EditByMarketingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -99,5 +115,21 @@
     <servlet-mapping>
         <servlet-name>ViewCustomerServlet</servlet-name>
         <url-pattern>/viewcustomer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogList</servlet-name>
+        <url-pattern>/bloglist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogListServlet</servlet-name>
+        <url-pattern>/BlogListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductListMarketingServlet</servlet-name>
+        <url-pattern>/proformarketing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditByMarketingServlet</servlet-name>
+        <url-pattern>/editbymarketing</url-pattern>
     </servlet-mapping>
 </web-app>

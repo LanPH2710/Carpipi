@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.file.Paths;
-import java.util.List;
 import model.Account;
 
 /**
@@ -77,7 +76,6 @@ public class ViewCustomerServlet extends HttpServlet {
         String role = rdao.getRoleNameById(roleId);
         session.setAttribute("role1", role);
         session.setAttribute("acc", acc);
-//        request.setAttribute("listCustomer", listCustomer);
         request.getRequestDispatcher("EditCustomer.jsp").forward(request, response);
     }
 
@@ -113,7 +111,9 @@ public class ViewCustomerServlet extends HttpServlet {
         // Xử lý upload avatar nếu có file mới
         Part file = request.getPart("avatar");
         if (file != null && file.getSize() > 0) {
+            //lấy ten file
             String fileName = Paths.get(file.getSubmittedFileName()).getFileName().toString();
+            //lấy địa chỉ lưu file
             String uploadPath = getServletContext().getRealPath("/img") + File.separator + fileName;
 
             // Tạo thư mục nếu chưa tồn tại

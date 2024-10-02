@@ -4,6 +4,7 @@
     Author     : ADMIN
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -47,21 +48,25 @@
         .form-group {
             margin: 10px;
         }
+        .full-height {
+        height: 100vh; /* Chiều cao bằng 100% chiều cao của viewport */
+        
+    }
     </style>
 </head>
 
 <body>
     <jsp:include page="header.jsp"></jsp:include>
-    <div class="row">
-<c:if test="${not empty errorMessage}">
-    <div style="color:red;">${errorMessage}</div>
-</c:if>
+    <div class="row full-height">
+
         <div class="col-4"></div>
         <div class="col-4">
             <div class="mb-4 registerH">
                 <h1 class="font-weight-bold text-center mb-4">Đăng Ký</h1>
             </div>
-
+            <c:if test="${not empty errorMessage}">
+    <div style="color:red;">${errorMessage}</div>
+</c:if>
             <div class="register">
                 <form action="register" method="post">
                     <div class="form-group">

@@ -5,8 +5,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Chi Tiết Bài Viết Blog</title>
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
             /* resources/css/styles.css */
             body {
@@ -52,10 +50,9 @@
             .textImage {
                 color: #b21f2d;
                 font-size: 1em;
-                text-align: center; /* Thêm dòng này */
-                display: block; /* Đảm bảo nó là block để căn giữa */
+                text-align: center;
+                display: block;
             }
-
 
             .blog-footer {
                 font-size: 0.8em;
@@ -76,7 +73,17 @@
                 padding: 10px;
                 border: 1px solid #ddd;
                 border-radius: 4px;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
+            }
+
+            .search-box input[type="submit"] {
+                padding: 5px 10px;
+                border: none;
+                background-color: #007bff;
+                color: white;
+                cursor: pointer;
+                border-radius: 4px;
+                margin-bottom: 50px;
             }
 
             .categories ul {
@@ -113,8 +120,8 @@
                 padding-left: 10px;
                 padding-right: 10px;
                 padding-top: 15px;
-
             }
+
             .footH2{
                 color: white;
                 height: 80px;
@@ -146,11 +153,18 @@
                     <strong class="textImage mb-5">${blog.blogImageText}</strong>
                     <h5>${blog.blogInfo2}</h5> 
                 </div>
-
             </div>
 
             <!-- Thanh bên (sider) -->
             <div class="sidebar">
+
+                <!-- Hộp tìm kiếm bài viết -->
+                <div class="search-box">
+                    <form action="searchblog" method="get">
+                        <input type="text" name="name" placeholder="Tìm kiếm bài viết theo tên.">
+                        <input type="submit" value="Tìm kiếm">
+                    </form>
+                </div>
 
                 <!-- Các thể loại bài viết -->
                 <div class="categories">
@@ -163,6 +177,7 @@
                 </div>
             </div>
         </div>
+
         <div class="footer" style="background-color: #333; color: #fff; padding: 20px; text-align: center">
             <div class="row">
                 <div class="col-md-3 col-sm-6">
@@ -184,7 +199,6 @@
                                 <i class="fa fa-phone"></i>
                                 0987654321
                             </ul>
-
                         </div>
                     </div>
                 </div>
@@ -210,7 +224,7 @@
                                     <li><a class="footInfo" href="#" style="color: white; transition: color 0.3s;">Mercedes</a></li>
                                 </ul>
                             </div>
-                            <div class="col-md-6 col-xs-6" style="padding-left: 5px;"> <!-- Giảm khoảng cách bên trái -->
+                            <div class="col-md-6 col-xs-6" style="padding-left: 5px;"> 
                                 <ul class="footInfoH" style="padding: 0; list-style: none;">
                                     <li><a class="footInfo" href="#" style="color: white; transition: color 0.3s;">Volkswagen</a></li>
                                     <li><a class="footInfo" href="#" style="color: white; transition: color 0.3s;">Porsche</a></li>

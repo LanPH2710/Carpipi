@@ -79,7 +79,11 @@
             }
             .footInfo{
                 color: white;
-                font-size: 16px
+                font-size: 16px;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
             .footH2{
                 height: 80px;
@@ -89,12 +93,10 @@
                 align-items: center;
 
             }
-            .footH2{
-                height: 80px;
-                text-align: center;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+
+            .contact{
+                background-color: #333;
+
             }
         </style>
     </head>
@@ -138,7 +140,7 @@
                                     <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
                                     <li class="scroll"><a href="#brand">Hãng</a></li>
-                                    <li class="scroll"><a href="#blog">Tin xe</a></li>
+                                    <li class="active"><a href="BlogListServlet">Tin xe</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
                                         <c:choose>
                                             <c:when test="${sessionScope.account == null}">
@@ -150,7 +152,7 @@
                                         </c:choose>
                                         <c:choose>
                                             <c:when test="${sessionScope.account == null}">
-                                            <li><a href="login.jsp">Đăng Nhập</a></li>
+                                            <li><a href="byaccount">Đăng Nhập</a></li>
                                             </c:when>
                                             <c:otherwise>
                                             <li><a href="logout">Đăng Xuất</a></li>
@@ -368,7 +370,7 @@
                                             <p>
                                                 Seat: ${product.seatNumber} <!-- Hiển thị số ghế -->
                                                 <span class="featured-mi-span"> ${product.fuel}</span> <!-- Hiển thị loại nhiên liệu -->
-                                                automatic <!-- Có thể thay bằng thuộc tính khác nếu cần -->
+                                                automatic 
                                             </p>
                                         </div>
                                     </div>
@@ -466,7 +468,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 col-sm-6">
+                        <div class="col-md-5 col-sm-6">
                             <div class="single-footer-widget" style="color: white; font-size: 16px">
                                 <h2 class="footH2" style=" font-size: 20px; height: 80px">về carpipi</h2>
                                 <ul>
@@ -477,7 +479,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-md-3 col-xs-12">
+                        <div class="col-md-4 col-xs-12">
                             <div class="single-footer-widget">
                                 <h2 class="footH2" style=" font-size: 20px; height: 80px">thương hiệu hàng đầu</h2>
                                 <div class="row">
@@ -499,44 +501,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-offset-1 col-md-3 col-sm-6">
-                            <div class="single-footer-widget">
-                                <h2 class="footH2" style=" font-size: 20px; height: 80px">THÔNG TIN MỚI</h2>
-                                <div class="footer-newsletter">
-                                    <p>
-                                        Đăng ký thông tin và ưu đãi mới nhất của chúng tôi 
-                                    </p>
-                                </div>
-                                <div class="hm-foot-email">
-                                    <div class="foot-email-box">
-                                        <input type="text" class="form-control" placeholder="Nhập Email">
-                                    </div><!--/.foot-email-box-->
-                                    <div class="foot-email-subscribe">
-                                        <span><i class="fa fa-arrow-right"></i></span>
-                                    </div><!--/.foot-email-icon-->
-                                </div><!--/.hm-foot-email-->
-                            </div>
-                        </div>
+
                     </div>
                 </div>
-                <div class="footer-copyright">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p>
-                                &copy; copyright.designed and developed by <a href="https://www.themesine.com/">themesine</a>.
-                            </p><!--/p-->
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="footer-social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>	
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                                <a href="#"><i class="fa fa-behance"></i></a>	
-                            </div>
-                        </div>
-                    </div>
-                </div><!--/.footer-copyright-->
+
             </div><!--/.container-->
 
             <div id="scroll-Top">

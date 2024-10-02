@@ -9,25 +9,24 @@ package model;
  * @author tuana
  */
 public class ProductImage {
-    private int productId;
+    private String productId;
     private int imageId;
     private String imageUrl;
 
     public ProductImage() {
     }
 
-    public ProductImage(int productId, int imageId, String imageUrl) {
+    public ProductImage(String productId, int imageId, String imageUrl) {
         this.productId = productId;
         this.imageId = imageId;
         this.imageUrl = imageUrl;
     }
 
-    
-     public int getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
@@ -46,5 +45,7 @@ public class ProductImage {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    
     
 }

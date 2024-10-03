@@ -122,7 +122,8 @@ public class FilterRole implements Filter {
                 || requestURI.contains("/postDetails")
                 || requestURI.contains("/productDetails")
                 || requestURI.contains("/feedbacksList")
-                || requestURI.contains("/dash");
+                || requestURI.contains("/dash") 
+                || requestURI.contains("/proformarketing");
 
         boolean saleAdminRequest = requestURI.contains("/orderDetailsSale")
                 || requestURI.contains("/orderlist")

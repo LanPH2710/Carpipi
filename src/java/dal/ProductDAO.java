@@ -261,6 +261,159 @@ public class ProductDAO extends DBContext {
 
     }
 
+     public ProductImage getOneImagesByProductId(String productId) {
+        ProductImage images = new ProductImage();
+        String query = "SELECT * \n"
+                + "FROM productimages \n"
+                + "WHERE productId = ? \n"
+                + "LIMIT 1;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, productId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                images.setImageId(resultSet.getInt("imageId"));
+                images.setProductId(resultSet.getString("productId"));
+                images.setImageUrl(resultSet.getString("imageUrl"));
+                return images;
+
+            }
+        } catch (Exception e) {
+        }
+        
+        return null;
+    }
+
+    public int getTotalAccount() {
+        String sql = "SELECT Count(*) FROM carpipi.products";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+
+                return rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public int getTotalProductWithBrandId(String id) {
+        String sql = "SELECT Count(*) FROM carpipi.products where productId Like ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, id + "%");
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+
+                return rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public List<Product> pagingProduct(int index) {
+        List<Product> listProduct = new ArrayList<>();
+        String sql = "SELECT * \n"
+                + "FROM products\n"
+                + "ORDER BY productId \n"
+                + "LIMIT 5 OFFSET ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setInt(1, ((index - 1) * 5));
+            ResultSet resultSet = st.executeQuery();
+
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProductId(resultSet.getString("productId"));
+                product.setName(resultSet.getString("name"));
+                product.setSeatNumber(resultSet.getInt("seatNumber"));
+                product.setPrice(resultSet.getDouble("price"));
+                product.setFuel(resultSet.getString("fuel"));
+                product.setStock(resultSet.getInt("stock"));
+                product.setDescription(resultSet.getString("description"));
+                product.setVAT(resultSet.getDouble("VAT"));
+                product.setSupplierId(resultSet.getInt("supplierId"));
+                product.setBrandId(resultSet.getInt("brandId"));
+                product.setSegmentId(resultSet.getInt("segmentId"));
+                product.setStyleId(resultSet.getInt("styleId"));
+
+                // Lấy danh sách hình ảnh của sản phẩm
+                product.setImages(getImagesByProductId(product.getProductId()));
+
+                listProduct.add(product);
+
+                getOneImagesByProductId(product.getProductId());
+            }
+
+        } catch (Exception e) {
+        }
+        return listProduct;
+    }
+
+    public List<Product> getPagingAllProductsById(String id, int index) {
+        List<Product> products = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM carpipi.products where productId Like ? order by productId limit 5 offset ? "; // Thay đổi tên bảng cho đúng
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, id + "%");
+            st.setInt(2, ((index - 1) * 5));
+            ResultSet resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProductId(resultSet.getString("productId"));
+                product.setName(resultSet.getString("name"));
+                product.setSeatNumber(resultSet.getInt("seatNumber"));
+                product.setPrice(resultSet.getDouble("price"));
+                product.setFuel(resultSet.getString("fuel"));
+                product.setStock(resultSet.getInt("stock"));
+                product.setDescription(resultSet.getString("description"));
+                product.setVAT(resultSet.getDouble("VAT"));
+                product.setSupplierId(resultSet.getInt("supplierId"));
+                product.setBrandId(resultSet.getInt("brandId"));
+                product.setSegmentId(resultSet.getInt("segmentId"));
+                product.setStyleId(resultSet.getInt("styleId"));
+
+                // Lấy danh sách hình ảnh của sản phẩm
+                product.setImages(getImagesByProductId(product.getProductId()));
+
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return products;
+    }
+
+    public int getNumberPage() {
+        String sql = "SELECT Count(*) FROM carpipi.products";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                int total = rs.getInt(1);
+                int countPage = 0;
+                countPage = total / 5;
+                if (total % 5 != 0) {
+                    countPage++;
+                }
+                return countPage;
+            }
+
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
     
     /*
     public static void main(String[] args) throws SQLException {

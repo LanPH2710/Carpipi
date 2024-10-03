@@ -22,6 +22,7 @@
         <url-pattern>/admin</url-pattern>
         <url-pattern>/marketing</url-pattern>
         <url-pattern>/sale</url-pattern>
+        <url-pattern>/proformarketing</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>

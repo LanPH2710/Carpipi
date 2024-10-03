@@ -84,6 +84,14 @@
         <servlet-name>Admin</servlet-name>
         <servlet-class>controller.Admin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddProductMarketingServlet</servlet-name>
+        <servlet-class>controller.AddProductMarketingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteProductMarketingServlet</servlet-name>
+        <servlet-class>controller.DeleteProductMarketingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -143,5 +151,13 @@
     <servlet-mapping>
         <servlet-name>Admin</servlet-name>
         <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddProductMarketingServlet</servlet-name>
+        <url-pattern>/addproductmarketing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteProductMarketingServlet</servlet-name>
+        <url-pattern>/deletebymarketing</url-pattern>
     </servlet-mapping>
 </web-app>

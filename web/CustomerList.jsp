@@ -14,14 +14,14 @@
             body {
                 font-family: Arial, sans-serif;
                 background-color: #f4f4f4;
-                }
-                .list{
-                   margin: 0;
-                padding: 20px; 
-                }    
-                
-            
-            
+            }
+            .list{
+                margin: 0;
+                padding: 20px;
+            }
+
+
+
             .container {
                 max-width: 1200px;
                 margin: 30px 0px 50px 0px;
@@ -81,12 +81,14 @@
                         <span>X</span>
                     </a>
                     <h1>Customer List</h1>
-
-                    <!-- Search Form -->
-                    <form action="searchcustomer" method="get">
-                        <div class="form-row">
-                            <div class="form-group col-md-5">
-                                <input type="text" name="search" class="form-control" placeholder="Search by Email" value="${search}">
+                <c:if test="${requestScope.error!=null}">
+                    <div class="alert alert-danger">${requestScope.error}</div>
+                </c:if>
+                <!-- Search Form -->
+                <form action="searchcustomer" method="get">
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <input type="text" name="search" class="form-control" placeholder="Search by Email" value="${search}">
                         </div> 
                         <div class="form-group col-md-3">
                             <button type="submit" class="btn btn-primary">Sreach</button>

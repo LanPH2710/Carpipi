@@ -48,7 +48,7 @@ bottom:0;
 
 
         <!--contact start-->
-        <div class="footer" style="background-color: #333; color: #fff; padding: 20px; text-align: center">
+        <div class="footer" style="background-color: black; color: #fff; padding: 20px; text-align: center">
             <div class="row">
                 <div class="col-md-3 col-sm-6">
                     <div class="single-footer-widget">
@@ -77,10 +77,10 @@ bottom:0;
                     <div class="single-footer-widget" style="color: white; font-size: 16px">
                         <h2 class="footH2" style=" font-size: 20px; height: 80px">Về Carpipi</h2>
                         <ul class="footInfoH">
-                            <li><a class="footInfo" href="#">Về chúng tôi</a></li>
-                            <li><a class="footInfo" href="#">Sự nghiệp</a></li>
-                            <li><a class="footInfo" href="#">Điều khoản dịch vụ</a></li>
-                            <li><a class="footInfo" href="#">Chính sách bảo mật </a></li>
+                            <li><a class="footInfo" href="carpipiInfo.jsp">Về chúng tôi</a></li>
+                            <li><a class="footInfo" href="carpipiInfo.jsp">Sự nghiệp</a></li>
+                            <li><a class="footInfo" href="carpipiInfo.jsp">Điều khoản dịch vụ</a></li>
+                            <li><a class="footInfo" href="carpipiInfo.jsp">Chính sách bảo mật </a></li>
                         </ul>
                     </div>
                 </div>

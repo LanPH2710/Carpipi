@@ -27,11 +27,9 @@
             .headerN {
                 text-transform: uppercase;
                 font-weight: 500;
-
                 font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
                 font-size: 16px;
                 margin: 20px;
-
             }
 
             .headerLogo {
@@ -39,8 +37,7 @@
             }
 
             .menu,
-            .logo
-            {
+            .logo {
                 text-align: center;
                 display: flex;
                 justify-content: center;
@@ -56,15 +53,26 @@
                 background-color: black;
                 height: 78px;
                 box-shadow: 5px 5px rgb(225, 227, 228);
+                margin: 0px 0px 20px 0px;
             }
+
+           .headerN a {
+    color: white !important;  /* Đảm bảo màu mặc định là trắng */
+    text-decoration: none !important;
+}
+
+.headerN a:hover {
+    color: #4e4ffa !important;   /* Màu xanh khi di chuột */
+}
 
         </style>
     </head>
     <body>
         <div class="row navHeader container-fluid">
             <div class="col-3 logo">
-
-                <a href="home" style="text-decoration:none; color: black"> <img class="headerLogo" src="img/logoWhite.png" alt="" style="height: 78px;"></a>
+                <a href="home" style="text-decoration:none; color: black"> 
+                    <img class="headerLogo" src="img/logoWhite.png" alt="" style="height: 78px;">
+                </a>
             </div>
             
             <div class="col-9 menu">
@@ -76,26 +84,22 @@
 
                 <c:choose>
                     <c:when test="${sessionScope.account == null}">
-                        <li></li>
-                        </c:when>
-                        <c:otherwise>
+                        <!-- Không có tài khoản, hiện menu Đăng Nhập -->
+                    </c:when>
+                    <c:otherwise>
                         <span class="headerN"><a style="text-decoration:none; color: white" href="userprofile">Welcome, ${sessionScope.account.lastName}!</a></span>
-                        </c:otherwise>
-                    </c:choose>
-                    <c:choose>
-                        <c:when test="${sessionScope.account == null}">
+                    </c:otherwise>
+                </c:choose>
+                
+                <c:choose>
+                    <c:when test="${sessionScope.account == null}">
                         <span class="headerN"><a style="text-decoration:none; color: white" href="login.jsp">Đăng Nhập</a></span>
-                        </c:when>
-                        <c:otherwise>
+                    </c:when>
+                    <c:otherwise>
                         <span class="headerN"><a style="text-decoration:none; color: white" href="logout">Đăng Xuất</a></span>
-                        </c:otherwise>
-                    </c:choose>
-                </a>
-                </span>
+                    </c:otherwise>
+                </c:choose>
             </div>
-
         </div>
-
-
     </body>
 </html>

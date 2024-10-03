@@ -93,9 +93,20 @@
                 align-items: center;
 
             }
+            .footInfo {
+                text-decoration: none;
+                color: white;
+            }
+
+            .footInfo:hover {
+                text-decoration: underline;
+                color: #ccc; /* Màu khi hover */
+                transform: none; /* Không áp dụng transform khi hover */
+            }
+
 
             .contact{
-                background-color: #333;
+                background-color: black;
 
             }
         </style>
@@ -137,13 +148,29 @@
                             <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
                                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                                     <!--                                    <li class=" scroll active"><a href="home">Trang Chủ</a></li>-->
+                                    <c:choose>
+                                        <c:when test="${sessionScope.account.roleId == 1}">
+                                            <li><a href="admin">Admin</a></li>
+                                            </c:when>
+                                        </c:choose>
+                                             <c:choose>
+                                        <c:when test="${sessionScope.account.roleId == 2}">
+                                            <li><a href="marketing">Makerting</a></li>
+                                            </c:when>
+                                        </c:choose>
+                                        <c:choose>
+                                        <c:when test="${sessionScope.account.roleId == 3}">
+                                            <li><a href="sale">Sale</a></li>
+                                            </c:when>
+                                        </c:choose>
                                     <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
                                     <li class="scroll"><a href="#brand">Hãng</a></li>
-                                    <li class="active"><a href="BlogListServlet">Tin xe</a></li>
+                                    <li class=""><a href="BlogListServlet">Tin xe</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
-                                        <c:choose>
-                                            <c:when test="${sessionScope.account == null}">
+                                   
+                                    <c:choose>
+                                        <c:when test="${sessionScope.account == null}">
                                             <li></li>
                                             </c:when>
                                             <c:otherwise>
@@ -469,38 +496,38 @@
                             </div>
                         </div>
                         <div class="col-md-5 col-sm-6">
-                            <div class="single-footer-widget" style="color: white; font-size: 16px">
-                                <h2 class="footH2" style=" font-size: 20px; height: 80px">về carpipi</h2>
-                                <ul>
-                                    <li><a class="footInfo" href="#">về chúng tôi</a></li>
-                                    <li><a class="footInfo" href="#">sự nghiệp</a></li>
-                                    <li><a class="footInfo" href="#">điều khoản dịch vụ</a></li>
-                                    <li><a class="footInfo" href="#">chính sách bảo mật </a></li>
+                            <div class="single-footer-widget" style="color: white; font-size: 16px; display: flex; flex-direction: column; align-items: center;">
+                                <h2 class="footH2" style=" font-size: 20px; height: 80px; text-align: center;">về carpipi</h2>
+                                <ul style="list-style: none; padding: 0; margin: 0; text-align: center;">
+                                    <li><a class="footInfo" href="carpipiInfo.jsp" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">về chúng tôi</a></li>
+                                    <li><a class="footInfo" href="carpipiInfo.jsp" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">sự nghiệp</a></li>
+                                    <li><a class="footInfo" href="carpipiInfo.jsp" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">điều khoản dịch vụ</a></li>
+                                    <li><a class="footInfo" href="carpipiInfo.jsp" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">chính sách bảo mật</a></li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-md-4 col-xs-12">
-                            <div class="single-footer-widget">
-                                <h2 class="footH2" style=" font-size: 20px; height: 80px">thương hiệu hàng đầu</h2>
-                                <div class="row">
-                                    <div class="col-md-7 col-xs-6">
-                                        <ul>
-                                            <li><a class="footInfo" href="#">BMW</a></li>
-                                            <li><a class="footInfo" href="#">Audi</a></li>
-                                            <li><a class="footInfo" href="#">Mercedes</a></li>
 
+                        <div class="col-md-4 col-xs-12">
+                            <div class="single-footer-widget" style="display: flex; flex-direction: column; align-items: center; color: white;">
+                                <h2 class="footH2" style="font-size: 20px; height: 80px; text-align: center;">thương hiệu hàng đầu</h2>
+                                <div class="row" style="display: flex; justify-content: center; width: 100%;">
+                                    <div class="col-md-7 col-xs-6" style="text-align: center;">
+                                        <ul style="list-style: none; padding: 0; margin: 0;">
+                                            <li><a class="footInfo" href="#" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">BMW</a></li>
+                                            <li><a class="footInfo" href="#" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">Audi</a></li>
+                                            <li><a class="footInfo" href="#" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">Mercedes</a></li>
                                         </ul>
                                     </div>
-                                    <div class="col-md-5 col-xs-6">
-                                        <ul>
-                                            <li><a class="footInfo" href="#">Wolkswagen</a></li>
-                                            <li><a class="footInfo" href="#">Porsche</a></li>
-
+                                    <div class="col-md-5 col-xs-6" style="text-align: center;">
+                                        <ul style="list-style: none; padding: 0; margin: 0;">
+                                            <li><a class="footInfo" href="#" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">Wolkswagen</a></li>
+                                            <li><a class="footInfo" href="#" style="text-decoration:none; color:white; display:inline-block; padding:0; margin:0;">Porsche</a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
 
                     </div>
                 </div>

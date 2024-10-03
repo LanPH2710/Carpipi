@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import model.Account;
 
 /**
@@ -35,8 +36,8 @@ public class AccountDAO extends DBContext {
             stm.setString(6, acc.getEmail());
             stm.setString(7, acc.getMobile());
             stm.setString(8, acc.getAddress());
-            stm.setInt(9, 4);
-            stm.setString(10, "avatar-trang-4.jpg");
+            stm.setInt(9, 4); //role mac dinh - customer
+            stm.setString(10, "avatar-trang-4.jpg"); //ava mac dinh
             stm.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e);
@@ -65,10 +66,56 @@ public class AccountDAO extends DBContext {
                 );
             }
         } catch (SQLException e) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, "Error checking email", e);
         }
         return null;
     }
+    // Kiểm tra nếu username đã tồn tại trong database
+    public Account checkUserNameExists(String userName) {
+        String sql = "SELECT * FROM account WHERE userName = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, userName);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return new Account(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getInt(10),
+                        rs.getString(11)
+                );
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, "Error checking username", e);
+        }
+        return null;
+    }
+    
+    // Kiểm tra email có đúng định dạng không
+    public boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        return email != null && Pattern.compile(emailRegex).matcher(email).matches();
+    }
+
+    // Kiểm tra số điện thoại có đúng định dạng không (10 số)
+    public boolean isValidMobile(String mobile) {
+        return mobile != null && mobile.matches("\\d{10}");
+    }
+
+    // Kiểm tra mật khẩu có ít nhất 1 chữ cái viết hoa và 1 số
+    public boolean isValidPassword(String password) {
+        return password != null && password.matches("^(?=.*[A-Z])(?=.*\\d).+$");
+    }
+
+    
+
 
     public List<Account> getAllAccount() {
         List<Account> list = new ArrayList<>();
@@ -389,6 +436,7 @@ public class AccountDAO extends DBContext {
         }
         return arr;
     }
+    
 
     public static void main(String[] args) {
         AccountDAO add = new AccountDAO();

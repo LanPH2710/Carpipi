@@ -434,7 +434,7 @@
                                 <a href="home"><b style="background-color:  #DA0835; color: white;">Back to Home</b></a><h2>Manage <b>Products</b></h2>
                             </div>
                             <div class="col-sm-6">
-                                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Product</span></a>
+                                <a href="addproductmarketing" class="btn btn-success" data-toggle="modal"><i class="material-icons"></i> <span>Add New Product</span></a>
                             </div>
                         </div>
                     </div>
@@ -569,7 +569,7 @@
                         </h4>
                     </a>
                     <li>
-                        <a href="proformarketing?brandId=ME"><span class="logo"><img class="logo" src="https://clipground.com/images/benz-logo-png-17.png" alt="profile-img"></span>Mercedes</a>
+                        <a href="proformarketing?brandId=ME&index=1"><span class="logo"><img class="logo" src="https://clipground.com/images/benz-logo-png-17.png" alt="profile-img"></span>Mercedes</a>
                     </li>
                     <li>
                         <a href="proformarketing?brandId=PO"><span class="logo"><img class="logo" src="https://logos-world.net/wp-content/uploads/2021/04/Porsche-Logo.png" alt="profile-img"></span>Posche</a>

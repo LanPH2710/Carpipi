@@ -67,17 +67,19 @@ public class EditByMarketingServlet extends HttpServlet {
         ProductDAO pDao = new ProductDAO();
         BrandDAO bDao = new BrandDAO();
         SegmentDAO sDao = new SegmentDAO();
+        Product car = new Product();
 
         List<Product> productList = pDao.getAllProducts();
-        request.setAttribute("productList", productList);
+
+        car = pDao.getProductById(id);
+        request.setAttribute("car", car);
 
         List<Brand> brandList = bDao.getAllBrand();
         request.setAttribute("brandList", brandList);
 
         List<Segment> segmentList = sDao.getAllSegment();
         request.setAttribute("segmentList", segmentList);
-        
-        
+
         request.getRequestDispatcher("editproductbymarketing.jsp").forward(request, response);
     }
 

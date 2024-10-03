@@ -163,9 +163,9 @@
                                             <li><a href="sale">Sale</a></li>
                                             </c:when>
                                         </c:choose>
-                                            <c:choose>
-                                        <c:when test="${sessionScope.account.roleId == 4}">
-                                             <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
+                                           <c:choose>
+                                            <c:when test="${sessionScope.account == null||sessionScope.account.roleId == 4}">
+                                            <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
                                             </c:when>
                                         </c:choose>
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>

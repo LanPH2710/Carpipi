@@ -4,25 +4,20 @@
  */
 package controller;
 
-import dal.BrandDAO;
-import dal.ProductDAO;
-import dal.SegmentDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.Brand;
-import model.Product;
-import model.Segment;
 
 /**
  *
- * @author Sonvu
+ * @author hiule
  */
-public class EditByMarketingServlet extends HttpServlet {
+@WebServlet(name = "Feedback", urlPatterns = {"/feedbacksList"})
+public class Feedback extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +36,10 @@ public class EditByMarketingServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditByMarketingServlet</title>");
+            out.println("<title>Servlet Feedback</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EditByMarketingServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>feedbacksList (Marketing)</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,25 +57,7 @@ public class EditByMarketingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        String brandName = request.getParameter("brand");
-        ProductDAO pDao = new ProductDAO();
-        BrandDAO bDao = new BrandDAO();
-        SegmentDAO sDao = new SegmentDAO();
-        Product car = new Product();
-
-        List<Product> productList = pDao.getAllProducts();
-
-        car = pDao.getProductById(id);
-        request.setAttribute("car", car);
-
-        List<Brand> brandList = bDao.getAllBrand();
-        request.setAttribute("brandList", brandList);
-
-        List<Segment> segmentList = sDao.getAllSegment();
-        request.setAttribute("segmentList", segmentList);
-
-        request.getRequestDispatcher("editproductbymarketing.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

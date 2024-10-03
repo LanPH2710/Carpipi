@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Brand;
 import model.Product;
+import model.ProductImage;
 import model.Segment;
 
 /**
@@ -60,36 +61,76 @@ public class ProductListMarketingServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-                String brandId = request.getParameter("brandId");
+            throws ServletException, IOException {
+        String brandId = request.getParameter("brandId");
+        String indexPage = request.getParameter("index");
+
+        if (indexPage == null) {
+            indexPage = "1";
+        }
+
+        int index = Integer.parseInt(indexPage);
 
         ProductDAO pDao = new ProductDAO();
         BrandDAO bDao = new BrandDAO();
         SegmentDAO sDao = new SegmentDAO();
 
+        ProductImage pImage = new ProductImage();
+        
         List<Product> productList = pDao.getAllProducts();
         request.setAttribute("productList", productList);
-
+        
         List<Brand> brandList = bDao.getAllBrand();
         request.setAttribute("brandList", brandList);
-        
-        
+
         List<Segment> segmentList = sDao.getAllSegment();
         request.setAttribute("segmentList", segmentList);
-        
-        
-        List<Product> productListGetBrand = new ArrayList<>();
-        if(brandId != null){
-            productListGetBrand = pDao.getAllProductsById(brandId);
-                
 
-        }else{
-            brandId = null;
+        List<Product> productListGetBrand = new ArrayList<>();
+        List<Product> listProduct = pDao.pagingProduct(index);
+        
+        List<ProductImage> pImageList = new ArrayList<>();
+        for (Product p : productList) {
+            String pId = p.getProductId();
+            System.out.println(pId);
+            pImage = pDao.getOneImagesByProductId(pId);
+            pImageList.add(pImage);
         }
-        request.setAttribute("chooseBrand", brandId);
-        request.setAttribute("productListGetBrand", productListGetBrand);
+        
+        
+        
+        
+        
+        
+        
+        int count = pDao.getTotalAccount();
+
+        
+        if (brandId != null) {
+            productListGetBrand = pDao.getPagingAllProductsById(brandId, index);
+            request.setAttribute("productListGetBrand", productListGetBrand);
+            count = pDao.getTotalAccountWithBrandId(brandId);
+            request.setAttribute("chooseBrand", brandId);
+
+        } else {
+            brandId = null;
+            request.setAttribute("listProduct", listProduct);
+
+        }
+
+        int endPage = count / 5;
+        if (count % 5 != 0) {
+            endPage++;
+        }
+        
+        
+        
+        request.setAttribute("imageList", pImageList);
+        
+        request.setAttribute("endP", endPage);
+        request.setAttribute("tag", index);
         request.getRequestDispatcher("product_list_maketing.jsp").forward(request, response);
-    } 
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.

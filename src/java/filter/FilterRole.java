@@ -24,17 +24,17 @@ import model.Account;
  * @author hiule
  */
 public class FilterRole implements Filter {
-    
+
     private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
-    
+
     public FilterRole() {
-    }    
-    
+    }
+
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
@@ -61,8 +61,8 @@ public class FilterRole implements Filter {
 	    log(buf.toString());
 	}
          */
-    }    
-    
+    }
+
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
@@ -100,7 +100,7 @@ public class FilterRole implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-         HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
         HttpSession session = req.getSession(false);
@@ -109,48 +109,41 @@ public class FilterRole implements Filter {
         String requestURI = req.getRequestURI();
         boolean loggedIn = session != null && session.getAttribute("account") != null;
         boolean loginRequest = requestURI.equals(loginURI);
-        
+
         // Xác định trang yêu cầu admin và manager
-        boolean adminRequest = 
-                    
-                    
-                    requestURI.contains("/userdetails")||
-                    
-                    requestURI.contains("/orderlist");
-        boolean adminMakettingRequest = requestURI.contains("/sliderDetails") ||
-         requestURI.contains("/addcustomer") ||
-                requestURI.contains("/customerlist")||
-                    requestURI.contains("/postList")||
-                    requestURI.contains("/postDetails")||
-                    requestURI.contains("/productDetails")||
-                    requestURI.contains("/feedbacksList")||
-                    requestURI.contains("/setdetails") ||
-                   requestURI.contains("/dash") ;
-                    
-        boolean saleRequest = requestURI.contains("/orderDetailsSale") ||
-                    requestURI.contains("/orderlist");
-        
+        boolean adminRequest
+                = requestURI.contains("/userdetails")
+                || requestURI.contains("/admin")
+                || requestURI.contains("/setting");
+        boolean adminMakettingRequest = requestURI.contains("/sliderDetails")
+                || requestURI.contains("/addcustomer")
+                || requestURI.contains("/customerlist")
+                || requestURI.contains("/postList")
+                || requestURI.contains("/postDetails")
+                || requestURI.contains("/productDetails")
+                || requestURI.contains("/feedbacksList")
+                || requestURI.contains("/dash");
+
+        boolean saleAdminRequest = requestURI.contains("/orderDetailsSale")
+                || requestURI.contains("/orderlist")
+                || requestURI.contains("/sale");
+        boolean matketingRequest
+                = requestURI.contains("/marketing");
 //        boolean dashboardRequest = requestURI.contains("/dashboard");
-                                     
         if (loggedIn) {
             Account account = (Account) session.getAttribute("account");
-            
+
             // Kiểm tra quyền truy cập cho adminRequest
             if (adminRequest && account.getRoleId() != 1) {
                 res.sendRedirect(loginURI);  // Chỉ admin (roleId = 1) được truy cập
-            }
-            // Kiểm tra quyền truy cập cho managerPageRequest
+            } // Kiểm tra quyền truy cập cho managerPageRequest
             else if (adminMakettingRequest && (account.getRoleId() != 1 && account.getRoleId() != 2)) {
-                res.sendRedirect(loginURI);  
-            } 
-//            else if (dashboardRequest && account.getRoleId() ==4 ) {
-//                res.sendRedirect(loginURI);  
-//            } 
-            else if (saleRequest && (account.getRoleId() != 1 && account.getRoleId() != 3)) {
-                res.sendRedirect(loginURI);  
-            } 
-            // Nếu thoả mãn các điều kiện trên, cho phép truy cập
-            else {
+                res.sendRedirect(loginURI);
+            } else if (saleAdminRequest && (account.getRoleId() != 1 && account.getRoleId() != 3)) {
+                res.sendRedirect(loginURI);
+            } else if (matketingRequest && account.getRoleId() != 2) {
+                res.sendRedirect(loginURI);
+            } else {
                 chain.doFilter(request, response);
             }
         } else if (loginRequest) {
@@ -179,16 +172,16 @@ public class FilterRole implements Filter {
     /**
      * Destroy method for this filter
      */
-    public void destroy() {        
+    public void destroy() {
     }
 
     /**
      * Init method for this filter
      */
-    public void init(FilterConfig filterConfig) {        
+    public void init(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            if (debug) {                
+            if (debug) {
                 log("FilterRole:Initializing filter");
             }
         }
@@ -207,20 +200,20 @@ public class FilterRole implements Filter {
         sb.append(")");
         return (sb.toString());
     }
-    
+
     private void sendProcessingError(Throwable t, ServletResponse response) {
-        String stackTrace = getStackTrace(t);        
-        
+        String stackTrace = getStackTrace(t);
+
         if (stackTrace != null && !stackTrace.equals("")) {
             try {
                 response.setContentType("text/html");
                 PrintStream ps = new PrintStream(response.getOutputStream());
-                PrintWriter pw = new PrintWriter(ps);                
+                PrintWriter pw = new PrintWriter(ps);
                 pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
 
                 // PENDING! Localize this for next official release
-                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");                
-                pw.print(stackTrace);                
+                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");
+                pw.print(stackTrace);
                 pw.print("</pre></body>\n</html>"); //NOI18N
                 pw.close();
                 ps.close();
@@ -237,7 +230,7 @@ public class FilterRole implements Filter {
             }
         }
     }
-    
+
     public static String getStackTrace(Throwable t) {
         String stackTrace = null;
         try {
@@ -251,9 +244,9 @@ public class FilterRole implements Filter {
         }
         return stackTrace;
     }
-    
+
     public void log(String msg) {
-        filterConfig.getServletContext().log(msg);        
+        filterConfig.getServletContext().log(msg);
     }
-    
+
 }

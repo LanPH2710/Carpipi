@@ -17,6 +17,8 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/styleoze.css">
+
         <style>
             .table-responsive {
                 margin: 3px 100px;
@@ -117,14 +119,14 @@
             }
             .pagination {
                 float: right;
-                margin: 0 0 5px;
+                margin: 0 0 2px;
             }
             .pagination li a {
                 border: none;
                 font-size: 13px;
-                min-width: 30px;
+                min-width: 20px;
                 min-height: 30px;
-                color: #999;
+                color: #000;
                 margin: 0 2px;
                 line-height: 30px;
                 border-radius: 2px !important;
@@ -460,10 +462,17 @@
 
 
                             <c:if test="${chooseBrand == null}">
-                                <c:forEach items="${productList}" var="product">
+                                <c:forEach items="${listProduct}" var="product">
                                     <tr>
                                         <td>${product.productId}</td>
-                                        <td></td>
+                                        <td>
+                                            <c:forEach items="${imageList}" var="image">
+                                                <c:if test="${image.productId == product.productId}">
+                                                    <img style="width: 30px" src="${image.imageUrl}" alt="Xe">
+                                                </c:if>
+
+                                            </c:forEach>
+                                        </td>
                                         <td>${product.name}</td>
                                         <td>${product.seatNumber}</td>
                                         <td>${product.price}</td>
@@ -490,11 +499,18 @@
                                 </c:forEach>
                             </c:if>
 
-                                    <c:if test="${chooseBrand != null}">
-                                        <c:forEach items="${productListGetBrand}" var="productBrand">
+                            <c:if test="${chooseBrand != null}">
+                                <c:forEach items="${productListGetBrand}" var="productBrand">
                                     <tr>
                                         <td>${productBrand.productId}</td>
-                                        <td></td>
+                                        <td>
+                                            <c:forEach items="${imageList}" var="image">
+                                                <c:if test="${image.productId == productBrand.productId}">
+                                                    ${image.imageUrl}
+                                                </c:if>
+
+                                            </c:forEach>
+                                        </td>
                                         <td>${productBrand.name}</td>
                                         <td>${productBrand.seatNumber}</td>
                                         <td>${productBrand.price}</td>
@@ -519,17 +535,31 @@
                                         </td>
                                     </tr>
                                 </c:forEach>
-                                        
-                                    </c:if>
+
+                            </c:if>
 
                         </tbody>
 
                     </table>
                     <div class="clearfix">
-                        <c:forEach begin="1" end="${endPage}" var="i">
-                            <a href="#">${i}</a>
-                        </c:forEach>
-                    </div>
+
+                        <ul class="pagination">
+
+                            <li class="page-item disabled"><a href="#">Previous</a></li>
+                                <c:forEach begin="1" end="${endP}" var="i">
+                                <li class="${tag == i?"page-item active":"page-item"}"><a class="page-link" href="proformarketing?index=${i}&brandId=${chooseBrand}">${i}</a></li>
+                                </c:forEach>
+
+                            <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                        </ul>
+                    </div>  
+
+                    <c:forEach begin="1" end="${endP}" var="i">
+
+                        <a class="${tag == i?"active":""}" href="proformarketing?index=${i}">${i}</a>
+
+                    </c:forEach>
+
                 </div>
             </div>        
         </div>
@@ -538,10 +568,12 @@
 
                 <ul class="sidebar-links">
 
-                    <h4>
-                        <span>Account</span>
-                        <div class="menu-separator"></div>
-                    </h4>
+                    <a href="proformarketing">
+                        <h4>
+                            <span>Brand</span>
+                            <div class="menu-separator"></div>
+                        </h4>
+                    </a>
                     <li>
                         <a href="proformarketing?brandId=ME"><span class="logo"><img class="logo" src="https://clipground.com/images/benz-logo-png-17.png" alt="profile-img"></span>Mercedes</a>
                     </li>

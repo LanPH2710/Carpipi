@@ -301,7 +301,7 @@ public class ProductDAO extends DBContext {
         return 0;
     }
 
-    public int getTotalAccountWithBrandId(String id) {
+    public int getTotalProductWithBrandId(String id) {
         String sql = "SELECT Count(*) FROM carpipi.products where productId Like ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);

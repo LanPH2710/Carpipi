@@ -30,6 +30,7 @@
         <a href="customerlist">Customer List</a>
         <a href="dash">Dashboard</a>
         <a href="setting">Setting</a>
+        <a href="proformarketing">Product List</a>
     </div>
     
     <p>Select an option above to manage the application.</p>

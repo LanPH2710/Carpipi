@@ -468,7 +468,7 @@
                                         <td>
                                             <c:forEach items="${imageList}" var="image">
                                                 <c:if test="${image.productId == product.productId}">
-                                                    <img style="width: 30px" src="${image.imageUrl}" alt="Xe">
+                                                    <img style="width: 80px" src="${image.imageUrl}" alt="Xe">
                                                 </c:if>
 
                                             </c:forEach>
@@ -506,8 +506,7 @@
                                         <td>
                                             <c:forEach items="${imageList}" var="image">
                                                 <c:if test="${image.productId == productBrand.productId}">
-                                                    ${image.imageUrl}
-                                                </c:if>
+                                                    <img style="width: 80px" src="${image.imageUrl}" alt="Xe">                                                </c:if>
 
                                             </c:forEach>
                                         </td>

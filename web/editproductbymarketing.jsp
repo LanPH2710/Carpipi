@@ -13,6 +13,25 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
         <title>Admin</title>
+
+        <style>
+            .modal-dialog {
+                display: flex;
+                flex-direction: column;
+                justify-content: center; /* Căn dọc */
+                height: 100vh; /* Đặt chiều cao của khung là 100% chiều cao màn hình */
+            }
+
+            .modal-content {
+                margin: auto;
+                width: 100%;
+                max-width: 600px; /* Giới hạn chiều rộng của modal */
+            }
+            
+            .form-group-image{
+                
+            }
+        </style>
     </head>
     <body>
         <div class="modal-content">
@@ -21,13 +40,16 @@
                     <h4 class="modal-title">Edit Product</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="modal-body">					
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" value="${product.name}" name="name" class="form-control" required>
-                        <input type="text" hidden value="${product.productId}" name="id" class="form-control" required>
+                <div class="modal-body">	
+                     <div class="form-group-image">
+                         <input type=button value="${car.productId}"  class="form-control" required>
                     </div>
                     <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" value="${car.name}" placeholder="Tên xe" name="name" class="form-control" required>
+                        
+                    </div>
+                    <div class="form-group form-group-image">
                         <label>Image</label>
                         <input type="text" name="image" class="form-control" required>
                     </div>
@@ -45,20 +67,20 @@
                         <select name="category">
                             <c:forEach items="${requestScope.segmentList}" var="segmentList">
                                 <option${segmentList.segmentName}</option>
-                            </c:forEach>
+                                </c:forEach>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Price</label>
-                        <input type="text" value="${o.price}" name="price" class="form-control" required>
+                        <input type="text" value="${o.price}" name="price" placeholder="Giá" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label>Stock</label>
-                        <input type="number"value="${o.stock}" name="stock" class="form-control" required>
+                        
+                        <input type="number"value="${o.stock}" name="stock" placeholder="Số lượng" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <input name="description" value="${o.description}" class="form-control" required>
+                        <input name="description" value="${o.description}" placeholder="Mô tả" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">

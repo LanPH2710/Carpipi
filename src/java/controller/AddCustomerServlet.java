@@ -68,10 +68,40 @@ public class AddCustomerServlet extends HttpServlet {
         
         //check xem co ton tai account ko
         AccountDAO adao = new AccountDAO();
-        if (adao.checkAccountExits(email) != null) {
-            String errorMessage = "Email này đã tồn tại. Xin vui lòng dùng email khác!";
-            request.setAttribute("error", errorMessage);
-            request.getRequestDispatcher("customerlist").forward(request, response);
+        boolean isEmailValid = adao.isValidEmail(email);
+        boolean isMobileValid = adao.isValidMobile(mobile);
+        boolean isPasswordValid = adao.isValidPassword(password);
+        Account existingUser = adao.checkUserNameExists(userName);
+        Account existingEmail = adao.checkEmailExists(email);
+
+        // Check for errors
+        if (!isEmailValid) {
+            request.setAttribute("errorMessage", "Email không hợp lệ.");
+            forwardToCustomerListPage(request, response);
+            return;
+        }
+
+        else if (!isMobileValid) {
+            request.setAttribute("errorMessage", "Số điện thoại phải có 10 số.");
+            forwardToCustomerListPage(request, response);
+            return;
+        }
+
+        else if (existingUser != null) {
+            request.setAttribute("errorMessage", "Tên đăng nhập đã tồn tại.");
+            forwardToCustomerListPage(request, response);
+            return;
+        }
+
+        else if (!isPasswordValid) {
+            request.setAttribute("errorMessage", "Mật khẩu phải có ít nhất 1 chữ cái viết hoa và 1 số.");
+            forwardToCustomerListPage(request, response);
+            return;
+        }
+
+        else if (existingEmail != null) {
+            request.setAttribute("errorMessage", "Email đã đăng ký.");
+            forwardToCustomerListPage(request, response);
             return;
         }
         Account acc = new Account(userName, password, firstName, lastName, gender, email, mobile, address, 4,"avatar-trang-4.jpg");
@@ -102,5 +132,9 @@ public class AddCustomerServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
+    private void forwardToCustomerListPage(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("customerlist").forward(request, response);
+    }
 }

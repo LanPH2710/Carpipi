@@ -22,7 +22,9 @@
         <div class="body">
 
             <div class="login-box">
-
+                <c:if test="${not empty message}">
+                    <div class="success">${message}</div>
+                </c:if>
                 <div class="login-header">
                     <header>Đăng nhập</header>
 

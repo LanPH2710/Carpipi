@@ -22,71 +22,73 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         <style type="text/css">
-            .form-gap {
-                padding-top: 70px;
-            }
-            .form-group{
-                margin: 10px;
-            }
+            /* Toàn màn hình */
             .full-height {
                 height: 100vh; /* Chiều cao bằng 100% chiều cao của viewport */
-
+                display: flex;
+                justify-content: center; /* Căn giữa theo chiều ngang */
+                align-items: center; /* Căn giữa theo chiều dọc */
+                background-color: #f8f9fb;
             }
-            .otp{
-                margin:100px 0px 100px 0px ;
+
+            .otp-container {
+                width: 100%;
+                max-width: 400px; /* Giới hạn chiều rộng tối đa */
+                padding: 30px;
+                box-shadow: 0 10px 40px 0px rgba(38, 40, 64, .2);
+                border-radius: 3px;
+                background-color: white;
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+                text-align: center;
+            }
+
+            .form-group{
+                margin: 10px 0px;
+            }
+
+            .otp i {
+                color: #007bff;
+                margin-bottom: 20px;
+            }
+
+            .text-danger {
+                color: red;
             }
         </style>
     </head>
 
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-            <div class="form-gap"></div>
-            <div class="container full-height">
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4"></div>
-                    <div class="col-md-4 col-md-offset-4">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="text-center otp">
-                                    <h3>
-                                        <i class="fa fa-lock fa-4x"></i>
-                                    </h3>
-                                    <h2 class="text-center">Nhập OTP</h2>
-                                <% if(request.getAttribute("message") != null) { 
-        out.print("<p class='text-danger ml-1'>" + request.getAttribute("message") + "</p>");
-    } %>
 
+        <div class="container-fluid full-height">
+            <div class="otp-container">
+                <h3>
+                    <i class="fa fa-lock fa-4x"></i>
+                </h3>
+                <h2 class="text-center">Nhập OTP</h2>
+                
+                <% if(request.getAttribute("message") != null) { 
+                    out.print("<p class='text-danger'>" + request.getAttribute("message") + "</p>");
+                } %>
 
-                                <div class="panel-body">
+                <form id="register-form" action="valiOtpServlet" role="form" autocomplete="off"
+                      class="form" method="post">
 
-                                    <form id="register-form" action="valiOtpServlet" role="form" autocomplete="off"
-                                          class="form" method="post">
-
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i
-                                                        class="glyphicon glyphicon-envelope color-blue"></i></span>
-                                                <input id="opt" name="otp" placeholder="Nhập OTP" class="form-control"
-                                                       type="text" required="required">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input name="recover-submit" class="btn btn-lg btn-primary btn-block"
-                                                   value="Đổi Mật Khẩu" type="submit">
-                                        </div>
-
-                                        <input type="hidden" class="hide" name="token" id="token" value="">
-                                    </form>
-
-                                </div>
-                            </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
+                            <input id="otp" name="otp" placeholder="Nhập OTP" class="form-control" type="text" required="required">
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4 col-md-offset-4"></div>
+                    <div class="form-group">
+                        <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Xác nhận OTP" type="submit">
+                    </div>
 
+                    <input type="hidden" class="hide" name="token" id="token" value="">
+                </form>
             </div>
         </div>
+
         <jsp:include page="footerDemo.jsp"></jsp:include>
 
     </body>

@@ -148,13 +148,29 @@
                             <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
                                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                                     <!--                                    <li class=" scroll active"><a href="home">Trang Chủ</a></li>-->
+                                    <c:choose>
+                                        <c:when test="${sessionScope.account.roleId == 1}">
+                                            <li><a href="admin">Admin</a></li>
+                                            </c:when>
+                                        </c:choose>
+                                             <c:choose>
+                                        <c:when test="${sessionScope.account.roleId == 2}">
+                                            <li><a href="marketing">Makerting</a></li>
+                                            </c:when>
+                                        </c:choose>
+                                        <c:choose>
+                                        <c:when test="${sessionScope.account.roleId == 3}">
+                                            <li><a href="sale">Sale</a></li>
+                                            </c:when>
+                                        </c:choose>
                                     <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
                                     <li class="scroll"><a href="#brand">Hãng</a></li>
                                     <li class=""><a href="BlogListServlet">Tin xe</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
-                                        <c:choose>
-                                            <c:when test="${sessionScope.account == null}">
+                                   
+                                    <c:choose>
+                                        <c:when test="${sessionScope.account == null}">
                                             <li></li>
                                             </c:when>
                                             <c:otherwise>

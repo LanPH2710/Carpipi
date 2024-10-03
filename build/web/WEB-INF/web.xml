@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
- <filter>
+    <filter>
         <filter-name>FilterRole</filter-name>
         <filter-class>filter.FilterRole</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FilterRole</filter-name>
-         <url-pattern>/customerlist</url-pattern>
+        <url-pattern>/customerlist</url-pattern>
         <url-pattern>/userlist</url-pattern>
         <url-pattern>/userdetails</url-pattern>
         <url-pattern>/orderlist</url-pattern>
@@ -15,10 +15,13 @@
         <url-pattern>/postDetails</url-pattern>
         <url-pattern>/productDetails</url-pattern>
         <url-pattern>/feedbacksList</url-pattern>
-        <url-pattern>/setdetails</url-pattern>
+        <url-pattern>/setting</url-pattern>
         <url-pattern>/orderDetailsSale</url-pattern>
         <url-pattern>/orderlist</url-pattern>
         <url-pattern>/dash</url-pattern>
+        <url-pattern>/admin</url-pattern>
+        <url-pattern>/marketing</url-pattern>
+        <url-pattern>/sale</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
@@ -76,6 +79,10 @@
         <servlet-name>EditByMarketingServlet</servlet-name>
         <servlet-class>controller.EditByMarketingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Admin</servlet-name>
+        <servlet-class>controller.Admin</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -131,5 +138,9 @@
     <servlet-mapping>
         <servlet-name>EditByMarketingServlet</servlet-name>
         <url-pattern>/editbymarketing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Admin</servlet-name>
+        <url-pattern>/admin</url-pattern>
     </servlet-mapping>
 </web-app>

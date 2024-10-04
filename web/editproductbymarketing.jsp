@@ -1,5 +1,6 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -33,11 +34,11 @@
                 align-content: center;
                 justify-content: space-between;
             }
-            
+
             .form-group{
                 margin-bottom: 3px;
             }
-            
+
             .image {
                 display: flex;
                 flex-wrap: wrap; /* Cho phép các phần tử xuống dòng khi hết chỗ */
@@ -105,7 +106,7 @@
                             <label>Thương hiệu</label>
                             <select name="brand">
                                 <c:forEach items="${requestScope.brandList}" var="brandList">
-                                    <option value="${brandList.brandName}">${brandList.brandName}</option>
+                                    <option value="${brandList.brandId}">${brandList.brandName}</option>
 
                                 </c:forEach>
                             </select>
@@ -114,7 +115,7 @@
                             <label>Kiểu dáng</label>
                             <select name="style">
                                 <c:forEach items="${requestScope.styleList}" var="style">
-                                    <option value="${style.styleName}">${style.styleName}</option>
+                                    <option value="${style.styleId}">${style.styleName}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -125,7 +126,7 @@
                             <label>Phân khúc</label>
                             <select name="segment">
                                 <c:forEach items="${requestScope.segmentList}" var="segmentList">
-                                    <option value="${segmentList.segmentName}">${segmentList.segmentName}</option>
+                                    <option value="${segmentList.segmentId}">${segmentList.segmentName}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -134,7 +135,7 @@
                             <label>Nhà cung cấp</label>
                             <select name="supply">
                                 <c:forEach items="${requestScope.supplyList}" var="supplyList">
-                                    <option value="${supplyList.supplyName}">${supplyList.supplyName}</option>
+                                    <option value="${supplyList.supplyId}">${supplyList.supplyName}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -147,7 +148,8 @@
 
                     <div class="form-group">
                         <label>Giá</label>
-                        <input type="text" value="${car.price}" name="price" placeholder="Giá" class="form-control" required>
+                        <fmt:formatNumber var="formattedPrice" value="${car.price}" type="number" pattern="####"/>
+                        <input type="text" value="${formattedPrice}" name="price" placeholder="Giá" class="form-control" required>
                     </div>
 
                     <div class="form-group">
@@ -162,7 +164,7 @@
                     </div>
                     <div class="form-group">
                         <label>Mô tả</label>
-                        <textarea name="commentInfor" rows="4" class="form-control" placeholder="Nhập mô tả" required>${car.description}</textarea>
+                        <textarea name="des" rows="4" class="form-control" placeholder="Nhập mô tả" required>${car.description}</textarea>
 
                     </div>
                 </div>

@@ -68,7 +68,7 @@ public class ProductListMarketingServlet extends HttpServlet {
         String indexPage = request.getParameter("index");
 
         if (indexPage == null || indexPage.isEmpty()) {
-            indexPage = "1"; 
+            indexPage = "1";  
         }
 
         int index = Integer.parseInt(indexPage);
@@ -94,7 +94,7 @@ public class ProductListMarketingServlet extends HttpServlet {
         List<ProductImage> pImageList = new ArrayList<>();
         for (Product p : productList) {
             String pId = p.getProductId();
-            System.out.println(pId);
+            
             pImage = pDao.getOneImagesByProductId(pId);
             if (pImage != null) {
                 pImageList.add(pImage);
@@ -103,7 +103,7 @@ public class ProductListMarketingServlet extends HttpServlet {
 
         int count = pDao.getTotalAccount();
 
-        if (brandId != null) {
+        if (brandId != null && !brandId.isEmpty()) {
             productListGetBrand = pDao.getPagingAllProductsById(brandId, index);
             request.setAttribute("productListGetBrand", productListGetBrand);
             count = pDao.getTotalProductWithBrandId(brandId);

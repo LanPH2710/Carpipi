@@ -7,6 +7,8 @@ package controller;
 import dal.BrandDAO;
 import dal.ProductDAO;
 import dal.SegmentDAO;
+import dal.StyleDAO;
+import dal.SupplyDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,7 +18,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Brand;
 import model.Product;
+import model.ProductImage;
 import model.Segment;
+import model.Style;
+import model.Supply;
 
 /**
  *
@@ -63,10 +68,12 @@ public class EditByMarketingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
-        String brandName = request.getParameter("brand");
         ProductDAO pDao = new ProductDAO();
         BrandDAO bDao = new BrandDAO();
         SegmentDAO sDao = new SegmentDAO();
+        StyleDAO styleDao = new StyleDAO();
+        SupplyDAO supplyDao = new SupplyDAO();
+
         Product car = new Product();
 
         List<Product> productList = pDao.getAllProducts();
@@ -74,11 +81,24 @@ public class EditByMarketingServlet extends HttpServlet {
         car = pDao.getProductById(id);
         request.setAttribute("car", car);
 
+        List<ProductImage> imageList = pDao.getImagesByProductId(id);
+        request.setAttribute("imageList", imageList);
+
         List<Brand> brandList = bDao.getAllBrand();
         request.setAttribute("brandList", brandList);
 
         List<Segment> segmentList = sDao.getAllSegment();
         request.setAttribute("segmentList", segmentList);
+
+        List<Style> styleList = styleDao.getAllStyleCar();
+        request.setAttribute("styleList", styleList);
+
+        List<Supply> supplyList = supplyDao.getAllSupplyCar();
+        request.setAttribute("supplyList", supplyList);
+
+        for (Style style : styleList) {
+            System.out.println(style.getStyleName());
+        }
 
         request.getRequestDispatcher("editproductbymarketing.jsp").forward(request, response);
     }
@@ -94,7 +114,56 @@ public class EditByMarketingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        Product product = new Product();
+        ProductDAO pDao = new ProductDAO();
+
+        String id = request.getParameter("id");
+        String name = request.getParameter("name");
+
+        String seatNumber = request.getParameter("seatNumber");
+        int seat = Integer.parseInt(seatNumber);
+
+        String priceCar = request.getParameter("price");
+        double price = Double.parseDouble(priceCar);
+        
+        String brandCar = request.getParameter("brand");
+        int brandId = Integer.parseInt(brandCar);
+
+        String styleCar = request.getParameter("style");
+        int styleId = Integer.parseInt(styleCar);
+
+        String segmentCar = request.getParameter("segment");
+        int segmentId = Integer.parseInt(segmentCar);
+
+        String suppliCar = request.getParameter("supply");
+        int supplyId = Integer.parseInt(suppliCar);
+        
+        String fuel = request.getParameter("fuel");
+
+        String des = request.getParameter("des");
+
+        String stockCar = request.getParameter("stock");
+        int stock = Integer.parseInt(stockCar);
+        
+        pDao.updateProduct(id, name, seat, price,
+                fuel, stock, des, 10, supplyId, 
+                brandId, segmentId, styleId);
+        
+        System.out.println(id);
+        System.out.println(name);
+        System.out.println(seat);
+        System.out.println(price);
+        System.out.println(brandCar);
+        System.out.println(styleCar);
+        System.out.println(segmentCar);
+        System.out.println(suppliCar);
+        System.out.println(fuel);
+        System.out.println(des);
+        System.out.println(stockCar);
+        
+        
+        response.sendRedirect("editbymarketing");
     }
 
     /**

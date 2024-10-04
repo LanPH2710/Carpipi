@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="java.util.List" %>
 
@@ -434,7 +435,7 @@
                                 <a href="home"><b style="background-color:  #DA0835; color: white;">Back to Home</b></a><h2>Manage <b>Products</b></h2>
                             </div>
                             <div class="col-sm-6">
-                                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Product</span></a>
+                                <a href="addproductmarketing" class="btn btn-success" data-toggle="modal"><i class="material-icons"></i> <span>Add New Product</span></a>
                             </div>
                         </div>
                     </div>
@@ -468,14 +469,14 @@
                                         <td>
                                             <c:forEach items="${imageList}" var="image">
                                                 <c:if test="${image.productId == product.productId}">
-                                                    <img style="width: 30px" src="${image.imageUrl}" alt="Xe">
+                                                    <img style="width: 80px" src="${image.imageUrl}" alt="Xe">
                                                 </c:if>
 
                                             </c:forEach>
                                         </td>
                                         <td>${product.name}</td>
                                         <td>${product.seatNumber}</td>
-                                        <td>${product.price}</td>
+                                        <td><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/></td>
                                         <td>
                                             <c:forEach items="${requestScope.brandList}" var="brandList">
                                                 <c:if test="${brandList.brandId == product.brandId}">
@@ -506,14 +507,13 @@
                                         <td>
                                             <c:forEach items="${imageList}" var="image">
                                                 <c:if test="${image.productId == productBrand.productId}">
-                                                    ${image.imageUrl}
-                                                </c:if>
+                                                    <img style="width: 80px" src="${image.imageUrl}" alt="Xe">                                                </c:if>
 
                                             </c:forEach>
                                         </td>
                                         <td>${productBrand.name}</td>
                                         <td>${productBrand.seatNumber}</td>
-                                        <td>${productBrand.price}</td>
+                                        <td><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/></td>
                                         <td>
                                             <c:forEach items="${requestScope.brandList}" var="brandList">
                                                 <c:if test="${brandList.brandId == productBrand.brandId}">

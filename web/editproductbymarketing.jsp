@@ -1,5 +1,6 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -27,60 +28,144 @@
                 width: 100%;
                 max-width: 600px; /* Giới hạn chiều rộng của modal */
             }
-            
-            .form-group-image{
-                
+
+            .form-group-image image{
+                display: flex;
+                align-content: center;
+                justify-content: space-between;
             }
+
+            .form-group{
+                margin-bottom: 3px;
+            }
+
+            .image {
+                display: flex;
+                flex-wrap: wrap; /* Cho phép các phần tử xuống dòng khi hết chỗ */
+                list-style-type: none; /* Loại bỏ dấu chấm đầu dòng của danh sách */
+                padding: 0;
+                margin: 0;
+            }
+
+            .image li {
+                flex: 1 0 30%; /* Chia mỗi phần tử chiếm 30% chiều rộng, đảm bảo 3 phần tử trong mỗi hàng */
+                margin: 5px; /* Thêm khoảng cách giữa các phần tử */
+                text-align: center;
+            }
+
+
+            .form-select{
+                display: flex;
+                align-content: center;
+                justify-content: space-evenly;
+
+            }
+
+
         </style>
     </head>
     <body>
         <div class="modal-content">
-            <form action="edit" method="post">
+            <form action="editbymarketing" method="post">
                 <div class="modal-header">						
                     <h4 class="modal-title">Edit Product</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">	
-                     <div class="form-group-image">
-                         <input type=button value="${car.productId}"  class="form-control" required>
+                    <div class="form-group-image">
+                        <input type=button value="${car.productId}" id="${car.productId}"  class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label>Name</label>
+                        <label>Tên xe</label>
                         <input type="text" value="${car.name}" placeholder="Tên xe" name="name" class="form-control" required>
-                        
+
                     </div>
                     <div class="form-group form-group-image">
-                        <label>Image</label>
-                        <input type="text" name="image" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Brand</label>
-                        <select name="brand">
-                            <c:forEach items="${requestScope.brandList}" var="brandList">
-                                <option>${brandList.brandName}</option>
-
+                        <label>Ảnh</label>
+                        <ul class="image">
+                            <c:forEach items="${requestScope.imageList}" var="imageList">
+                                <li>
+                                    <img style="width: 200px; cursor: pointer;" src="${imageList.imageUrl}" alt="Xe" onclick="openModal('${imageList.imageUrl}')"/>
+                                </li>
                             </c:forEach>
-                        </select>
+                            <li>
+                                <label>Upload Image</label>
+                                <input type="file" name="imageFile">
+                            </li>
+
+                            <!-- Lựa chọn nhập link ảnh -->
+                            <li>
+                                <label>Or Enter Image URL</label>
+                                <input type="text" name="imageUrl" placeholder="Nhập link ảnh" class="form-control">
+                            </li>
+                        </ul>
                     </div>
-                    <div class="form-group">
-                        <label>Segment</label>
-                        <select name="category">
-                            <c:forEach items="${requestScope.segmentList}" var="segmentList">
-                                <option${segmentList.segmentName}</option>
+
+                    <div class="form-select">
+                        <div class="form-group">
+                            <label>Thương hiệu</label>
+                            <select name="brand">
+                                <c:forEach items="${requestScope.brandList}" var="brandList">
+                                    <option value="${brandList.brandId}">${brandList.brandName}</option>
+
                                 </c:forEach>
-                        </select>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Kiểu dáng</label>
+                            <select name="style">
+                                <c:forEach items="${requestScope.styleList}" var="style">
+                                    <option value="${style.styleId}">${style.styleName}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-select">
+                        <div class="form-group">
+                            <label>Phân khúc</label>
+                            <select name="segment">
+                                <c:forEach items="${requestScope.segmentList}" var="segmentList">
+                                    <option value="${segmentList.segmentId}">${segmentList.segmentName}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nhà cung cấp</label>
+                            <select name="supply">
+                                <c:forEach items="${requestScope.supplyList}" var="supplyList">
+                                    <option value="${supplyList.supplyId}">${supplyList.supplyName}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Số chỗ ngồi</label>
+                        <input type="text" value="${car.seatNumber}" name="seatNumber" placeholder="Số chỗ" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Giá</label>
+                        <fmt:formatNumber var="formattedPrice" value="${car.price}" type="number" pattern="####"/>
+                        <input type="text" value="${formattedPrice}" name="price" placeholder="Giá" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nhiên liệu</label>
+                        <input type="text" value="${car.fuel}" name="price" placeholder="Nhiên liệu" class="form-control" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Số lượng</label>
+                        <input type="number"value="${car.stock}" name="stock" placeholder="Số lượng" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label>Price</label>
-                        <input type="text" value="${o.price}" name="price" placeholder="Giá" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        
-                        <input type="number"value="${o.stock}" name="stock" placeholder="Số lượng" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <input name="description" value="${o.description}" placeholder="Mô tả" class="form-control" required>
+                        <label>Mô tả</label>
+                        <textarea name="des" rows="4" class="form-control" placeholder="Nhập mô tả" required>${car.description}</textarea>
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -89,5 +174,35 @@
                 </div>
             </form>
         </div>
+
+        <!-- Modal để hiển thị hình ảnh phóng to -->
+        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img id="modalImage" src="" alt="Image" style="width: 100%; height: auto;">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function openModal(imageUrl) {
+                // Lấy ảnh từ URL và hiển thị trong modal
+                document.getElementById('modalImage').src = imageUrl;
+                // Hiển thị modal
+                $('#imageModal').modal('show');
+            }
+
+        </script>
     </body>
 </html>

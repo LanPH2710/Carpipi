@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="java.util.List" %>
 
@@ -475,7 +476,7 @@
                                         </td>
                                         <td>${product.name}</td>
                                         <td>${product.seatNumber}</td>
-                                        <td>${product.price}</td>
+                                        <td><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/></td>
                                         <td>
                                             <c:forEach items="${requestScope.brandList}" var="brandList">
                                                 <c:if test="${brandList.brandId == product.brandId}">
@@ -512,7 +513,7 @@
                                         </td>
                                         <td>${productBrand.name}</td>
                                         <td>${productBrand.seatNumber}</td>
-                                        <td>${productBrand.price}</td>
+                                        <td><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/></td>
                                         <td>
                                             <c:forEach items="${requestScope.brandList}" var="brandList">
                                                 <c:if test="${brandList.brandId == productBrand.brandId}">

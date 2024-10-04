@@ -114,35 +114,56 @@ public class EditByMarketingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        String name = request.getParameter("name");           // Tên xe
-        String imageUrl = request.getParameter("imageUrl");   // Link ảnh từ người dùng
-        String brand = request.getParameter("brand");         // Thương hiệu
-        String style = request.getParameter("style");         // Kiểu dáng
-        String supply = request.getParameter("supply");   // Phân khúc
-        String segment = request.getParameter("segment");
-        String seatNumber = request.getParameter("seatNumber"); // Số chỗ ngồi
-        int seat = Integer.parseInt(seatNumber);
-        String priceProduct = request.getParameter("price");         // Giá
-        double price = Double.parseDouble(priceProduct);
-        String fuel = request.getParameter("price");          // Nhiên liệu (Cả tên và placeholder đều là 'price', cần đổi lại thành "fuel" nếu muốn rõ ràng)
-        String stockProduct = request.getParameter("stock");         // Số lượng tồn kho
-        int stock = Integer.parseInt(stockProduct);
-        String description = request.getParameter("commentInfor"); // Mô tả
 
-        SupplyDAO supplyDao = new SupplyDAO();
-        BrandDAO bDao = new BrandDAO();
-        SegmentDAO segmentDao = new SegmentDAO();
-        StyleDAO styleDao = new StyleDAO();
-        
-        
+        Product product = new Product();
         ProductDAO pDao = new ProductDAO();
-        pDao.updateProduct(id, name, seat, price, fuel, stock, description, 10, 
-                supplyDao.getSupplyIdByName(supply), bDao.getBrandIdByName(brand), segmentDao.getSegmentIdByName(segment), styleDao.getStyleIdByName(style));
-        
 
-            response.sendRedirect("proformarketing");
+        String id = request.getParameter("id");
+        String name = request.getParameter("name");
+
+        String seatNumber = request.getParameter("seatNumber");
+        int seat = Integer.parseInt(seatNumber);
+
+        String priceCar = request.getParameter("price");
+        double price = Double.parseDouble(priceCar);
         
+        String brandCar = request.getParameter("brand");
+        int brandId = Integer.parseInt(brandCar);
+
+        String styleCar = request.getParameter("style");
+        int styleId = Integer.parseInt(styleCar);
+
+        String segmentCar = request.getParameter("segment");
+        int segmentId = Integer.parseInt(segmentCar);
+
+        String suppliCar = request.getParameter("supply");
+        int supplyId = Integer.parseInt(suppliCar);
+        
+        String fuel = request.getParameter("fuel");
+
+        String des = request.getParameter("des");
+
+        String stockCar = request.getParameter("stock");
+        int stock = Integer.parseInt(stockCar);
+        
+        pDao.updateProduct(id, name, seat, price,
+                fuel, stock, des, 10, supplyId, 
+                brandId, segmentId, styleId);
+        
+        System.out.println(id);
+        System.out.println(name);
+        System.out.println(seat);
+        System.out.println(price);
+        System.out.println(brandCar);
+        System.out.println(styleCar);
+        System.out.println(segmentCar);
+        System.out.println(suppliCar);
+        System.out.println(fuel);
+        System.out.println(des);
+        System.out.println(stockCar);
+        
+        
+        response.sendRedirect("editbymarketing");
     }
 
     /**

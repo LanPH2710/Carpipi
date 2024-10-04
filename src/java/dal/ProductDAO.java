@@ -435,7 +435,7 @@ public class ProductDAO extends DBContext {
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, id);
+           
             st.setString(1, name);
             st.setInt(2, seatNumber);
             st.setDouble(3, price);
@@ -505,6 +505,8 @@ public class ProductDAO extends DBContext {
 }  */
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
-        System.out.println(p.getAllProductsById(""));
+        p.updateProduct("VO20", "2", 2,
+                10, "2", 4, "2", 10, 1, 1,
+                1, 1);
     }
 }

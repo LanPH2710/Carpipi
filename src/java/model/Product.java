@@ -70,7 +70,12 @@ public class Product {
         this.seatNumber = seatNumber;
     }
 
-    public String getPrice() {
+     public double getPrice() {
+        return price;
+    }
+    
+    
+    public String getPriceFormat() {
     DecimalFormat df = new DecimalFormat("#,###"); // Định dạng với 2 số thập phân
     return df.format(price);
 }

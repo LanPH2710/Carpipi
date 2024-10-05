@@ -96,9 +96,7 @@ public class EditByMarketingServlet extends HttpServlet {
         List<Supply> supplyList = supplyDao.getAllSupplyCar();
         request.setAttribute("supplyList", supplyList);
 
-        for (Style style : styleList) {
-            System.out.println(style.getStyleName());
-        }
+       
 
         request.getRequestDispatcher("editproductbymarketing.jsp").forward(request, response);
     }
@@ -163,7 +161,7 @@ public class EditByMarketingServlet extends HttpServlet {
         System.out.println(stockCar);
         
         
-        response.sendRedirect("editbymarketing");
+        response.sendRedirect("proformarketing");
     }
 
     /**

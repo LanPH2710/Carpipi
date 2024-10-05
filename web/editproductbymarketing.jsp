@@ -74,6 +74,8 @@
                 <div class="modal-body">	
                     <div class="form-group-image">
                         <input type=button value="${car.productId}" id="${car.productId}"  class="form-control" required>
+                        <input type="hidden" name="id" value="${car.productId}" class="form-control" required>
+
                     </div>
                     <div class="form-group">
                         <label>Tên xe</label>
@@ -154,7 +156,7 @@
 
                     <div class="form-group">
                         <label>Nhiên liệu</label>
-                        <input type="text" value="${car.fuel}" name="price" placeholder="Nhiên liệu" class="form-control" required>
+                        <input type="text" name="fuel" value="${car.fuel}" name="price" placeholder="Nhiên liệu" class="form-control" required>
                     </div>
 
 

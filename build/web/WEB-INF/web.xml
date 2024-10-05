@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-    <filter>
+<!--    <filter>
         <filter-name>FilterRole</filter-name>
         <filter-class>filter.FilterRole</filter-class>
     </filter>
@@ -23,7 +23,7 @@
         <url-pattern>/marketing</url-pattern>
         <url-pattern>/sale</url-pattern>
         <url-pattern>/proformarketing</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
         <servlet-class>controller.UserProfileServlet</servlet-class>

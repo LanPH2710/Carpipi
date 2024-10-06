@@ -154,7 +154,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddProductMarketingServlet</servlet-name>
-        <url-pattern>/addproductmarketing</url-pattern>
+        <url-pattern>/addbymarketing</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DeleteProductMarketingServlet</servlet-name>

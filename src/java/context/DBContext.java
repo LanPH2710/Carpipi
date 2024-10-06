@@ -37,7 +37,6 @@ public class DBContext {
         } catch (SQLException e) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, "SQL exception occurred", e);
         }
-        
     }
 
     public Connection getConnection() {

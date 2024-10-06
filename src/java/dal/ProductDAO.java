@@ -209,6 +209,35 @@ public class ProductDAO extends DBContext {
         return rootId + idafter;
     }
 
+    //son: ham check thuong hieu
+    public String checkBrand(int number) {
+
+        String brand = null;
+
+        switch (number) {
+            case 1:
+                brand = "ME";
+                break;
+            case 2:
+                brand = "AU";
+                break;
+            case 3:
+                brand = "VO";
+                break;
+            case 4:
+                brand = "BM";
+                break;
+            case 5:
+                brand = "PO";
+                break;
+
+            default:
+                brand = null;
+        }
+
+        return brand;
+    }
+
 //     private int productId;
 //    private String name;
 //    private int seatNumber;
@@ -260,6 +289,16 @@ public class ProductDAO extends DBContext {
         } catch (Exception e) {
         }
 
+    }
+    
+    public void deleteProductById(String id){
+        String sql = "delete  from carpipi.products where productId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);           
+            st.setString(1, id);            
+            st.executeUpdate();        
+        } catch (Exception e) {
+        }
     }
 
     public ProductImage getOneImagesByProductId(String productId) {
@@ -435,7 +474,7 @@ public class ProductDAO extends DBContext {
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-           
+
             st.setString(1, name);
             st.setInt(2, seatNumber);
             st.setDouble(3, price);
@@ -505,8 +544,16 @@ public class ProductDAO extends DBContext {
 }  */
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
-        p.updateProduct("VO20", "2", 2,
-                10, "2", 4, "2", 10, 1, 1,
-                1, 1);
+        
+        System.out.println(p.checkBrand(1));
+        System.out.println(p.checkBrand(2));
+        System.out.println(p.checkBrand(3));
+        System.out.println(p.checkBrand(4));
+        System.out.println(p.checkBrand(5));
+        
+        System.out.println(p.getProductToScanId(p.checkBrand(1)));
+        
+        
     }
+    
 }

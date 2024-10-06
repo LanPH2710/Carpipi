@@ -435,7 +435,7 @@
                                 <a href="home"><b style="background-color:  #DA0835; color: white;">Back to Home</b></a><h2>Manage <b>Products</b></h2>
                             </div>
                             <div class="col-sm-6">
-                                <a href="addproductmarketing" class="btn btn-success" data-toggle="modal"><i class="material-icons"></i> <span>Add New Product</span></a>
+                                <a href="addbymarketing" class="btn btn-success"><i class="material-icons"></i><span>Add New Product</span></a>
                             </div>
                         </div>
                     </div>
@@ -494,7 +494,7 @@
                                         <td>${product.stock}</td>
                                         <td>
                                             <a href="editbymarketing?id=${product.productId}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                            <a href="delete?id=${o.id}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                            <a href="deletebymarketing?id=${product.productId}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                         </td>
                                     </tr>
                                 </c:forEach>

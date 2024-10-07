@@ -25,9 +25,9 @@
             .container {
                 max-width: 1200px;
                 margin: 30px 0px 50px 0px;
-                background: #fff;
                 padding: 20px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 10px 40px 0px rgba(38, 40, 64, .2);
+                background-color: white;
             }
             h1 {
                 text-align: center;

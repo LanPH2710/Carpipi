@@ -8,6 +8,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <style>
+            .container{
+                box-shadow: 0 10px 40px 0px rgba(38, 40, 64, .2);
+                background-color: white;
+            }
             .form-control:focus {
                 box-shadow: none;
                 border-color: #BA68C8;

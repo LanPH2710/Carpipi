@@ -81,8 +81,8 @@
                         <span>X</span>
                     </a>
                     <h1>Customer List</h1>
-                <c:if test="${requestScope.error!=null}">
-                    <div class="alert alert-danger">${requestScope.error}</div>
+                <c:if test="${not empty errorMessage}">
+                    <div style="color:red;">${errorMessage}</div>
                 </c:if>
                 <!-- Search Form -->
                 <form action="searchcustomer" method="get">
@@ -159,8 +159,8 @@
                 <div id="addCustomerModal" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <c:if test="${not empty error}">
-                                <div class="alert alert-danger">${requestScope.error}</div>
+                            <c:if test="${not empty errorMessage}">
+                                <div style="color:red;">${errorMessage}</div>
                             </c:if>
                             <form action="addcustomer" method="get">
                                 <div class="modal-header">						

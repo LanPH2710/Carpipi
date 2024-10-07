@@ -49,8 +49,10 @@
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-
-        <form action="userprofile" method="post" enctype="multipart/form-data">
+            <form action="userprofile" method="post" enctype="multipart/form-data">
+            <c:if test="${not empty errorMessage}">
+                <div style="color:red;">${errorMessage}</div>
+            </c:if>
             <div class="container rounded mt-5 mb-5">
                 <div class="row">
                     <!-- Avatar and User Info -->
@@ -66,7 +68,7 @@
                     <div class="col-md-8 border-right">
                         <div class="p-3 py-5">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="text-right">Edit Profile</h4>
+                                <h4 class="text-right">Profile</h4>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-md-6">

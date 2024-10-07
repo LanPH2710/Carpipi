@@ -3,10 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/FPT-Uni/Ki%205/SWP391/ok/Carpipi/src/java/controller/AddProductMarketingServlet.java</file>
-            <file>file:/D:/FPT-Uni/Ki%205/SWP391/ok/Carpipi/src/java/dal/ProductDAO.java</file>
-            <file>file:/D:/FPT-Uni/Ki%205/SWP391/ok/Carpipi/web/addproductbymarketing.jsp</file>
-            <file>file:/D:/FPT-Uni/Ki%205/SWP391/ok/Carpipi/src/java/context/DBContext.java</file>
+            <file>file:/D:/SWP391/Carpipi/src/java/context/DBContext.java</file>
         </group>
     </open-files>
 </project-private>

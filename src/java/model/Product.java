@@ -8,6 +8,7 @@ package model;
  *
  * @author tuana
  */
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,10 +70,15 @@ public class Product {
         this.seatNumber = seatNumber;
     }
 
-    public double getPrice() {
+     public double getPrice() {
         return price;
     }
-
+    
+    
+    public String getPriceFormat() {
+    DecimalFormat df = new DecimalFormat("#,###"); // Định dạng với 2 số thập phân
+    return df.format(price);
+}
     public void setPrice(double price) {
         this.price = price;
     }

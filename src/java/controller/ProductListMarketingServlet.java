@@ -94,7 +94,7 @@ public class ProductListMarketingServlet extends HttpServlet {
         List<ProductImage> pImageList = new ArrayList<>();
         for (Product p : productList) {
             String pId = p.getProductId();
-            System.out.println(pId);
+            
             pImage = pDao.getOneImagesByProductId(pId);
             if (pImage != null) {
                 pImageList.add(pImage);

@@ -61,8 +61,7 @@ public class LogoutServlet extends HttpServlet {
             session.invalidate();  // Hủy session hiện tại
         }
 
-        // Chuyển hướng người dùng về trang đăng nhập hoặc trang chủ
-        response.sendRedirect("home"); // Hoặc chuyển về trang khác tùy yêu cầu
+        response.sendRedirect("home");
     } 
 
     /** 

@@ -45,13 +45,12 @@ public class ProductDAO extends DBContext {
         return products;
     }
 
-    
-    public List<Product> getAllProductsById(String id){
+    public List<Product> getAllProductsById(String id) {
         List<Product> products = new ArrayList<>();
         try {
             String sql = "select * from carpipi.products where productid like ?"; // Thay đổi tên bảng cho đúng
             PreparedStatement st = connection.prepareStatement(sql);
-                        st.setString(1, id + "%");
+            st.setString(1, id + "%");
 
             ResultSet resultSet = st.executeQuery();
             while (resultSet.next()) {
@@ -79,7 +78,7 @@ public class ProductDAO extends DBContext {
         }
         return products;
     }
-    
+
     public Product getProductById(String productId) { // Thay đổi kiểu tham số về String
         Product product = null;
         try {
@@ -115,53 +114,55 @@ public class ProductDAO extends DBContext {
     }
 
     // Phương thức lấy danh sách hình ảnh theo productId
-    public List<ProductImage> getImagesByProductId(String productId) throws SQLException {
+    public List<ProductImage> getImagesByProductId(String productId) {
         List<ProductImage> images = new ArrayList<>();
         String query = "SELECT * FROM productimages WHERE productId = ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, productId);
-        ResultSet resultSet = statement.executeQuery();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, productId);
+            ResultSet resultSet = statement.executeQuery();
 
-        while (resultSet.next()) {
-            ProductImage image = new ProductImage();
-            image.setImageId(resultSet.getInt("imageId"));
-            image.setProductId(resultSet.getString("productId"));
-            image.setImageUrl(resultSet.getString("imageUrl"));
-            images.add(image);
+            while (resultSet.next()) {
+                ProductImage image = new ProductImage();
+                image.setImageId(resultSet.getInt("imageId"));
+                image.setProductId(resultSet.getString("productId"));
+                image.setImageUrl(resultSet.getString("imageUrl"));
+                images.add(image);
+            }
+        } catch (Exception e) {
         }
         return images;
     }
-    
-    public List<Product> getProductsByProductIdPrefix(String prefix) {
-    List<Product> products = new ArrayList<>();
-    String sql = "SELECT * FROM products WHERE productId LIKE ? LIMIT 4"; // Giới hạn lấy 5 sản phẩm
-    try {
-        PreparedStatement st = connection.prepareStatement(sql);
-        st.setString(1, prefix + "%"); // Thêm ký tự % để tìm kiếm
-        ResultSet resultSet = st.executeQuery();
-        while (resultSet.next()) {
-            Product product = new Product();
-            product.setProductId(resultSet.getString("productId"));
-            product.setName(resultSet.getString("name"));
-            product.setSeatNumber(resultSet.getInt("seatNumber"));
-            product.setPrice(resultSet.getDouble("price"));
-            product.setFuel(resultSet.getString("fuel"));
-            product.setStock(resultSet.getInt("stock"));
-            product.setDescription(resultSet.getString("description"));
-            product.setVAT(resultSet.getDouble("VAT"));
-            product.setSupplierId(resultSet.getInt("supplierId"));
-            product.setBrandId(resultSet.getInt("brandId"));
-            product.setSegmentId(resultSet.getInt("segmentId"));
-            product.setStyleId(resultSet.getInt("styleId"));
-            product.setImages(getImagesByProductId(product.getProductId())); // Thêm hình ảnh vào sản phẩm
-            products.add(product);
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return products;
-}
 
+    public List<Product> getProductsByProductIdPrefix(String prefix) {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE productId LIKE ? LIMIT 4"; // Giới hạn lấy 5 sản phẩm
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, prefix + "%"); // Thêm ký tự % để tìm kiếm
+            ResultSet resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProductId(resultSet.getString("productId"));
+                product.setName(resultSet.getString("name"));
+                product.setSeatNumber(resultSet.getInt("seatNumber"));
+                product.setPrice(resultSet.getDouble("price"));
+                product.setFuel(resultSet.getString("fuel"));
+                product.setStock(resultSet.getInt("stock"));
+                product.setDescription(resultSet.getString("description"));
+                product.setVAT(resultSet.getDouble("VAT"));
+                product.setSupplierId(resultSet.getInt("supplierId"));
+                product.setBrandId(resultSet.getInt("brandId"));
+                product.setSegmentId(resultSet.getInt("segmentId"));
+                product.setStyleId(resultSet.getInt("styleId"));
+                product.setImages(getImagesByProductId(product.getProductId())); // Thêm hình ảnh vào sản phẩm
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
 
     // Son: lấy sản phẩm có id to nhất với nameId là mã số đầu vd: VO, AU, ME, BM, PO
     public String getProductToScanId(String nameId) {
@@ -206,6 +207,35 @@ public class ProductDAO extends DBContext {
         String idafter = String.valueOf(idNumber);
 
         return rootId + idafter;
+    }
+
+    //son: ham check thuong hieu
+    public String checkBrand(int number) {
+
+        String brand = null;
+
+        switch (number) {
+            case 1:
+                brand = "ME";
+                break;
+            case 2:
+                brand = "AU";
+                break;
+            case 3:
+                brand = "VO";
+                break;
+            case 4:
+                brand = "BM";
+                break;
+            case 5:
+                brand = "PO";
+                break;
+
+            default:
+                brand = null;
+        }
+
+        return brand;
     }
 
 //     private int productId;
@@ -260,8 +290,18 @@ public class ProductDAO extends DBContext {
         }
 
     }
+    
+    public void deleteProductById(String id){
+        String sql = "delete  from carpipi.products where productId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);           
+            st.setString(1, id);            
+            st.executeUpdate();        
+        } catch (Exception e) {
+        }
+    }
 
-     public ProductImage getOneImagesByProductId(String productId) {
+    public ProductImage getOneImagesByProductId(String productId) {
         ProductImage images = new ProductImage();
         String query = "SELECT * \n"
                 + "FROM productimages \n"
@@ -281,7 +321,7 @@ public class ProductDAO extends DBContext {
             }
         } catch (Exception e) {
         }
-        
+
         return null;
     }
 
@@ -414,7 +454,46 @@ public class ProductDAO extends DBContext {
         return 0;
     }
 
-    
+    public void updateProduct(String id, String name, int seatNumber, double price, String fuel,
+            int stock, String des, double vat, int suppliesId,
+            int brandId, int segmentId, int styleId) {
+        String sql = "UPDATE `carpipi`.`products`\n"
+                + "SET\n"
+                + "`name` = ?,\n"
+                + "`seatNumber` = ?,\n"
+                + "`price` = ?,\n"
+                + "`fuel` = ?,\n"
+                + "`stock` = ?,\n"
+                + "`description` = ?,\n"
+                + "`VAT` = ?,\n"
+                + "`supplierId` = ?,\n"
+                + "`brandId` = ?,\n"
+                + "`segmentId` = ?,\n"
+                + "`styleId` = ?\n"
+                + "WHERE `productId` = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setString(1, name);
+            st.setInt(2, seatNumber);
+            st.setDouble(3, price);
+            st.setString(4, fuel);
+            st.setInt(5, stock);
+            st.setString(6, des);
+            st.setDouble(7, vat);
+            st.setInt(8, suppliesId);
+            st.setInt(9, brandId);
+            st.setInt(10, segmentId);
+            st.setInt(11, styleId);
+            st.setString(12, id);
+
+            st.executeUpdate();
+        } catch (Exception e) {
+        }
+
+    }
+
     /*
     public static void main(String[] args) throws SQLException {
         // Tạo đối tượng ProductDAO
@@ -463,8 +542,18 @@ public class ProductDAO extends DBContext {
     }
 
 }  */
-   public static void main(String[] args) {
+    public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
-        System.out.println(p.getAllProductsById(""));
+        
+        System.out.println(p.checkBrand(1));
+        System.out.println(p.checkBrand(2));
+        System.out.println(p.checkBrand(3));
+        System.out.println(p.checkBrand(4));
+        System.out.println(p.checkBrand(5));
+        
+        System.out.println(p.getProductToScanId(p.checkBrand(1)));
+        
+        
     }
+    
 }

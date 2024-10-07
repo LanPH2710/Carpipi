@@ -13,7 +13,7 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-        <title>Admin</title>
+        <title>Marketing</title>
 
         <style>
             .modal-dialog {
@@ -66,20 +66,20 @@
     </head>
     <body>
         <div class="modal-content">
-            <form action="editbymarketing" method="post">
+            <form action="addbymarketing" method="post">
                 <div class="modal-header">						
-                    <h4 class="modal-title">Edit Product</h4>
+                    <h4 class="modal-title">Thêm sản phẩm </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">	
                     <div class="form-group-image">
-                        <input type=button value="${car.productId}" id="${car.productId}"  class="form-control" required>
-                        <input type="hidden" name="id" value="${car.productId}" class="form-control" required>
+                        
+                        <input type="hidden" class="form-control" required>
 
                     </div>
                     <div class="form-group">
                         <label>Tên xe</label>
-                        <input type="text" value="${car.name}" placeholder="Tên xe" name="name" class="form-control" required>
+                        <input type="text" placeholder="Tên xe" name="name" class="form-control" required>
 
                     </div>
                     <div class="form-group form-group-image">
@@ -145,28 +145,28 @@
 
                     <div class="form-group">
                         <label>Số chỗ ngồi</label>
-                        <input type="text" value="${car.seatNumber}" name="seatNumber" placeholder="Số chỗ" class="form-control" required>
+                        <input type="text" name="seatNumber" placeholder="Số chỗ" class="form-control" required>
                     </div>
 
                     <div class="form-group">
                         <label>Giá</label>
                         <fmt:formatNumber var="formattedPrice" value="${car.price}" type="number" pattern="####"/>
-                        <input type="text" value="${formattedPrice}" name="price" placeholder="Giá" class="form-control" required>
+                        <input type="text" name="price" placeholder="Giá" class="form-control" required>
                     </div>
 
                     <div class="form-group">
                         <label>Nhiên liệu</label>
-                        <input type="text" name="fuel" value="${car.fuel}" name="price" placeholder="Nhiên liệu" class="form-control" required>
+                        <input type="text" name="fuel" name="price" placeholder="Nhiên liệu" class="form-control" required>
                     </div>
 
 
                     <div class="form-group">
                         <label>Số lượng</label>
-                        <input type="number"value="${car.stock}" name="stock" placeholder="Số lượng" class="form-control" required>
+                        <input type="number" name="stock" placeholder="Số lượng" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Mô tả</label>
-                        <textarea name="des" rows="4" class="form-control" placeholder="Nhập mô tả" required>${car.description}</textarea>
+                        <textarea name="des" rows="4" class="form-control" placeholder="Nhập mô tả" required>   </textarea>
 
                     </div>
                 </div>

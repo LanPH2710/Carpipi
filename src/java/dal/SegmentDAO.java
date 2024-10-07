@@ -17,6 +17,30 @@ import model.Segment;
  * @author tuana
  */
 public class SegmentDAO extends DBContext{
+    
+    public int getSegmentIdByName(String name) {
+        String sql = "SELECT segmentId FROM carpipi.segment where segmentName = ?";
+
+        String segmentId = null; // Biến để lưu kết quả trả về
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setString(1, name);
+            ResultSet rs = st.executeQuery();
+            
+            while (rs.next()) {                
+                segmentId = rs.getString("segmentId");
+            }
+
+        } catch (SQLException e) {
+        }
+        
+        int sId = Integer.parseInt(segmentId);
+        
+        return sId;
+    }
+    
     public List<Segment> getAllSegment(){
         List<Segment> list = new ArrayList<>();
         String sql = "select * from Segment";

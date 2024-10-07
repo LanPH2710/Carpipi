@@ -17,9 +17,9 @@
                 display: flex;
                 margin: 30px 0px 50px 0px;
                 max-width: 1200px;
-                background: #fff;
                 border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 10px 40px 0px rgba(38, 40, 64, .2);
+                background-color: white;
             }
 
             .blog-content {

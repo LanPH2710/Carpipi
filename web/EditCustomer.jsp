@@ -12,6 +12,10 @@
         <title>Edit Customer</title>
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <style>
+            .detail{
+                box-shadow: 0 10px 40px 0px rgba(38, 40, 64, .2);
+                background-color: white;
+            }
             .form-control:focus {
                 box-shadow: none;
                 border-color: #BA68C8;
@@ -52,6 +56,9 @@
         </style>
     </head>
     <body>
+        <div class="detail">
+            
+        
         <form action="viewcustomer" method="post" enctype="multipart/form-data">
 
             <div class="container rounded mt-5 mb-5">
@@ -130,5 +137,6 @@
                 </div>
             </div>
         </form>
+                                </div>
     </body>
 </html>

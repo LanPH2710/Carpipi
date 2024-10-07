@@ -2,9 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
-
 
 import dal.ProductDAO;
 import model.Product;
@@ -37,27 +35,28 @@ public class HomePageServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
-    ProductDAO productDAO = new ProductDAO(); 
-    List<Product> featuredProducts = new ArrayList<>();
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        ProductDAO productDAO = new ProductDAO();
+        List<Product> featuredProducts = new ArrayList<>();
 
-    // Lấy danh sách các sản phẩm bắt đầu bằng "ME"
-    List<Product> products = productDAO.getProductsByProductIdPrefix("ME");
-    
-    // Thêm sản phẩm vào danh sách featuredProducts
-    for (Product product : products) {
-        if (product != null) {
-            featuredProducts.add(product);
+        List<Product> products = productDAO.getProductsByProductIdPrefix("ME");
+        products.addAll(productDAO.getProductsByProductIdPrefix("VO"));
+        products.addAll(productDAO.getProductsByProductIdPrefix("BM"));
+        products.addAll(productDAO.getProductsByProductIdPrefix("AU"));
+        products.addAll(productDAO.getProductsByProductIdPrefix("PO"));
+        // Thêm sản phẩm vào danh sách featuredProducts
+        for (Product product : products) {
+            if (product != null) {
+                featuredProducts.add(product);
+            }
         }
+
+        // Truyền danh sách sản phẩm đến JSP
+        request.setAttribute("featuredProducts", featuredProducts); // Sử dụng tên đúng cho JSP
+        RequestDispatcher dispatcher = request.getRequestDispatcher("HomePage.jsp");
+        dispatcher.forward(request, response);
     }
-
-    // Truyền danh sách sản phẩm đến JSP
-    request.setAttribute("featuredProducts", featuredProducts); // Sử dụng tên đúng cho JSP
-    RequestDispatcher dispatcher = request.getRequestDispatcher("HomePage.jsp");
-    dispatcher.forward(request, response);
-}
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dal;
+
 import context.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +17,29 @@ import model.Brand;
  * @author tuana
  */
 public class BrandDAO extends DBContext {
+
+    public int getBrandIdByName(String name) {
+        String sql = "SELECT brandId FROM carpipi.brand where name = ?";
+
+        String brandId = ""; // Biến để lưu kết quả trả về
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setString(1, name);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                brandId = rs.getString("brandId");
+            }
+
+        } catch (SQLException e) {
+        }
+
+        int bId = Integer.parseInt(brandId);
+
+        return bId;
+    }
 
     public List<Brand> getAllBrand() {
         List<Brand> list = new ArrayList<>();
@@ -47,5 +71,10 @@ public class BrandDAO extends DBContext {
             System.out.println(e);
         }
         return null;
+    }
+    
+    public static void main(String[] args) {
+        BrandDAO b = new BrandDAO();
+        System.out.println(b.getBrandIdByName("Audi"));
     }
 }

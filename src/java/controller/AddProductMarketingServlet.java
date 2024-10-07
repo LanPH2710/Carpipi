@@ -7,24 +7,27 @@ package controller;
 import dal.BrandDAO;
 import dal.ProductDAO;
 import dal.SegmentDAO;
+import dal.StyleDAO;
+import dal.SupplyDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 import model.Brand;
 import model.Product;
 import model.ProductImage;
 import model.Segment;
+import model.Style;
+import model.Supply;
 
 /**
  *
  * @author Sonvu
  */
-public class ProductListMarketingServlet extends HttpServlet {
+public class AddProductMarketingServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +46,10 @@ public class ProductListMarketingServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ProductListMarketingServlet</title>");
+            out.println("<title>Servlet AddProductMarketingServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ProductListMarketingServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddProductMarketingServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,23 +67,12 @@ public class ProductListMarketingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String brandId = request.getParameter("brandId");
-        String indexPage = request.getParameter("index");
-
-        if (indexPage == null || indexPage.isEmpty()) {
-            indexPage = "1";  
-        }
-
-        int index = Integer.parseInt(indexPage);
 
         ProductDAO pDao = new ProductDAO();
         BrandDAO bDao = new BrandDAO();
         SegmentDAO sDao = new SegmentDAO();
-
-        ProductImage pImage = new ProductImage();
-
-        List<Product> productList = pDao.getAllProducts();
-        request.setAttribute("productList", productList);
+        StyleDAO styleDao = new StyleDAO();
+        SupplyDAO supplyDao = new SupplyDAO();
 
         List<Brand> brandList = bDao.getAllBrand();
         request.setAttribute("brandList", brandList);
@@ -88,43 +80,13 @@ public class ProductListMarketingServlet extends HttpServlet {
         List<Segment> segmentList = sDao.getAllSegment();
         request.setAttribute("segmentList", segmentList);
 
-        List<Product> productListGetBrand = new ArrayList<>();
-        List<Product> listProduct = pDao.pagingProduct(index);
+        List<Style> styleList = styleDao.getAllStyleCar();
+        request.setAttribute("styleList", styleList);
 
-        List<ProductImage> pImageList = new ArrayList<>();
-        for (Product p : productList) {
-            String pId = p.getProductId();
-            
-            pImage = pDao.getOneImagesByProductId(pId);
-            if (pImage != null) {
-                pImageList.add(pImage);
-            }
-        }
+        List<Supply> supplyList = supplyDao.getAllSupplyCar();
+        request.setAttribute("supplyList", supplyList);
 
-        int count = pDao.getTotalAccount();
-
-        if (brandId != null && !brandId.isEmpty()) {
-            productListGetBrand = pDao.getPagingAllProductsById(brandId, index);
-            request.setAttribute("productListGetBrand", productListGetBrand);
-            count = pDao.getTotalProductWithBrandId(brandId);
-            request.setAttribute("chooseBrand", brandId);
-
-        } else {
-            brandId = null;
-            request.setAttribute("listProduct", listProduct);
-
-        }
-
-        int endPage = count / 5;
-        if (count % 5 != 0) {
-            endPage++;
-        }
-
-        request.setAttribute("imageList", pImageList);
-
-        request.setAttribute("endP", endPage);
-        request.setAttribute("tag", index);
-        request.getRequestDispatcher("product_list_maketing.jsp").forward(request, response);
+        request.getRequestDispatcher("addproductbymarketing.jsp").forward(request, response);
     }
 
     /**
@@ -138,7 +100,58 @@ public class ProductListMarketingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Product product = new Product();
+        ProductDAO pDao = new ProductDAO();
+
+        String name = request.getParameter("name");
+
+        String seatNumber = request.getParameter("seatNumber");
+        int seat = Integer.parseInt(seatNumber);
+
+        String priceCar = request.getParameter("price");
+        double price = Double.parseDouble(priceCar);
+
+        String brandCar = request.getParameter("brand");
+        int brandId = Integer.parseInt(brandCar);
+
+        String styleCar = request.getParameter("style");
+        int styleId = Integer.parseInt(styleCar);
+
+        String segmentCar = request.getParameter("segment");
+        int segmentId = Integer.parseInt(segmentCar);
+
+        String suppliCar = request.getParameter("supply");
+        int supplyId = Integer.parseInt(suppliCar);
+
+        String fuel = request.getParameter("fuel");
+
+        String des = request.getParameter("des");
+
+        String stockCar = request.getParameter("stock");
+        int stock = Integer.parseInt(stockCar);
+
+        String tId = pDao.checkBrand(brandId);
+        String id = pDao.getProductToScanId(tId);
+
+        pDao.insertProduct(id, name, seat, price, fuel,
+                stock, des, 10, supplyId, 
+                brandId, segmentId, styleId);
+
+        System.out.println(tId);
+        System.out.println(id);
+        System.out.println("name: " + name);
+        System.out.println("name: " + seat);
+        System.out.println("name: " +price);
+        System.out.println("name: " + brandId);
+        System.out.println("name: " + styleCar);
+        System.out.println("name: " + segmentCar);
+        System.out.println("name: " + suppliCar);
+        System.out.println("name: " + fuel);
+        System.out.println("name: " + des);
+        System.out.println("name: " + stockCar);
+       
+
+        response.sendRedirect("proformarketing");
     }
 
     /**

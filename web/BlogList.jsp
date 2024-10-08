@@ -45,10 +45,6 @@
             <div class="container">
                 <div class="text-center">
                     <h1>Blog posts</h1>
-
-                    <br>
-
-                    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, alias.</p>
                 </div>
             </div>
         </section>
@@ -74,12 +70,14 @@
 
                         <br>
 
-                        <label class="control-label">Lorem ipsum dolor sit amet</label>
+                        <label class="control-label">Danh mục bài viết</label>
 
                         <ul class="list">
-                            <li><a href="blogdetail">Lorem ipsum dolor sit amet, consectetur adipisicing.</a></li>
-                            <li><a href="blogdetail">Et animi voluptatem, assumenda enim, consectetur quaerat!</a></li>
-                            <li><a href="blogdetail">Ducimus magni eveniet sit doloremque molestiae alias mollitia vitae.</a></li>
+                            <li><a href="blogdetail">Mercedes</a></li>
+                            <li><a href="blogdetail">Audi</a></li>
+                            <li><a href="blogdetail">BMW</a></li>
+                            <li><a href="blogdetail">Porsche</a></li>
+                            <li><a href="blogdetail">Volkswagen</a></li>
                         </ul>
                     </div>
 

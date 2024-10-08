@@ -40,11 +40,10 @@ public class HomePageServlet extends HttpServlet {
         ProductDAO productDAO = new ProductDAO();
         List<Product> featuredProducts = new ArrayList<>();
 
-        List<Product> products = productDAO.getProductsByProductIdPrefix("ME");
+        List<Product> products = productDAO.getProductsByProductIdPrefix("PO");
         products.addAll(productDAO.getProductsByProductIdPrefix("VO"));
         products.addAll(productDAO.getProductsByProductIdPrefix("BM"));
         products.addAll(productDAO.getProductsByProductIdPrefix("AU"));
-        products.addAll(productDAO.getProductsByProductIdPrefix("PO"));
         // Thêm sản phẩm vào danh sách featuredProducts
         for (Product product : products) {
             if (product != null) {

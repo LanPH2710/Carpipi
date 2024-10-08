@@ -68,6 +68,7 @@ public class EditByMarketingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
+        String url = request.getParameter("imageUrl");
         ProductDAO pDao = new ProductDAO();
         BrandDAO bDao = new BrandDAO();
         SegmentDAO sDao = new SegmentDAO();
@@ -96,9 +97,9 @@ public class EditByMarketingServlet extends HttpServlet {
         List<Supply> supplyList = supplyDao.getAllSupplyCar();
         request.setAttribute("supplyList", supplyList);
 
-        for (Style style : styleList) {
-            System.out.println(style.getStyleName());
-        }
+        if(url !=null && !url.isEmpty())
+            pDao.insertImage(id, url);
+       
 
         request.getRequestDispatcher("editproductbymarketing.jsp").forward(request, response);
     }
@@ -163,7 +164,7 @@ public class EditByMarketingServlet extends HttpServlet {
         System.out.println(stockCar);
         
         
-        response.sendRedirect("editbymarketing");
+        response.sendRedirect("proformarketing");
     }
 
     /**

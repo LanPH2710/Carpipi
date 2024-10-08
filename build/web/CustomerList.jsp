@@ -25,9 +25,9 @@
             .container {
                 max-width: 1200px;
                 margin: 30px 0px 50px 0px;
-                background: #fff;
                 padding: 20px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 10px 40px 0px rgba(38, 40, 64, .2);
+                background-color: white;
             }
             h1 {
                 text-align: center;
@@ -81,8 +81,8 @@
                         <span>X</span>
                     </a>
                     <h1>Customer List</h1>
-                <c:if test="${requestScope.error!=null}">
-                    <div class="alert alert-danger">${requestScope.error}</div>
+                <c:if test="${not empty errorMessage}">
+                    <div style="color:red;">${errorMessage}</div>
                 </c:if>
                 <!-- Search Form -->
                 <form action="searchcustomer" method="get">
@@ -159,8 +159,8 @@
                 <div id="addCustomerModal" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <c:if test="${not empty error}">
-                                <div class="alert alert-danger">${requestScope.error}</div>
+                            <c:if test="${not empty errorMessage}">
+                                <div style="color:red;">${errorMessage}</div>
                             </c:if>
                             <form action="addcustomer" method="get">
                                 <div class="modal-header">						

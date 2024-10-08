@@ -432,28 +432,54 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <a href="home"><b style="background-color:  #DA0835; color: white;">Back to Home</b></a><h2>Manage <b>Products</b></h2>
+                                <a href="home">
+                                    <b style="background-color: #DA0835; color: white;">Back to Home</b>
+                                </a>
+                                <h2>Manage <b>Products</b></h2>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 text-right">
                                 <a href="addbymarketing" class="btn btn-success"><i class="material-icons"></i><span>Add New Product</span></a>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Form Search và Sort -->
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <form class="form-inline" action="proformarketing" method="get">
+                                <div class="input-group">
+                                    <input type="text" value="${searchch}" class="form-inline" placeholder="Search products..." name="searchse">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit">Search</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <form class="form-inline justify-content-end">
+                                <label class="mr-2">Sort by:</label>
+                                <select class="form-control" name="sort">
+                                    <option value="name">Name</option>
+                                    <option value="price">Price</option>
+                                    <option value="date">Date Added</option>
+                                </select>
+                                <button class="btn btn-secondary ml-2" type="submit">Sort</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Table Data -->
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                            <tr class="heading">
-
                                 <th>ID</th>
                                 <th>Ảnh</th>
                                 <th>Tên xe</th>
                                 <th>Số chỗ</th>
                                 <th>Giá</th>
                                 <th>Thương hiệu</th>              
-                                <!--                                <th>Kiểu dáng</th>-->
-                                <!--                                <th>Nhà cung cấp</th>-->
+                                <th>Kiểu dáng</th>
                                 <th>Phân khúc</th>
-
                                 <th>Số lượng</th>
                                 <th>Action</th>
                             </tr>
@@ -485,6 +511,13 @@
                                             </c:forEach>
                                         </td>
                                         <td>
+                                            <c:forEach items="${requestScope.styleList}" var="styleList">
+                                                <c:if test="${styleList.styleId == product.styleId}">
+                                                    ${styleList.styleName}
+                                                </c:if>
+                                            </c:forEach>
+                                        </td>
+                                        <td>
                                             <c:forEach items="${requestScope.segmentList}" var="segmentList">
                                                 <c:if test="${segmentList.segmentId == product.segmentId}">
                                                     ${segmentList.segmentName}
@@ -507,8 +540,8 @@
                                         <td>
                                             <c:forEach items="${imageList}" var="image">
                                                 <c:if test="${image.productId == productBrand.productId}">
-                                                    <img style="width: 80px" src="${image.imageUrl}" alt="Xe">                                                </c:if>
-
+                                                    <img style="width: 80px" src="${image.imageUrl}" alt="Xe">                                                
+                                                </c:if>
                                             </c:forEach>
                                         </td>
                                         <td>${productBrand.name}</td>
@@ -547,7 +580,7 @@
 
                             <li class="page-item disabled"><a href="#">Previous</a></li>
                                 <c:forEach begin="1" end="${endP}" var="i">
-                                <li class="${tag == i?"page-item active":"page-item"}"><a class="page-link" href="proformarketing?index=${i}&brandId=${chooseBrand}">${i}</a></li>
+                                <li class="${tag == i?"page-item active":"page-item"}"><a class="page-link" href="proformarketing?index=${i}&brandId=${chooseBrand}&search=${searchch}">${i}</a></li>
                                 </c:forEach>
 
                             <li class="page-item"><a href="#" class="page-link">Next</a></li>

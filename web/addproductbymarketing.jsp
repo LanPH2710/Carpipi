@@ -65,146 +65,140 @@
         </style>
     </head>
     <body>
-        <div class="modal-content">
-            <form action="addbymarketing" method="post">
-                <div class="modal-header">						
-                    <h4 class="modal-title">Thêm sản phẩm </h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <div class="modal-content">
+        <form id="productForm" action="addbymarketing" method="post" onsubmit="return validateForm()">
+            <div class="modal-header">						
+                <h4 class="modal-title">Thêm sản phẩm </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">	
+                <div class="form-group-image">
+                    <input type="hidden" class="form-control" required>
                 </div>
-                <div class="modal-body">	
-                    <div class="form-group-image">
-                        
-                        <input type="hidden" class="form-control" required>
-
-                    </div>
+                <div class="form-group">
+                    <label>Tên xe</label>
+                    <input type="text" placeholder="Tên xe" name="name" class="form-control" required>
+                </div>
+                <div class="form-group form-group-image">
+                    <label>Ảnh</label>
+                    <ul class="image">
+                        <c:forEach items="${requestScope.imageList}" var="imageList">
+                            <li>
+                                <img style="width: 200px; cursor: pointer;" src="${imageList.imageUrl}" alt="Xe" onclick="openModal('${imageList.imageUrl}')"/>
+                            </li>
+                        </c:forEach>
+                       
+                        <li>
+                            <label>Enter Image URL</label>
+                            <input type="text" name="imageUrl" placeholder="Nhập link ảnh" class="form-control">
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-select">
                     <div class="form-group">
-                        <label>Tên xe</label>
-                        <input type="text" placeholder="Tên xe" name="name" class="form-control" required>
-
-                    </div>
-                    <div class="form-group form-group-image">
-                        <label>Ảnh</label>
-                        <ul class="image">
-                            <c:forEach items="${requestScope.imageList}" var="imageList">
-                                <li>
-                                    <img style="width: 200px; cursor: pointer;" src="${imageList.imageUrl}" alt="Xe" onclick="openModal('${imageList.imageUrl}')"/>
-                                </li>
+                        <label>Thương hiệu</label>
+                        <select name="brand" required>
+                            <c:forEach items="${requestScope.brandList}" var="brandList">
+                                <option value="${brandList.brandId}">${brandList.brandName}</option>
                             </c:forEach>
-                            <li>
-                                <label>Upload Image</label>
-                                <input type="file" name="imageFile">
-                            </li>
-
-                            <!-- Lựa chọn nhập link ảnh -->
-                            <li>
-                                <label>Or Enter Image URL</label>
-                                <input type="text" name="imageUrl" placeholder="Nhập link ảnh" class="form-control">
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="form-select">
-                        <div class="form-group">
-                            <label>Thương hiệu</label>
-                            <select name="brand">
-                                <c:forEach items="${requestScope.brandList}" var="brandList">
-                                    <option value="${brandList.brandId}">${brandList.brandName}</option>
-
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Kiểu dáng</label>
-                            <select name="style">
-                                <c:forEach items="${requestScope.styleList}" var="style">
-                                    <option value="${style.styleId}">${style.styleName}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-
-                    </div>
-                    <div class="form-select">
-                        <div class="form-group">
-                            <label>Phân khúc</label>
-                            <select name="segment">
-                                <c:forEach items="${requestScope.segmentList}" var="segmentList">
-                                    <option value="${segmentList.segmentId}">${segmentList.segmentName}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Nhà cung cấp</label>
-                            <select name="supply">
-                                <c:forEach items="${requestScope.supplyList}" var="supplyList">
-                                    <option value="${supplyList.supplyId}">${supplyList.supplyName}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Số chỗ ngồi</label>
-                        <input type="text" name="seatNumber" placeholder="Số chỗ" class="form-control" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Giá</label>
-                        <fmt:formatNumber var="formattedPrice" value="${car.price}" type="number" pattern="####"/>
-                        <input type="text" name="price" placeholder="Giá" class="form-control" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nhiên liệu</label>
-                        <input type="text" name="fuel" name="price" placeholder="Nhiên liệu" class="form-control" required>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label>Số lượng</label>
-                        <input type="number" name="stock" placeholder="Số lượng" class="form-control" required>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label>Mô tả</label>
-                        <textarea name="des" rows="4" class="form-control" placeholder="Nhập mô tả" required>   </textarea>
-
+                        <label>Kiểu dáng</label>
+                        <select name="style" required>
+                            <c:forEach items="${requestScope.styleList}" var="style">
+                                <option value="${style.styleId}">${style.styleName}</option>
+                            </c:forEach>
+                        </select>
                     </div>
+                </div>
+                <div class="form-select">
+                    <div class="form-group">
+                        <label>Phân khúc</label>
+                        <select name="segment" required>
+                            <c:forEach items="${requestScope.segmentList}" var="segmentList">
+                                <option value="${segmentList.segmentId}">${segmentList.segmentName}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nhà cung cấp</label>
+                        <select name="supply" required>
+                            <c:forEach items="${requestScope.supplyList}" var="supplyList">
+                                <option value="${supplyList.supplyId}">${supplyList.supplyName}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Số chỗ ngồi</label>
+                    <input type="number" name="seatNumber" placeholder="Số chỗ" class="form-control" required min="1" oninput="validity.valid || (value='')">
+                </div>
+                <div class="form-group">
+                    <label>Giá</label>
+                    <input type="number" name="price" placeholder="Giá" class="form-control" required min="0" oninput="validity.valid || (value='')">
+                </div>
+                <div class="form-group">
+                    <label>Nhiên liệu</label>
+                    <input type="text" name="fuel" placeholder="Nhiên liệu" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Số lượng</label>
+                    <input type="number" name="stock" placeholder="Số lượng" class="form-control" required min="1" oninput="validity.valid || (value='')">
+                </div>
+                <div class="form-group">
+                    <label>Mô tả</label>
+                    <textarea name="des" rows="4" class="form-control" placeholder="Nhập mô tả" required></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="proformarketing">Cancel</a>
+                <input type="submit" class="btn btn-info" value="Save">
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalImage" src="" alt="Image" style="width: 100%; height: auto;">
                 </div>
                 <div class="modal-footer">
-                    <a href="proformarketing">Cancel</a>
-                    <input type="submit" class="btn btn-info" value="Save">
-                </div>
-            </form>
-        </div>
-
-        <!-- Modal để hiển thị hình ảnh phóng to -->
-        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body text-center">
-                        <img id="modalImage" src="" alt="Image" style="width: 100%; height: auto;">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
-            function openModal(imageUrl) {
-                // Lấy ảnh từ URL và hiển thị trong modal
-                document.getElementById('modalImage').src = imageUrl;
-                // Hiển thị modal
-                $('#imageModal').modal('show');
+    <script>
+        function openModal(imageUrl) {
+            document.getElementById('modalImage').src = imageUrl;
+            $('#imageModal').modal('show');
+        }
+
+        function validateForm() {
+            const form = document.getElementById('productForm');
+            const inputs = form.querySelectorAll('input, textarea, select');
+            for (let input of inputs) {
+                if (input.required && input.value.trim() === '') {
+                    alert(`Vui lòng điền ${input.previousElementSibling.innerText}`);
+                    return false; // Ngăn không cho gửi form
+                }
+                // Kiểm tra nếu là input số
+                if ((input.name === 'seatNumber' || input.name === 'price' || input.name === 'stock') && (isNaN(input.value) || input.value < 0)) {
+                    alert(`${input.previousElementSibling.innerText} phải là số và không được âm.`);
+                    return false; // Ngăn không cho gửi form
+                }
             }
-
-        </script>
-    </body>
+            return true; // Cho phép gửi form nếu tất cả kiểm tra thành công
+        }
+    </script>
+</body>
 </html>

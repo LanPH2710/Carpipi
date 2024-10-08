@@ -112,13 +112,13 @@ public class ProductDAO extends DBContext {
         }
         return product;
     }
-    
-    public List<Product> getProductByName(String name){
-         List<Product> products = new ArrayList<>();
+
+    public List<Product> getProductByName(String name) {
+        List<Product> products = new ArrayList<>();
         try {
             String sql = "select * from carpipi.products where name like ?"; // Thay đổi tên bảng cho đúng
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1,"%" + name + "%");
+            st.setString(1, "%" + name + "%");
 
             ResultSet resultSet = st.executeQuery();
             while (resultSet.next()) {
@@ -135,8 +135,6 @@ public class ProductDAO extends DBContext {
                 product.setBrandId(resultSet.getInt("brandId"));
                 product.setSegmentId(resultSet.getInt("segmentId"));
                 product.setStyleId(resultSet.getInt("styleId"));
-
-               
 
                 products.add(product);
             }
@@ -165,6 +163,24 @@ public class ProductDAO extends DBContext {
         } catch (Exception e) {
         }
         return images;
+    }
+
+    public void insertImage(String id, String url) {
+        String sql = "INSERT INTO `carpipi`.`productimages`\n"
+                + "(`productId`,\n"
+                + "`imageUrl`)\n"
+                + "VALUES\n"
+                + "(?,?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, id);
+            st.setString(2, url);
+            
+            st.executeUpdate();
+        } catch (Exception e) {
+        }
+        
+         
     }
 
     public List<Product> getProductsByProductIdPrefix(String prefix) {
@@ -323,13 +339,13 @@ public class ProductDAO extends DBContext {
         }
 
     }
-    
-    public void deleteProductById(String id){
+
+    public void deleteProductById(String id) {
         String sql = "delete  from carpipi.products where productId = ?";
         try {
-            PreparedStatement st = connection.prepareStatement(sql);           
-            st.setString(1, id);            
-            st.executeUpdate();        
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, id);
+            st.executeUpdate();
         } catch (Exception e) {
         }
     }
@@ -464,7 +480,7 @@ public class ProductDAO extends DBContext {
         }
         return products;
     }
-    
+
     public List<Product> getPagingProductByName(String name, int index) {
         List<Product> listProduct = new ArrayList<>();
         String sql = "select * from Carpipi.products  where name like ? ORDER BY productId LIMIT 5 OFFSET ?";
@@ -501,12 +517,12 @@ public class ProductDAO extends DBContext {
         }
         return listProduct;
     }
-    
+
     public int getTotalProductWithProductName(String name) {
         String sql = "select Count(*) from Carpipi.products  where name like ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1,"%" + name + "%");
+            st.setString(1, "%" + name + "%");
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
@@ -636,11 +652,7 @@ public class ProductDAO extends DBContext {
         for (Product product : pl) {
             System.out.println(product.getName());
         }
-        
-       
-        
-        
-        
+
     }
-    
+
 }

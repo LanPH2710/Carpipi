@@ -461,7 +461,7 @@
                                 <select class="form-control" name="sort">
                                     <option value="name">Name</option>
                                     <option value="price">Price</option>
-                                    <option value="date">Date Added</option>
+                                    <option value="date"></option>
                                 </select>
                                 <button class="btn btn-secondary ml-2" type="submit">Sort</button>
                             </form>
@@ -554,6 +554,13 @@
                                                 </c:if>
                                             </c:forEach>
                                         </td>
+                                         <td>
+                                            <c:forEach items="${requestScope.styleList}" var="styleList">
+                                                <c:if test="${styleList.styleId == productBrand.styleId}">
+                                                    ${styleList.styleName}
+                                                </c:if>
+                                            </c:forEach>
+                                        </td>
                                         <td>
                                             <c:forEach items="${requestScope.segmentList}" var="segmentList">
                                                 <c:if test="${segmentList.segmentId == productBrand.segmentId}">
@@ -580,7 +587,7 @@
 
                             <li class="page-item disabled"><a href="#">Previous</a></li>
                                 <c:forEach begin="1" end="${endP}" var="i">
-                                <li class="${tag == i?"page-item active":"page-item"}"><a class="page-link" href="proformarketing?index=${i}&brandId=${chooseBrand}&search=${searchch}">${i}</a></li>
+                                <li class="${tag == i?"page-item active":"page-item"}"><a class="page-link" href="proformarketing?index=${i}&brandId=${chooseBrand}&searchse=${searchch}">${i}</a></li>
                                 </c:forEach>
 
                             <li class="page-item"><a href="#" class="page-link">Next</a></li>

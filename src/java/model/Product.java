@@ -30,6 +30,23 @@ public class Product {
     public Product() {
     }
 
+    public Product(String productId, String name, int seatNumber, double price, String fuel, int stock, String description, double VAT, int supplierId, int brandId, int segmentId, int styleId) {
+        this.productId = productId;
+        this.name = name;
+        this.seatNumber = seatNumber;
+        this.price = price;
+        this.fuel = fuel;
+        this.stock = stock;
+        this.description = description;
+        this.VAT = VAT;
+        this.supplierId = supplierId;
+        this.brandId = brandId;
+        this.segmentId = segmentId;
+        this.styleId = styleId;
+    }
+    
+    
+
     public Product(String productId, String name, int seatNumber, double price, String fuel, int stock, String description, double VAT, int supplierId, int brandId, int segmentId, int styleId, List<ProductImage> images) {
         this.productId = productId;
         this.name = name;

@@ -175,12 +175,11 @@ public class ProductDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, id);
             st.setString(2, url);
-            
+
             st.executeUpdate();
         } catch (Exception e) {
         }
-        
-         
+
     }
 
     public List<Product> getProductsByProductIdPrefix(String prefix) {
@@ -385,7 +384,71 @@ public class ProductDAO extends DBContext {
                 return rs.getInt(1);
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
+        }
+        return 0;
+    }
+
+    public List<Product> getProductBySearch(String search) {
+        List<Product> products = new ArrayList<>();
+
+        String sql = "SELECT p.* FROM carpipi.products p  \n"
+                + "JOIN carpipi.brand b ON p.brandId = b.brandId\n"
+                + "Join carpipi.style st on p.styleId = st.styleId\n"
+                + "where p.name like ? or st.styleName like ? \n"
+                + "or p.brandId like ? or p.fuel like ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + search + "%");
+            st.setString(2, "%" + search + "%");
+            st.setString(3, "%" + search + "%");
+            st.setString(4, "%" + search + "%");
+
+            ResultSet resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProductId(resultSet.getString("productId"));
+                product.setName(resultSet.getString("name"));
+                product.setSeatNumber(resultSet.getInt("seatNumber"));
+                product.setPrice(resultSet.getDouble("price"));
+                product.setFuel(resultSet.getString("fuel"));
+                product.setStock(resultSet.getInt("stock"));
+                product.setDescription(resultSet.getString("description"));
+                product.setVAT(resultSet.getDouble("VAT"));
+                product.setSupplierId(resultSet.getInt("supplierId"));
+                product.setBrandId(resultSet.getInt("brandId"));
+                product.setSegmentId(resultSet.getInt("segmentId"));
+                product.setStyleId(resultSet.getInt("styleId"));
+
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return products;
+    }
+
+    public int getToTalPagingProductBySearch(String search) {
+        String sql = "SELECT count(*) FROM carpipi.products p  \n"
+                + "JOIN carpipi.brand b ON p.brandId = b.brandId\n"
+                + "Join carpipi.style st on p.styleId = st.styleId\n"
+                + "where p.name like ? or st.styleName like ? \n"
+                + "or p.brandId like ? or p.fuel like ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + search + "%");
+            st.setString(2, "%" + search + "%");
+            st.setString(3, "%" + search + "%");
+            st.setString(4, "%" + search + "%");
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
         }
         return 0;
     }
@@ -481,13 +544,21 @@ public class ProductDAO extends DBContext {
         return products;
     }
 
-    public List<Product> getPagingProductByName(String name, int index) {
+    public List<Product> getPagingProductBySearch(String search, int index) {
         List<Product> listProduct = new ArrayList<>();
-        String sql = "select * from Carpipi.products  where name like ? ORDER BY productId LIMIT 5 OFFSET ?";
+        String sql = "SELECT p.* FROM carpipi.products p  \n"
+                + "JOIN carpipi.brand b ON p.brandId = b.brandId\n"
+                + "Join carpipi.style st on p.styleId = st.styleId\n"
+                + "where ( p.name like ? or st.styleName like ? \n"
+                + "or p.brandId like ? or p.fuel like ?)\n"
+                + "ORDER BY productId LIMIT 5 OFFSET ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, "%" + name + "%");
-            st.setInt(2, ((index - 1) * 5));
+            st.setString(1, "%" + search + "%");
+            st.setString(2, "%" + search + "%");
+            st.setString(3, "%" + search + "%");
+            st.setString(4, "%" + search + "%");
+            st.setInt(5, ((index - 1) * 5));
             ResultSet resultSet = st.executeQuery();
 
             while (resultSet.next()) {

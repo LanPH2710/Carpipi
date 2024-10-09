@@ -126,11 +126,11 @@ public class ProductListMarketingServlet extends HttpServlet {
         }
 
         if (search != null && !search.isEmpty()) {
-            listProduct = pDao.getPagingProductByName(search, index);
+            listProduct = pDao.getPagingProductBySearch(search, index);
             if (listProduct != null && !listProduct.isEmpty()) {
                 
                 request.setAttribute("listProduct", listProduct);
-                count = pDao.getTotalProductWithProductName(search);
+                count = pDao.getToTalPagingProductBySearch(search);
             } 
         }
 

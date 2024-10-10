@@ -289,87 +289,36 @@
                 </div><!--/.section-header-->
                 <div class="new-cars-content">
                     <div class="owl-carousel owl-theme" id="new-cars-carousel">
-                        <div class="new-cars-item">
-                            <div class="single-new-cars-item">
-                                <div class="row">
-                                    <div class="col-md-7 col-sm-12">
-                                        <div class="new-cars-img">
-                                            <img src="assets/images/new-cars-model/mercedes-benz_0012_glc-200-4matic-X254b-600x338.png" alt="img"/>
-                                        </div><!--/.new-cars-img-->
-                                    </div>
-                                    <div class="col-md-5 col-sm-12">
-                                        <div class="new-cars-txt">
-                                            <h2><a href="#">Mercedes-Benz GLC 300 4MATIC (X254) <span> za100</span></a></h2>
-                                            <p>
-                                                Với thiết kế đẳng cấp, khả năng vận hành vượt trội và hệ dẫn động 4MATIC linh hoạt, GLC 300 (X254) mang đến trải nghiệm lái đầy hứng khởi trên mọi cung đường. Nội thất sang trọng cùng hàng loạt công nghệ tiên tiến sẽ khiến mỗi chuyến đi trở nên thoải mái và an toàn hơn bao giờ hết.
-                                            </p>
-                                            <p class="new-cars-para2">
-                                                Khám phá Mercedes-Benz GLC 300 4MATIC – Sự lựa chọn hoàn hảo cho những ai đam mê phong cách và hiệu suất!
-                                            </p>
-                                            <button class="welcome-btn new-cars-btn" onclick="window.location.href = '#'">
-                                                Xem chi tiết
-                                            </button>
-                                        </div><!--/.new-cars-txt-->	
-                                    </div><!--/.col-->
-                                </div><!--/.row-->
-                            </div><!--/.single-new-cars-item-->
-                        </div><!--/.new-cars-item-->
-                        <div class="new-cars-item">
-                            <div class="single-new-cars-item">
-                                <div class="row">
-                                    <div class="col-md-7 col-sm-12">
-                                        <div class="new-cars-img">
-                                            <img src="assets/images/new-cars-model/ncm2.png" alt="img"/>
-                                        </div><!--/.new-cars-img-->
-                                    </div>
-                                    <div class="col-md-5 col-sm-12">
-                                        <div class="new-cars-txt">
-                                            <h2><a href="#">BMW series-3 wagon</a></h2>
-                                            <p>
-                                                Mang đến sự kết hợp hoàn hảo giữa hiệu suất mạnh mẽ và không gian tiện nghi, BMW 3 Series Touring là lựa chọn lý tưởng cho những ai yêu thích cảm giác lái đỉnh cao mà vẫn cần sự linh hoạt của một chiếc wagon. Thiết kế thể thao, công nghệ tiên tiến và khoang hành lý rộng rãi sẽ đáp ứng mọi nhu cầu của bạn từ công việc đến những chuyến phiêu lưu cuối tuần.
-                                            </p>
-                                            <p class="new-cars-para2">
-                                                Trải nghiệm BMW 3 Series Touring – Nâng tầm hành trình của bạn lên một đẳng cấp mới!
-                                            </p>
-                                            <button class="welcome-btn new-cars-btn" onclick="window.location.href = '#'">
-                                                Xem chi tiết
-                                            </button>
-                                        </div><!--/.new-cars-txt-->	
-                                    </div><!--/.col-->
-                                </div><!--/.row-->	
-                            </div><!--/.single-new-cars-item-->
-                        </div><!--/.new-cars-item-->
-                        <div class="new-cars-item">
-                            <div class="single-new-cars-item">
-                                <div class="row">
-                                    <div class="col-md-7 col-sm-12">
-                                        <div class="new-cars-img">
-                                            <img src="assets/images/new-cars-model/white-silver-metallic-16250422321.png" alt="img"/>
-                                        </div><!--/.new-cars-img-->
-                                    </div>
-                                    <div class="col-md-5 col-sm-12">
-                                        <div class="new-cars-txt">
-                                            <h2><a href="#">Volkswagen Tiguan Allspace</a></h2>
-                                            <p>
-                                                Sở hữu thiết kế sang trọng, rộng rãi với 7 chỗ ngồi linh hoạt, Tiguan Allspace là người bạn đồng hành hoàn hảo cho cả gia đình. Với động cơ mạnh mẽ, công nghệ tiên tiến và hệ thống an toàn tối ưu, chiếc SUV này sẽ mang đến cho bạn trải nghiệm lái mượt mà và tiện nghi trên mọi nẻo đường.
-                                            </p>
-                                            <p class="new-cars-para2">
-                                                Khám phá ngay Volkswagen Tiguan Allspace để tận hưởng sự đẳng cấp và tiện nghi đích thực!
-                                            </p>
-                                            <button class="welcome-btn new-cars-btn" onclick="window.location.href = '#'">
-                                                Xem chi tiết 
-                                            </button>
-                                        </div><!--/.new-cars-txt-->	
-                                    </div><!--/.col-->
-                                </div><!--/.row-->
-                            </div><!--/.single-new-cars-item-->
-                        </div><!--/.new-cars-item-->
+                        <c:forEach var="nCar" items="${newProducts}">
+                            <div class="new-cars-item">
+                                <div class="single-new-cars-item">
+                                    <div class="row">
+                                        <div class="col-md-7 col-sm-12">
+                                            <div class="new-cars-img">
+                                                <img src="${nCar.images[0].imageUrl}" alt="${nCar.name}"/>
+                                            </div><!--/.new-cars-img-->
+                                        </div>
+                                        <div class="col-md-5 col-sm-12">
+                                            <div class="new-cars-txt">
+                                                <h2><a href="#">${nCar.name}<span> za100</span></a></h2>
+                                                <p>
+                                                    ${nCar.description}
+                                                </p>
+                                                <button class="welcome-btn new-cars-btn" onclick="window.location.href = '#'">
+                                                    Xem chi tiết
+                                                </button>
+                                            </div><!--/.new-cars-txt-->	
+                                        </div><!--/.col-->
+                                    </div><!--/.row-->
+                                </div><!--/.single-new-cars-item-->
+                            </div><!--/.new-cars-item-->
+                        </c:forEach>
                     </div><!--/#new-cars-carousel-->
                 </div><!--/.new-cars-content-->
             </div><!--/.container-->
-
         </section><!--/.new-cars-->
         <!--new-cars end -->
+
 
         <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <!--featured-cars start -->

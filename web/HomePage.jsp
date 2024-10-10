@@ -5,6 +5,10 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="java.util.List" %>
+
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -358,7 +362,7 @@
                                         <!-- Tên và đường dẫn chi tiết sản phẩm -->
                                         <h2><a href="productDetail.jsp?productId=${product.productId}">${product.name}</a></h2>
                                         <!-- Hiển thị giá sản phẩm với định dạng tiền tệ -->
-                                        <h3>${product.price}₫</h3>
+                                        <h3><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/>đ</h3>
                                         <!-- Hiển thị mô tả ngắn về sản phẩm -->
                                         <p class="car-desc">${product.description}</p>
                                     </div>

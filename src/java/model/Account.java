@@ -14,17 +14,34 @@ public class Account {
     private String password;
     private String firstName;
     private String lastName;
-    private String gender;
+    private int gender;
     private String email;
     private String mobile;
     private String address;
     private int roleId;
     private String avatar;
+    private int status;
 
     public Account() {
     }
 
-    public Account(int userId, String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address, int roleId, String avatar) {
+    public Account(int userId, String userName, String password, String firstName, String lastName, int gender, String email, String mobile, String address, int roleId, String avatar, int status) {
+        this.userId = userId;
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+        this.mobile = mobile;
+        this.address = address;
+        this.roleId = roleId;
+        this.avatar = avatar;
+        this.status = status;
+    }
+    
+    
+    public Account(int userId, String userName, String password, String firstName, String lastName, int gender, String email, String mobile, String address, int roleId, String avatar) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
@@ -38,7 +55,7 @@ public class Account {
         this.avatar = avatar;
     }
 
-    public Account(String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address) {
+    public Account(String userName, String password, String firstName, String lastName, int gender, String email, String mobile, String address) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
@@ -49,7 +66,7 @@ public class Account {
         this.address = address;
     }
 
-    public Account(String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address, int roleId, String avatar) {
+    public Account(String userName, String password, String firstName, String lastName, int gender, String email, String mobile, String address, int roleId, String avatar) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
@@ -102,11 +119,11 @@ public class Account {
         this.lastName = lastName;
     }
 
-    public String getGender() {
+    public int getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(int gender) {
         this.gender = gender;
     }
 
@@ -150,6 +167,12 @@ public class Account {
         this.avatar = avatar;
     }
 
-    
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
     
 }

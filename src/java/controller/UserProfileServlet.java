@@ -104,7 +104,7 @@ public class UserProfileServlet extends HttpServlet {
         // Lấy giá trị từ JSP
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
-        String gender = request.getParameter("gender");
+        int gender = Integer.parseInt(request.getParameter("gender"));
         String mobile = request.getParameter("mobile");
         String address = request.getParameter("address");
         //Verifile moblie
@@ -142,7 +142,6 @@ public class UserProfileServlet extends HttpServlet {
 
         // Cập nhật account
         adao.editAccount(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, userId);
-        request.setAttribute("errorMessage", "Thay đổi thành công");
         request.getRequestDispatcher("UserProfile.jsp").forward(request, response);
     }
 

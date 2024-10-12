@@ -59,8 +59,8 @@ public class SearchCustomerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AccountDAO adao = new AccountDAO();
-        String search = request.getParameter("search");
-        List<Account> listC = adao.searchByEmail(search);
+        String search = request.getParameter("search").trim();
+        List<Account> listC = adao.searchCustomerByEmail(search);
         request.setAttribute("customerList", listC);
         request.setAttribute("search", search);
         request.getRequestDispatcher("CustomerList.jsp").forward(request, response);

@@ -35,7 +35,7 @@ public class LoginDAO extends DBContext {
                 account.setPassword(rs.getString(3));
                 account.setFirstName(rs.getString(4));
                 account.setLastName(rs.getString(5));
-                account.setGender(rs.getString(6));
+                account.setGender(rs.getInt(6));
                 account.setEmail(rs.getString(7));
                 account.setMobile(rs.getString(8));
                 account.setAddress(rs.getString(9));
@@ -69,7 +69,7 @@ public class LoginDAO extends DBContext {
                 account.setPassword(rs.getString(3));
                 account.setFirstName(rs.getString(4));
                 account.setLastName(rs.getString(5));
-                account.setGender(rs.getString(6));
+                account.setGender(rs.getInt(6));
                 account.setEmail(rs.getString(7));
                 account.setMobile(rs.getString(8));
                 account.setAddress(rs.getString(9));

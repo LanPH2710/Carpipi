@@ -5,9 +5,7 @@
 package controller;
 
 import dal.BlogDAO;
-import dal.BrandDAO;
 import dal.CommentBlogDAO;
-import dal.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,7 +16,6 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
 import model.Blog;
-import model.Brand;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import model.CommentBlog;
@@ -69,23 +66,18 @@ public class BlogDetailServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         BlogDAO bdao = new BlogDAO();
-        BrandDAO brdao = new BrandDAO();
-        PostDAO postdao = new PostDAO();
         CommentBlogDAO cbdao = new CommentBlogDAO();
         int blogId = Integer.parseInt(request.getParameter("blogId"));
         Blog blog = bdao.getBlogById(blogId);
-        String brand = brdao.getBrandById(blog.getBrandId());
-        int userId = bdao.getUserIdByPostId(blog.getPostId());
-        String author = postdao.getUserFullNameById(userId);
-        List<Brand> brands = brdao.getAllBrand();
+        String author = bdao.getUserFullNameById(blogId);
         cbdao.getCommentBlogByBlogId(blogId);
         List<CommentBlog> comment = cbdao.getCommentBlogByBlogId(blogId);
         List<Account> acc = cbdao.getUserNameByBlogId(blogId);
+        List<Blog> top5 = bdao.getTop5NewBlog();
         request.setAttribute("listacc", acc);
         request.setAttribute("comment", comment);
         request.setAttribute("author", author);
-        request.setAttribute("brands", brands);
-        request.setAttribute("brand", brand);
+        request.setAttribute("top5", top5);
         session.setAttribute("blog", blog);
         request.getRequestDispatcher("BlogDetail.jsp").forward(request, response);
     }

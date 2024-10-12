@@ -61,7 +61,7 @@ public class AddCustomerServlet extends HttpServlet {
         String password = request.getParameter("password").trim();
         String firstName = request.getParameter("firstName").trim();
         String lastName = request.getParameter("lastName").trim();
-        String gender = request.getParameter("gender").trim();
+        int gender = Integer.parseInt(request.getParameter("gender").trim());
         String email = request.getParameter("email").trim();
         String mobile = request.getParameter("mobile").trim();
         String address = request.getParameter("address").trim();

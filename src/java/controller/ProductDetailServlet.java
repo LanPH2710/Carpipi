@@ -84,7 +84,7 @@ public class ProductDetailServlet extends HttpServlet {
             request.setAttribute("style", style);
             request.setAttribute("supply", supply);
             request.setAttribute("segment", segmentName);
-            request.getRequestDispatcher("productDetail.jsp").forward(request, response);
+            request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
         } 
 
 

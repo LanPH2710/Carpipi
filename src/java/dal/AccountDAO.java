@@ -55,9 +55,8 @@ public class AccountDAO extends DBContext {
             while (rs.next()) {
                 int userId = rs.getInt("userId");
                 String plainPassword = rs.getString("password");
-                if (plainPassword.length() < 60) { // BCrypt hash dài 60 ký tự
-
-                    String hashedPassword = PasswordUtils.hashPassword(plainPassword);
+                if (plainPassword != null && plainPassword.length() < 60) {
+    String hashedPassword = PasswordUtils.hashPassword(plainPassword);
                     // Cập nhật mật khẩu mới vào cơ sở dữ liệu
                     String updateQuery = "UPDATE account SET password = ? WHERE userId = ?";
                     PreparedStatement pstmt = connection.prepareStatement(updateQuery);

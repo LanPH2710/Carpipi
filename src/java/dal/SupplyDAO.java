@@ -5,8 +5,6 @@
 package dal;
 
 import context.DBContext;
-import model.Product;
-import model.ProductImage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +19,7 @@ import model.Supply;
 public class SupplyDAO extends DBContext {
 
     public int getSupplyIdByName(String name) {
-        String sql = "SELECT supplyId FROM carpipi.supplies where supplyName = ?";
+        String sql = "SELECT supplyId FROM carpipi.supply where supplyName = ?";
 
         String supplyId = null; // Biến để lưu kết quả trả về
 
@@ -47,7 +45,7 @@ public class SupplyDAO extends DBContext {
 
         List<Supply> listSupply = new ArrayList<>();
 
-        String sql = "SELECT * FROM carpipi.supplies";
+        String sql = "SELECT * FROM carpipi.supply";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);

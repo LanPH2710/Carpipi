@@ -109,14 +109,16 @@
                         </div>
                     </div>
                     <div class="form-group form-group-inline">
+
                         <div class="form-group-half">
                             <label for="gender">Giới Tính*</label>
                             <select id="gender" name="gender" required> 
-                                <option value="Nam" ${not empty param.Nam ? param.Nam : ''}>Nam</option>
-                                <option value="Nữ" ${not empty param.Nữ ? param.Nữ : ''}>Nữ</option>
-                                <option value="Khác" ${not empty param.Khác ? param.Khác : ''}>Khác</option>
+                                <option value="0" ${not empty param.gender && param.gender == '0' ? 'selected' : ''}>Nam</option>
+                                <option value="1" ${not empty param.gender && param.gender == '1' ? 'selected' : ''}>Nữ</option>
+                                <option value="2" ${not empty param.gender && param.gender == '2' ? 'selected' : ''}>Khác</option>
                             </select>
                         </div>
+
                         <div class="form-group-half">
                             <label for="mobile">Số Điện Thoại*</label>
                             <input type="text" id="mobile" name="mobile" value="${not empty param.mobile ? param.mobile : ''}" required>

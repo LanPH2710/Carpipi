@@ -4,34 +4,46 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author tuana
  */
 public class Blog {
     private int blogId;
-    private int brandId;
-    private int postId;
+    private int userId;
     private String blogTitle;
     private String blogTime;
-    private String blogImage;
-    private String blogImageText;
-    private String blogInfo1;
-    private String blogInfo2;
+    private String openBlog;
+    private String bodyMain1;
+    private String bodySp1;
+    private String bodyMain2;
+    private String bodySp2;
+    private String bodyMain3;
+    private String bodySp3;
+    private String endBlog;
+    private int status;
+    List<ImageBlog> images;
 
     public Blog() {
     }
 
-    public Blog(int blogId, int brandId, int postId, String blogTitle, String blogTime, String blogImage, String blogImageText, String blogInfo1, String blogInfo2) {
+    public Blog(int blogId, int userId, String blogTitle, String blogTime, String openBlog, String bodyMain1, String bodySp1, String bodyMain2, String bodySp2, String bodyMain3, String bodySp3, String endBlog, int status, List<ImageBlog> images) {
         this.blogId = blogId;
-        this.brandId = brandId;
-        this.postId = postId;
+        this.userId = userId;
         this.blogTitle = blogTitle;
         this.blogTime = blogTime;
-        this.blogImage = blogImage;
-        this.blogImageText = blogImageText;
-        this.blogInfo1 = blogInfo1;
-        this.blogInfo2 = blogInfo2;
+        this.openBlog = openBlog;
+        this.bodyMain1 = bodyMain1;
+        this.bodySp1 = bodySp1;
+        this.bodyMain2 = bodyMain2;
+        this.bodySp2 = bodySp2;
+        this.bodyMain3 = bodyMain3;
+        this.bodySp3 = bodySp3;
+        this.endBlog = endBlog;
+        this.status = status;
+        this.images = images;
     }
 
     public int getBlogId() {
@@ -42,20 +54,12 @@ public class Blog {
         this.blogId = blogId;
     }
 
-    public int getBrandId() {
-        return brandId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setBrandId(int brandId) {
-        this.brandId = brandId;
-    }
-
-    public int getPostId() {
-        return postId;
-    }
-
-    public void setPostId(int postId) {
-        this.postId = postId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getBlogTitle() {
@@ -74,36 +78,84 @@ public class Blog {
         this.blogTime = blogTime;
     }
 
-    public String getBlogImage() {
-        return blogImage;
+    public String getOpenBlog() {
+        return openBlog;
     }
 
-    public void setBlogImage(String blogImage) {
-        this.blogImage = blogImage;
+    public void setOpenBlog(String openBlog) {
+        this.openBlog = openBlog;
     }
 
-    public String getBlogImageText() {
-        return blogImageText;
+    public String getBodyMain1() {
+        return bodyMain1;
     }
 
-    public void setBlogImageText(String blogImageText) {
-        this.blogImageText = blogImageText;
+    public void setBodyMain1(String bodyMain1) {
+        this.bodyMain1 = bodyMain1;
     }
 
-    public String getBlogInfo1() {
-        return blogInfo1;
+    public String getBodySp1() {
+        return bodySp1;
     }
 
-    public void setBlogInfo1(String blogInfo1) {
-        this.blogInfo1 = blogInfo1;
+    public void setBodySp1(String bodySp1) {
+        this.bodySp1 = bodySp1;
     }
 
-    public String getBlogInfo2() {
-        return blogInfo2;
+    public String getBodyMain2() {
+        return bodyMain2;
     }
 
-    public void setBlogInfo2(String blogInfo2) {
-        this.blogInfo2 = blogInfo2;
+    public void setBodyMain2(String bodyMain2) {
+        this.bodyMain2 = bodyMain2;
+    }
+
+    public String getBodySp2() {
+        return bodySp2;
+    }
+
+    public void setBodySp2(String bodySp2) {
+        this.bodySp2 = bodySp2;
+    }
+
+    public String getBodyMain3() {
+        return bodyMain3;
+    }
+
+    public void setBodyMain3(String bodyMain3) {
+        this.bodyMain3 = bodyMain3;
+    }
+
+    public String getBodySp3() {
+        return bodySp3;
+    }
+
+    public void setBodySp3(String bodySp3) {
+        this.bodySp3 = bodySp3;
+    }
+
+    public String getEndBlog() {
+        return endBlog;
+    }
+
+    public void setEndBlog(String endBlog) {
+        this.endBlog = endBlog;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public List<ImageBlog> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ImageBlog> images) {
+        this.images = images;
     }
     
 }

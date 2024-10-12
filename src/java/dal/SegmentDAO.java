@@ -18,6 +18,22 @@ import model.Segment;
  */
 public class SegmentDAO extends DBContext{
     
+    public String getSegmentNameBySegmentId(int segmentId) {
+        String segmentName = null;
+        String sql = "SELECT segmentName FROM Segment WHERE segmentId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, segmentId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                segmentName = rs.getString("segmentName");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return segmentName;
+    }
+    
     public int getSegmentIdByName(String name) {
         String sql = "SELECT segmentId FROM carpipi.segment where segmentName = ?";
 

@@ -25,7 +25,7 @@ public class RegisterController extends HttpServlet {
         String password = request.getParameter("password");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
-        String gender = request.getParameter("gender");
+        int gender = Integer.parseInt(request.getParameter("gender").trim());
         String email = request.getParameter("email");
         String mobile = request.getParameter("mobile");
         String address = request.getParameter("address");
@@ -90,7 +90,7 @@ public class RegisterController extends HttpServlet {
 
     private void forwardToRegisterPage(HttpServletRequest request, HttpServletResponse response,
                                         String userName, String password, String firstName, 
-                                        String lastName, String gender, String email, 
+                                        String lastName, int gender, String email, 
                                         String mobile, String address) 
             throws ServletException, IOException {
         // Set attributes for each field

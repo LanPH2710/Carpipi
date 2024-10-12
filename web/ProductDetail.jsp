@@ -190,7 +190,7 @@
                             <!-- Carousel -->
                             <div id="productImageCarousel" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
-                                    <c:forEach items="${photo}" var="photo" varStatus="status">
+                                    <c:forEach items="${pro.images}" var="photo" varStatus="status">
                                         <div class="carousel-item ${status.first ? 'active' : ''}">
                                             <img id="mainImage" src="${photo.imageUrl}" class="main-image rounded" style="width: 100%; height: 400px; object-fit: cover;">
                                         </div>
@@ -200,7 +200,7 @@
 
                             <!-- Hình ảnh nhỏ -->
                             <div class="product-images d-flex justify-content-center mt-3 gap-2 mb-5">
-                                <c:forEach items="${photo}" var="photo">
+                                <c:forEach items="${pro.images}" var="photo">
                                     <img src="${photo.imageUrl}" class="img-thumbnail" onclick="changeImage('${photo.imageUrl}')">
                                 </c:forEach>
                             </div>

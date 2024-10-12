@@ -75,7 +75,7 @@ public class CommentBlogDAO extends DBContext {
                             rs.getString("password"),
                             rs.getString("firstName"),
                             rs.getString("lastName"),
-                            rs.getString("gender"),
+                            rs.getInt("gender"),
                             rs.getString("email"),
                             rs.getString("mobile"),
                             rs.getString("address"),

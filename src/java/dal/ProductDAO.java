@@ -1,8 +1,6 @@
 package dal;
 
 import context.DBContext;
-import model.Product;
-import model.ProductImage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +14,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM products"; // Thay đổi tên bảng cho đúng
+            String sql = "SELECT * FROM product"; // Thay đổi tên bảng cho đúng
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet resultSet = st.executeQuery();
             while (resultSet.next()) {
@@ -29,7 +27,7 @@ public class ProductDAO extends DBContext {
                 product.setStock(resultSet.getInt("stock"));
                 product.setDescription(resultSet.getString("description"));
                 product.setVAT(resultSet.getDouble("VAT"));
-                product.setSupplierId(resultSet.getInt("supplierId"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
                 product.setBrandId(resultSet.getInt("brandId"));
                 product.setSegmentId(resultSet.getInt("segmentId"));
                 product.setStyleId(resultSet.getInt("styleId"));
@@ -48,7 +46,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getAllProductsById(String id) {
         List<Product> products = new ArrayList<>();
         try {
-            String sql = "select * from carpipi.products where productid like ?"; // Thay đổi tên bảng cho đúng
+            String sql = "select * from carpipi.product where productid like ?"; // Thay đổi tên bảng cho đúng
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, id + "%");
 
@@ -63,7 +61,7 @@ public class ProductDAO extends DBContext {
                 product.setStock(resultSet.getInt("stock"));
                 product.setDescription(resultSet.getString("description"));
                 product.setVAT(resultSet.getDouble("VAT"));
-                product.setSupplierId(resultSet.getInt("supplierId"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
                 product.setBrandId(resultSet.getInt("brandId"));
                 product.setSegmentId(resultSet.getInt("segmentId"));
                 product.setStyleId(resultSet.getInt("styleId"));
@@ -83,7 +81,7 @@ public class ProductDAO extends DBContext {
         Product product = null;
         try {
             // Câu truy vấn lấy thông tin sản phẩm dựa trên productId
-            String sql = "SELECT * FROM products WHERE productId = ?";
+            String sql = "SELECT * FROM product WHERE productId = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, productId); // Sửa đổi để phù hợp với kiểu dữ liệu
             ResultSet rs = st.executeQuery();
@@ -99,7 +97,7 @@ public class ProductDAO extends DBContext {
                 product.setStock(rs.getInt("stock"));
                 product.setDescription(rs.getString("description"));
                 product.setVAT(rs.getDouble("VAT"));
-                product.setSupplierId(rs.getInt("supplierId"));
+                product.setSupplyId(rs.getInt("supplyId"));
                 product.setBrandId(rs.getInt("brandId"));
                 product.setSegmentId(rs.getInt("segmentId"));
                 product.setStyleId(rs.getInt("styleId"));
@@ -116,7 +114,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getProductByName(String name) {
         List<Product> products = new ArrayList<>();
         try {
-            String sql = "select * from carpipi.products where name like ?"; // Thay đổi tên bảng cho đúng
+            String sql = "select * from carpipi.product where name like ?"; // Thay đổi tên bảng cho đúng
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, "%" + name + "%");
 
@@ -131,7 +129,7 @@ public class ProductDAO extends DBContext {
                 product.setStock(resultSet.getInt("stock"));
                 product.setDescription(resultSet.getString("description"));
                 product.setVAT(resultSet.getDouble("VAT"));
-                product.setSupplierId(resultSet.getInt("supplierId"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
                 product.setBrandId(resultSet.getInt("brandId"));
                 product.setSegmentId(resultSet.getInt("segmentId"));
                 product.setStyleId(resultSet.getInt("styleId"));
@@ -143,11 +141,26 @@ public class ProductDAO extends DBContext {
         }
         return products;
     }
+    public String getSupplyNameById(int supplyId) {
+        String supplyName = null;
+        String sql = "SELECT segmentName FROM Segment WHERE segmentId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, supplyId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                supplyName = rs.getString("supplyName");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return supplyName;
+    }
 
     // Phương thức lấy danh sách hình ảnh theo productId
     public List<ProductImage> getImagesByProductId(String productId) {
         List<ProductImage> images = new ArrayList<>();
-        String query = "SELECT * FROM productimages WHERE productId = ?";
+        String query = "SELECT * FROM productimage WHERE productId = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, productId);
@@ -166,7 +179,7 @@ public class ProductDAO extends DBContext {
     }
 
     public void insertImage(String id, String url) {
-        String sql = "INSERT INTO `carpipi`.`productimages`\n"
+        String sql = "INSERT INTO `carpipi`.`productimage`\n"
                 + "(`productId`,\n"
                 + "`imageUrl`)\n"
                 + "VALUES\n"
@@ -182,12 +195,13 @@ public class ProductDAO extends DBContext {
 
     }
 
-    public List<Product> getProductsByProductIdPrefix(String prefix) {
+    public List<Product> getProductsByProductIdPrefix(String prefix, int limit) {
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM products WHERE productId LIKE ? LIMIT 4"; // Giới hạn lấy 5 sản phẩm
+        String sql = "SELECT * FROM product WHERE productId LIKE ? LIMIT ?"; 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, prefix + "%"); // Thêm ký tự % để tìm kiếm
+            st.setInt(2, limit); // Thêm ký tự % để tìm kiếm
             ResultSet resultSet = st.executeQuery();
             while (resultSet.next()) {
                 Product product = new Product();
@@ -199,7 +213,7 @@ public class ProductDAO extends DBContext {
                 product.setStock(resultSet.getInt("stock"));
                 product.setDescription(resultSet.getString("description"));
                 product.setVAT(resultSet.getDouble("VAT"));
-                product.setSupplierId(resultSet.getInt("supplierId"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
                 product.setBrandId(resultSet.getInt("brandId"));
                 product.setSegmentId(resultSet.getInt("segmentId"));
                 product.setStyleId(resultSet.getInt("styleId"));
@@ -212,10 +226,40 @@ public class ProductDAO extends DBContext {
         return products;
     }
 
+    public List<Product> getLastestProductsByProductIdPrefix(String prefix, int limit) {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM product WHERE productId LIKE ? ORDER BY productId DESC LIMIT ?"; 
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, prefix + "%"); // Thêm ký tự % để tìm kiếm
+            st.setInt(2, limit); // Thêm ký tự % để tìm kiếm
+            ResultSet resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProductId(resultSet.getString("productId"));
+                product.setName(resultSet.getString("name"));
+                product.setSeatNumber(resultSet.getInt("seatNumber"));
+                product.setPrice(resultSet.getDouble("price"));
+                product.setFuel(resultSet.getString("fuel"));
+                product.setStock(resultSet.getInt("stock"));
+                product.setDescription(resultSet.getString("description"));
+                product.setVAT(resultSet.getDouble("VAT"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
+                product.setBrandId(resultSet.getInt("brandId"));
+                product.setSegmentId(resultSet.getInt("segmentId"));
+                product.setStyleId(resultSet.getInt("styleId"));
+                product.setImages(getImagesByProductId(product.getProductId())); // Thêm hình ảnh vào sản phẩm
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
     // Son: lấy sản phẩm có id to nhất với nameId là mã số đầu vd: VO, AU, ME, BM, PO
     public String getProductToScanId(String nameId) {
         String sql = "SELECT productId \n"
-                + "FROM carpipi.products \n"
+                + "FROM carpipi.product \n"
                 + "WHERE productId LIKE ? \n"
                 + "ORDER BY productId DESC \n"
                 + "LIMIT 1;";
@@ -285,6 +329,67 @@ public class ProductDAO extends DBContext {
 
         return brand;
     }
+    
+    public List<Product> getProductByBrandId(int brandId) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM Product WHERE brandId = ? LIMIT 8;";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, brandId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setProductId(rs.getString("productId"));
+                product.setName(rs.getString("name"));
+                product.setSeatNumber(rs.getInt("seatNumber"));
+                product.setPrice(rs.getFloat("price"));
+                product.setFuel(rs.getString("fuel"));
+                product.setStock(rs.getInt("stock"));
+                product.setDescription(rs.getString("description"));
+                product.setVAT(rs.getFloat("VAT"));
+                product.setSupplyId(rs.getInt("supplyId"));
+                product.setBrandId(rs.getInt("brandId"));
+                product.setSegmentId(rs.getInt("segmentId"));
+                product.setStyleId(rs.getInt("styleId"));
+                product.setImages(getImagesByProductId(product.getProductId()));
+                list.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public List<Product> getProductByPrice(double price) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM Product WHERE price BETWEEN ? AND ? LIMIT 8;";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDouble(1, price - 100000000);
+            st.setDouble(2, price + 100000000);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setProductId(rs.getString("productId"));
+                product.setName(rs.getString("name"));
+                product.setSeatNumber(rs.getInt("seatNumber"));
+                product.setPrice(rs.getFloat("price"));
+                product.setFuel(rs.getString("fuel"));
+                product.setStock(rs.getInt("stock"));
+                product.setDescription(rs.getString("description"));
+                product.setVAT(rs.getFloat("VAT"));
+                product.setSupplyId(rs.getInt("supplyId"));
+                product.setBrandId(rs.getInt("brandId"));
+                product.setSegmentId(rs.getInt("segmentId"));
+                product.setStyleId(rs.getInt("styleId"));
+                product.setImages(getImagesByProductId(product.getProductId()));
+                list.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
 
 //     private int productId;
 //    private String name;
@@ -301,8 +406,8 @@ public class ProductDAO extends DBContext {
 //    private List<ProductImage> images; 
     //Son: Thêm sản phẩm 
     public void insertProduct(String id, String name, int seatNumber, double price, String fuel,
-            int stock, String des, double vat, int suppliesId, int brandId, int segmentId, int styleId) {
-        String sql = "INSERT INTO `carpipi`.`products`\n"
+            int stock, String des, double vat, int supplyId, int brandId, int segmentId, int styleId) {
+        String sql = "INSERT INTO `carpipi`.`product`\n"
                 + "(`productId`,\n"
                 + "`name`,\n"
                 + "`seatNumber`,\n"
@@ -311,7 +416,7 @@ public class ProductDAO extends DBContext {
                 + "`stock`,\n"
                 + "`description`,\n"
                 + "`VAT`,\n"
-                + "`supplierId`,\n"
+                + "`supplyId`,\n"
                 + "`brandId`,\n"
                 + "`segmentId`,\n"
                 + "`styleId`)\n"
@@ -327,7 +432,7 @@ public class ProductDAO extends DBContext {
             st.setInt(6, stock);
             st.setString(7, des);
             st.setDouble(8, vat);
-            st.setInt(9, suppliesId);
+            st.setInt(9, supplyId);
             st.setInt(10, brandId);
             st.setInt(11, segmentId);
             st.setInt(12, styleId);
@@ -340,7 +445,7 @@ public class ProductDAO extends DBContext {
     }
 
     public void deleteProductById(String id) {
-        String sql = "delete  from carpipi.products where productId = ?";
+        String sql = "delete  from carpipi.product where productId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, id);
@@ -352,7 +457,7 @@ public class ProductDAO extends DBContext {
     public ProductImage getOneImagesByProductId(String productId) {
         ProductImage images = new ProductImage();
         String query = "SELECT * \n"
-                + "FROM productimages \n"
+                + "FROM productimage \n"
                 + "WHERE productId = ? \n"
                 + "LIMIT 1;";
         try {
@@ -374,7 +479,7 @@ public class ProductDAO extends DBContext {
     }
 
     public int getTotalAccount() {
-        String sql = "SELECT Count(*) FROM carpipi.products";
+        String sql = "SELECT Count(*) FROM carpipi.product";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -392,7 +497,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getProductBySearch(String search) {
         List<Product> products = new ArrayList<>();
 
-        String sql = "SELECT p.* FROM carpipi.products p  \n"
+        String sql = "SELECT p.* FROM carpipi.product p  \n"
                 + "JOIN carpipi.brand b ON p.brandId = b.brandId\n"
                 + "Join carpipi.style st on p.styleId = st.styleId\n"
                 + "where p.name like ? or st.styleName like ? \n"
@@ -415,7 +520,7 @@ public class ProductDAO extends DBContext {
                 product.setStock(resultSet.getInt("stock"));
                 product.setDescription(resultSet.getString("description"));
                 product.setVAT(resultSet.getDouble("VAT"));
-                product.setSupplierId(resultSet.getInt("supplierId"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
                 product.setBrandId(resultSet.getInt("brandId"));
                 product.setSegmentId(resultSet.getInt("segmentId"));
                 product.setStyleId(resultSet.getInt("styleId"));
@@ -429,7 +534,7 @@ public class ProductDAO extends DBContext {
     }
 
     public int getToTalPagingProductBySearch(String search) {
-        String sql = "SELECT count(*) FROM carpipi.products p  \n"
+        String sql = "SELECT count(*) FROM carpipi.product p  \n"
                 + "JOIN carpipi.brand b ON p.brandId = b.brandId\n"
                 + "Join carpipi.style st on p.styleId = st.styleId\n"
                 + "where p.name like ? or st.styleName like ? \n"
@@ -454,7 +559,7 @@ public class ProductDAO extends DBContext {
     }
 
     public int getTotalProductWithBrandId(String id) {
-        String sql = "SELECT Count(*) FROM carpipi.products where productId Like ?";
+        String sql = "SELECT Count(*) FROM carpipi.product where productId Like ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, id + "%");
@@ -473,7 +578,7 @@ public class ProductDAO extends DBContext {
     public List<Product> pagingProduct(int index) {
         List<Product> listProduct = new ArrayList<>();
         String sql = "SELECT * \n"
-                + "FROM Carpipi.products\n"
+                + "FROM Carpipi.product\n"
                 + "ORDER BY productId \n"
                 + "LIMIT 5 OFFSET ?";
         try {
@@ -492,7 +597,7 @@ public class ProductDAO extends DBContext {
                 product.setStock(resultSet.getInt("stock"));
                 product.setDescription(resultSet.getString("description"));
                 product.setVAT(resultSet.getDouble("VAT"));
-                product.setSupplierId(resultSet.getInt("supplierId"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
                 product.setBrandId(resultSet.getInt("brandId"));
                 product.setSegmentId(resultSet.getInt("segmentId"));
                 product.setStyleId(resultSet.getInt("styleId"));
@@ -513,7 +618,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getPagingAllProductsById(String id, int index) {
         List<Product> products = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM carpipi.products where productId Like ? order by productId limit 5 offset ? "; // Thay đổi tên bảng cho đúng
+            String sql = "SELECT * FROM carpipi.product where productId Like ? order by productId limit 5 offset ? "; // Thay đổi tên bảng cho đúng
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, id + "%");
             st.setInt(2, ((index - 1) * 5));
@@ -528,7 +633,7 @@ public class ProductDAO extends DBContext {
                 product.setStock(resultSet.getInt("stock"));
                 product.setDescription(resultSet.getString("description"));
                 product.setVAT(resultSet.getDouble("VAT"));
-                product.setSupplierId(resultSet.getInt("supplierId"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
                 product.setBrandId(resultSet.getInt("brandId"));
                 product.setSegmentId(resultSet.getInt("segmentId"));
                 product.setStyleId(resultSet.getInt("styleId"));
@@ -546,7 +651,7 @@ public class ProductDAO extends DBContext {
 
     public List<Product> getPagingProductBySearch(String search, int index) {
         List<Product> listProduct = new ArrayList<>();
-        String sql = "SELECT p.* FROM carpipi.products p  \n"
+        String sql = "SELECT p.* FROM carpipi.product p  \n"
                 + "JOIN carpipi.brand b ON p.brandId = b.brandId\n"
                 + "Join carpipi.style st on p.styleId = st.styleId\n"
                 + "where ( p.name like ? or st.styleName like ? \n"
@@ -571,7 +676,7 @@ public class ProductDAO extends DBContext {
                 product.setStock(resultSet.getInt("stock"));
                 product.setDescription(resultSet.getString("description"));
                 product.setVAT(resultSet.getDouble("VAT"));
-                product.setSupplierId(resultSet.getInt("supplierId"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
                 product.setBrandId(resultSet.getInt("brandId"));
                 product.setSegmentId(resultSet.getInt("segmentId"));
                 product.setStyleId(resultSet.getInt("styleId"));
@@ -590,7 +695,7 @@ public class ProductDAO extends DBContext {
     }
 
     public int getTotalProductWithProductName(String name) {
-        String sql = "select Count(*) from Carpipi.products  where name like ?";
+        String sql = "select Count(*) from Carpipi.product  where name like ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, "%" + name + "%");
@@ -607,7 +712,7 @@ public class ProductDAO extends DBContext {
     }
 
     public int getNumberPage() {
-        String sql = "SELECT Count(*) FROM carpipi.products";
+        String sql = "SELECT Count(*) FROM carpipi.product";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -629,9 +734,9 @@ public class ProductDAO extends DBContext {
     }
 
     public void updateProduct(String id, String name, int seatNumber, double price, String fuel,
-            int stock, String des, double vat, int suppliesId,
+            int stock, String des, double vat, int supplyId,
             int brandId, int segmentId, int styleId) {
-        String sql = "UPDATE `carpipi`.`products`\n"
+        String sql = "UPDATE `carpipi`.`product`\n"
                 + "SET\n"
                 + "`name` = ?,\n"
                 + "`seatNumber` = ?,\n"
@@ -640,7 +745,7 @@ public class ProductDAO extends DBContext {
                 + "`stock` = ?,\n"
                 + "`description` = ?,\n"
                 + "`VAT` = ?,\n"
-                + "`supplierId` = ?,\n"
+                + "`supplyId` = ?,\n"
                 + "`brandId` = ?,\n"
                 + "`segmentId` = ?,\n"
                 + "`styleId` = ?\n"
@@ -656,7 +761,7 @@ public class ProductDAO extends DBContext {
             st.setInt(5, stock);
             st.setString(6, des);
             st.setDouble(7, vat);
-            st.setInt(8, suppliesId);
+            st.setInt(8, supplyId);
             st.setInt(9, brandId);
             st.setInt(10, segmentId);
             st.setInt(11, styleId);

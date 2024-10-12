@@ -19,7 +19,7 @@ public class RoleDAO extends DBContext {
 
     public List<Role> getAllRole() {
         List<Role> list = new ArrayList<>();
-        String sql = "SELECT * FROM Roles;";
+        String sql = "SELECT * FROM Role;";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -35,7 +35,7 @@ public class RoleDAO extends DBContext {
     }
 
     public String getRoleNameById(int roleId) {
-        String sql = "SELECT roleName FROM Roles WHERE roleId = ?";
+        String sql = "SELECT roleName FROM Role WHERE roleId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, roleId);

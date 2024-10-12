@@ -5,8 +5,6 @@
 package dal;
 
 import context.DBContext;
-import model.Product;
-import model.ProductImage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -66,6 +64,22 @@ public class StyleDAO extends DBContext {
         }
 
         return listStyle;
+    }
+    
+    public String getStyleNameByStyleId(int styleId){
+        String styleName = null;
+        String sql = "SELECT styleName FROM style WHERE styleId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, styleId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                styleName = rs.getString("styleName");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return styleName;
     }
 
     public static void main(String[] args) {

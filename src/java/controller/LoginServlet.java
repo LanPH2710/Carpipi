@@ -4,6 +4,7 @@
  */
 package controller;
 
+import Constain.Iconstant;
 import dal.LoginDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,7 +43,7 @@ public class LoginServlet extends HttpServlet {
         String lastName = ggAcount.getFamily_name();
         String email = ggAcount.getEmail();
         String picture = ggAcount.getPicture();
-        String password = "1234567a";
+        String password = Iconstant.generateRandomPassword(8);
 
         HttpSession session = request.getSession();
         LoginDAO login = new LoginDAO();

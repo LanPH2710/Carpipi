@@ -38,22 +38,21 @@ public class HomePageServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         ProductDAO productDAO = new ProductDAO();
-        List<Product> featuredProducts = new ArrayList<>();
 
-        List<Product> products = productDAO.getProductsByProductIdPrefix("ME");
-        products.addAll(productDAO.getProductsByProductIdPrefix("VO"));
-        products.addAll(productDAO.getProductsByProductIdPrefix("BM"));
-        products.addAll(productDAO.getProductsByProductIdPrefix("AU"));
-        products.addAll(productDAO.getProductsByProductIdPrefix("PO"));
-        // Thêm sản phẩm vào danh sách featuredProducts
-        for (Product product : products) {
-            if (product != null) {
-                featuredProducts.add(product);
-            }
-        }
+        List<Product> featuredProducts = productDAO.getLastestProductsByProductIdPrefix("ME", 4);
+        featuredProducts.addAll(productDAO.getProductsByProductIdPrefix("VO", 4));
+        featuredProducts.addAll(productDAO.getProductsByProductIdPrefix("BM", 4));
+        featuredProducts.addAll(productDAO.getProductsByProductIdPrefix("AU", 4));
+        featuredProducts.addAll(productDAO.getProductsByProductIdPrefix("PO", 4));
+
+        List<Product> newProducts = productDAO.getLastestProductsByProductIdPrefix("ME", 2);
+        newProducts.addAll(productDAO.getLastestProductsByProductIdPrefix("PO", 1));
+        newProducts.addAll(productDAO.getLastestProductsByProductIdPrefix("AU", 1));
+        newProducts.addAll(productDAO.getLastestProductsByProductIdPrefix("VO", 1));
 
         // Truyền danh sách sản phẩm đến JSP
         request.setAttribute("featuredProducts", featuredProducts); // Sử dụng tên đúng cho JSP
+        request.setAttribute("newProducts", newProducts); // Sử dụng tên đúng cho JSP
         RequestDispatcher dispatcher = request.getRequestDispatcher("HomePage.jsp");
         dispatcher.forward(request, response);
     }

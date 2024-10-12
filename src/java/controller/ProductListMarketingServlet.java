@@ -7,6 +7,7 @@ package controller;
 import dal.BrandDAO;
 import dal.ProductDAO;
 import dal.SegmentDAO;
+import dal.StyleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,6 +20,7 @@ import model.Brand;
 import model.Product;
 import model.ProductImage;
 import model.Segment;
+import model.Style;
 
 /**
  *
@@ -64,20 +66,26 @@ public class ProductListMarketingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String brandId = request.getParameter("brandId");
-        String indexPage = request.getParameter("index");
-
-        if (indexPage == null || indexPage.isEmpty()) {
-            indexPage = "1";  
-        }
-
-        int index = Integer.parseInt(indexPage);
 
         ProductDAO pDao = new ProductDAO();
         BrandDAO bDao = new BrandDAO();
         SegmentDAO sDao = new SegmentDAO();
+        StyleDAO styleDao = new StyleDAO();
 
         ProductImage pImage = new ProductImage();
+
+        String brandId = request.getParameter("brandId");
+        String indexPage = request.getParameter("index");
+        String search = request.getParameter("searchse");
+
+        if (indexPage == null || indexPage.isEmpty()) {
+            indexPage = "1";
+        }
+
+        int index = Integer.parseInt(indexPage);
+
+        List<Style> styleList = styleDao.getAllStyleCar();
+        request.setAttribute("styleList", styleList);
 
         List<Product> productList = pDao.getAllProducts();
         request.setAttribute("productList", productList);
@@ -91,10 +99,12 @@ public class ProductListMarketingServlet extends HttpServlet {
         List<Product> productListGetBrand = new ArrayList<>();
         List<Product> listProduct = pDao.pagingProduct(index);
 
+        List<Product> listProductByName = new ArrayList<>();
+
         List<ProductImage> pImageList = new ArrayList<>();
         for (Product p : productList) {
             String pId = p.getProductId();
-            
+
             pImage = pDao.getOneImagesByProductId(pId);
             if (pImage != null) {
                 pImageList.add(pImage);
@@ -110,9 +120,18 @@ public class ProductListMarketingServlet extends HttpServlet {
             request.setAttribute("chooseBrand", brandId);
 
         } else {
-            brandId = null;
+
             request.setAttribute("listProduct", listProduct);
 
+        }
+
+        if (search != null && !search.isEmpty()) {
+            listProduct = pDao.getPagingProductBySearch(search, index);
+            if (listProduct != null && !listProduct.isEmpty()) {
+                
+                request.setAttribute("listProduct", listProduct);
+                count = pDao.getToTalPagingProductBySearch(search);
+            } 
         }
 
         int endPage = count / 5;
@@ -121,20 +140,12 @@ public class ProductListMarketingServlet extends HttpServlet {
         }
 
         request.setAttribute("imageList", pImageList);
-
+        request.setAttribute("searchch", search);
         request.setAttribute("endP", endPage);
         request.setAttribute("tag", index);
         request.getRequestDispatcher("product_list_maketing.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

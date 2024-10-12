@@ -7,7 +7,7 @@
 
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>header</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- For logo png -->
@@ -21,13 +21,13 @@
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
         <style>
-            * {
+            .navHeader * {
                 box-sizing: border-box;
             }
             .headerN {
                 text-transform: uppercase;
                 font-weight: 500;
-                font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+                font-family: Arial, sans-serif;
                 font-size: 16px;
                 margin: 20px;
             }
@@ -56,14 +56,14 @@
                 margin: 0px 0px 20px 0px;
             }
 
-           .headerN a {
-    color: white !important;  /* Đảm bảo màu mặc định là trắng */
-    text-decoration: none !important;
-}
+            .headerN a {
+                color: white !important;  /* Đảm bảo màu mặc định là trắng */
+                text-decoration: none !important;
+            }
 
-.headerN a:hover {
-    color: #4e4ffa !important;   /* Màu xanh khi di chuột */
-}
+            .headerN a:hover {
+                color: #4e4ffa !important;   /* Màu xanh khi di chuột */
+            }
 
         </style>
     </head>
@@ -74,7 +74,7 @@
                     <img class="headerLogo" src="img/logoWhite.png" alt="" style="height: 78px;">
                 </a>
             </div>
-            
+
             <div class="col-9 menu">
                 <span class="headerN"><a href="home" style="text-decoration:none; color: white">Xe tiêu biểu</a></span>
                 <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Mẫu mới</a></span>
@@ -90,7 +90,7 @@
                         <span class="headerN"><a style="text-decoration:none; color: white" href="userprofile">Welcome, ${sessionScope.account.lastName}!</a></span>
                     </c:otherwise>
                 </c:choose>
-                
+
                 <c:choose>
                     <c:when test="${sessionScope.account == null}">
                         <span class="headerN"><a style="text-decoration:none; color: white" href="login.jsp">Đăng Nhập</a></span>

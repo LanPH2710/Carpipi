@@ -38,35 +38,47 @@ public class RegisterController extends HttpServlet {
         boolean isPasswordValid = dao.isValidPassword(password);
         Account existingUser = dao.checkUserNameExists(userName);
         Account existingEmail = dao.checkEmailExists(email);
-
+        Account existingMobile = dao.checkMobileExists(mobile);
+        
         // Check for errors
         if (!isEmailValid) {
             request.setAttribute("errorMessage", "Email không hợp lệ.");
-            forwardToRegisterPage(request, response);
+                        forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
+
             return;
         }
 
         else if (!isMobileValid) {
             request.setAttribute("errorMessage", "Số điện thoại phải có 10 số.");
-            forwardToRegisterPage(request, response);
+                        forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
+
             return;
         }
 
         else if (existingUser != null) {
             request.setAttribute("errorMessage", "Tên đăng nhập đã tồn tại.");
-            forwardToRegisterPage(request, response);
+                        forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
+
             return;
         }
 
         else if (!isPasswordValid) {
             request.setAttribute("errorMessage", "Mật khẩu phải có ít nhất 1 chữ cái viết hoa và 1 số.");
-            forwardToRegisterPage(request, response);
+                        forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
+
             return;
         }
 
         else if (existingEmail != null) {
             request.setAttribute("errorMessage", "Email đã đăng ký.");
-            forwardToRegisterPage(request, response);
+                        forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
+
+            return;
+        }
+        else if (existingMobile != null) {
+            request.setAttribute("errorMessage", "So Dien Thoai đã đăng ký.");
+                        forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
+
             return;
         }
 
@@ -76,8 +88,21 @@ public class RegisterController extends HttpServlet {
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
-    private void forwardToRegisterPage(HttpServletRequest request, HttpServletResponse response)
+    private void forwardToRegisterPage(HttpServletRequest request, HttpServletResponse response,
+                                        String userName, String password, String firstName, 
+                                        String lastName, int gender, String email, 
+                                        String mobile, String address) 
             throws ServletException, IOException {
+        // Set attributes for each field
+        request.setAttribute("userName", userName);
+        request.setAttribute("password", password);
+        request.setAttribute("firstName", firstName);
+        request.setAttribute("lastName", lastName);
+        request.setAttribute("gender", gender);
+        request.setAttribute("email", email);
+        request.setAttribute("mobile", mobile);
+        request.setAttribute("address", address);
+        
         request.getRequestDispatcher("register.jsp").forward(request, response);
     }
 

@@ -82,7 +82,7 @@ public class CustomerListServlet extends HttpServlet {
         }
 
         // Phân trang
-        int page, numperpage = 15;
+        int page, numperpage = 1;
         int size = p.size();
         int num = (int) Math.ceil((double) size / numperpage); // Số trang, làm tròn lên
         String xpage = request.getParameter("page");

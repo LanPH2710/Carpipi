@@ -5,7 +5,6 @@
 package dal;
 
 import context.DBContext;
-import jakarta.servlet.http.HttpSession;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +31,7 @@ public class AccountDAO extends DBContext {
             stm.setString(2, acc.getPassword());
             stm.setString(3, acc.getFirstName());
             stm.setString(4, acc.getLastName());
-            stm.setString(5, acc.getGender());
+            stm.setInt(5, acc.getGender());
             stm.setString(6, acc.getEmail());
             stm.setString(7, acc.getMobile());
             stm.setString(8, acc.getAddress());
@@ -57,7 +56,7 @@ public class AccountDAO extends DBContext {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6),
+                        rs.getInt(6),
                         rs.getString(7),
                         rs.getString(8),
                         rs.getString(9),
@@ -70,6 +69,7 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
+
     // Kiểm tra nếu username đã tồn tại trong database
     public Account checkUserNameExists(String userName) {
         String sql = "SELECT * FROM account WHERE userName = ?";
@@ -84,7 +84,7 @@ public class AccountDAO extends DBContext {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6),
+                        rs.getInt(6),
                         rs.getString(7),
                         rs.getString(8),
                         rs.getString(9),
@@ -97,7 +97,7 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
-    
+
     // Kiểm tra email có đúng định dạng không
     public boolean isValidEmail(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
@@ -114,9 +114,6 @@ public class AccountDAO extends DBContext {
         return password != null && password.matches("^(?=.*[A-Z])(?=.*\\d).+$");
     }
 
-    
-
-
     public List<Account> getAllAccount() {
         List<Account> list = new ArrayList<>();
         String sql = "SELECT * FROM Account";
@@ -129,7 +126,7 @@ public class AccountDAO extends DBContext {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6),
+                        rs.getInt(6),
                         rs.getString(7),
                         rs.getString(8),
                         rs.getString(9),
@@ -155,12 +152,13 @@ public class AccountDAO extends DBContext {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6),
+                        rs.getInt(6),
                         rs.getString(7),
                         rs.getString(8),
                         rs.getString(9),
                         rs.getInt(10),
-                        rs.getString(11));
+                        rs.getString(11),
+                        rs.getInt(12));
                 list.add(p);
             }
         } catch (SQLException e) {
@@ -171,7 +169,9 @@ public class AccountDAO extends DBContext {
 
     public List<Account> sortCustomerByName() {
         List<Account> list = new ArrayList<>();
-        String sql = "SELECT * FROM Account WHERE roleId = 4 ORDER BY firstName ASC";
+        String sql = "SELECT * FROM Account \n"
+                + "WHERE roleId = 4 \n"
+                + "ORDER BY firstName ASC, lastName ASC";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -181,12 +181,13 @@ public class AccountDAO extends DBContext {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6),
+                        rs.getInt(6),
                         rs.getString(7),
                         rs.getString(8),
                         rs.getString(9),
                         rs.getInt(10),
-                        rs.getString(11));
+                        rs.getString(11),
+                        rs.getInt(12));
                 list.add(p);
             }
         } catch (SQLException e) {
@@ -207,12 +208,13 @@ public class AccountDAO extends DBContext {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6),
+                        rs.getInt(6),
                         rs.getString(7),
                         rs.getString(8),
                         rs.getString(9),
                         rs.getInt(10),
-                        rs.getString(11));
+                        rs.getString(11),
+                        rs.getInt(12));
                 list.add(p);
             }
         } catch (SQLException e) {
@@ -233,12 +235,13 @@ public class AccountDAO extends DBContext {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6),
+                        rs.getInt(6),
                         rs.getString(7),
                         rs.getString(8),
                         rs.getString(9),
                         rs.getInt(10),
-                        rs.getString(11));
+                        rs.getString(11),
+                        rs.getInt(12));
                 list.add(p);
             }
         } catch (SQLException e) {
@@ -259,7 +262,7 @@ public class AccountDAO extends DBContext {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6),
+                        rs.getInt(6),
                         rs.getString(7),
                         rs.getString(8),
                         rs.getString(9),
@@ -284,7 +287,7 @@ public class AccountDAO extends DBContext {
                 String password = rs.getString(3);
                 String firstName = rs.getString(4);
                 String lastName = rs.getString(5);
-                String gender = rs.getString(6);
+                int gender = rs.getInt(6);
                 String mobile = rs.getString(7);
                 String address = rs.getString(8);
                 int roleId = rs.getInt(9);
@@ -297,24 +300,7 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
-//    public void addCustomer(String userName, String password, String firstName, String lastName, String gender, String email, String phone, String address) {
-//        String sql = "INSERT INTO Account (userName, password, firstName, lastName, gender, email, phone, address, roleId,)"
-//                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, 4)";
-//        try (PreparedStatement st = connection.prepareStatement(sql)) {
-//            st.setString(1, userName);
-//            st.setString(2, password);
-//            st.setString(3, firstName);
-//            st.setString(4, lastName);
-//            st.setString(5, gender);
-//            st.setString(6, email);
-//            st.setString(7, phone);
-//            st.setString(8, address);
-//            st.executeUpdate();
-//        } catch (SQLException e) {
-//            System.out.println(e);
-//        }
-//    }
-    public void editAccount(String userName, String password, String firstName, String lastName, String gender, String email, String mobile, String address, int roleId, String avatar, int userId) {
+    public void editAccount(String userName, String password, String firstName, String lastName, int gender, String email, String mobile, String address, int roleId, String avatar, int userId) {
         String sql = "UPDATE Account SET "
                 + "userName = ?, "
                 + "password = ?, "
@@ -333,7 +319,7 @@ public class AccountDAO extends DBContext {
             st.setString(2, password);
             st.setString(3, firstName);
             st.setString(4, lastName);
-            st.setString(5, gender);
+            st.setInt(5, gender);
             st.setString(6, email);
             st.setString(7, mobile);
             st.setString(8, address);
@@ -359,12 +345,13 @@ public class AccountDAO extends DBContext {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6),
+                        rs.getInt(6),
                         rs.getString(7),
                         rs.getString(8),
                         rs.getString(9),
                         rs.getInt(10),
-                        rs.getString(11));
+                        rs.getString(11),
+                        rs.getInt(12));
                 list.add(p);
             }
         } catch (SQLException e) {
@@ -386,12 +373,13 @@ public class AccountDAO extends DBContext {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6),
+                        rs.getInt(6),
                         rs.getString(7),
                         rs.getString(8),
                         rs.getString(9),
                         rs.getInt(10),
-                        rs.getString(11));
+                        rs.getString(11),
+                        rs.getInt(12));
                 list.add(p);
             }
         } catch (SQLException e) {
@@ -401,26 +389,26 @@ public class AccountDAO extends DBContext {
         return list;
     }
 
-    public List<Account> searchByEmail(String txtSearch) {
+    public List<Account> searchCustomerByEmail(String txtSearch) {
         List<Account> list = new ArrayList<>();
-        String sql = "SELECT * FROM Account WHERE email LIKE ?";
+        String sql = "SELECT * FROM Account WHERE email LIKE ? and roleId=4";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, "%" + txtSearch + "%");
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
-                    Account account = new Account(
-                            rs.getInt("userId"),
-                            rs.getString("username"),
-                            rs.getString("password"),
-                            rs.getString("firstName"),
-                            rs.getString("lastName"),
-                            rs.getString("gender"),
-                            rs.getString("email"),
-                            rs.getString("mobile"),
-                            rs.getString("address"),
-                            rs.getInt("roleId"),
-                            rs.getString(11));
-                    list.add(account);
+                    Account p = new Account(rs.getInt(1),
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getString(4),
+                            rs.getString(5),
+                            rs.getInt(6),
+                            rs.getString(7),
+                            rs.getString(8),
+                            rs.getString(9),
+                            rs.getInt(10),
+                            rs.getString(11),
+                            rs.getInt(12));
+                    list.add(p);
                 }
             }
         } catch (SQLException e) {
@@ -436,7 +424,6 @@ public class AccountDAO extends DBContext {
         }
         return arr;
     }
-    
 
     public static void main(String[] args) {
         AccountDAO add = new AccountDAO();

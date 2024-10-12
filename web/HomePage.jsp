@@ -304,7 +304,7 @@
                                         </div>
                                         <div class="col-md-5 col-sm-12">
                                             <div class="new-cars-txt">
-                                                <h2><a href="#">${nCar.name}<span> za100</span></a></h2>
+                                                <h2><a href="productdetail?productId=${nCar.productId}">${nCar.name}<span> za100</span></a></h2>
                                                 <p>
                                                     ${nCar.description}
                                                 </p>
@@ -360,7 +360,7 @@
                                     </div>
                                     <div class="featured-cars-txt">
                                         <!-- Tên và đường dẫn chi tiết sản phẩm -->
-                                        <h2><a href="productDetail.jsp?productId=${product.productId}">${product.name}</a></h2>
+                                        <h2><a href="productdetail?productId=${product.productId}">${product.name}</a></h2>
                                         <!-- Hiển thị giá sản phẩm với định dạng tiền tệ -->
                                         <h3><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/>đ</h3>
                                         <!-- Hiển thị mô tả ngắn về sản phẩm -->

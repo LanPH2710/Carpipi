@@ -61,14 +61,13 @@ public class ProductDetailServlet extends HttpServlet {
     @Override
      protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
+         String productId=request.getParameter("productId");
             ProductDAO pdao = new ProductDAO();
             BrandDAO bdao = new BrandDAO();
             StyleDAO sdao = new StyleDAO();
             SegmentDAO sedao = new SegmentDAO();
-//            ProductImageDAO pidao = new ProductImageDAO();
             List<Brand> b = bdao.getAllBrand();
-//            List<ProductImage> photo = pdao.getProductImageById("AU20");
-            Product pro = (Product) pdao.getProductById("AU20");
+            Product pro = (Product) pdao.getProductById(productId);
             List<Product>  pro1 = pdao.getProductByBrandId(pro.getBrandId());
             List<Product>  pro2 = pdao.getProductByPrice(pro.getPrice());
             String segmentName = sedao.getSegmentNameBySegmentId(pro.getSegmentId());
@@ -76,7 +75,6 @@ public class ProductDetailServlet extends HttpServlet {
             String style = sdao.getStyleNameByStyleId(pro.getStyleId());
             String supply = pdao.getSupplyNameById(pro.getSupplyId());
             request.setAttribute("pro", pro);
-//            request.setAttribute("photo", photo);
             request.setAttribute("brand", brand);
             request.setAttribute("b", b);
             request.setAttribute("pro1", pro1);

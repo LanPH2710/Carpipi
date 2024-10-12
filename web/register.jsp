@@ -7,131 +7,140 @@
         <title>JSP Page</title>
         <!-- For logo png -->
         <link rel="shortcut icon" type="image/icon" href="img/logo3.png"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-                crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!--        <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+                      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">-->
 
         <style>
-            body {
+            .body {
+                font-family: Arial, sans-serif;
                 background-color: #f8f9fb;
-            }
-
-            .full-height {
-                min-height: 100vh; /* Đảm bảo body luôn có chiều cao tối thiểu bằng chiều cao viewport */
-            }
-
-            .register {
-                margin: 100px 0 50px;
+                margin: 0;
+                padding: 0;
+                display: flex;
                 justify-content: center;
                 align-items: center;
-                box-shadow: 0 10px 40px 0px rgba(38, 40, 64, .2);
-                border-radius: 3px;
-                padding: 10px;
+                height: 100vh;
+            }
+            .register-container {
                 background-color: white;
+                padding: 30px;
+                border-radius: 3px; /* Border radius set to 3px */
+                box-shadow: 0 10px 40px 0px rgba(38, 40, 64, .2);
+                width: 600px;
+                position: relative;
             }
-
-            .registerH {
+            .h2 {
                 text-align: center;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                font-size: 35px; /* Increased font size */
+                margin-bottom: 20px;
+                position: relative;
+                top: -20px; /* Positioned higher */
             }
-
             .form-group {
-                margin: 10px;
+                margin-bottom: 15px;
             }
-
-            .form-control {
-                font-family: "Poppins", "Helvetica Neue", Helvetica, sans-serif;
+            .form-group label {
+                font-weight: bold;
+                display: block;
+                margin-bottom: 5px;
+            }
+            .form-group input, .form-group select {
+                width: 100%;
+                padding: 10px;
+                border-radius: 1px;
+                border: 1px #888f9d; /* Input border color */
+                height: 60px;
+                box-sizing: border-box;
+                background-color: #f8f8f8; /* Background color of input fields */
+                color: #888f9d; /* Text color inside inputs */
                 font-size: 16px;
-                outline: 0!important;
-                box-shadow: none;
-                border: 1px solid #f8f8f8;
-                background: #f8f8f8;
-                color: #888f9d;
-                text-transform: capitalize;
-                text-transform: none; /* Prevent first letter capitalization */
             }
-
-            .name-group {
+            .form-group-half {
+                width: 48%;
+                display: inline-block;
+            }
+            .form-group-full {
+                width: 100%;
+            }
+            .form-group input[type="submit"] {
+                background-color: #007bff;
+                color: white;
+                cursor: pointer;
+                border: none;
+                height: 60px;
+                width: 160px; /* Set button width to 160px */
+                display: block; /* Display block to make it a block-level element */
+                margin: 0 auto;
+            }
+            .form-group input[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+            .form-group-inline {
                 display: flex;
-                justify-content: space-between; /* Căn giữa khoảng cách giữa hai trường */
-            }
-
-            .name-group .form-group {
-                flex: 1; /* Mỗi trường chiếm 50% chiều rộng */
-                margin-right: 10px; /* Khoảng cách giữa hai trường */
-            }
-             input.form-control {
-                font-family: FontAwesome;
-                font-style: normal;
-                font-weight: normal;
-                text-decoration: inherit;
-            }
- 
-            .name-group .form-group:last-child {
-                margin-right: 0; /* Không có khoảng cách cho trường cuối cùng */
-            }
-
-            .submit-button {
-                background-color: blue;
-                color: blue; /* Thay đổi màu chữ của nút đăng ký */
-                width: 100%; /* Chiều rộng của nút bằng 100% */
-                margin-top: 10px; /* Khoảng cách giữa nút và trường trên */
+                justify-content: space-between;
             }
         </style>
     </head>
-    <body class="full-height">
-        <jsp:include page="header.jsp" />
 
-        <div class="row">
-            <div class="col-4"></div>
-            <div class="col-4 register">
-                <div class="mb-4 registerH">
-                    <h1 class="font-weight-bold text-center mb-4">Đăng Ký</h1>
-                </div>
-
+    <body>
+        <jsp:include page="header.jsp"/>
+        <div class="body">
+            <div class="register-container">
+                <h2 class="h2">Đăng Ký</h2>
                 <c:if test="${not empty errorMessage}">
                     <div style="color:red;">${errorMessage}</div>
                 </c:if>
-                <div class="form">
-                    <form action="register" method="post">
-                        <div class="form-group">
-                            <input type="email" class="form-control" placeholder="&#xf0e0;  Email" id="email" name="email" required>
+                <form action="register" method="POST">
+                    <div class="form-group form-group-full">
+                        <label for="email">Email*</label>
+                        <input type="email" id="email" name="email" value="${not empty param.email ? param.email : ''}" required>
+                    </div>
+                    <div class="form-group form-group-inline">
+                        <div class="form-group-half">
+                            <label for="lastName">Họ và Tên Đệm</label>
+                            <input type="text" id="lastName" name="lastName" value="${not empty param.lastName ? param.lastName : ''}">
                         </div>
-                        <div class="name-group">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Họ và Tên Đệm" id="firstName" name="firstName" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Tên" id="lastName" name="lastName" required>
-                            </div>
+                        <div class="form-group-half">
+                            <label for="firstName">Tên</label>
+                            <input type="text" id="firstName" name="firstName" value="${not empty param.firstName ? param.firstName : ''}">
                         </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="&#xf228;  Giới Tính" id="gender" name="gender" required>
+                    </div>
+                    <div class="form-group form-group-inline">
+                        <div class="form-group-half">
+                            <label for="gender">Giới Tính*</label>
+                            <select id="gender" name="gender" required> 
+                                <option value="Nam" ${not empty param.Nam ? param.Nam : ''}>Nam</option>
+                                <option value="Nữ" ${not empty param.Nữ ? param.Nữ : ''}>Nữ</option>
+                                <option value="Khác" ${not empty param.Khác ? param.Khác : ''}>Khác</option>
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="&#xf095;  Số Điện Thoại" id="mobile" name="mobile" required>
+                        <div class="form-group-half">
+                            <label for="mobile">Số Điện Thoại*</label>
+                            <input type="text" id="mobile" name="mobile" value="${not empty param.mobile ? param.mobile : ''}" required>
                         </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="&#xf041;  Địa Chỉ" id="address" name="address" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="&#xf007;  Tên Đăng Nhập" id="userName" name="userName" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" placeholder="&#xf084;  Mật Khẩu" id="password" name="password" required>
-                        </div>
-                        <input type="submit" value="Đăng Ký" class="btn submit-button">
-                    </form>
-                </div>
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label for="address">Địa Chỉ</label>
+                        <input type="text" id="address" name="address" value="${not empty param.address ? param.address : ''}">
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label for="username">Tên Đăng Nhập*</label>
+                        <input type="text" id="userName" name="userName"value="${not empty param.userName ? param.userName : ''}" required>
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label for="password">Mật Khẩu*</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group form-group-full">
+                        <input type="submit" value="Đăng Ký">
+                    </div>
+                </form>
             </div>
-            <div class="col-4"></div>
         </div>
-
-        <jsp:include page="footerDemo.jsp" />
+        <jsp:include page="footerDemo.jsp"></jsp:include>
     </body>
 </html>
+

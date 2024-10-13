@@ -79,7 +79,7 @@ public class BlogDetailServlet extends HttpServlet {
         request.setAttribute("author", author);
         request.setAttribute("top5", top5);
         session.setAttribute("blog", blog);
-        request.getRequestDispatcher("BlogDetail.jsp").forward(request, response);
+        request.getRequestDispatcher("blogdetail.jsp").forward(request, response);
     }
 
     /**

@@ -251,11 +251,37 @@ public class AccountDAO extends DBContext {
         return list;
     }
 
-    public List<Account> sortCustomerByName() {
+    public List<Account> sortCustomerByName(String order) {
+    List<Account> list = new ArrayList<>();
+    String sql = "SELECT * FROM Account WHERE roleId = 4 ORDER BY firstName " + order + ", lastName " + order;
+    try {
+        PreparedStatement st = connection.prepareStatement(sql);
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            Account p = new Account(rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getString(5),
+                    rs.getInt(6),
+                    rs.getString(7),
+                    rs.getString(8),
+                    rs.getString(9),
+                    rs.getInt(10),
+                    rs.getString(11),
+                    rs.getInt(12));
+            list.add(p);
+        }
+    } catch (SQLException e) {
+        System.out.println(e);
+    }
+    return list;
+}
+
+
+    public List<Account> sortCustommerByEmail(String order) {
         List<Account> list = new ArrayList<>();
-        String sql = "SELECT * FROM Account \n"
-                + "WHERE roleId = 4 \n"
-                + "ORDER BY firstName ASC, lastName ASC";
+        String sql = "select * from Account where roleId=4 order by email "+order;
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -280,36 +306,9 @@ public class AccountDAO extends DBContext {
         return list;
     }
 
-    public List<Account> sortCustommerByEmail() {
+    public List<Account> sortCustommerByPhone(String order) {
         List<Account> list = new ArrayList<>();
-        String sql = "select * from Account where roleId=4 order by email asc";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Account p = new Account(rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getInt(6),
-                        rs.getString(7),
-                        rs.getString(8),
-                        rs.getString(9),
-                        rs.getInt(10),
-                        rs.getString(11),
-                        rs.getInt(12));
-                list.add(p);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return list;
-    }
-
-    public List<Account> sortCustommerByPhone() {
-        List<Account> list = new ArrayList<>();
-        String sql = "select * from Account where roleId=4 order by mobile asc";
+        String sql = "select * from Account where roleId=4 order by mobile "+order;
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();

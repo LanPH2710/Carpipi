@@ -1,269 +1,261 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Bootstrap Simple Data Table</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="css/styles.css" />
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
         <style>
             body {
-                font-family: 'Helvetica Neue', Arial, sans-serif;
-                background-color: #f7f9fc; /* Màu nền sáng hơn */
-                color: #343a40; /* Màu chữ tối */
+                color: #566787;
+                background: #f5f5f5;
+                font-family: 'Roboto', sans-serif;
             }
-            .container {
-                max-width: 1200px;
-                margin: 30px auto;
-                background: #ffffff;
-                padding: 30px; /* Tăng padding để tạo không gian */
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Làm mềm bóng */
-                border-radius: 15px; /* Góc cạnh mềm mại */
+            .table-responsive {
+                margin: 30px 0;
             }
-            h1 {
-                text-align: center;
-                margin-bottom: 30px;
-                font-size: 2.5em;
-                color: #007BFF; /* Màu xanh chủ đạo */
-                font-weight: bold; /* Đậm hơn */
+            .table-wrapper {
+                min-width: 1000px;
+                background:#e2dbdb;
+                padding: 20px;
+                box-shadow: 0 1px 1px rgba(0,0,0,.05);
             }
-            .table {
-                margin-top: 20px;
-                border-radius: 10px;
-                overflow: hidden; /* Thêm để loại bỏ góc cạnh */
+            .table-title {
+                padding-bottom: 10px;
+                margin: 0 0 10px;
+                min-width: 100%;
             }
-            th {
-                background-color: #007BFF; /* Màu nền cho tiêu đề bảng */
-                color: white; /* Màu chữ cho tiêu đề */
-                font-weight: bold;
-                text-align: center; /* Canh giữa chữ */
+            .table-title h2 {
+                margin: 8px 0 0;
+                font-size: 22px;
             }
-            td {
-                background-color: #ffffff; /* Màu nền sáng cho ô dữ liệu */
-                text-align: center; /* Canh giữa chữ */
+            .search-box {
+                position: relative;
+                float: right;
             }
-            .btn {
-                border-radius: 5px; /* Đường viền tròn cho nút */
+            .search-box input {
+                height: 34px;
+                border-radius: 20px;
+                padding-left: 35px;
+                border-color: #ddd;
+                box-shadow: none;
+            }
+            .search-box input:focus {
+                border-color: #3FBAE4;
+            }
+            .search-box i {
+                color: #a0a5b1;
+                position: absolute;
+                font-size: 19px;
+                top: 8px;
+                left: 10px;
+            }
+            table.table tr th, table.table tr td {
+                border-color: #e9e9e9;
+            }
+            table.table-striped tbody tr:nth-of-type(odd) {
+                background-color: #fcfcfc;
+            }
+            table.table-striped.table-hover tbody tr:hover {
+                background: #f5f5f5;
+            }
+            table.table th i {
+                font-size: 13px;
+                margin: 0 5px;
+                cursor: pointer;
+            }
+            table.table td:last-child {
+                width: 130px;
+            }
+            table.table td a {
+                color: #a0a5b1;
+                display: inline-block;
+                margin: 0 5px;
+            }
+            table.table td a.view {
+                color: #03A9F4;
+            }
+            table.table td a.edit {
+                color: #FFC107;
+            }
+            table.table td a.delete {
+                color: #E34724;
+            }
+            table.table td i {
+                font-size: 19px;
             }
             .pagination {
-                display: flex;
-                justify-content: center; /* Canh giữa các nút phân trang */
-                margin-top: 20px; /* Khoảng cách phía trên */
+                float: right;
+                margin: 0 0 5px;
             }
-            .pagination a {
-                padding: 10px 15px; /* Khoảng cách bên trong cho các liên kết */
-                margin: 0 5px; /* Khoảng cách giữa các nút */
-                border: 1px solid #007BFF; /* Đường viền cho nút */
-                border-radius: 5px; /* Đường viền tròn */
-                color: #007BFF; /* Màu chữ cho liên kết */
-                text-decoration: none; /* Bỏ gạch chân */
-                transition: background-color 0.3s, color 0.3s; /* Hiệu ứng chuyển động */
-                font-weight: bold; /* Đậm chữ */
+            .pagination li a {
+                border: none;
+                font-size: 95%;
+                width: 30px;
+                height: 30px;
+                color: #999;
+                margin: 0 2px;
+                line-height: 30px;
+                border-radius: 30px !important;
+                text-align: center;
+                padding: 0;
             }
-            .pagination a:hover {
-                background-color: #0056b3; /* Màu nền khi di chuột */
-                color: white; /* Màu chữ khi di chuột */
+            .pagination li a:hover {
+                color: #666;
             }
-            .pagination a.active {
-                background-color: #007BFF; /* Màu nền cho nút đang chọn */
-                color: white; /* Màu chữ cho nút đang chọn */
-                pointer-events: none; /* Vô hiệu hóa sự kiện click cho nút đang chọn */
+            .pagination li.active a {
+                background: #03A9F4;
             }
-            .modal-header {
-                background-color: #007BFF; /* Màu nền cho tiêu đề modal */
-                color: white; /* Màu chữ cho tiêu đề modal */
-                border-top-left-radius: 10px; /* Bo góc trên bên trái */
-                border-top-right-radius: 10px; /* Bo góc trên bên phải */
+            .pagination li.active a:hover {
+                background: #0397d6;
             }
-            .modal-footer .btn {
-                border-radius: 5px; /* Đường viền tròn cho nút modal */
+            .pagination li.disabled i {
+                color: #ccc;
             }
-            .actions a {
-                margin-right: 10px;
+            .pagination li i {
+                font-size: 16px;
+                padding-top: 6px
             }
-            .actions a.btn {
-                background-color: #28a745; /* Màu nền cho nút hành động */
-                color: white; /* Màu chữ cho nút hành động */
-            }
-            .actions a.btn-info {
-                background-color: #17a2b8; /* Màu nền cho nút xem/sửa */
-            }
-            .btn-primary {
-                background-color: #007BFF; /* Màu xanh chủ đạo */
-                border-color: #007BFF; /* Đường viền cho nút */
-            }
-            .btn-success {
-                background-color: #28a745; /* Màu xanh lá */
-                border-color: #28a745; /* Đường viền cho nút */
+            .hint-text {
+                float: left;
+                margin-top: 6px;
+                font-size: 95%;
             }
         </style>
+        <script>
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-        <div class="container list">
-            <a href="marketing.jsp" class="btn btn-primary" style="margin-top: 20px;">
-                <span>X</span>
-            </a>
-            <h1>Danh Sách Khách Hàng</h1>
-            <c:if test="${not empty errorMessage}">
-                <div style="color:red;">${errorMessage}</div>
-            </c:if>
+            <div class="container-xl">
+                <div class="table-responsive">
+                    <div class="table-wrapper">
+                        <div class="table-title">
+                            <div class="container list">
+                                <a href="marketing.jsp" class="btn btn-primary" style="margin-top: 20px;">
+                                    <span>X</span>
+                                </a>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8"><h2>Customer <b>Details</b></h2></div>
+                                <div class="col-sm-4">
+                                    <form action="searchcustomer" method="get">
+                                        <div class="search-box">
+                                            <i class="material-icons">&#xE8B6;</i>
+                                            <input type="text" name="search" class="form-control" placeholder="Search&hellip;">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>
+                                        <a class="text-decoration-none" href="customerlist?sort=name&order=${order == 'asc' && sort == 'name' ? 'desc' : 'asc'}">
+                                        Họ và Tên <i class="fa fa-sort"></i>
+                                    </a>
+                                </th>
+                                <th>Giới tính</th>
+                                <th>
+                                    <a class="text-decoration-none" href="customerlist?sort=email&order=${order == 'asc' && sort == 'email' ? 'desc' : 'asc'}">
+                                        Email <i class="fa fa-sort"></i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a class="text-decoration-none" href="customerlist?sort=phone&order=${order == 'asc' && sort == 'phone' ? 'desc' : 'asc'}">
+                                        Số điện thoại <i class="fa fa-sort"></i>
+                                    </a>
+                                </th>
+                                <th>Địa chỉ</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${requestScope.customerList}" var="customer">
+                                <tr>
+                                    <td>${customer.userId}</td>
+                                    <td>${customer.firstName} ${customer.lastName}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${customer.gender == 0}">Nam</c:when>
+                                            <c:when test="${customer.gender == 1}">Nữ</c:when>
+                                            <c:otherwise>Khác</c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>${customer.email}</td>
+                                    <td>${customer.mobile}</td>
+                                    <td>${customer.address}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${customer.status == 0}">Không hoạt động</c:when>
+                                            <c:when test="${customer.status == 1}">Hoạt động</c:when>
+                                            <c:otherwise>Không xác định</c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>    
+                                        <a href="viewcustomer?userId=${customer.userId}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                    </td>
+                                </tr>
+                            </c:forEach>        
+                        </tbody>
+                    </table>
+                    <div class="clearfix">
+                        <div class="hint-text text-muted">Showing <b>${numperpage}</b> out of <b>${size}</b> customers</div>
+                        <ul class="pagination justify-content-center">
+                            <!-- Điều hướng về trang trước -->
+                            <c:if test="${page > 1}">
+                                <li class="page-item">
+                                    <a class="page-link" href="customerlist?page=${page - 1}&sort=${sort}&order=${order}">
+                                        <i class="fa fa-angle-double-left"></i>
+                                    </a>
+                                </li>
+                            </c:if>
 
-            <!-- Form tìm kiếm -->
-            <form action="searchcustomer" method="get">
-                <div class="form-row">
-                    <div class="form-group col-md-5">
-                        <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo Email" value="${search}">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                    </div>
-                </div>
-            </form>
-
-            <form action="customerlist" method="get">
-                <div class="form-row">
-                    <div class="form-group col-md-5">
-                        <select name="sort" class="form-control" onchange="this.form.submit()">
-                            <option value="">-- Sắp xếp theo --</option>
-                            <option value="name">Tên</option>
-                            <option value="email">Email</option>
-                            <option value="phone">Điện thoại</option>
-                        </select>
-                    </div>
-                </div>
-            </form>
-
-            <div class="col-sm-6">
-                <a href="#addCustomerModal" class="btn btn-success btn-sm mb-3" data-toggle="modal">Thêm Mới</a>
-            </div>
-
-            <!-- Bảng khách hàng -->
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Họ</th>
-                        <th>Tên</th>
-                        <th>Giới tính</th>
-                        <th>Email</th>
-                        <th>Số điện thoại</th>
-                        <th>Địa chỉ</th>
-                        <th>Trạng thái</th>
-                        <th>Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach items="${requestScope.customerList}" var="customer">
-                        <tr>
-                            <td>${customer.userId}</td>
-                            <td>${customer.firstName}</td>
-                            <td>${customer.lastName}</td>
-                            <td>
+                            <!-- Vòng lặp phân trang -->
+                            <c:forEach begin="${(page - 1) <= 1 ? 1 : (page - 1)}" end="${page + 1 > num ? num : page + 1}" var="i">
                                 <c:choose>
-                                    <c:when test="${customer.gender == 0}">Nam</c:when>
-                                    <c:when test="${customer.gender == 1}">Nữ</c:when>
-                                    <c:otherwise>Giới tính khác</c:otherwise>
+                                    <c:when test="${i == page}">
+                                        <!-- Trang hiện tại -->
+                                        <li class="page-item active">
+                                            <a class="page-link">${i}</a>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <!-- Các trang khác -->
+                                        <li class="page-item">
+                                            <a href="customerlist?page=${i}&sort=${sort}&order=${order}" class="page-link">${i}</a>
+                                        </li>
+                                    </c:otherwise>
                                 </c:choose>
-                            </td>
-                            <td>${customer.email}</td>
-                            <td>${customer.mobile}</td>
-                            <td>${customer.address}</td>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${customer.status == 0}">Inactive</c:when>
-                                    <c:when test="${customer.status == 1}">Active</c:when>
-                                    <c:otherwise>Unknown Status</c:otherwise>
-                                </c:choose>
-                            </td>
-                            <th class="actions">
-                                <a href="viewcustomer?userId=${customer.userId}" class="btn btn-info btn-sm">Xem/Sửa</a>
-                            </th>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                            </c:forEach>
 
-            <div class="pagination">
-                <c:if test="${page > 1}">
-                    <a href="customerlist?page=1">First</a>
-                </c:if>
-                <c:forEach begin="${(page - 1) <= 1 ? 1 : (page - 1)}" end="${page + 1 > totalPages ? totalPages : page + 1}" var="i">
-                    <c:choose>
-                        <c:when test="${i == page}">
-                            <a class="active">${i}</a>
-                        </c:when>
-                        <c:otherwise>
-                            <a href="customerlist?page=${i}">${i}</a>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-                <c:if test="${page < totalPages}">
-                    <a href="customerlist?page=${totalPages}">Last</a>
-                </c:if>
-            </div>
-        </div>
-
-        <!-- Modal Thêm Khách Hàng -->
-        <div class="modal fade" id="addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addCustomerModalLabel">Thêm Khách Hàng Mới</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="addcustomer" method="post">
-                            <div class="form-group">
-                                <label for="firstName">Họ</label>
-                                <input type="text" class="form-control" id="firstName" name="firstName" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="lastName">Tên</label>
-                                <input type="text" class="form-control" id="lastName" name="lastName" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="gender">Giới tính</label>
-                                <select class="form-control" id="gender" name="gender">
-                                    <option value="0">Nam</option>
-                                    <option value="1">Nữ</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="mobile">Số điện thoại</label>
-                                <input type="text" class="form-control" id="mobile" name="mobile" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="address">Địa chỉ</label>
-                                <input type="text" class="form-control" id="address" name="address" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="status">Trạng thái</label>
-                                <select class="form-control" id="status" name="status">
-                                    <option value="0">Inactive</option>
-                                    <option value="1">Active</option>
-                                </select>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary">Lưu</button>
-                            </div>
-                        </form>
+                            <!-- Điều hướng về trang sau -->
+                            <c:if test="${page < num}">
+                                <li class="page-item">
+                                    <a class="page-link" href="customerlist?page=${page + 1}&sort=${sort}&order=${order}">
+                                        <i class="fa fa-angle-double-right"></i>
+                                    </a>
+                                </li>
+                            </c:if>
+                        </ul>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <jsp:include page="footerDemo.jsp"></jsp:include>
+            </div>  
+        </div>   
     </body>
 </html>

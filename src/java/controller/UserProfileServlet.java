@@ -77,7 +77,7 @@ public class UserProfileServlet extends HttpServlet {
         RoleDAO rdao = new RoleDAO();
         String role = rdao.getRoleNameById(user.getRoleId());
         session.setAttribute("role", role);
-        request.getRequestDispatcher("UserProfile.jsp").forward(request, response);
+        request.getRequestDispatcher("userprofile.jsp").forward(request, response);
     }
 
     /**
@@ -111,7 +111,7 @@ public class UserProfileServlet extends HttpServlet {
         boolean isMobileValid = adao.isValidMobile(mobile);
         if (!isMobileValid) {
             request.setAttribute("errorMessage", "Số điện thoại phải có 10 số.");
-            request.getRequestDispatcher("UserProfile.jsp").forward(request, response);
+            request.getRequestDispatcher("userprofile.jsp").forward(request, response);
             return;
         }
 
@@ -142,7 +142,7 @@ public class UserProfileServlet extends HttpServlet {
 
         // Cập nhật account
         adao.editAccount(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, userId);
-        request.getRequestDispatcher("UserProfile.jsp").forward(request, response);
+        response.sendRedirect("userprofile");
     }
 
     /**

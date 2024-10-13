@@ -299,7 +299,7 @@
                                 <img src="${top5.images[0].imageUrl}" alt="Blog Image" class="latest-post-image">
                             </c:if>
                             <div class="latest-post-info">
-                                <h4><a href="blogdetail" class="text-decoration-none">${top5.blogTitle}</a></h4>
+                                <h4><a href="blogdetail?blogId=${top5.blogId}" class="text-decoration-none">${top5.blogTitle}</a></h4>
                                 <p>Ngày: ${top5.blogTime}</p>
                             </div>
                         </div>

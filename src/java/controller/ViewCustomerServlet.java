@@ -76,7 +76,7 @@ public class ViewCustomerServlet extends HttpServlet {
         String role = rdao.getRoleNameById(roleId);
         session.setAttribute("role1", role);
         session.setAttribute("acc", acc);
-        request.getRequestDispatcher("EditCustomer.jsp").forward(request, response);
+        request.getRequestDispatcher("editcustomer.jsp").forward(request, response);
     }
 
     /**

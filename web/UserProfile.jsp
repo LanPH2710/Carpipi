@@ -47,7 +47,7 @@
             }
             .avatar {
                 border-radius: 50%;
-                border: 4px solid #6f42c1;
+                border: 4px solid #56757d;
                 transition: transform 0.3s;
             }
             .avatar:hover {
@@ -55,7 +55,7 @@
             }
             .header-title {
                 font-size: 2rem;
-                color: #6f42c1;
+                color: #282430;
                 font-weight: bold;
             }
             .error-message {

@@ -124,7 +124,9 @@
                 width: 35%;
                 padding: 40px;
                 background-color: #fafafa;
-                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.05);
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                border-radius: 10px; /* Thêm bo tròn cho sidebar */
+                margin-right: 20px; /* Khoảng cách bên phải */
             }
 
             .categories {
@@ -134,36 +136,53 @@
             }
 
             .categories h3 {
-                font-size: 1.5em;
+                font-size: 1.6em; /* Tăng kích thước chữ */
                 margin-bottom: 20px;
                 color: #333;
+                text-align: center; /* Căn giữa tiêu đề */
             }
 
             .latest-post-item {
                 display: flex;
-                margin-bottom: 20px;
+                margin-bottom: 15px; /* Giảm khoảng cách giữa các mục */
                 border-bottom: 1px solid #ddd;
                 padding-bottom: 15px;
+                padding-top: 15px; /* Thêm khoảng cách trên cùng */
             }
 
             .latest-post-image {
                 max-width: 80px;
                 height: auto;
-                margin-right: 20px;
+                margin-right: 15px; /* Giảm khoảng cách bên phải hình ảnh */
                 border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm đổ bóng cho hình ảnh */
+            }
+
+            .latest-post-info {
+                flex: 1; /* Đảm bảo thông tin chiếm hết không gian còn lại */
             }
 
             .latest-post-info h4 {
-                font-size: 1.1em;
-                margin-bottom: 8px;
+                font-size: 1.2em; /* Tăng kích thước chữ tiêu đề */
+                margin-bottom: 5px; /* Giảm khoảng cách dưới tiêu đề */
                 color: #333;
                 transition: color 0.3s;
             }
 
-            .latest-post-info h4:hover {
-                color: #00aaff;
+            .latest-post-info h4 a {
+                color: inherit; /* Sử dụng màu sắc của h4 */
+                text-decoration: none; /* Xóa gạch chân */
             }
 
+            .latest-post-info h4 a:hover {
+                color: #00aaff; /* Đổi màu khi hover */
+            }
+
+            .post-date {
+                color: #666; /* Màu sắc cho ngày đăng */
+                font-size: 0.9em; /* Giảm kích thước chữ cho ngày */
+            }
+            //footer
             .footer {
                 background-color: #333;
                 color: #fff;
@@ -295,18 +314,16 @@
                     <h3>Bài Viết Mới Nhất</h3>
                     <c:forEach items="${requestScope.top5}" var="top5">
                         <div class="latest-post-item">
-                            <c:if test="${not empty top5.images}">
-                                <img src="${top5.images[0].imageUrl}" alt="Blog Image" class="latest-post-image">
-                            </c:if>
+                            <img src="${top5.images[0].imageUrl}" alt="Blog Image" class="latest-post-image">
                             <div class="latest-post-info">
                                 <h4><a href="blogdetail?blogId=${top5.blogId}" class="text-decoration-none">${top5.blogTitle}</a></h4>
-                                <p>Ngày: ${top5.blogTime}</p>
+                                <p class="post-date">Ngày: ${top5.blogTime}</p>
                             </div>
                         </div>
                     </c:forEach>
                 </div>
             </div>
         </div>
-                            <jsp:include page="footerDemo.jsp"></jsp:include>
+        <jsp:include page="footerDemo.jsp"></jsp:include>
     </body>
 </html>

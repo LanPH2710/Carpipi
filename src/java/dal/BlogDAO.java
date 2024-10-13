@@ -120,7 +120,7 @@ public class BlogDAO extends DBContext {
 
     public List<Blog> getTop5NewBlog() {
         List<Blog> list = new ArrayList<>();
-        String sql = "SELECT * FROM Blog ORDER BY blogTime DESC LIMIT 5;";
+        String sql = "SELECT * FROM Blog ORDER BY blogTime DESC LIMIT 10;";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();

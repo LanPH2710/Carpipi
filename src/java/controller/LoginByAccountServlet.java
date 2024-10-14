@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Account;
+import util.HashPassword;
 
 /**
  *
@@ -92,6 +93,7 @@ public class LoginByAccountServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = request.getParameter("username");
         String pass = request.getParameter("password");
+        pass = HashPassword.toSHA1(pass);
         String remember = request.getParameter("remember");
 
         LoginDAO loginDao = new LoginDAO();

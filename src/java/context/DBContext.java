@@ -30,9 +30,9 @@ public class DBContext {
         try {
             String user = "root"; // Your MySQL username
 
-            String pass = "sa123"; // Your MySQL password
+            String pass = "123456"; // Your MySQL password
 
-            String url = "jdbc:mysql://localhost:3306/carpipi"; // MySQL URL format - your schema name
+            String url = "jdbc:mysql://localhost:3306/carpipi1"; // MySQL URL format - your schema name
             Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL driver class
             connection = DriverManager.getConnection(url, user, pass);
             
@@ -63,10 +63,10 @@ public class DBContext {
     public static void main(String[] args) {
         DBContext db = new DBContext();
         System.out.println(db.getConnection());
-         AccountDAO accountDAO = new AccountDAO();
+      //   AccountDAO accountDAO = new AccountDAO();
          
     // Gọi phương thức để mã hóa mật khẩu
-    accountDAO.updatePasswordHash();
+   // accountDAO.updatePasswordHash();
 
         db.closeConnection();
     }

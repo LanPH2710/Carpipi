@@ -61,17 +61,21 @@ public class CustomerListServlet extends HttpServlet {
         AccountDAO adao = new AccountDAO();
         // Sắp xếp theo yêu cầu hoặc mặc định theo tên
         String sort = request.getParameter("sort");
+        String order = request.getParameter("order");
         List<Account> p = null;
+        if (order == null || order.isEmpty()) {
+            order = "asc"; // Mặc định là tăng dần
+        }
         if (sort != null && !sort.isEmpty()) {
             switch (sort) {
                 case "name":
-                    p = adao.sortCustomerByName();
+                    p = adao.sortCustomerByName(order);
                     break;
                 case "email":
-                    p = adao.sortCustommerByEmail();
+                    p = adao.sortCustommerByEmail(order);
                     break;
                 case "phone":
-                    p = adao.sortCustommerByPhone();
+                    p = adao.sortCustommerByPhone(order);
                     break;
                 default:
                     p = adao.getAllCustommer(); // Nếu giá trị sort không hợp lệ
@@ -82,7 +86,7 @@ public class CustomerListServlet extends HttpServlet {
         }
 
         // Phân trang
-        int page, numperpage = 15;
+        int page, numperpage = 1;
         int size = p.size();
         int num = (int) Math.ceil((double) size / numperpage); // Số trang, làm tròn lên
         String xpage = request.getParameter("page");
@@ -96,11 +100,14 @@ public class CustomerListServlet extends HttpServlet {
         List<Account> listAcc = adao.getCustomerListByPage(p, start, end);
 
         // Truyền giá trị lại cho view
+        request.setAttribute("size", size);
+        request.setAttribute("numperpage", numperpage);
         request.setAttribute("customerList", listAcc);
         request.setAttribute("page", page);
         request.setAttribute("num", num);
-        request.setAttribute("sort", sort); // Giữ lại lựa chọn sắp xếp
-        request.getRequestDispatcher("CustomerList.jsp").forward(request, response);
+        request.setAttribute("sort", sort);
+        request.setAttribute("order",order );
+        request.getRequestDispatcher("customerlist.jsp").forward(request, response);
     }
 
     /**

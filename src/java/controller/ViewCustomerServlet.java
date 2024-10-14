@@ -76,7 +76,7 @@ public class ViewCustomerServlet extends HttpServlet {
         String role = rdao.getRoleNameById(roleId);
         session.setAttribute("role1", role);
         session.setAttribute("acc", acc);
-        request.getRequestDispatcher("EditCustomer.jsp").forward(request, response);
+        request.getRequestDispatcher("editcustomer.jsp").forward(request, response);
     }
 
     /**
@@ -103,10 +103,18 @@ public class ViewCustomerServlet extends HttpServlet {
         // Lấy giá trị từ JSP
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
-        String gender = request.getParameter("gender");
+        int gender = Integer.parseInt(request.getParameter("gender").trim());
         String mobile = request.getParameter("mobile");
         String address = request.getParameter("address");
         String email = request.getParameter("email");
+        
+        //Verifile moblie
+        boolean isMobileValid = adao.isValidMobile(mobile);
+        if (!isMobileValid) {
+            request.setAttribute("errorMessage", "Số điện thoại phải có 10 số.");
+            request.getRequestDispatcher("EditCustomer.jsp").forward(request, response);
+            return;
+        }
 
         // Xử lý upload avatar nếu có file mới
         Part file = request.getPart("avatar");

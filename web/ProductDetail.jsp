@@ -2,307 +2,251 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.text.DecimalFormat" %>
+<!DOCTYPE html>
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
-        <title>Chi tiết sản phẩm</title>
+        <title>Product Detail Page</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
         <style>
-            body {
-                background-color: #e64a19;
-                padding: 20px;
-            }
-            .detail {
-                max-width: 1500px;
-                margin: auto;
-                margin-top: 50px;
+            .container{
+                background-color: white;
+                padding: 30px;
                 margin-bottom: 50px;
-                padding: 20px;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-                background-color: #b9bbbe;
-                border-radius: 8px; /* Bo góc cho detail */
+                border-radius: 3px; /* Border radius set to 3px */
+                box-shadow: 0 10px 40px 0px rgba(38, 40, 64, .2);
+                position: relative;
             }
-            .main-image {
-                width: 100%; /* Sử dụng 100% chiều rộng */
-                height: auto; /* Chiều cao tự động */
-                margin-bottom: 10px;
-                border-radius: 8px; /* Bo góc cho hình ảnh chính */
+            .icon-hover:hover {
+                border-color: #3b71ca !important;
+                background-color: white !important;
+                color: #3b71ca !important;
             }
-            .product-images img {
-                width: 80px;
-                height: 100px;
-                cursor: pointer;
-                border-radius: 5px; /* Bo góc cho hình ảnh nhỏ */
-                transition: transform 0.3s; /* Hiệu ứng zoom */
+            .icon-hover:hover i {
+                color: #3b71ca !important;
             }
-            .product-images img:hover {
-                transform: scale(1.1); /* Phóng to khi hover */
+            .product-img {
+                max-width: 100%;
+                height: auto;
             }
-            .button {
-                display: inline-block;
-                padding: 12px 30px;
-                font-size: 16px;
-                text-align: center;
-                border: none;
-                background-color: #ff5722;
-                color: white;
-                cursor: pointer;
-                margin-right: 10px;
-                border-radius: 5px;
-                transition: background-color 0.3s;
+            h4 {
+                font-size: 3.5rem; /* Kích thước chữ cho tiêu đề */
             }
-
-            .button:hover {
-                background-color: #e64a19; /* Tối hơn khi hover */
+            .mb-3 p {
+                font-size: 1.75rem; /* Kích thước chữ cho mô tả sản phẩm */
             }
-
-            .button-secondary {
-                background-color: #e0e0e0;
-                color: #0056b3;
+            .h5 {
+                font-size: 2.5rem; /* Kích thước chữ cho giá sản phẩm */
             }
-
-            .button-secondary:hover {
-                background-color: #333; /* Tối hơn khi hover */
-            }
-
-            .b-auto__main-item {
-                border-radius: 10px;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-                padding: 15px;
-                background-color: #fff;
-                transition: transform 0.3s, box-shadow 0.3s;
-            }
-
-            .b-auto__main-item:hover {
-                transform: translateY(-5px); /* Nâng lên nhẹ khi hover */
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            }
-
-            .s-title {
-                font-size: 28px;
-                font-weight: bold;
-                text-align: center;
-                margin-bottom: 30px;
-                color: #333;
-            }
-
-            .b-featured {
-                background-color: #f0f0f0;
-                padding: 20px;
-            }
-
-            .quantity-input-container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 10px;
-                margin-bottom: 30px;
-            }
-
-            .quantity-input button {
-                width: 35px;
-                height: 35px;
-                font-size: 20px;
-                background-color: #e0e0e0;
-                border: none;
-                cursor: pointer;
-                border-radius: 5px; /* Bo góc nút */
-                transition: background-color 0.3s;
-            }
-
-            .quantity-input button:hover {
-                background-color: #d0d0d0; /* Tối hơn khi hover */
-            }
-
-            .quantity-input input {
-                width: 50px;
-                text-align: center;
-                font-size: 18px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-            }
-
-            .reviews h4 {
-                font-size: 24px;
-                color: #333;
-                margin-bottom: 20px;
-            }
-
-            .review-item {
-                background-color: #f9f9f9;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                padding: 10px;
-                margin-bottom: 10px;
-                transition: box-shadow 0.3s;
-            }
-
-            .review-item:hover {
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng khi hover */
+            .col-6{
+                font-size: 1.25rem;
             }
         </style>
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-            <div class="detail">
-                <div class="product-info row">
-                    <!-- Tiêu đề -->
-                    <div class="col-md-12">
-                        <div class="bg-info text-white text-center py-2 mb-4 rounded">
-                            <h3>${requestScope.pro.name}</h3>
+            <div class="container py-5">
+                <div class="row">
+                    <aside class="col-lg-7">
+                        <div class="mb-3">
+                        <c:forEach items="${requestScope.pro.images}" var="photo" varStatus="status">
+                            <c:if test="${status.first}">
+                                <img id="mainImage" src="${photo.imageUrl}" alt="Product Image" class="product-img rounded" style="width: 900px; height: 400px; object-fit: cover;">
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                    <div class="d-flex justify-content-center mb-3">
+                        <%-- Thumbnails for images --%>
+                        <c:forEach items="${requestScope.pro.images}" var="photo">
+                            <a class="mx-1" href="javascript:void(0);" onclick="changeMainImage('${photo.imageUrl}')" data-fslightbox="mygallery">
+                                <img src="${photo.imageUrl}" class="rounded-2" width="80" height="60" alt="Thumbnail">
+                            </a>
+                        </c:forEach>
+                    </div>
+                </aside>
+
+                <script>
+                    function changeMainImage(imageUrl) {
+                        document.getElementById("mainImage").src = imageUrl;
+                    }
+                </script>
+
+                <main class="col-lg-5">
+                    <h4 class="text-dark">${pro.name}</h4>
+                    <div class="d-flex align-items-center my-3">
+                        <div class="text-warning mb-1">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="ms-1">4.5</span>
+                        </div>
+                        <span class="text-muted mx-2"><i class="fas fa-shopping-basket"></i> 154 orders</span>
+                        <span class="text-success">In stock</span>
+                    </div>
+                    <div class="mb-3">
+                        <span class="h5"><fmt:formatNumber value="${pro.price}" type="number" pattern="#,###"/> VNĐ</span> <span class="text-muted"></span>
+                    </div>
+                    <p style="font-size: 1.5 rem;">${pro.description}</p>
+                    <div class="row">
+                        <div class="col-6"><strong>Hãng:</strong> ${brand}</div>
+                        <div class="col-6"><strong>Kiểu dáng:</strong> ${style}</div>
+                        <div class="col-6"><strong>Số ghế:</strong> ${pro.seatNumber}</div>
+                        <div class="col-6"><strong>Phân khúc:</strong> ${segment}</div>
+                        <div class="col-6"><strong>Nguyên liệu:</strong> ${pro.fuel}</div>
+                        <div class="col-6"><strong>Nhà phân phối:</strong> ${supply}</div>
+                    </div>
+                    <hr>
+                    <div class="mb-4">
+                        <label class="mb-2 h6">Số lượng</label>
+                        <div class="input-group mb-3">
+                            <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity()">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <input type="text" class="form-control text-center" id="quantity" value="1" aria-label="Số lượng" style="max-width: 60px;" readonly />
+                            <button class="btn btn-outline-secondary" type="button" onclick="increaseQuantity()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <span class="text-muted" id="stock-info">${pro.stock} sản phẩm có sẵn</span>
                     </div>
 
-                    <!-- Thông tin và hình ảnh -->
-                    <div class="row">
-                        <div class="col-md-5">
-                            <!-- Bảng thông tin -->
-                            <div class="bg-primary text-white text-center py-3 rounded">
-                                <h4 class="m-0">Thông số kỹ thuật</h4>
-                            </div>
-                            <table class="table table-bordered mt-3">
-                                <tbody>
-                                    <tr><th>Hãng xe</th><td>${brand}</td></tr>
-                                    <tr><th>Số ghế</th><td>${pro.seatNumber}</td></tr>
-                                    <tr><th>Nguyên liệu</th><td>${pro.fuel}</td></tr>
-                                    <tr><th>Phân khúc</th><td>${segment}</td></tr>
-                                    <tr><th>Kiểu dáng</th><td>${style}</td></tr>
-                                    <tr><th>Xuất xứ</th><td>Đức</td></tr>
-                                </tbody>
-                            </table> 
-                            <div>
-                                <p style="color: #ff5722; font-size: 30px; font-weight: bold;">Ưu đãi giảm giá:</p>
-                                <h5 class="text-secondary">
-                                    <del><fmt:formatNumber value="${pro.price}" type="number" pattern="#,###"/> VNĐ</del>
-                                </h5>
-                                <h3 class="text-primary">
-                                    <fmt:formatNumber value="${pro.price * 0.8}" type="number" pattern="#,###"/> VNĐ
-                                </h3>
-                            </div>
-                            <!-- Mô tả sản phẩm -->
-                            <div class="description mt-4 p-3 border rounded bg-light">
-                                <h4 class="text-primary" style="font-size: 30px">Thông tin mô tả</h4>
-                                <p>${requestScope.pro.description}</p>
-                            </div>
-                        </div>
+                    <script>
+                        function increaseQuantity() {
+                            var quantityInput = document.getElementById("quantity");
+                            var quantity = parseInt(quantityInput.value);
+                            var availableQuantity = parseInt("${pro.stock}");
+                            if (quantity < availableQuantity) {
+                                quantityInput.value = quantity + 1;
+                            }
+                        }
 
-                        <div class="col-md-7 text-center">
-                            <!-- Carousel -->
-                            <div id="productImageCarousel" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-inner">
-                                    <c:forEach items="${pro.images}" var="photo" varStatus="status">
-                                        <div class="carousel-item ${status.first ? 'active' : ''}">
-                                            <img id="mainImage" src="${photo.imageUrl}" class="main-image rounded" style="width: 100%; height: 400px; object-fit: cover;">
+                        function decreaseQuantity() {
+                            var quantityInput = document.getElementById("quantity");
+                            var quantity = parseInt(quantityInput.value);
+                            if (quantity > 1) {
+                                quantityInput.value = quantity - 1;
+                            }
+                        }
+                    </script>
+                    <a href="#" class="btn btn-warning">Buy now</a>
+                    <a href="#" class="btn btn-primary"><i class="fas fa-shopping-basket"></i> Add to cart</a>
+                </main>
+            </div>
+
+            <section class="bg-light border-top py-4 mt-5">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="h5">Đánh giá sản phẩm</div>
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab">Tất cả</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="pills-5star-tab" data-bs-toggle="pill" href="#pills-5star" role="tab">5 sao (số lượng)</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="pills-4star-tab" data-bs-toggle="pill" href="#pills-4star" role="tab">4 sao (số lượng)</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="pills-3star-tab" data-bs-toggle="pill" href="#pills-3star" role="tab">3 sao (số lượng)</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="pills-2star-tab" data-bs-toggle="pill" href="#pills-2star" role="tab">2 sao (số lượng)</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="pills-1star-tab" data-bs-toggle="pill" href="#pills-1star" role="tab">1 sao (số lượng)</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
+                                <p>Product specifications and features...</p>
+                            </div>
+
+                            <!-- 5 Star Reviews -->
+                            <div class="tab-pane fade" id="pills-5star" role="tabpanel">
+                                <div class="review p-3 mb-3" style="background-color: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6;">
+                                    <div class="review-header d-flex align-items-center">
+                                        <img style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 15px;" 
+                                             src="https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-avatar-cute-58.jpg" 
+                                             alt="Avatar của Ngọc Minh" class="avatar">
+                                        <div>
+                                            <h6 class="mb-1 font-weight-bold">Ngọc Minh</h6>
+                                            <div class="text-warning">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
                                         </div>
-                                    </c:forEach>
+                                    </div>
+                                    <div class="review-body mt-3">
+                                        <p>Sản phẩm rất tốt! Chất lượng vượt xa mong đợi. Tôi sẽ giới thiệu cho bạn bè.</p>
+                                    </div>
+                                </div>
+
+                                <div class="review p-3 mb-3" style="background-color: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6;">
+                                    <div class="review-header d-flex align-items-center">
+                                        <img style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 15px;" 
+                                             src="https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-avatar-cute-58.jpg" 
+                                             alt="Avatar của Quỳnh Anh" class="avatar">
+                                        <div>
+                                            <h6 class="mb-1 font-weight-bold">Quỳnh Anh</h6>
+                                            <div class="text-warning">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="review-body mt-3">
+                                        <p>Đã mua lần thứ hai, sản phẩm không có gì để chê. Giao hàng nhanh chóng, đóng gói cẩn thận.</p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Hình ảnh nhỏ -->
-                            <div class="product-images d-flex justify-content-center mt-3 gap-2 mb-5">
-                                <c:forEach items="${pro.images}" var="photo">
-                                    <img src="${photo.imageUrl}" class="img-thumbnail" onclick="changeImage('${photo.imageUrl}')">
-                                </c:forEach>
+                            <!-- Other Star Ratings Placeholder -->
+                            <div class="tab-pane fade" id="pills-4star" role="tabpanel">
+                                <p>4 sao</p>
                             </div>
-
-                            <div class="quantity-input-container">
-                                <span for="quantity" style="font-size: 18px;">Số lượng</span>
-                                <div class="quantity-input">
-                                    <button class="minus-btn" type="button" onclick="decreaseQuantity()">&#8722;</button>
-                                    <input type="text" id="quantity" name="quantity" value="1" readonly>
-                                    <button class="plus-btn" type="button" onclick="increaseQuantity()">&#43;</button>
-                                    <span id="available-quantity">${pro.stock} sản phẩm có sẵn</span>
-                                </div>
+                            <div class="tab-pane fade" id="pills-3star" role="tabpanel">
+                                <p>3 sao</p>
                             </div>
-
-                            <div class="text-center">
-                                <button class="button"><a href="addtocart?productId=${pro.productId}" style="text-decoration: none">Thêm vào giỏ hàng</a></button>
-                                <button class="button button-secondary"><a href="buynow?productId=${pro.productId}" style="text-decoration: none">Mua ngay</a></button>
+                            <div class="tab-pane fade" id="pills-2star" role="tabpanel">
+                                <p>2 sao</p>
+                            </div>
+                            <div class="tab-pane fade" id="pills-1star" role="tabpanel">
+                                <p>1 sao</p>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Đánh giá -->
-            <div class="product-reviews row">
-                <div class="col-md-12 reviews">
-                    <h4 class="s-title">Đánh giá sản phẩm</h4>
-                    <c:if test="${empty reviews}">
-                        <p>Chưa có đánh giá nào cho sản phẩm này.</p>
-                    </c:if>
-                    <c:forEach items="${reviews}" var="review">
-                        <div class="review-item">
-                            <strong>${review.userName}</strong> - <span>${review.rating}★</span>
-                            <p>${review.comment}</p>
+                    <div class="col-lg-4">
+                        <div class="border rounded-2 p-3">
+                            <h5>Các xe cùng tầm giá</h5>
+                            <c:forEach items="${pro1}" var="pro2">
+                                <div class="d-flex mb-3">
+                                    <img src="${pro2.images[0].imageUrl}" class="img-thumbnail me-3" style="width: 50%; height: auto; object-fit: cover;" alt="Product Image"/>
+                                    <div>
+                                        <a href="#" class="nav-link">${pro2.name}</a>
+                                        <strong class="text-dark">
+                                            <fmt:formatNumber value="${pro2.price}" type="number" pattern="#,###"/> VNĐ
+                                        </strong>
+                                    </div>
+                                </div>
+                            </c:forEach>
                         </div>
-                    </c:forEach>
-                </div>
-            </div>
-
-            <!-- Xe cùng hãng -->
-            <div class="related-products row">
-                <div class="col-md-12 mt-4">
-                    <h4 class="s-title">Xe cùng hãng</h4>
-                    <div class="row">
-                        <c:forEach items="${pro1}" var="pro1">
-                            <div class="col-md-3 mb-3">
-                                <div class="b-auto__main-item">
-                                    <img style="width: 317px; height: 177px; object-fit: cover;" src="${pro1.images[0].imageUrl}" class="img-fluid" alt="${pro1.name}">
-                                    <h5 class="mt-2" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                        ${pro1.name}
-                                    </h5>
-                                    <p class="text-primary"><fmt:formatNumber value="${pro1.price}" type="number" pattern="#,###"/> VNĐ</p>
-                                    <a href="productdetail?productId=${pro1.productId}" class="button button-secondary" style="text-decoration: none">Chi tiết</a>
-                                </div>
-                            </div>
-                        </c:forEach>
                     </div>
                 </div>
-
-                <!-- Xe cùng tầm giá -->
-                <div class="col-md-12 mt-4">
-                    <h4 class="s-title">Xe cùng tầm giá</h4>
-                    <div class="row">
-                        <c:forEach items="${pro2}" var="pro2">
-                            <div class="col-md-3 mb-3">
-                                <div class="b-auto__main-item">
-                                    <img style="width: 317px; height: 177px; object-fit: cover;" src="${pro2.images[0].imageUrl}" class="img-fluid" alt="${pro2.name}">
-                                    <h5 class="mt-2" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                        ${pro2.name}
-                                    </h5>
-                                    <p class="text-primary"><fmt:formatNumber value="${pro2.price}" type="number" pattern="#,###"/> VNĐ</p>
-                                    <a href="productdetail?productId=${pro2.productId}" class="button button-secondary" style="text-decoration: none">Chi tiết</a>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </div>
-                </div>
-            </div>
+            </section>
         </div>
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script>
-                                    function changeImage(imageUrl) {
-                                        document.getElementById("mainImage").src = imageUrl;
-                                    }
-
-                                    function increaseQuantity() {
-                                        var quantityInput = document.getElementById("quantity");
-                                        var quantity = parseInt(quantityInput.value);
-                                        var availableQuantity = parseInt("${pro.stock}");
-                                        if (quantity < availableQuantity) {
-                                            quantityInput.value = quantity + 1;
-                                        }
-                                    }
-
-                                    function decreaseQuantity() {
-                                        var quantityInput = document.getElementById("quantity");
-                                        var quantity = parseInt(quantityInput.value);
-                                        if (quantity > 1) {
-                                            quantityInput.value = quantity - 1;
-                                        }
-                                    }
-        </script>
+        <jsp:include page="footerDemo.jsp"></jsp:include>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

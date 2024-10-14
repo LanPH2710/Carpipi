@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Account;
 import dal.AccountDAO;
+import util.HashPassword;
 
 @WebServlet(name = "RegisterController", urlPatterns = {"/register"})
 public class RegisterController extends HttpServlet {
@@ -81,6 +82,10 @@ public class RegisterController extends HttpServlet {
 
             return;
         }
+        else {
+            password = HashPassword.toSHA1(password);
+        }
+        
 
         // All validations passed, insert account
         dao.insertAccount(new Account(userName, password, firstName, lastName, gender, email, mobile, address));

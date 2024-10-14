@@ -26,62 +26,19 @@ import java.sql.Connection;
  */
 public class AccountDAO extends DBContext {
 
-    public AccountDAO() {
-        // Constructor mặc định
-        // Gọi constructor mặc định của DBContext
-        super();
-    }
-
-    public class PasswordUtils {
-
-        public static String hashPassword(String plainPassword) {
-            return BCrypt.hashpw(plainPassword, BCrypt.gensalt());
-        }
-
-        public static boolean checkPassword(String plainPassword, String hashedPassword) {
-            return BCrypt.checkpw(plainPassword, hashedPassword);
-        }
-    }
-
-    // Phương thức mã hóa mật khẩu và cập nhật vào cơ sở dữ liệu
-    public void updatePasswordHash() {
-        try {
-            // Lấy danh sách userId và mật khẩu gốc
-            String query = "SELECT userId, password FROM account";
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-
-            // Lặp qua từng bản ghi để mã hóa mật khẩu
-            while (rs.next()) {
-                int userId = rs.getInt("userId");
-                String plainPassword = rs.getString("password");
-                if (plainPassword != null && plainPassword.length() < 60) {
-    String hashedPassword = PasswordUtils.hashPassword(plainPassword);
-                    // Cập nhật mật khẩu mới vào cơ sở dữ liệu
-                    String updateQuery = "UPDATE account SET password = ? WHERE userId = ?";
-                    PreparedStatement pstmt = connection.prepareStatement(updateQuery);
-                    pstmt.setString(1, hashedPassword);
-                    pstmt.setInt(2, userId);
-                    pstmt.executeUpdate();
-                }
-            }
-            System.out.println("ma hoa mật khẩu thành công!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//   
 
     public void insertAccount(Account acc) {
         try {
-            // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
-            String hashedPassword = PasswordUtils.hashPassword(acc.getPassword());
+          
 
             String sql = "INSERT INTO account "
                     + "(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, acc.getUserName());
-            stm.setString(2, hashedPassword);
+            //stm.setString(2, hashedPassword);
+            stm.setString(2, acc.getPassword());
             stm.setString(3, acc.getFirstName());
             stm.setString(4, acc.getLastName());
             stm.setInt(5, acc.getGender());

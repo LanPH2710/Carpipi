@@ -18,7 +18,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Brand;
 import model.Product;
-import model.ProductImage;
 
 /**
  *
@@ -82,7 +81,7 @@ public class ProductDetailServlet extends HttpServlet {
             request.setAttribute("style", style);
             request.setAttribute("supply", supply);
             request.setAttribute("segment", segmentName);
-            request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
+            request.getRequestDispatcher("productdetail.jsp").forward(request, response);
         } 
 
 

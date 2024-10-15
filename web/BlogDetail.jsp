@@ -182,7 +182,7 @@
                 color: #666; /* Màu sắc cho ngày đăng */
                 font-size: 0.9em; /* Giảm kích thước chữ cho ngày */
             }
-            //footer
+            
             .footer {
                 background-color: #333;
                 color: #fff;

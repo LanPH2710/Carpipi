@@ -230,11 +230,11 @@
                     <div class="col-lg-4">
                         <div class="border rounded-2 p-3">
                             <h5>Các xe cùng tầm giá</h5>
-                            <c:forEach items="${pro1}" var="pro2">
+                            <c:forEach items="${pro2}" var="pro2">
                                 <div class="d-flex mb-3">
                                     <img src="${pro2.images[0].imageUrl}" class="img-thumbnail me-3" style="width: 50%; height: auto; object-fit: cover;" alt="Product Image"/>
                                     <div>
-                                        <a href="#" class="nav-link">${pro2.name}</a>
+                                        <a href="productdetail?productId=${pro2.productId}" class="nav-link">${pro2.name}</a>
                                         <strong class="text-dark">
                                             <fmt:formatNumber value="${pro2.price}" type="number" pattern="#,###"/> VNĐ
                                         </strong>

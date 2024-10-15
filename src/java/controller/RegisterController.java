@@ -1,5 +1,6 @@
 package controller;
 
+import dal.AccountDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -7,7 +8,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Account;
-import dal.AccountDAO;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+import java.util.Properties;
 import util.HashPassword;
 
 @WebServlet(name = "RegisterController", urlPatterns = {"/register"})
@@ -44,59 +52,86 @@ public class RegisterController extends HttpServlet {
         // Check for errors
         if (!isEmailValid) {
             request.setAttribute("errorMessage", "Email không hợp lệ.");
-                        forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
-
+            forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
             return;
-        }
-
-        else if (!isMobileValid) {
+        } else if (!isMobileValid) {
             request.setAttribute("errorMessage", "Số điện thoại phải có 10 số.");
-                        forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
-
+            forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
             return;
-        }
-
-        else if (existingUser != null) {
-            request.setAttribute("errorMessage", "Tên đăng nhập đã tồn tại.");
-                        forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
-
-            return;
-        }
-
-        else if (!isPasswordValid) {
+        } else if (!isPasswordValid) {
             request.setAttribute("errorMessage", "Mật khẩu phải có ít nhất 1 chữ cái viết hoa và 1 số.");
-                        forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
-
+            forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
             return;
-        }
-
-        else if (existingEmail != null) {
+        } else if (existingUser != null) {
+            request.setAttribute("errorMessage", "Tên đăng nhập đã tồn tại.");
+            forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
+            return;
+        } else if (existingEmail != null) {
             request.setAttribute("errorMessage", "Email đã đăng ký.");
-                        forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
-
+            forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
+            return;
+        } else if (existingMobile != null) {
+            request.setAttribute("errorMessage", "Số điện thoại đã đăng ký.");
+            forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
             return;
         }
-        else if (existingMobile != null) {
-            request.setAttribute("errorMessage", "So Dien Thoai đã đăng ký.");
-                        forwardToRegisterPage(request, response, userName, password, firstName, lastName, gender, email, mobile, address);
 
-            return;
-        }
-        else {
-            password = HashPassword.toSHA1(password);
-        }
-        
+        // Nếu tất cả các kiểm tra đều thành công
+        password = HashPassword.toSHA1(password);
 
-        // All validations passed, insert account
-        dao.insertAccount(new Account(userName, password, firstName, lastName, gender, email, mobile, address));
-        request.setAttribute("message", "Đăng ký thành công.");
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        // Tạo mã xác thực (có thể bỏ qua nếu không cần)
+        String confirmationCode = java.util.UUID.randomUUID().toString();
+
+        // Chèn thông tin vào database và thiết lập trạng thái là pending
+        Account newAccount = new Account(userName, password, firstName, lastName, gender, email, mobile, address, 2); // 2 = pending
+        dao.insertAccount(newAccount); // Chèn tài khoản vào bảng account với trạng thái pending
+
+        // Gửi email xác nhận
+        sendConfirmationEmail(email, confirmationCode);
+
+        // Hiển thị thông báo cho người dùng
+        request.setAttribute("message", "Một liên kết xác nhận đã được gửi đến email của bạn.");
+        request.getRequestDispatcher("register.jsp").forward(request, response);
+    }
+
+    private void sendConfirmationEmail(String toEmail, String confirmationCode) {
+        // Cấu hình thuộc tính máy chủ gửi mail
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        // Tạo phiên gửi mail với xác thực
+        Session session = Session.getDefaultInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("carpipi1904@gmail.com", "fyvtiafvzyheblfw");
+            }
+        });
+
+        // Soạn thảo email xác nhận
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("carpipi1904@gmail.com"));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+
+            message.setSubject("Xác nhận đăng ký tài khoản");
+            String confirmationLink = "http://localhost:8015/Iter1_Test/confirm?email=" + toEmail; // Đảm bảo thay đổi 'yourapp' thành tên ứng dụng của bạn
+            message.setText("Vui lòng nhấp vào liên kết sau để xác nhận tài khoản của bạn: " + confirmationLink);
+
+            // Gửi email
+            Transport.send(message);
+            System.out.println("Email xác nhận đã được gửi thành công.");
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void forwardToRegisterPage(HttpServletRequest request, HttpServletResponse response,
-                                        String userName, String password, String firstName, 
-                                        String lastName, int gender, String email, 
-                                        String mobile, String address) 
+                                        String userName, String password, String firstName,
+                                        String lastName, int gender, String email,
+                                        String mobile, String address)
             throws ServletException, IOException {
         // Set attributes for each field
         request.setAttribute("userName", userName);
@@ -107,7 +142,7 @@ public class RegisterController extends HttpServlet {
         request.setAttribute("email", email);
         request.setAttribute("mobile", mobile);
         request.setAttribute("address", address);
-        
+
         request.getRequestDispatcher("register.jsp").forward(request, response);
     }
 

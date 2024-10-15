@@ -93,6 +93,9 @@
                 <c:if test="${not empty errorMessage}">
                     <div style="color:red;">${errorMessage}</div>
                 </c:if>
+                    <c:if test="${not empty message}">
+                    <div class="success">${message}</div>
+                </c:if>
                 <form action="register" method="POST">
                     <div class="form-group form-group-full">
                         <label for="email">Email*</label>

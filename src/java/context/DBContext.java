@@ -63,10 +63,10 @@ public class DBContext {
     public static void main(String[] args) {
         DBContext db = new DBContext();
         System.out.println(db.getConnection());
-         AccountDAO accountDAO = new AccountDAO();
+      //   AccountDAO accountDAO = new AccountDAO();
          
     // Gọi phương thức để mã hóa mật khẩu
-    accountDAO.updatePasswordHash();
+   // accountDAO.updatePasswordHash();
 
         db.closeConnection();
     }

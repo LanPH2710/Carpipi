@@ -96,6 +96,10 @@
         <servlet-name>ProductDetailServlet</servlet-name>
         <servlet-class>controller.ProductDetailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConfirmController</servlet-name>
+        <servlet-class>ConfirmController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -167,5 +171,9 @@
     <servlet-mapping>
         <servlet-name>ProductDetailServlet</servlet-name>
         <url-pattern>/productdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfirmController</servlet-name>
+        <url-pattern>/confirm</url-pattern>
     </servlet-mapping>
 </web-app>

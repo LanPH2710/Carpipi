@@ -151,7 +151,7 @@
             }
 
             .latest-post-image {
-                max-width: 80px;
+                max-width: 120px;
                 height: auto;
                 margin-right: 15px; /* Giảm khoảng cách bên phải hình ảnh */
                 border-radius: 8px;
@@ -182,7 +182,7 @@
                 color: #666; /* Màu sắc cho ngày đăng */
                 font-size: 0.9em; /* Giảm kích thước chữ cho ngày */
             }
-            
+
             .footer {
                 background-color: #333;
                 color: #fff;
@@ -211,7 +211,7 @@
                 <!-- Blog Content -->
                 <div class="blog-content">
                     <h1 class="blog-title">${blog.blogTitle}</h1>
-                <div class="blog-meta">| Tác giả: ${author} | Ngày: ${blog.blogTime} |</div>
+                <div class="blog-meta"><b>Tác giả:</b>${author} | <b>Ngày: </b>${blog.blogTime} | <b>Thể loại:</b>${topic}</div>
 
                 <div class="blog-image-container">
                     <img src="${blog.images[0].imageUrl}" class="blog-image" alt="Blog Image">
@@ -231,6 +231,16 @@
                 <div class="blog-section">
                     <h5>${blog.bodyMain2}</h5>
                     <p>${blog.bodySp2}</p>
+                </div>
+                
+                <div class="blog-image-container">
+                    <img src="${blog.images[2].imageUrl}" class="blog-image" alt="Blog Image">
+                    <strong class="textImage">${blog.images[2].imageText}</strong>
+                </div>
+                
+                <div class="blog-section">
+                    <h5>${blog.bodyMain3}</h5>
+                    <p>${blog.bodySp3}</p>
                 </div>
 
                 <div class="blog-conclusion">

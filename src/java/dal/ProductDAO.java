@@ -365,8 +365,8 @@ public class ProductDAO extends DBContext {
         String sql = "SELECT * FROM Product WHERE price BETWEEN ? AND ? LIMIT 8;";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setDouble(1, price - 100000000);
-            st.setDouble(2, price + 100000000);
+            st.setDouble(1, price - 200000000);
+            st.setDouble(2, price + 200000000);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Product product = new Product();

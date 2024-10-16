@@ -13,6 +13,7 @@ import java.util.List;
 public class Blog {
     private int blogId;
     private int userId;
+    private int blogTopicId;
     private String blogTitle;
     private String blogTime;
     private String openBlog;
@@ -29,9 +30,10 @@ public class Blog {
     public Blog() {
     }
 
-    public Blog(int blogId, int userId, String blogTitle, String blogTime, String openBlog, String bodyMain1, String bodySp1, String bodyMain2, String bodySp2, String bodyMain3, String bodySp3, String endBlog, int status, List<ImageBlog> images) {
+    public Blog(int blogId, int userId, int blogTopicId, String blogTitle, String blogTime, String openBlog, String bodyMain1, String bodySp1, String bodyMain2, String bodySp2, String bodyMain3, String bodySp3, String endBlog, int status, List<ImageBlog> images) {
         this.blogId = blogId;
         this.userId = userId;
+        this.blogTopicId = blogTopicId;
         this.blogTitle = blogTitle;
         this.blogTime = blogTime;
         this.openBlog = openBlog;
@@ -60,6 +62,14 @@ public class Blog {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getBlogTopicId() {
+        return blogTopicId;
+    }
+
+    public void setBlogTopicId(int blogTopicId) {
+        this.blogTopicId = blogTopicId;
     }
 
     public String getBlogTitle() {

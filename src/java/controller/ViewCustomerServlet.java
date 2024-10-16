@@ -112,7 +112,7 @@ public class ViewCustomerServlet extends HttpServlet {
         boolean isMobileValid = adao.isValidMobile(mobile);
         if (!isMobileValid) {
             request.setAttribute("errorMessage", "Số điện thoại phải có 10 số.");
-            request.getRequestDispatcher("EditCustomer.jsp").forward(request, response);
+            request.getRequestDispatcher("editcustomer.jsp").forward(request, response);
             return;
         }
 

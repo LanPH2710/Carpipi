@@ -63,7 +63,7 @@ public class SearchCustomerServlet extends HttpServlet {
         List<Account> listC = adao.searchCustomerByEmail(search);
         request.setAttribute("customerList", listC);
         request.setAttribute("search", search);
-        request.getRequestDispatcher("customerlist.jsp").forward(request, response);
+        request.getRequestDispatcher("customerList.jsp").forward(request, response);
     }
 
     /**

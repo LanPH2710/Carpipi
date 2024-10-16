@@ -107,7 +107,7 @@ public class CustomerListServlet extends HttpServlet {
         request.setAttribute("num", num);
         request.setAttribute("sort", sort);
         request.setAttribute("order",order );
-        request.getRequestDispatcher("customerlist.jsp").forward(request, response);
+        request.getRequestDispatcher("customerList.jsp").forward(request, response);
     }
 
     /**

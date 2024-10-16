@@ -12,14 +12,12 @@ public class Style {
     private String styleId;
     private String styleName;
 
+    public Style() {
+    }
+
     public Style(String styleId, String styleName) {
         this.styleId = styleId;
         this.styleName = styleName;
-    }
-
-    
-    
-    public Style() {
     }
 
     public String getStyleId() {
@@ -37,7 +35,6 @@ public class Style {
     public void setStyleName(String styleName) {
         this.styleName = styleName;
     }
-    
-    
+
     
 }

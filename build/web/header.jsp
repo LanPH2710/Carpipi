@@ -76,11 +76,11 @@
             </div>
             
             <div class="col-9 menu">
-                <span class="headerN"><a href="home" style="text-decoration:none; color: white">Xe tiêu biểu</a></span>
-                <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Mẫu mới</a></span>
-                <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Hãng</a></span>
-                <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Tin xe</a></span>
-                <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Liên lạc</a></span>
+                <span class="headerN"><a href="home#featured-cars" style="text-decoration:none; color: white">Xe tiêu biểu</a></span>
+                <span class="headerN"><a href="home#new-cars" style="text-decoration:none; color: white">Mẫu mới</a></span>
+                <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Giỏ Hàng</a></span>
+                <span class="headerN"><a href="bloglist" style="text-decoration:none; color: white">Tin xe</a></span>
+                <span class="headerN"><a href="home#contact" style="text-decoration:none; color: white">Liên lạc</a></span>
 
                 <c:choose>
                     <c:when test="${sessionScope.account == null}">

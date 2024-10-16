@@ -42,21 +42,26 @@ public class BrandDAO extends DBContext {
     }
 
     public List<Brand> getAllBrand() {
-        List<Brand> list = new ArrayList<>();
-        String sql = "select * from Brand";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Brand p = new Brand(rs.getInt(1),
-                        rs.getString(2));
-                list.add(p);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
+    List<Brand> list = new ArrayList<>();
+    String sql = "SELECT * FROM brand";
+    
+    try (PreparedStatement st = connection.prepareStatement(sql);
+         ResultSet rs = st.executeQuery()) {
+        
+        while (rs.next()) {
+            Brand brand = new Brand(rs.getInt("brandId"),
+                                    rs.getString("name"),
+                                    rs.getString("image"));
+            list.add(brand);
         }
-        return list;
+        
+    } catch (SQLException e) {
+        System.out.println("Error in getAllBrand: " + e.getMessage());
     }
+    
+    return list;
+}
+
 
     public String getBrandById(int brandId) {
         String sql = "select * from Brand where brandId=?";
@@ -75,6 +80,6 @@ public class BrandDAO extends DBContext {
     
     public static void main(String[] args) {
         BrandDAO b = new BrandDAO();
-        System.out.println(b.getBrandIdByName("Audi"));
+        System.out.println(b.getAllBrand());
     }
 }

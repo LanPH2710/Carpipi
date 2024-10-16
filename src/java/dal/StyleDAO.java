@@ -5,14 +5,13 @@
 package dal;
 
 import context.DBContext;
-import model.Product;
-import model.ProductImage;
+import model.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Style;
+
 
 /**
  *
@@ -44,22 +43,16 @@ public class StyleDAO extends DBContext {
     }
 
     public List<Style> getAllStyleCar() {
-
         List<Style> listStyle = new ArrayList<>();
-
         String sql = "SELECT * FROM carpipi.style";
-
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
-
             while (rs.next()) {
                 Style style = new Style();
-
                 style.setStyleId(rs.getString("styleId"));
                 style.setStyleName(rs.getString("styleName"));
                 listStyle.add(style);
-
             }
 
         } catch (SQLException e) {
@@ -70,8 +63,11 @@ public class StyleDAO extends DBContext {
 
     public static void main(String[] args) {
         StyleDAO s = new StyleDAO();
-
-        System.out.println(s.getAllStyleCar());
+        List<Style> styleList = s.getAllStyleCar();
+        for (Style style : styleList) {
+            System.out.println(style.getStyleId()+ "," + style.getStyleName());
+            
+        }
     }
 
 }

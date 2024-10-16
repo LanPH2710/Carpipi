@@ -21,7 +21,7 @@ public class Product {
     private int stock;
     private String description;
     private double VAT;
-    private int supplierId;
+    private int supplyId;
     private int brandId;
     private int segmentId;
     private int styleId;
@@ -30,7 +30,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String productId, String name, int seatNumber, double price, String fuel, int stock, String description, double VAT, int supplierId, int brandId, int segmentId, int styleId) {
+    public Product(String productId, String name, int seatNumber, double price, String fuel, int stock, String description, double VAT, int supplyId, int brandId, int segmentId, int styleId) {
         this.productId = productId;
         this.name = name;
         this.seatNumber = seatNumber;
@@ -39,7 +39,7 @@ public class Product {
         this.stock = stock;
         this.description = description;
         this.VAT = VAT;
-        this.supplierId = supplierId;
+        this.supplyId = supplyId;
         this.brandId = brandId;
         this.segmentId = segmentId;
         this.styleId = styleId;
@@ -47,7 +47,7 @@ public class Product {
     
     
 
-    public Product(String productId, String name, int seatNumber, double price, String fuel, int stock, String description, double VAT, int supplierId, int brandId, int segmentId, int styleId, List<ProductImage> images) {
+    public Product(String productId, String name, int seatNumber, double price, String fuel, int stock, String description, double VAT, int supplyId, int brandId, int segmentId, int styleId, List<ProductImage> images) {
         this.productId = productId;
         this.name = name;
         this.seatNumber = seatNumber;
@@ -56,7 +56,7 @@ public class Product {
         this.stock = stock;
         this.description = description;
         this.VAT = VAT;
-        this.supplierId = supplierId;
+        this.supplyId = supplyId;
         this.brandId = brandId;
         this.segmentId = segmentId;
         this.styleId = styleId;
@@ -133,11 +133,11 @@ public class Product {
     }
 
     public int getSupplierId() {
-        return supplierId;
+        return supplyId;
     }
 
-    public void setSupplierId(int supplierId) {
-        this.supplierId = supplierId;
+    public void setSupplierId(int supplyId) {
+        this.supplyId = supplyId;
     }
 
     public int getBrandId() {

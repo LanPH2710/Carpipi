@@ -24,6 +24,19 @@ public class Account {
 
     public Account() {
     }
+    public Account(String userName, String password, String firstName, String lastName, 
+                int gender, String email, String mobile, String address, int status) {
+    this.userName = userName;
+    this.password = password;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.gender = gender;
+    this.email = email;
+    this.mobile = mobile;
+    this.address = address;
+    this.status = status;
+    // Đặt giá trị cho các trường khác nếu cần, chẳng hạn như userId, roleId, avatar...
+}
 
     public Account(int userId, String userName, String password, String firstName, String lastName, int gender, String email, String mobile, String address, int roleId, String avatar, int status) {
         this.userId = userId;

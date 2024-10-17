@@ -1,179 +1,353 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <title>Material Design for Bootstrap</title>
-        <!-- MDB icon -->
-        <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
-        <!-- Google Fonts Roboto -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
-        <!-- MDB -->
-        <link rel="stylesheet" href="css/bootstrap-shopping-carts.min.css" />
+        <meta charset="utf-8" />
+        <title>Doctris - Doctor Appointment Booking System</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
+        <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
+        <meta name="author" content="Shreethemes" />
+        <meta name="email" content="support@shreethemes.in" />
+
+        <meta name="Version" content="v1.2.0" />
+        <!-- favicon -->
+        <link rel="shortcut icon" href="assets1/images/favicon.ico.png">
+        <!-- Bootstrap -->
+        <link href="assets1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- simplebar -->
+        <link href="assets1/css/simplebar.css" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="assets1/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets1/css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
+        <!-- Css -->
+        <link href="assets1/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+
     </head>
 
     <body>
-        <!-- Start your project here-->
-        <style>
-            .gradient-custom {
-                /* fallback for old browsers */
-                background: #D4D9D3;
+        <!-- Loader -->
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Loader -->
 
-                /* Chrome 10-25, Safari 5.1-6 */
-                background: #D4D9D3;
+        <div class="page-wrapper doctris-theme toggled">
+            <nav id="sidebar" class="sidebar-wrapper">
+                <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
+                    <div class="sidebar-brand">
+                        <a href="index.html">
+                            <img src="assets1/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
+                            <img src="assets1/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                        </a>
+                    </div>
 
-                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-                background: #D4D9D3
-            }
-        </style>
-        <section class="h-100 gradient-custom">
-            <div class="container py-5">
-                <div class="row d-flex justify-content-center my-4">
-                    <div class="col-md-8">
-                        <div class="card mb-4">
-                            <div class="card-header py-3">
-                                <h5 class="mb-0">Cart - 2 items</h5>
+                    <ul class="sidebar-menu pt-3">
+                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                        <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a></li>
+
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Doctors</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="doctors.html">Doctors</a></li>
+                                    <li><a href="add-doctor.html">Add Doctor</a></li>
+                                    <li><a href="dr-profile.html">Profile</a></li>
+                                </ul>
                             </div>
-                            <div class="card-body">
-                                <!-- Single item -->
-                                <div class="card-body">
-                                    <!-- B?t ??u vòng l?p -->
-                                    <c:forEach var="item" items="${cartItems}">
-                                        <!-- Single item -->
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
-                                                <!-- Image -->
-                                                <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                                                    <img src="${item.productImage}" class="w-100" alt="${item.productName}" />
-                                                    <a href="#!">
-                                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
-                                                    </a>
-                                                </div>
-                                                <!-- Image -->
-                                            </div>
+                        </li>
 
-                                            <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-                                                <!-- Data -->
-                                                <p><strong>${item.productName}</strong></p>
-                                                <p>Color: ${item.color}</p>
-                                                <p>Size: ${item.size}</p>
-                                                <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
-                                                        title="Remove item">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
-                                                        title="Move to the wish list">
-                                                    <i class="fas fa-heart"></i>
-                                                </button>
-                                                <!-- Data -->
-                                            </div>
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Patients</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="patients.html">All Patients</a></li>
+                                    <li><a href="add-patient.html">Add Patients</a></li>
+                                    <li><a href="patient-profile.html">Profile</a></li>
+                                </ul>
+                            </div>
+                        </li>
 
-                                            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                                                <!-- Quantity -->
-                                                <div class="d-flex mb-4" style="max-width: 300px">
-                                                    <button class="btn btn-primary px-3 me-2"
-                                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Apps</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="chat.html">Chat</a></li>
+                                    <li><a href="email.html">Email</a></li>
+                                    <li><a href="calendar.html">Calendar</a></li>
+                                </ul>
+                            </div>
+                        </li>
 
-                                                    <div class="form-outline">
-                                                        <input id="form1" min="0" name="quantity" value="${item.quantity}" type="number" class="form-control" />
-                                                        <label class="form-label" for="form1">Quantity</label>
-                                                    </div>
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Pharmacy</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="shop.html">Shop</a></li>
+                                    <li><a href="product-detail.html">Shop Detail</a></li>
+                                    <li><a href="shopcart.html">Shopcart</a></li>
+                                    <li><a href="checkout.html">Checkout</a></li>
+                                </ul>
+                            </div>
+                        </li>
 
-                                                    <button class="btn btn-primary px-3 ms-2"
-                                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                                <!-- Quantity -->
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="blogs.html">Blogs</a></li>
+                                    <li><a href="blog-detail.html">Blog Detail</a></li>
+                                </ul>
+                            </div>
+                        </li>
 
-                                                <!-- Price -->
-                                                <p class="text-start text-md-center">
-                                                    <strong>$${item.price}</strong>
-                                                </p>
-                                                <!-- Price -->
-                                            </div>
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Pages</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="faqs.html">FAQs</a></li>
+                                    <li><a href="review.html">Reviews</a></li>
+                                    <li><a href="invoice-list.html">Invoice List</a></li>
+                                    <li><a href="invoice.html">Invoice</a></li>
+                                    <li><a href="terms.html">Terms & Policy</a></li>
+                                    <li><a href="privacy.html">Privacy Policy</a></li>
+                                    <li><a href="error.html">404 !</a></li>
+                                    <li><a href="blank-page.html">Blank Page</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="signup.html">Signup</a></li>
+                                    <li><a href="forgot-password.html">Forgot Password</a></li>
+                                    <li><a href="lock-screen.html">Lock Screen</a></li>
+                                    <li><a href="thankyou.html">Thank you...!</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
+
+                        <li><a href="../landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
+                    </ul>
+                    <!-- sidebar-menu  -->
+                </div>
+                <!-- sidebar-content  -->
+                <ul class="sidebar-footer list-unstyled mb-0">
+                    <li class="list-inline-item mb-0 ms-1">
+                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary">
+                            <i class="uil uil-comment icons"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- sidebar-wrapper  -->
+
+            <!-- Start Page Content -->
+            <main class="page-content bg-light">
+                <div class="top-header">
+                    <div class="header-bar d-flex justify-content-between border-bottom">
+                        <div class="d-flex align-items-center">
+                            <a href="#" class="logo-icon">
+                                <img src="assets1/images/logo-icon.png" height="30" class="small" alt="">
+                                <span class="big">
+                                    <img src="assets1/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
+                                    <img src="assets1/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                                </span>
+                            </a>
+                            <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
+                                <i class="uil uil-bars"></i>
+                            </a>
+                            <div class="search-bar p-0 d-none d-lg-block ms-2">
+                                <div id="search" class="menu-search mb-0">
+                                    <form role="search" method="get" id="searchform" class="searchform">
+                                        <div>
+                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Search Keywords...">
+                                            <input type="submit" id="searchsubmit" value="Search">
                                         </div>
-                                        <!-- Single item -->
-
-                                        <hr class="my-4" />
-                                    </c:forEach>
-                                    <!-- K?t thúc vòng l?p -->
-                                </div>
-
-                            </div>
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <p><strong>Expected shipping delivery</strong></p>
-                                    <p class="mb-0">12.10.2020 - 14.10.2020</p>
-                                </div>
-                            </div>
-                            <div class="card mb-4 mb-lg-0">
-                                <div class="card-body">
-                                    <p><strong>We accept</strong></p>
-                                    <img class="me-2" width="45px"
-                                         src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
-                                         alt="Visa" />
-                                    <img class="me-2" width="45px"
-                                         src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
-                                         alt="American Express" />
-                                    <img class="me-2" width="45px"
-                                         src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
-                                         alt="Mastercard" />
-                                    <img class="me-2" width="45px"
-                                         src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"
-                                         alt="PayPal acceptance mark" />
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card mb-4">
-                                <div class="card-header py-3">
-                                    <h5 class="mb-0">Summary</h5>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                                            Products
-                                            <span>$53.98</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                            Shipping
-                                            <span>Gratis</span>
-                                        </li>
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-                                            <div>
-                                                <strong>Total amount</strong>
-                                                <strong>
-                                                    <p class="mb-0">(including VAT)</p>
-                                                </strong>
-                                            </div>
-                                            <span><strong>$53.98</strong></span>
-                                        </li>
-                                    </ul>
 
-                                    <button type="button" class="btn btn-primary btn-lg btn-block">
-                                        Go to checkout
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
-        </section>
-        <!-- End your project here-->
 
-        <!-- MDB -->
-        <script type="text/javascript" src="js/mdb.min.js"></script>
-        <!-- Custom scripts -->
-        <script type="text/javascript"></script>
+                <div class="container-fluid">
+                    <div class="layout-specing">
+                        <div class="d-md-flex justify-content-between">
+                            <h5 class="mb-0">Shopcart</h5>
+
+                            <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
+                                <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
+                                    <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
+                                    <li class="breadcrumb-item"><a href="shop.html">Shop</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Shopcart</li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="table-responsive bg-white shadow rounded">
+                                    <table class="table table-center table-padding mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-bottom p-3" style="min-width:20px "></th>
+                                                <th class="border-bottom p-3" style="min-width: 300px;">Product</th>
+                                                <th class="border-bottom text-center p-3" style="min-width: 160px;">Price</th>
+                                                <th class="border-bottom text-center p-3" style="min-width: 190px;">Quantity</th>
+                                                <th class="border-bottom text-end p-3" style="min-width: 50px;">Total</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <c:forEach items="${carts}" var="C">
+                                            <form action="update-quantity">
+                                                <tr>
+                                                    <td class="h5 p-3 text-center"><a href="delete-cart?productId=${C.value.product.id}" class="text-danger"><i class="uil uil-times"></i></a></td>
+                                                    <td class="p-3">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="${C.value.product.imageUrl}" alt="${C.value.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:auto;" >
+                                                            <h6 class="mb-0 ms-3">${C.value.product.name}</h6>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center p-3">${C.value.product.price}</td>
+                                                    <td class="text-center shop-list p-3">
+                                                        <div class="qty-icons">
+                                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
+                                                            
+                                                             <input min="1" name="quantity" value="${C.value.quantity}" type="number" class="btn btn-icon btn-primary qty-btn quantity" onchange="this.form.submit()">
+                                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-end font-weight-bold p-3">$ ${C.value.product.price * C.value.quantity}</td>
+                                                </tr>
+
+                                            </form>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+
+                        <div class="row">
+                            <div class="col-lg-8 col-md-6 mt-4 pt-2">
+                                <a href="#" class="btn btn-primary">Shop More</a>
+                                <a href="#" class="btn btn-soft-primary ms-2">Update Cart</a>
+                            </div>
+                            <div class="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
+                                <div class="table-responsive bg-white rounded shadow">
+                                    <table class="table table-center table-padding mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="h6 p-3">Subtotal</td>
+                                                <td class="text-end font-weight-bold p-3">$ 2190</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="h6 p-3">Taxes</td>
+                                                <td class="text-end font-weight-bold p-3">$ 219</td>
+                                            </tr>
+                                            <tr class="bg-light">
+                                                <td class="h6 p-3">Total</td>
+                                                <td class="text-end font-weight-bold p-3">$ 2409</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-4 pt-2 text-end">
+                                    <a href="#" class="btn btn-primary">Proceed to checkout</a>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div>
+                </div><!--end container-->
+
+                <!-- Footer Start -->
+                <footer class="bg-white shadow py-3">
+                    <div class="container-fluid">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="text-sm-start text-center">
+                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div><!--end container-->
+                </footer><!--end footer-->
+                <!-- End -->
+            </main>
+            <!--End page-content" -->
+        </div>
+        <!-- page-wrapper -->
+
+        <!-- Offcanvas Start -->
+        <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header p-4 border-bottom">
+                <h5 id="offcanvasRightLabel" class="mb-0">
+                    <img src="assets1/images/logo-dark.png" height="24" class="light-version" alt="">
+                    <img src="assets1/images/logo-light.png" height="24" class="dark-version" alt="">
+                </h5>
+                <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
+            </div>
+            <div class="offcanvas-body p-4 px-md-5">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Style switcher -->
+                        <div id="style-switcher">
+                            <div>
+                                <ul class="text-center list-unstyled mb-0">
+                                    <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets1/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets1/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets1/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets1/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets1/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets1/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
+                                    <li class="d-grid"><a href="../landing/index.html" target="_blank" class="mt-4"><img src="assets1/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- end Style switcher -->
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div>
+
+            <div class="offcanvas-footer p-4 border-top text-center">
+                <ul class="list-unstyled social-icon mb-0">
+                    <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="../../../index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
+                </ul><!--end icon-->
+            </div>
+        </div>
+        <!-- Offcanvas End -->
+
+        <!-- javascript -->
+        <script src="assets1/js/bootstrap.bundle.min.js"></script>
+        <!-- simplebar -->
+        <script src="assets1/js/simplebar.min.js"></script>
+        <!-- Icons -->
+        <script src="assets1/js/feather.min.js"></script>
+        <!-- Main Js -->
+        <script src="assets1/js/app.js"></script>
+
     </body>
 
 </html>

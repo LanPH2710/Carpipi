@@ -76,7 +76,7 @@ public class ViewCustomerServlet extends HttpServlet {
         String role = rdao.getRoleNameById(roleId);
         session.setAttribute("role1", role);
         session.setAttribute("acc", acc);
-        request.getRequestDispatcher("editcustomer.jsp").forward(request, response);
+        request.getRequestDispatcher("editCustomer.jsp").forward(request, response);
     }
 
     /**
@@ -112,7 +112,7 @@ public class ViewCustomerServlet extends HttpServlet {
         boolean isMobileValid = adao.isValidMobile(mobile);
         if (!isMobileValid) {
             request.setAttribute("errorMessage", "Số điện thoại phải có 10 số.");
-            request.getRequestDispatcher("EditCustomer.jsp").forward(request, response);
+            request.getRequestDispatcher("editCustomer.jsp").forward(request, response);
             return;
         }
 
@@ -142,7 +142,6 @@ public class ViewCustomerServlet extends HttpServlet {
                 return;
             }
         }
-
         // Cập nhật account
         adao.editAccount(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, userId);
         response.sendRedirect("customerlist");

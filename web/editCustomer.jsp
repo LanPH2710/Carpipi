@@ -103,14 +103,14 @@
                                     <label class="labels">Tên</label>
                                     <input name="lastName" type="text" class="form-control" value="${acc.lastName}" required>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="labels">Giới tính</label>
-                                    <select name="gender" class="form-control" required>
-                                        <option value="0" <c:if test="${acc.gender == 0}">selected</c:if>>Nam</option>
-                                        <option value="1" <c:if test="${acc.gender == 1}">selected</c:if>>Nữ</option>
-                                        <option value="2" <c:if test="${acc.gender == 2}">selected</c:if>>Khác</option>
-                                        </select>
-                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">Giới tính</label>
+                                        <select name="gender" class="form-control" required>
+                                            <option value="0" <c:if test="${acc.gender == 0}">selected</c:if>>Nam</option>
+                                            <option value="1" <c:if test="${acc.gender == 1}">selected</c:if>>Nữ</option>
+                                            <option value="2" <c:if test="${acc.gender == 2}">selected</c:if>>Khác</option>
+                                            </select>
+                                        </div>
                                     <div class="col-md-6">
                                         <label class="labels">Số điện thoại</label>
                                         <input name="mobile" type="text" class="form-control" value="${acc.mobile}" required>
@@ -120,14 +120,23 @@
                                     <input name="address" type="text" class="form-control" value="${acc.address}" required>
                                 </div>
                                 <!-- Role (Read-Only) -->
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <label class="labels">Vai trò</label>
                                     <input name="role" type="text" class="form-control" value="${role1}" readonly>
                                 </div>
-                                <!-- Email (Read-Only) -->
-                                <div class="col-md-12">
-                                    <label class="labels">Email</label>
-                                    <input name="email" type="text" class="form-control" value="${acc.email}" readonly>
+                                <!-- Status -->
+                                <div class="col-md-6">
+                                    <label class="labels">Trạng Thái</label>
+                                    <select name="status" class="form-control" required>
+                                        <option value="0" <c:if test="${acc.status == 0}">selected</c:if>>Không hoạt động</option>
+                                        <option value="1" <c:if test="${acc.status == 1}">selected</c:if>>Hoạt động</option>
+                                        <option value="2" <c:if test="${acc.status == 2}">selected</c:if>>Chờ xử lý</option>
+                                        </select>
+                                    </div>
+                                    <!-- Email (Read-Only) -->
+                                    <div class="col-md-12">
+                                        <label class="labels">Email</label>
+                                        <input name="email" type="text" class="form-control" value="${acc.email}" readonly>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="labels">Thay đổi ảnh đại diện</label>
@@ -137,8 +146,13 @@
                             </div>
                             <!-- Save Button -->
                             <span class="mt-5 text-center">
+                                <!-- Nút Lưu Thông Tin -->
                                 <button class="btn btn-primary profile-button" type="submit">Lưu Thông Tin</button>
+
+                                <!-- Nút Hủy với thẻ <a> được định dạng như nút -->
+                                <a href="customerlist" class="btn btn-secondary profile-button">Hủy</a>
                             </span>
+
                         </div>
                     </div>
                 </div>

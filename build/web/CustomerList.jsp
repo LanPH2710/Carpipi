@@ -149,12 +149,12 @@
                                 </a>
                             </div>
                             <div class="row">
-                                <div class="col-sm-8"><h2>Customer <b>Details</b></h2></div>
+                                <div class="col-sm-8"><h2>Customer <b>List</b></h2></div>
                                 <div class="col-sm-4">
                                     <form action="searchcustomer" method="get">
                                         <div class="search-box">
                                             <i class="material-icons">&#xE8B6;</i>
-                                            <input type="text" name="search" class="form-control" placeholder="Search&hellip;">
+                                            <input type="text" name="search" class="form-control" placeholder="Search by email">
                                         </div>
                                     </form>
                                 </div>
@@ -163,7 +163,10 @@
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>
+                                        <a class="text-decoration-none" href="customerlist?sort=userId&order=${order == 'asc' && sort == 'userId' ? 'desc' : 'asc'}">
+                                        ID <i class="fa fa-sort"></i>
+                                    </a>
                                     <th>
                                         <a class="text-decoration-none" href="customerlist?sort=name&order=${order == 'asc' && sort == 'name' ? 'desc' : 'asc'}">
                                         Họ và Tên <i class="fa fa-sort"></i>

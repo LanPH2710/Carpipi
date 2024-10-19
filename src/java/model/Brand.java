@@ -10,14 +10,16 @@ package model;
  */
 public class Brand {
     private int brandId;
-    private String brandName;
+    private String name;
+    private String image;
 
     public Brand() {
     }
 
-    public Brand(int brandId, String brandName) {
+    public Brand(int brandId, String name, String image) {
         this.brandId = brandId;
-        this.brandName = brandName;
+        this.name = name;
+        this.image = image;
     }
 
     public int getBrandId() {
@@ -29,11 +31,20 @@ public class Brand {
     }
 
     public String getBrandName() {
-        return brandName;
+        return name;
     }
 
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
+    public void setBrandName(String name) {
+        this.name = name;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     
 }

@@ -1,19 +1,16 @@
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
-        <meta charset="utf-8" />
-        <title>Doctris - Doctor Appointment Booking System</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
-        <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
-        <meta name="author" content="Shreethemes" />
-        <meta name="email" content="support@shreethemes.in" />
+   
+        <title>Carpipi</title>
+      
 
-        <meta name="Version" content="v1.2.0" />
+      
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets1/images/favicon.ico.png">
+        <link rel="shortcut icon" href="img/logo3.png">
         <!-- Bootstrap -->
         <link href="assets1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
@@ -43,9 +40,9 @@
             <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
-                        <a href="index.html">
-                            <img src="assets1/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                            <img src="assets1/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                        <a href="home">
+                            <img src="img/logoBlack.png" height="120" class="logo-light-mode" alt="">
+                            
                         </a>
                     </div>
 
@@ -188,13 +185,13 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Shopcart</h5>
+                            <h5 class="mb-0">ShopCart</h5>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
-                                    <li class="breadcrumb-item"><a href="shop.html">Shop</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Shopcart</li>
+                                    <li class="breadcrumb-item"><a href="home.html">Home</a></li>
+                                   
+                                    <li class="breadcrumb-item active" aria-current="page">Cart</li>
                                 </ul>
                             </nav>
                         </div>
@@ -214,28 +211,27 @@
                                         </thead>
 
                                         <tbody>
-                                        <c:forEach items="${carts}" var="C">
+                                        <c:forEach items="${sessionScope.carts.values()}" var="C">
                                             <form action="update-quantity">
                                                 <tr>
-                                                    <td class="h5 p-3 text-center"><a href="delete-cart?productId=${C.value.product.id}" class="text-danger"><i class="uil uil-times"></i></a></td>
+                                                    <td class="h5 p-3 text-center"><a href="" class="text-danger"><i class="uil uil-times"></i></a></td>
                                                     <td class="p-3">
                                                         <div class="d-flex align-items-center">
-                                                            <img src="${C.value.product.imageUrl}" alt="${C.value.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:auto;" >
-                                                            <h6 class="mb-0 ms-3">${C.value.product.name}</h6>
+                                                            <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:auto;">
+                                                            <h6 class="mb-0 ms-3">${C.product.name}</h6>
                                                         </div>
                                                     </td>
-                                                    <td class="text-center p-3">${C.value.product.price}</td>
+                                                    <td class="text-center p-3">${C.product.price}</td>
                                                     <td class="text-center shop-list p-3">
                                                         <div class="qty-icons">
+                                                              <input type="hidden" name="productId" value="${C.product.productId}">
                                                             <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
-                                                            
-                                                             <input min="1" name="quantity" value="${C.value.quantity}" type="number" class="btn btn-icon btn-primary qty-btn quantity" onchange="this.form.submit()">
+                                                            <input min="1" name="quantity" value="${C.quantity}" type="number" class="btn btn-icon btn-primary qty-btn quantity" onchange="this.form.submit()">
                                                             <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
                                                         </div>
                                                     </td>
-                                                    <td class="text-end font-weight-bold p-3">$ ${C.value.product.price * C.value.quantity}</td>
+                                                    <td class="text-end font-weight-bold p-3">$ ${C.product.price * C.quantity}</td>
                                                 </tr>
-
                                             </form>
                                         </c:forEach>
                                         </tbody>
@@ -276,19 +272,6 @@
                     </div>
                 </div><!--end container-->
 
-                <!-- Footer Start -->
-                <footer class="bg-white shadow py-3">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <div class="text-sm-start text-center">
-                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </div><!--end container-->
-                </footer><!--end footer-->
-                <!-- End -->
             </main>
             <!--End page-content" -->
         </div>

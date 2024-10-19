@@ -23,6 +23,7 @@
         <url-pattern>/marketing</url-pattern>
         <url-pattern>/sale</url-pattern>
         <url-pattern>/proformarketing</url-pattern>
+        <url-pattern>/SliderList</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
@@ -104,6 +105,10 @@
         <servlet-name>PostListServlet</servlet-name>
         <servlet-class>controller.PostListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SliderListServlet</servlet-name>
+        <servlet-class>controller.SliderListServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -183,5 +188,9 @@
     <servlet-mapping>
         <servlet-name>PostListServlet</servlet-name>
         <url-pattern>/postlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SliderListServlet</servlet-name>
+        <url-pattern>/SliderList</url-pattern>
     </servlet-mapping>
 </web-app>

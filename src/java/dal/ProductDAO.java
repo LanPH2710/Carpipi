@@ -772,6 +772,25 @@ public class ProductDAO extends DBContext {
         }
 
     }
+    
+    public List<Product> getTop5ProductsByPrice() throws SQLException {
+    List<Product> products = new ArrayList<>();
+    String sql = "SELECT name, description, price FROM product WHERE status = 1 ORDER BY price DESC LIMIT 5";
+
+    try (
+         PreparedStatement pstmt = connection.prepareStatement(sql); 
+         ResultSet rs = pstmt.executeQuery()) {
+        while (rs.next()) {
+            Product product = new Product();
+            product.setName(rs.getString("name"));
+            product.setDescription(rs.getString("description"));
+            product.setPrice(rs.getDouble("price"));
+            products.add(product);
+        }
+    }
+
+    return products;
+}
 
     /*
     public static void main(String[] args) throws SQLException {

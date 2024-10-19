@@ -17,7 +17,6 @@
         <url-pattern>/feedbacksList</url-pattern>
         <url-pattern>/setting</url-pattern>
         <url-pattern>/orderDetailsSale</url-pattern>
-        <url-pattern>/orderlist</url-pattern>
         <url-pattern>/dash</url-pattern>
         <url-pattern>/admin</url-pattern>
         <url-pattern>/marketing</url-pattern>
@@ -109,7 +108,8 @@
 
         <servlet-name>SliderListServlet</servlet-name>
         <servlet-class>controller.SliderListServlet</servlet-class>
-
+        </servlet>
+    <servlet>
         <servlet-name>ProductListServlet</servlet-name>
         <servlet-class>controller.ProductListServlet</servlet-class>
     </servlet>
@@ -199,16 +199,16 @@
         <url-pattern>/postlist</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
         <servlet-name>SliderListServlet</servlet-name>
         <url-pattern>/SliderList</url-pattern>
-=======
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ProductListServlet</servlet-name>
         <url-pattern>/productlist</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BrandControl</servlet-name>
         <url-pattern>/brand</url-pattern>
->>>>>>> df490a28317cabe8774dac3c30ffd6c401c2d42e
     </servlet-mapping>
+    
 </web-app>

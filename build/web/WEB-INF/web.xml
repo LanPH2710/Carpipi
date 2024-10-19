@@ -104,6 +104,14 @@
         <servlet-name>PostListServlet</servlet-name>
         <servlet-class>controller.PostListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductListServlet</servlet-name>
+        <servlet-class>controller.ProductListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BrandControl</servlet-name>
+        <servlet-class>controller.BrandControl</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -183,5 +191,13 @@
     <servlet-mapping>
         <servlet-name>PostListServlet</servlet-name>
         <url-pattern>/postlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductListServlet</servlet-name>
+        <url-pattern>/productlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BrandControl</servlet-name>
+        <url-pattern>/brand</url-pattern>
     </servlet-mapping>
 </web-app>

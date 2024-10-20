@@ -36,30 +36,36 @@ public class CartController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
  protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        
+        // Get product ID from the request
+        String productId = request.getParameter("productId");
 
-    HttpSession session = request.getSession();
-    Map<String, Cart> carts = (Map<String, Cart>) session.getAttribute("carts");
-    if (carts == null) {
-        carts = new LinkedHashMap<>();
+        // Retrieve the cart from the session
+        HttpSession session = request.getSession();
+        Map<String, Cart> carts = (Map<String, Cart>) session.getAttribute("carts");
+        if (carts == null) {
+            carts = new LinkedHashMap<>();
+        }
+
+        // Add or update the product in the cart
+        if (carts.containsKey(productId)) { // Product already in cart
+            int oldQuantity = carts.get(productId).getQuantity();
+            carts.get(productId).setQuantity(oldQuantity + 1);
+        } else { // Product not in cart
+            Product product = new ProductDAO().getProductById(productId);
+            if (product != null) {
+                carts.put(productId, new Cart(product, 1));
+            }
+        }
+        
+        // Save carts back to session
+        session.setAttribute("carts", carts);
+        
+        // Redirect to the cart display JSP page
+        response.sendRedirect("cart.jsp"); // Point to your JSP page for displaying the cart
     }
-
-    double totalMoney = 0;
-
-    for (Map.Entry<String, Cart> entry : carts.entrySet()) {
-        Cart cartItem = entry.getValue();
-        totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
-    }
-
-    // Save carts and total money to session
-    session.setAttribute("carts", carts);
-    session.setAttribute("totalMoney", totalMoney);
-
-    // Forward to cart.jsp
-    request.getRequestDispatcher("cart.jsp").forward(request, response);
-}
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

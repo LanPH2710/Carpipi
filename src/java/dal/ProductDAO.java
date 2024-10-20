@@ -10,62 +10,6 @@ import model.Product;
 import model.ProductImage;
 
 public class ProductDAO extends DBContext {
-     public static void main(String[] args) {
-        // Initialize ProductDAO to use the connection from DBContext
-        ProductDAO dao = new ProductDAO();
-        
-        // Example search keyword
-        String searchKeyword = "audi";
-
-        // Call the getProductBySearch method
-        List<Product> products = dao.getProductBySearch(searchKeyword);
-
-        // Display the results
-        if (products.isEmpty()) {
-            System.out.println("No products found for the search: " + searchKeyword);
-        } else {
-            for (Product product : products) {
-                System.out.println("Product ID: " + product.getProductId());
-                System.out.println("Name: " + product.getName());
-                System.out.println("Price: " + product.getPrice());
-                System.out.println("Fuel: " + product.getFuel());
-                System.out.println("----------------------------");
-            }
-        }
-    }
-    // Method to search products by name using DBContext
-   public List<Product> searchProductsByName(String searchName) {
-    List<Product> products = new ArrayList<>();
-    try {
-        String sql = "SELECT * FROM products WHERE name LIKE ?";
-        PreparedStatement st = connection.prepareStatement(sql);
-        st.setString(1, "%" + searchName + "%");
-        ResultSet resultSet = st.executeQuery();
-        while (resultSet.next()) {
-            Product product = new Product();
-            product.setProductId(resultSet.getString("productId"));
-            product.setName(resultSet.getString("name"));
-            product.setSeatNumber(resultSet.getInt("seatNumber"));
-            product.setPrice(resultSet.getDouble("price"));
-            product.setFuel(resultSet.getString("fuel"));
-            product.setStock(resultSet.getInt("stock"));
-            product.setDescription(resultSet.getString("description"));
-            product.setVAT(resultSet.getDouble("VAT"));
-            product.setSupplyId(resultSet.getInt("supplierId"));
-            product.setBrandId(resultSet.getInt("brandId"));
-            product.setSegmentId(resultSet.getInt("segmentId"));
-            product.setStyleId(resultSet.getInt("styleId"));
-
-            // Lấy danh sách hình ảnh của sản phẩm
-            product.setImages(getImagesByProductId(product.getProductId()));
-
-            products.add(product);
-        }
-    } catch (SQLException e) {
-        System.out.println(e);
-    }
-    return products;
-}
 
     public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
@@ -877,6 +821,14 @@ public class ProductDAO extends DBContext {
     }
 
 }  */
-    
+    public static void main(String[] args) {
+        ProductDAO p = new ProductDAO();
+        String search = "x";
+        List<Product> pl = p.getProductByName(search);
+        for (Product product : pl) {
+            System.out.println(product.getName());
+        }
+
+    }
 
 }

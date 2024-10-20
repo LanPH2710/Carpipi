@@ -93,11 +93,11 @@ public class LoginByAccountServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = request.getParameter("username");
         String pass = request.getParameter("password");
-        pass = HashPassword.toSHA1(pass);
+        String cpass = HashPassword.toSHA1(pass);
         String remember = request.getParameter("remember");
 
         LoginDAO loginDao = new LoginDAO();
-        Account account = loginDao.getUsernameAndPassword(username, pass);
+        Account account = loginDao.getUsernameAndPassword(username, cpass);
 
         if (account != null) // login successfully!
         {

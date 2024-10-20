@@ -1,30 +1,30 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package controller;
 
 import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import model.Cart;
 import model.Product;
 
 /**
  *
- * @author Admin
+ * @author hiule
  */
-@WebServlet(name = "CartController", urlPatterns = {"/carts"})
-public class CartController extends HttpServlet {
+@WebServlet(name = "SearchCartController", urlPatterns = {"/searchCart"})
+public class SearchCartController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,30 +35,32 @@ public class CartController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
- protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String keyword = request.getParameter("keyword");
 
-    HttpSession session = request.getSession();
-    Map<String, Cart> carts = (Map<String, Cart>) session.getAttribute("carts");
-    if (carts == null) {
-        carts = new LinkedHashMap<>();
-    }
+        Map<String, Cart> carts = (Map<String, Cart>) session.getAttribute("carts");
+        if (carts  == null) {
+            carts  = new LinkedHashMap<>();
+        }
+        // Filtered map to store the searched items
+        Map<String, Cart> filteredCarts = new LinkedHashMap<>();
+        double totalMoney = 0;
 
-    double totalMoney = 0;
+        for (Map.Entry<String, Cart> entry : carts.entrySet()) {
+            Cart cartItem = entry.getValue();
 
-    for (Map.Entry<String, Cart> entry : carts.entrySet()) {
-        Cart cartItem = entry.getValue();
-        totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
-    }
-
-    // Save carts and total money to session
-    session.setAttribute("carts", carts);
+            // If there's a search keyword, filter the items
+            if (keyword == null || keyword.isEmpty() || cartItem.getProduct().getName().toLowerCase().contains(keyword.toLowerCase())) {
+                filteredCarts.put(entry.getKey(), cartItem);
+                totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+            }
+        }
+        session.setAttribute("filteredCarts", filteredCarts);
     session.setAttribute("totalMoney", totalMoney);
-
-    // Forward to cart.jsp
     request.getRequestDispatcher("cart.jsp").forward(request, response);
-}
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -98,7 +100,5 @@ public class CartController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-  
 
 }

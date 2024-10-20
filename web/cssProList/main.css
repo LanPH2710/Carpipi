@@ -52,7 +52,7 @@ a#scrollUp {
   bottom: 0px;
   right: 10px;
   padding: 5px 10px;
-  background: #FE980F;
+  background: #03A9F4;
   color: #FFF;
   -webkit-animation: bounce 2s ease infinite;
   animation: bounce 2s ease infinite;
@@ -783,13 +783,18 @@ h2.title:before{
 }
 
 .shipping {
-  background-color: #F2F2F2;
   margin-top: 40px;
   overflow: hidden;
   padding-top: 20px;
   position: relative;
 }
 
+.shipping img {
+    max-width: 100%; 
+    height: auto; 
+    display: block; 
+    margin: 0 auto; 
+}
 
 .price-range{
   margin-top:30px;

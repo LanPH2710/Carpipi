@@ -48,8 +48,19 @@ public class ProductListServlet extends HttpServlet {
         if (pageParam != null) {
             page = Integer.parseInt(pageParam);
         }
+        String prefix;
+        List<Product> allPro;
+        if (brandId != null && !brandId.isEmpty()) {
+            allPro = productDao.getAllProductByBrandId(brandId);
+            String brandName = brandDao.getBrandById(Integer.parseInt(brandId));
+            prefix = (brandName != null && brandName.length() >= 2) ? brandName.substring(0, 2) : null;
 
-        List<Product> allPro = productDao.getAllProducts();
+        } else {
+            // Nếu không có brandId, lấy tất cả sản phẩm
+            allPro = productDao.getAllProducts();
+            prefix = "Me";
+        }
+
         int totalPro = allPro.size();
         // Tính toán chỉ số sản phẩm bắt đầu và kết thúc cho trang hiện tại
         int start = (page - 1) * 12;
@@ -58,14 +69,18 @@ public class ProductListServlet extends HttpServlet {
         List<Product> productsForCurrentPage = allPro.subList(start, end);
         int totalPages = (int) Math.ceil((double) totalPro / 12);
 
+        List<Product> newProduct = productDao.getLastestProductsByProductIdPrefix(prefix, 1);
         List<Style> styList = styleDao.getAllStyleCar();
         List<Brand> braList = brandDao.getAllBrand();
 
+        request.setAttribute("newProduct", newProduct);
         request.setAttribute("productList", productsForCurrentPage);
         request.setAttribute("brandList", braList);
         request.setAttribute("styleList", styList);
-        request.setAttribute("totalPages", totalPages); 
+        request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", page);
+        request.setAttribute("selectedBrandId", brandId);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("productList.jsp");
         dispatcher.forward(request, response);
     }

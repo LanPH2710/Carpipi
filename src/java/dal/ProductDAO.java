@@ -11,6 +11,7 @@ import model.ProductImage;
 
 public class ProductDAO extends DBContext {
 
+    // Manh Huy ------------------------------------------------------------------------- //
     public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
         try {
@@ -141,6 +142,7 @@ public class ProductDAO extends DBContext {
         }
         return products;
     }
+
     public String getSupplyNameById(int supplyId) {
         String supplyName = null;
         String sql = "SELECT segmentName FROM Segment WHERE segmentId = ?";
@@ -197,7 +199,7 @@ public class ProductDAO extends DBContext {
 
     public List<Product> getProductsByProductIdPrefix(String prefix, int limit) {
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM product WHERE productId LIKE ? LIMIT ?"; 
+        String sql = "SELECT * FROM product WHERE productId LIKE ? LIMIT ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, prefix + "%"); // Thêm ký tự % để tìm kiếm
@@ -228,7 +230,7 @@ public class ProductDAO extends DBContext {
 
     public List<Product> getLastestProductsByProductIdPrefix(String prefix, int limit) {
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM product WHERE productId LIKE ? ORDER BY productId DESC LIMIT ?"; 
+        String sql = "SELECT * FROM product WHERE productId LIKE ? ORDER BY productId DESC LIMIT ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, prefix + "%"); // Thêm ký tự % để tìm kiếm
@@ -256,6 +258,38 @@ public class ProductDAO extends DBContext {
         }
         return products;
     }
+
+    public List<Product> getAllProductByBrandId(String braId) {
+        List<Product> products = new ArrayList<>();
+        try {
+            String sql = "select * from carpipi.product where brandId = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, braId);
+
+            ResultSet resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProductId(resultSet.getString("productId"));
+                product.setName(resultSet.getString("name"));
+                product.setSeatNumber(resultSet.getInt("seatNumber"));
+                product.setPrice(resultSet.getDouble("price"));
+                product.setFuel(resultSet.getString("fuel"));
+                product.setStock(resultSet.getInt("stock"));
+                product.setDescription(resultSet.getString("description"));
+                product.setVAT(resultSet.getDouble("VAT"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
+                product.setBrandId(resultSet.getInt("brandId"));
+                product.setSegmentId(resultSet.getInt("segmentId"));
+                product.setStyleId(resultSet.getInt("styleId"));
+                product.setImages(getImagesByProductId(product.getProductId())); // Thêm hình ảnh vào sản phẩm
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return products;
+    }
+
     // Son: lấy sản phẩm có id to nhất với nameId là mã số đầu vd: VO, AU, ME, BM, PO
     public String getProductToScanId(String nameId) {
         String sql = "SELECT productId \n"
@@ -329,7 +363,7 @@ public class ProductDAO extends DBContext {
 
         return brand;
     }
-    
+
     public List<Product> getProductByBrandId(int brandId) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE brandId = ? LIMIT 8;";
@@ -772,6 +806,25 @@ public class ProductDAO extends DBContext {
         }
 
     }
+    
+    public List<Product> getTop5ProductsByPrice() throws SQLException {
+    List<Product> products = new ArrayList<>();
+    String sql = "SELECT name, description, price FROM product WHERE status = 1 ORDER BY price DESC LIMIT 5";
+
+    try (
+         PreparedStatement pstmt = connection.prepareStatement(sql); 
+         ResultSet rs = pstmt.executeQuery()) {
+        while (rs.next()) {
+            Product product = new Product();
+            product.setName(rs.getString("name"));
+            product.setDescription(rs.getString("description"));
+            product.setPrice(rs.getDouble("price"));
+            products.add(product);
+        }
+    }
+
+    return products;
+}
 
     /*
     public static void main(String[] args) throws SQLException {

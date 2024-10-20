@@ -157,26 +157,26 @@
                                             <li><a href="admin">Admin</a></li>
                                             </c:when>
                                         </c:choose>
-                                             <c:choose>
-                                        <c:when test="${sessionScope.account.roleId == 2}">
+                                        <c:choose>
+                                            <c:when test="${sessionScope.account.roleId == 2}">
                                             <li><a href="marketing">Makerting</a></li>
                                             </c:when>
                                         </c:choose>
                                         <c:choose>
-                                        <c:when test="${sessionScope.account.roleId == 3}">
+                                            <c:when test="${sessionScope.account.roleId == 3}">
                                             <li><a href="sale">Sale</a></li>
                                             </c:when>
                                         </c:choose>
-                                           <c:choose>
+                                        <c:choose>
                                             <c:when test="${sessionScope.account == null||sessionScope.account.roleId == 4}">
                                             <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
                                             </c:when>
                                         </c:choose>
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
-                                    <li class="scroll"><a href="#brand">Hãng</a></li>
+                                    <li class=""><a href="productlist">Danh sách mẫu</a></li>
                                     <li class=""><a href="BlogListServlet">Tin xe</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
-                                   
+
                                     <c:choose>
                                         <c:when test="${sessionScope.account == null}">
                                             <li></li>
@@ -222,14 +222,10 @@
                                         <h2>Kiểu dáng</h2>
                                         <div class="model-select-icon">
                                             <select class="form-control">
-
-                                                <option value="default">style</option><!-- /.option-->
-
-                                                <option value="sedan">sedan</option><!-- /.option-->
-
-                                                <option value="suv">SUV</option><!-- /.option-->
-                                                <option value="roadster">roadster</option><!-- /.option-->
-
+                                                <option value="defaultStyle">Chọn kiểu dáng</option><!-- /.option-->
+                                                <c:forEach var="sty" items="${styleList}">
+                                                    <option value="${sty.styleName}">${sty.styleName}</option><!-- /.option-->
+                                                </c:forEach>
                                             </select><!-- /.select-->
                                         </div><!-- /.model-select-icon -->
                                     </div>
@@ -239,13 +235,10 @@
                                         <h2>Hãng xe</h2>
                                         <div class="model-select-icon">
                                             <select class="form-control">
-                                                <option value="default">model</option><!-- /.option-->
-                                                <option value="volkswagen">Volkswagen</option><!-- /.option-->
-                                                <option value="mercedes">Mercedes-Benz</option><!-- /.option-->
-                                                <option value="mercedes">Mercedes-Benz</option><!-- /.option-->
-                                                <option value="porsche">Porsche AG</option><!-- /.option-->
-                                                <option value="audi">Audi</option><!-- /.option-->
-                                                <option value="bmw">BMW</option><!-- /.option-->
+                                                <option value="defaultBrand">Chọn hãng</option><!-- /.option-->
+                                                <c:forEach var="bra" items="${brandList}">
+                                                    <option value="${bra.brandName}">${bra.brandName}</option><!-- /.option-->
+                                                </c:forEach>
                                             </select><!-- /.select-->
                                         </div><!-- /.model-select-icon -->
                                     </div>
@@ -256,7 +249,7 @@
                                         <div class="model-select-icon">
                                             <select class="form-control">
 
-                                                <option value="default">price</option><!-- /.option-->
+                                                <option value="defaultPrice">Khoảng giá</option><!-- /.option-->
 
                                                 <option value="$0.00">$0.00</option><!-- /.option-->
 
@@ -308,7 +301,7 @@
                                                 <p>
                                                     ${nCar.description}
                                                 </p>
-                                                <button class="welcome-btn new-cars-btn" onclick="window.location.href = '#'">
+                                                <button class="welcome-btn new-cars-btn" onclick="window.location.href = 'productdetail?productId=${nCar.productId}'">
                                                     Xem chi tiết
                                                 </button>
                                             </div><!--/.new-cars-txt-->	
@@ -345,7 +338,6 @@
                                                     <img src="${product.images[0].imageUrl}" alt="${product.name}">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <!-- Hiển thị hình ảnh mặc định nếu không có hình ảnh sản phẩm -->
                                                     <img src="assets/images/default-car.png" alt="${product.name}">
                                                 </c:otherwise>
                                             </c:choose>
@@ -383,31 +375,13 @@
             <div class="container">
                 <div class="brand-area">
                     <div class="owl-carousel owl-theme brand-item">
-                        <div class="item">
-                            <a href="#">
-                                <img src="assets/images/brand/mecesdes.png" alt="brand-image" />
-                            </a>
-                        </div><!--/.item-->
-                        <div class="item">
-                            <a href="#">
-                                <img src="assets/images/brand/BMW.png" alt="brand-image" />
-                            </a>
-                        </div><!--/.item-->
-                        <div class="item">
-                            <a href="#">
-                                <img src="assets/images/brand/audi.jpg" alt="brand-image" />
-                            </a>
-                        </div><!--/.item-->
-                        <div class="item">
-                            <a href="#">
-                                <img src="assets/images/brand/Porsche.png" alt="brand-image" />
-                            </a>
-                        </div><!--/.item-->
-                        <div class="item">
-                            <a href="#">
-                                <img src="assets/images/brand/volk.png" alt="brand-image" />
-                            </a>
-                        </div><!--/.item-->
+                        <c:forEach var="bra" items="${brandList}">
+                            <div class="item">
+                                <a href="brand?brandId=${bra.brandId}">
+                                    <img src="${bra.image}" alt="brand-image" />
+                                </a>
+                            </div><!--/.item-->
+                        </c:forEach>
                     </div><!--/.owl-carousel-->
                 </div><!--/.clients-area-->
 
@@ -415,10 +389,6 @@
 
         </section><!--/brand-->	
         <!--brand end -->
-
-        <!--blog start -->
-        <section id="blog" class="blog"></section><!--/.blog-->
-        <!--blog end -->
 
         <!--contact start-->
         <footer id="contact"  class="contact">

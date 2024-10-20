@@ -17,24 +17,33 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <title>Carpipi product list</title>
-        <link href="cssFpt/bootstrap.min.css" rel="stylesheet">
-        <link href="cssFpt/font-awesome.min.css" rel="stylesheet">
-        <link href="cssFpt/font-awesome.min.css" rel="stylesheet">
-        <link href="cssFpt/price-range.css" rel="stylesheet">
-        <link href="cssFpt/animate.css" rel="stylesheet">
-        <link href="cssFpt/main.css" rel="stylesheet">
-        <link href="cssFpt/responsive.css" rel="stylesheet">
-
-        <link rel="shortcut icon" href="images/ico/favicon.ico">
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+        <link href="cssProList/bootstrap.min.css" rel="stylesheet">
+        <link href="cssProList/font-awesome.min.css" rel="stylesheet">
+        <link href="cssProList/price-range.css" rel="stylesheet">
+        <link href="cssProList/animate.css" rel="stylesheet">
+        <link href="cssProList/main.css" rel="stylesheet">
+        <link href="cssProList/responsive.css" rel="stylesheet">
+        <!--[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+        <![endif]-->
+        <link rel="shortcut icon" href="imageProList/ico/favicon.ico">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="imageProList/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="imageProList/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="imageProList/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="imageProList/ico/apple-touch-icon-57-precomposed.png">
 
         <style>
             .paginationProList {
                 float: right;
                 margin: 0 0 5px;
+                list-style: none; /* Bỏ các dấu chấm trước mỗi mục */
+                padding: 0;
+                display: flex; /* Thêm để hiển thị các mục li theo chiều ngang */
+            }
+
+            .paginationProList li {
+                display: inline-block; /* Đảm bảo mỗi li được hiển thị theo hàng ngang */
             }
 
             .paginationProList li a {
@@ -76,6 +85,7 @@
                 margin-top: 6px;
                 font-size: 95%;
             }
+
         </style>
     </head><!--/head-->
 
@@ -102,7 +112,7 @@
                 </div>
 
                 <!-- Advertisement Section -->
-                <div class="col-sm-10">
+                <div class="col-sm-12">
                     <section id="advertisement">
                         <div class="container">
                             <img src="assets/images/welcome-hero/welcome-banner.jpg" alt="" class="img-responsive" />
@@ -123,7 +133,7 @@
                                 <c:forEach var="brand" items="${brandList}">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4 class="panel-title"><a href="brand?brandId=${brand.brandId}&page=1">${brand.brandName}</a></h4>
+                                            <h4 class="panel-title"><a href="productlist?brandId=${brand.brandId}&page=1">${brand.brandName}</a></h4>
                                         </div>
                                     </div>
                                 </c:forEach>
@@ -134,13 +144,13 @@
                                     <ul class="nav nav-pills nav-stacked">
                                         <c:forEach var="style" items="${styleList}">
                                             <li><a href=""> <span class="pull-right"></span>${style.styleName}</a></li>
-                                                </c:forEach>
+                                        </c:forEach>
                                     </ul>
                                 </div>
                             </div><!--/brands_products-->
 
                             <div class="price-range"><!--price-range-->
-                                <h2>Price Range</h2>
+                                <h2>Khoảng Giá</h2>
                                 <div class="well">
                                     <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
                                     <b>$ 0</b> <b class="pull-right">$ 600</b>
@@ -148,7 +158,12 @@
                             </div><!--/price-range-->
 
                             <div class="shipping text-center"><!--shipping-->
-                                <img src="images/home/shipping.jpg" alt="" />
+                                <h2>Mẫu mới nhất</h2>
+                                <c:forEach var="pro" items="${newProduct}">
+                                    <a href="productdetail?productId=${pro.productId}">
+                                        <img src="${pro.images[1].imageUrl}" alt="${pro.name}" />
+                                    </a>
+                                </c:forEach>
                             </div><!--/shipping-->
                         </div>
                     </div>
@@ -166,7 +181,7 @@
                                                         <img src="${pro.images[1].imageUrl}" alt="${pro.name}">
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <img src="assets/images/default-car.png" alt="${pro.name}">
+                                                        <img src="assets/images/welcome-hero/welcome-banner.jpg" alt="${pro.name}">
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
@@ -186,12 +201,11 @@
                             </c:forEach>
 
                             <div class="clearfix">
-
                                 <ul class="paginationProList justify-content-center">
                                     <!-- Điều hướng về trang trước -->
                                     <c:if test="${currentPage > 1}">
                                         <li class="page-item">
-                                            <a class="page-link" href="productlist?page=${currentPage - 1}">
+                                            <a class="page-link" href="productlist?page=${currentPage - 1}&brandId=${selectedBrandId}">
                                                 <i class="fa fa-angle-double-left"></i>
                                             </a>
                                         </li>
@@ -209,7 +223,7 @@
                                             <c:otherwise>
                                                 <!-- Các trang khác -->
                                                 <li class="page-item">
-                                                    <a href="productlist?page=${i}" class="page-link">${i}</a>
+                                                    <a href="productlist?page=${i}&brandId=${selectedBrandId}" class="page-link">${i}</a>
                                                 </li>
                                             </c:otherwise>
                                         </c:choose>
@@ -218,7 +232,7 @@
                                     <!-- Điều hướng về trang sau -->
                                     <c:if test="${currentPage < totalPages}">
                                         <li class="page-item">
-                                            <a class="page-link" href="productlist?page=${currentPage + 1}">
+                                            <a class="page-link" href="productlist?page=${currentPage + 1}&brandId=${selectedBrandId}">
                                                 <i class="fa fa-angle-double-right"></i>
                                             </a>
                                         </li>
@@ -226,17 +240,20 @@
                                 </ul>
                             </div>
 
+
+
                         </div><!--features_items-->
                     </div>
                 </div>
             </div>
         </section>
 
-        <script src="jsFpt/jquery_1.js"></script>
-        <script src="jsFpt/price-range.js"></script>
-        <script src="jsFpt/jquery.scrollUp.min.js"></script>
-        <script src="jsFpt/bootstrap.min_2.js"></script>
-        <script src="jsFpt/jquery.prettyPhoto.js"></script>
-        <script src="jsFpt/main_1.js"></script>
+        <jsp:include page="footerDemo.jsp"></jsp:include>
+        <script src="jsProList/jquery.js"></script>
+        <script src="jsProList/price-range.js"></script>
+        <script src="jsProList/jquery.scrollUp.min.js"></script>
+        <script src="jsProList/bootstrap.min.js"></script>
+        <script src="jsProList/jquery.prettyPhoto.js"></script>
+        <script src="jsProList/main.js"></script>
     </body>
 </html>

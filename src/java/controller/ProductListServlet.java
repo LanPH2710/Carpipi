@@ -45,16 +45,26 @@ public class ProductListServlet extends HttpServlet {
         int page = 1;
         String pageParam = request.getParameter("page");
         String brandId = request.getParameter("brandId");
+        String styleId = request.getParameter("styleId");
+        String keyword = request.getParameter("keyword");
+
         if (pageParam != null) {
             page = Integer.parseInt(pageParam);
         }
         String prefix;
         List<Product> allPro;
-        if (brandId != null && !brandId.isEmpty()) {
+
+        if (keyword != null && !keyword.isEmpty()) {
+            allPro = productDao.searchProductsByKeyword(keyword);
+            prefix = "po";
+        } else if (brandId != null && !brandId.isEmpty()) {
             allPro = productDao.getAllProductByBrandId(brandId);
             String brandName = brandDao.getBrandById(Integer.parseInt(brandId));
             prefix = (brandName != null && brandName.length() >= 2) ? brandName.substring(0, 2) : null;
 
+        } else if (styleId != null && !styleId.isEmpty()) {
+            allPro = productDao.getAllProductByStyleId(styleId); 
+            prefix = "au"; // Có thể thay đổi nếu bạn muốn
         } else {
             // Nếu không có brandId, lấy tất cả sản phẩm
             allPro = productDao.getAllProducts();
@@ -80,6 +90,8 @@ public class ProductListServlet extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", page);
         request.setAttribute("selectedBrandId", brandId);
+        request.setAttribute("selectedStyleId", styleId);
+        request.setAttribute("keyword", keyword);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("productList.jsp");
         dispatcher.forward(request, response);

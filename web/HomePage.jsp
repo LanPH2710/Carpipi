@@ -377,7 +377,7 @@
                     <div class="owl-carousel owl-theme brand-item">
                         <c:forEach var="bra" items="${brandList}">
                             <div class="item">
-                                <a href="brand?brandId=${bra.brandId}">
+                                <a href="productlist?brandId=${bra.brandId}&page=1">
                                     <img src="${bra.image}" alt="brand-image" />
                                 </a>
                             </div><!--/.item-->

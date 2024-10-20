@@ -290,7 +290,71 @@ public class ProductDAO extends DBContext {
         return products;
     }
 
-    // Son: lấy sản phẩm có id to nhất với nameId là mã số đầu vd: VO, AU, ME, BM, PO
+    public List<Product> searchProductsByKeyword(String keyword) {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM product WHERE REPLACE(name, ' ', '') LIKE CONCAT('%', REPLACE(?, ' ', ''), '%')";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, "%" + keyword + "%"); 
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProductId(resultSet.getString("productId"));
+                product.setName(resultSet.getString("name"));
+                product.setSeatNumber(resultSet.getInt("seatNumber"));
+                product.setPrice(resultSet.getDouble("price"));
+                product.setFuel(resultSet.getString("fuel"));
+                product.setStock(resultSet.getInt("stock"));
+                product.setDescription(resultSet.getString("description"));
+                product.setVAT(resultSet.getDouble("VAT"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
+                product.setBrandId(resultSet.getInt("brandId"));
+                product.setSegmentId(resultSet.getInt("segmentId"));
+                product.setStyleId(resultSet.getInt("styleId"));
+                product.setImages(getImagesByProductId(product.getProductId())); // Thêm hình ảnh vào sản phẩm
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+    
+    public List<Product> getAllProductByStyleId(String styleId) {
+        List<Product> products = new ArrayList<>();
+        try {
+            String sql = "select * from carpipi.product where styleId = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, styleId);
+
+            ResultSet resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProductId(resultSet.getString("productId"));
+                product.setName(resultSet.getString("name"));
+                product.setSeatNumber(resultSet.getInt("seatNumber"));
+                product.setPrice(resultSet.getDouble("price"));
+                product.setFuel(resultSet.getString("fuel"));
+                product.setStock(resultSet.getInt("stock"));
+                product.setDescription(resultSet.getString("description"));
+                product.setVAT(resultSet.getDouble("VAT"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
+                product.setBrandId(resultSet.getInt("brandId"));
+                product.setSegmentId(resultSet.getInt("segmentId"));
+                product.setStyleId(resultSet.getInt("styleId"));
+                product.setImages(getImagesByProductId(product.getProductId())); 
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return products;
+    }
+
+    // ------------------------------------------------------------------------------------------------------------------------
+    
+    
+    // Son: lấy sản phẩm có id to nhất với nameId là mã số đầu vd: VO, AU, ME, BM, PO --------------------------------
     public String getProductToScanId(String nameId) {
         String sql = "SELECT productId \n"
                 + "FROM carpipi.product \n"
@@ -806,25 +870,24 @@ public class ProductDAO extends DBContext {
         }
 
     }
-    
+
     public List<Product> getTop5ProductsByPrice() throws SQLException {
-    List<Product> products = new ArrayList<>();
-    String sql = "SELECT name, description, price FROM product WHERE status = 1 ORDER BY price DESC LIMIT 5";
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT name, description, price FROM product WHERE status = 1 ORDER BY price DESC LIMIT 5";
 
-    try (
-         PreparedStatement pstmt = connection.prepareStatement(sql); 
-         ResultSet rs = pstmt.executeQuery()) {
-        while (rs.next()) {
-            Product product = new Product();
-            product.setName(rs.getString("name"));
-            product.setDescription(rs.getString("description"));
-            product.setPrice(rs.getDouble("price"));
-            products.add(product);
+        try (
+                PreparedStatement pstmt = connection.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Product product = new Product();
+                product.setName(rs.getString("name"));
+                product.setDescription(rs.getString("description"));
+                product.setPrice(rs.getDouble("price"));
+                products.add(product);
+            }
         }
-    }
 
-    return products;
-}
+        return products;
+    }
 
     /*
     public static void main(String[] args) throws SQLException {
@@ -876,12 +939,16 @@ public class ProductDAO extends DBContext {
 }  */
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
-        String search = "x";
-        List<Product> pl = p.getProductByName(search);
-        for (Product product : pl) {
+        String search = "g63";
+        String styleId = "1";
+        List<Product> pl = p.getProductBySearch(search);
+        List<Product> p2 = p.getAllProductByStyleId(styleId);
+
+        for (Product product : p2) {
             System.out.println(product.getName());
         }
 
     }
+
 
 }

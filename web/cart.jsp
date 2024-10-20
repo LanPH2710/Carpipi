@@ -168,8 +168,7 @@
                             <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
                                 <i class="uil uil-bars"></i>
                             </a>
-                            <a href="home"><i class="uil uil-home me-2 d-inline-block"></i>HOME</a>
-
+                            
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
                                     <form method="get" id="searchform" class="searchform" action="searchCart">

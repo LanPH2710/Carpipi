@@ -1,14 +1,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
-   
-        <title>Carpipi</title>
-      
 
-      
+        <title>Carpipi</title>
+
+
+
         <!-- favicon -->
         <link rel="shortcut icon" href="img/logo3.png">
         <!-- Bootstrap -->
@@ -42,16 +44,16 @@
                     <div class="sidebar-brand">
                         <a href="home">
                             <img src="img/logoBlack.png" height="120" class="logo-light-mode" alt="">
-                            
+
                         </a>
                     </div>
 
                     <ul class="sidebar-menu pt-3">
                         <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                        <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a></li>
+
 
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Doctors</a>
+                            <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li><a href="doctors.html">Doctors</a></li>
@@ -166,16 +168,18 @@
                             <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
                                 <i class="uil uil-bars"></i>
                             </a>
+                            <a href="home"><i class="uil uil-home me-2 d-inline-block"></i>HOME</a>
+
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form role="search" method="get" id="searchform" class="searchform">
+                                    <form method="get" id="searchform" class="searchform" action="searchCart">
                                         <div>
-                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Search Keywords...">
+                                            <input type="text" class="form-control border rounded-pill" name="keyword" id="s" placeholder="Search Keywords..." value="${param.keyword}" >
                                             <input type="submit" id="searchsubmit" value="Search">
                                         </div>
-                                    </form>
-                                </div>
+                                    </form>                             </div>
                             </div>
+                                            <a href="reset-carts" class="btn btn-secondary ms-2">Reset Search</a> <!-- Reset button -->
                         </div>
 
 
@@ -189,8 +193,8 @@
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="home.html">Home</a></li>
-                                   
+                                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+
                                     <li class="breadcrumb-item active" aria-current="page">Cart</li>
                                 </ul>
                             </nav>
@@ -211,29 +215,72 @@
                                         </thead>
 
                                         <tbody>
-                                        <c:forEach items="${sessionScope.carts.values()}" var="C">
-                                            <form action="update-quantity">
-                                                <tr>
-                                                    <td class="h5 p-3 text-center"><a href="" class="text-danger"><i class="uil uil-times"></i></a></td>
-                                                    <td class="p-3">
-                                                        <div class="d-flex align-items-center">
-                                                            <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:auto;">
-                                                            <h6 class="mb-0 ms-3">${C.product.name}</h6>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center p-3">${C.product.price}</td>
-                                                    <td class="text-center shop-list p-3">
-                                                        <div class="qty-icons">
-                                                              <input type="hidden" name="productId" value="${C.product.productId}">
-                                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
-                                                            <input min="1" name="quantity" value="${C.quantity}" type="number" class="btn btn-icon btn-primary qty-btn quantity" onchange="this.form.submit()">
-                                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-end font-weight-bold p-3">$ ${C.product.price * C.quantity}</td>
-                                                </tr>
-                                            </form>
-                                        </c:forEach>
+                                            <c:if test="${not empty sessionScope.filteredCarts}">
+                                                <c:forEach items="${sessionScope.filteredCarts.values()}" var="C">
+                                                <form action="update-quantity">
+                                                    <tr>
+                                                        <td class="h5 p-3 text-center">
+                                                            <a href="delete-cart?productId=${C.product.productId}" class="text-danger">
+                                                                <i class="uil uil-times"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td class="p-3">
+                                                            <div class="d-flex align-items-center">
+                                                                <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:150px; width:auto;">
+                                                                <h6 class="mb-0 ms-3">${C.product.name}</h6>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center p-3"><fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ</td>
+                                                        <td class="text-center shop-list p-3">
+                                                            <div class="qty-icons">
+                                                                <input type="hidden" name="productId" value="${C.product.productId}">
+                                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
+                                                                <input min="1" name="quantity" value="${C.quantity}" type="number" class="btn btn-icon btn-primary qty-btn quantity" onchange="this.form.submit()">
+                                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-end font-weight-bold p-3">
+                                                            <fmt:formatNumber value="${C.product.price * C.quantity}" type="number" minFractionDigits="0"/> đ
+                                                        </td>
+                                                    </tr>
+                                                </form>
+                                            </c:forEach>
+                                        </c:if>
+
+                                        <c:if test="${empty sessionScope.filteredCarts}">
+                                            <c:forEach items="${sessionScope.carts.values()}" var="C">
+                                                 <form action="update-quantity">
+                                                    <tr>
+                                                        <td class="h5 p-3 text-center">
+                                                            <a href="delete-cart?productId=${C.product.productId}" class="text-danger">
+                                                                <i class="uil uil-times"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td class="p-3">
+                                                            <div class="d-flex align-items-center">
+                                                                <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:150px; width:auto;">
+                                                                <h6 class="mb-0 ms-3">${C.product.name}</h6>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center p-3"><fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ</td>
+                                                        <td class="text-center shop-list p-3">
+                                                            <div class="qty-icons">
+                                                                <input type="hidden" name="productId" value="${C.product.productId}">
+                                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
+                                                                <input min="1" name="quantity" value="${C.quantity}" type="number" class="btn btn-icon btn-primary qty-btn quantity" onchange="this.form.submit()">
+                                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-end font-weight-bold p-3">
+                                                            <fmt:formatNumber value="${C.product.price * C.quantity}" type="number" minFractionDigits="0"/> đ
+                                                        </td>
+                                                    </tr>
+                                                </form>
+                                            </c:forEach>
+                                        </c:if>
+
+
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -249,17 +296,24 @@
                                 <div class="table-responsive bg-white rounded shadow">
                                     <table class="table table-center table-padding mb-0">
                                         <tbody>
+
                                             <tr>
                                                 <td class="h6 p-3">Subtotal</td>
-                                                <td class="text-end font-weight-bold p-3">$ 2190</td>
+                                                <td class="text-end font-weight-bold p-3">
+                                                    <fmt:formatNumber value="${sessionScope.totalMoney}" type="number" minFractionDigits="0"/> đ
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td class="h6 p-3">Taxes</td>
-                                                <td class="text-end font-weight-bold p-3">$ 219</td>
+                                                <td class="h6 p-3">Taxes (10%)</td>
+                                                <td class="text-end font-weight-bold p-3">
+                                                    <fmt:formatNumber value="${sessionScope.totalMoney * 0.1}" type="number" minFractionDigits="0"/> đ
+                                                </td>
                                             </tr>
                                             <tr class="bg-light">
                                                 <td class="h6 p-3">Total</td>
-                                                <td class="text-end font-weight-bold p-3">$ 2409</td>
+                                                <td class="text-end font-weight-bold p-3">
+                                                    <fmt:formatNumber value="${sessionScope.totalMoney * 1.1}" type="number" minFractionDigits="0"/> đ
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>

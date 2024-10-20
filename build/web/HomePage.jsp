@@ -366,6 +366,9 @@
                                         <!-- Hiển thị mô tả ngắn về sản phẩm -->
                                         <p class="car-desc">${product.description}</p>
                                     </div>
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-dark mt-auto" href="addtocart?productId=${product.productId}">Add to cart</a>
+                                    </div>
                                 </div>
                             </div>
                         </c:forEach>

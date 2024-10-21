@@ -31,6 +31,7 @@
         <a href="dash">Dashboard</a>
         <a href="proformarketing">Product List</a>
         <a href="postlist">Post List</a>
+        <a href="SliderList">Slider List</a>
     </div>
     
     <p>Select an option above to manage the application.</p>

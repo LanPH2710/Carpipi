@@ -35,10 +35,6 @@
         <servlet-class>controller.CustomerListServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SearchCustomerServlet</servlet-name>
-        <servlet-class>controller.SearchCustomerServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>BlogDetailServlet</servlet-name>
         <servlet-class>controller.BlogDetailServlet</servlet-class>
     </servlet>
@@ -118,6 +114,10 @@
         <servlet-name>SettingsListServlet</servlet-name>
         <servlet-class>controller.SettingsListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangeStatusBlogServlet</servlet-name>
+        <servlet-class>controller.ChangeStatusBlogServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -125,10 +125,6 @@
     <servlet-mapping>
         <servlet-name>CustomerListServlet</servlet-name>
         <url-pattern>/customerlist</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SearchCustomerServlet</servlet-name>
-        <url-pattern>/searchcustomer</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BlogDetailServlet</servlet-name>
@@ -209,5 +205,9 @@
     <servlet-mapping>
         <servlet-name>SettingsListServlet</servlet-name>
         <url-pattern>/settingsList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeStatusBlogServlet</servlet-name>
+        <url-pattern>/changestatusblog</url-pattern>
     </servlet-mapping>
 </web-app>

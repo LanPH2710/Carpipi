@@ -34,7 +34,7 @@ public class DBContext {
 
 
 
-            String url = "jdbc:mysql://localhost:3306/carpipiSlider"; // MySQL URL format - your schema name
+            String url = "jdbc:mysql://localhost:3306/carpipi"; // MySQL URL format - your schema name
             Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL driver class
             connection = DriverManager.getConnection(url, user, pass);
             

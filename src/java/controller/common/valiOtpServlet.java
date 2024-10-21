@@ -3,26 +3,64 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package controller.common;
 
-import dal.BrandDAO;
-import dal.ProductDAO;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Map;
-import model.Brand;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author ADMIN
  */
-public class SettingsListServlet extends HttpServlet {
-   
+@WebServlet("/valiOtpServlet")
+
+public class valiOtpServlet extends HttpServlet {
+   private static final long serialVersionUID = 1L;
+       
+
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+	// Lấy giá trị OTP từ form nhập
+        String otpString = request.getParameter("otp"); // Lấy chuỗi từ form
+        HttpSession session = request.getSession();
+        int otp = (int) session.getAttribute("otp"); // Lấy OTP trong session
+        String email = (String) session.getAttribute("email"); // Lấy email từ session
+
+        RequestDispatcher dispatcher = null;
+
+        // Kiểm tra OTP có phải là số hợp lệ không
+        try {
+            int value = Integer.parseInt(otpString); // Chuyển chuỗi OTP sang số
+
+            // Kiểm tra nếu OTP hợp lệ
+            if (value == otp) {
+                request.setAttribute("email", email);
+                request.setAttribute("status", "success");
+                dispatcher = request.getRequestDispatcher("newPassword.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                // Nếu OTP sai, hiển thị thông báo lỗi
+                request.setAttribute("errorMessage", "OTP không hợp lệ");
+                request.setAttribute("email", email);  // Giữ lại email để hiển thị
+                dispatcher = request.getRequestDispatcher("enterOTP.jsp");
+                dispatcher.forward(request, response);
+            }
+        } catch (NumberFormatException e) {
+            // Nếu chuỗi OTP không phải là số
+            request.setAttribute("errorMessage", "OTP phải là số hợp lệ");
+            request.setAttribute("email", email);  // Giữ lại email để hiển thị
+            dispatcher = request.getRequestDispatcher("enterOTP.jsp");
+            dispatcher.forward(request, response);
+        }
+		
+	}
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -38,10 +76,10 @@ public class SettingsListServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SettingsListServlet</title>");  
+            out.println("<title>Servlet valiOtpServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SettingsListServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet valiOtpServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,16 +96,9 @@ public class SettingsListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        BrandDAO bDAO = new BrandDAO();
-        List<Brand> brandList = bDAO.getBrandListWithProductCount();
-        ProductDAO pDAO = new ProductDAO();
-        Map<String, Integer> fuelCounts = pDAO.getFuelCounts();
+        processRequest(request, response);
+    } 
 
-        request.setAttribute("brandList", brandList);
-        request.setAttribute("fuelCounts", fuelCounts);
-        request.getRequestDispatcher("settingsList.jsp").forward(request, response);
-    
-    }                            
     /** 
      * Handles the HTTP <code>POST</code> method.
      * @param request servlet request
@@ -78,35 +109,7 @@ public class SettingsListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         // Xử lý cập nhật trạng thái của thương hiệu
-//        int brandId = Integer.parseInt(request.getParameter("brandId"));
-//        int newStatus = Integer.parseInt(request.getParameter("status"));
-//
-//        // Cập nhật trạng thái thương hiệu
-//        brandDAO.updateBrandStatus(brandId, newStatus);
-//
-//        // Sau khi cập nhật, quay lại trang danh sách
-//        response.sendRedirect("settingsList");
-String action = request.getParameter("action");
-    BrandDAO bDAO = new BrandDAO();
-    ProductDAO pDAO = new ProductDAO();
-    if ("updateFuelStatus".equals(action)) {
-        String fuel = request.getParameter("fuel");
-        int newStatus = Integer.parseInt(request.getParameter("status"));
-
-        // Cập nhật trạng thái nhiên liệu
-        boolean isUpdated = pDAO.updateFuelStatus(fuel, newStatus);
-
-        // Sau khi cập nhật, quay lại trang danh sách
-        response.sendRedirect("settingsList");
-    } else {
-        // Xử lý cập nhật trạng thái thương hiệu
-        int brandId = Integer.parseInt(request.getParameter("brandId"));
-        int newStatus = Integer.parseInt(request.getParameter("status"));
-
-        bDAO.updateBrandStatus(brandId, newStatus);
-        response.sendRedirect("settingsList");
-    }
+        processRequest(request, response);
     }
 
     /** 

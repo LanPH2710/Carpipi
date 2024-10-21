@@ -145,7 +145,7 @@ public class ViewCustomerServlet extends HttpServlet {
         }
         // Cập nhật account
         adao.editAccount(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, status, userId);
-        response.sendRedirect("viewcustomer?userId="+userId);
+        response.sendRedirect("customerlist");
     }
 
 

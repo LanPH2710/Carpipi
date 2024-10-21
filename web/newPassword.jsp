@@ -69,7 +69,9 @@
             <div class="reset">
                 <!-- Main Heading -->
                 <h1><strong>Đổi Mật Khẩu</strong></h1>
-
+                <c:if test="${not empty errorMessage}">
+                    <div style="color:red;">${errorMessage}</div>
+                </c:if>
                 <!-- Form -->
                 <form class="form-horizontal" action="newPassword" method="POST">
                     <!-- New Password Input -->

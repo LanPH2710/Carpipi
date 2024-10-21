@@ -3,58 +3,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package controller.admin;
 
-import jakarta.servlet.RequestDispatcher;
+import dal.BrandDAO;
+import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
+import model.Brand;
 
 /**
  *
  * @author ADMIN
  */
-@WebServlet("/valiOtpServlet")
-
-public class valiOtpServlet extends HttpServlet {
-   private static final long serialVersionUID = 1L;
-       
-
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		int value=Integer.parseInt(request.getParameter("otp"));
-		HttpSession session=request.getSession();
-		int otp=(int)session.getAttribute("otp");
-		
-		
-		
-		RequestDispatcher dispatcher=null;
-		
-		
-		if (value==otp) 
-		{
-			
-				request.setAttribute("email", request.getParameter("email"));
-				request.setAttribute("status", "success");
-			  dispatcher=request.getRequestDispatcher("newPassword.jsp");
-			dispatcher.forward(request, response);
-			
-		}
-		else
-		{
-			request.setAttribute("message","wrong otp");
-			
-		   dispatcher=request.getRequestDispatcher("enterOtp.jsp");
-			dispatcher.forward(request, response);
-		
-		}
-		
-	}
+public class SettingsListServlet extends HttpServlet {
+   
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -70,10 +38,10 @@ public class valiOtpServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet valiOtpServlet</title>");  
+            out.println("<title>Servlet SettingsListServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet valiOtpServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet SettingsListServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -90,9 +58,16 @@ public class valiOtpServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
-    } 
+        BrandDAO bDAO = new BrandDAO();
+        List<Brand> brandList = bDAO.getBrandListWithProductCount();
+        ProductDAO pDAO = new ProductDAO();
+        Map<String, Integer> fuelCounts = pDAO.getFuelCounts();
 
+        request.setAttribute("brandList", brandList);
+        request.setAttribute("fuelCounts", fuelCounts);
+        request.getRequestDispatcher("settingsList.jsp").forward(request, response);
+    
+    }                            
     /** 
      * Handles the HTTP <code>POST</code> method.
      * @param request servlet request
@@ -103,7 +78,35 @@ public class valiOtpServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+         // Xử lý cập nhật trạng thái của thương hiệu
+//        int brandId = Integer.parseInt(request.getParameter("brandId"));
+//        int newStatus = Integer.parseInt(request.getParameter("status"));
+//
+//        // Cập nhật trạng thái thương hiệu
+//        brandDAO.updateBrandStatus(brandId, newStatus);
+//
+//        // Sau khi cập nhật, quay lại trang danh sách
+//        response.sendRedirect("settingsList");
+String action = request.getParameter("action");
+    BrandDAO bDAO = new BrandDAO();
+    ProductDAO pDAO = new ProductDAO();
+    if ("updateFuelStatus".equals(action)) {
+        String fuel = request.getParameter("fuel");
+        int newStatus = Integer.parseInt(request.getParameter("status"));
+
+        // Cập nhật trạng thái nhiên liệu
+        boolean isUpdated = pDAO.updateFuelStatus(fuel, newStatus);
+
+        // Sau khi cập nhật, quay lại trang danh sách
+        response.sendRedirect("settingsList");
+    } else {
+        // Xử lý cập nhật trạng thái thương hiệu
+        int brandId = Integer.parseInt(request.getParameter("brandId"));
+        int newStatus = Integer.parseInt(request.getParameter("status"));
+
+        bDAO.updateBrandStatus(brandId, newStatus);
+        response.sendRedirect("settingsList");
+    }
     }
 
     /** 

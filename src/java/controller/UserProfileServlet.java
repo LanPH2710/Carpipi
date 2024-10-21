@@ -101,6 +101,7 @@ public class UserProfileServlet extends HttpServlet {
         int roleId = user.getRoleId();
         String email = user.getEmail();
         String avatar = user.getAvatar();
+        int status = user.getStatus();
         // Lấy giá trị từ JSP
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -141,7 +142,7 @@ public class UserProfileServlet extends HttpServlet {
         }
 
         // Cập nhật account
-        adao.editAccount(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, userId);
+        adao.editAccount(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, status, userId);
         response.sendRedirect("userprofile");
     }
 

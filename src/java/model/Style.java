@@ -11,10 +11,24 @@ package model;
 public class Style {
     private String styleId;
     private String styleName;
-
+    private int status;
+    private int styleProductCount;
     public Style(String styleId, String styleName) {
         this.styleId = styleId;
         this.styleName = styleName;
+    }
+
+    public Style(String styleId, String styleName, int status, int styleProductCount) {
+        this.styleId = styleId;
+        this.styleName = styleName;
+        this.status = status;
+        this.styleProductCount = styleProductCount;
+    }
+
+    public Style(String styleId, String styleName, int status) {
+        this.styleId = styleId;
+        this.styleName = styleName;
+        this.status = status;
     }
 
     
@@ -36,6 +50,22 @@ public class Style {
 
     public void setStyleName(String styleName) {
         this.styleName = styleName;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getStyleProductCount() {
+        return styleProductCount;
+    }
+
+    public void setStyleProductCount(int styleProductCount) {
+        this.styleProductCount = styleProductCount;
     }
     
     

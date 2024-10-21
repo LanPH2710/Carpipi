@@ -1,26 +1,24 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.cart;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Cart;
 
-
-
-@WebServlet(name = "UpdateCartQuantityController", urlPatterns = {"/update-quantity"})
-public class UpdateCartQuantityController extends HttpServlet {
+/**
+ *
+ * @author hiule
+ */
+@WebServlet(name = "ResetCartController", urlPatterns = {"/reset-carts"})
+public class ResetCartController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,33 +29,15 @@ public class UpdateCartQuantityController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-        // Get productId as a String
-        String productId = request.getParameter("productId");
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
-
         HttpSession session = request.getSession();
-        Map<String, Cart> carts = (Map<String, Cart>) session.getAttribute("carts");
-        if (carts == null) {
-            carts = new LinkedHashMap<>();
-        }
-
-        // Update the quantity if the productId exists in the cart
-        if (carts.containsKey(productId)) {
-            carts.get(productId).setQuantity(quantity);
-        }
-
-        // Save updated cart in session
-        session.setAttribute("carts", carts);
-
-        // Redirect to cart page
+        // Remove the filteredCarts attribute to reset the search
+        session.removeAttribute("filteredCarts");
+        
+        // Optionally, you can also redirect to the cart controller to refresh the cart view
         response.sendRedirect("carts");
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

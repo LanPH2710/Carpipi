@@ -58,6 +58,12 @@
                 text-align: center;
                 padding: 0;
             }
+            
+            li {
+                flex: 1 0 30%; /* Chia mỗi phần tử chiếm 30% chiều rộng, đảm bảo 3 phần tử trong mỗi hàng */
+                margin: 5px; /* Thêm khoảng cách giữa các phần tử */
+                text-align: start;
+            }
 
             .paginationProList li a:hover {
                 color: #666;

@@ -211,7 +211,7 @@
                 <!-- Blog Content -->
                 <div class="blog-content">
                     <h1 class="blog-title">${blog.blogTitle}</h1>
-                <div class="blog-meta"><b>Tác giả:</b>${author} | <b>Ngày: </b>${blog.blogTime} | <b>Thể loại:</b>${topic}</div>
+                <div class="blog-meta"><b>Tác giả: </b>${author} | <b>Ngày: </b>${blog.blogTime} | <b>Thể loại: </b>${topic}</div>
 
                 <div class="blog-image-container">
                     <img src="${blog.images[0].imageUrl}" class="blog-image" alt="Blog Image">
@@ -232,12 +232,12 @@
                     <h5>${blog.bodyMain2}</h5>
                     <p>${blog.bodySp2}</p>
                 </div>
-                
+
                 <div class="blog-image-container">
                     <img src="${blog.images[2].imageUrl}" class="blog-image" alt="Blog Image">
                     <strong class="textImage">${blog.images[2].imageText}</strong>
                 </div>
-                
+
                 <div class="blog-section">
                     <h5>${blog.bodyMain3}</h5>
                     <p>${blog.bodySp3}</p>
@@ -252,7 +252,7 @@
                     <h3>Bình luận và Đánh giá</h3>
 
                     <!-- Sorting Comments by Rating -->
-                    <form action="sortcomment" method="get" class="comment-sort-form">
+                    <form action="blogdetail" method="get" class="comment-sort-form">
                         <label for="rating">Sắp xếp theo đánh giá:</label>
                         <select name="rating" class="form-control mb-3" required>
                             <option value="5" <c:if test="${rating == 5}">selected</c:if>>&#9733;&#9733;&#9733;&#9733;&#9733;</option>
@@ -273,7 +273,12 @@
                                 <c:set var="userDisplayed" value="false" />
                                 <c:forEach items="${listacc}" var="acc"> 
                                     <c:if test="${acc.userId == comment.userId && !userDisplayed}">
-                                        <strong>${acc.firstName} ${acc.lastName}</strong>
+                                        <div class="user-info mt-3 d-flex align-items-center">
+                                            <img class="avatar rounded-circle mr-3" width="40px" height="40px" src="img/${acc.avatar}" alt="${acc.firstName} ${acc.lastName}">&nbsp&nbsp 
+                                            <div>
+                                                <strong class="user-name">${acc.firstName} ${acc.lastName}</strong>
+                                            </div>
+                                        </div>
                                         <c:set var="userDisplayed" value="true" />
                                     </c:if>
                                 </c:forEach>
@@ -292,6 +297,46 @@
                                 <p>${comment.commentInfor}</p>
                             </div>
                         </c:forEach>
+                    </div>
+                    <div class="clearfix">
+                        <div class="hint-text text-muted">Showing <b>${comment.size()}</b> out of <b>${size}</b> comments</div>
+                        <ul class="pagination justify-content-center">
+                            <!-- Điều hướng về trang trước -->
+                            <c:if test="${page > 1}">
+                                <li class="page-item">
+                                    <a class="page-link" href="blogdetail?blogId=${blog.blogId}&page=${page - 1}&rating=${commentRating}">
+                                        <i class="fa fa-angle-double-left"></i>
+                                    </a>
+                                </li>
+                            </c:if>
+
+                            <!-- Vòng lặp phân trang -->
+                            <c:forEach begin="${(page - 1) <= 1 ? 1 : (page - 1)}" end="${page + 1 > num ? num : page + 1}" var="i">
+                                <c:choose>
+                                    <c:when test="${i == page}">
+                                        <!-- Trang hiện tại -->
+                                        <li class="page-item active">
+                                            <a class="page-link">${i}</a>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <!-- Các trang khác -->
+                                        <li class="page-item">
+                                            <a href="blogdetail?blogId=${blog.blogId}&page=${i}&rating=${commentRating}" class="page-link">${i}</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+
+                            <!-- Điều hướng về trang sau -->
+                            <c:if test="${page < num}">
+                                <li class="page-item">
+                                    <a class="page-link" href="blogdetail?blogId=${blog.blogId}&page=${page + 1}&rating=${commentRating}">
+                                        <i class="fa fa-angle-double-right"></i>
+                                    </a>
+                                </li>
+                            </c:if>
+                        </ul>
                     </div>
 
                     <!-- Post a Comment Section -->

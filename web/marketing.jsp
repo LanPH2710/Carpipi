@@ -30,7 +30,7 @@
         <a href="customerlist">Customer List</a>
         <a href="dash">Dashboard</a>
         <a href="proformarketing">Product List</a>
-        <a href="SliderList">Slider List</a>
+        <a href="postlist">Post List</a>
     </div>
     
     <p>Select an option above to manage the application.</p>

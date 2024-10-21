@@ -91,4 +91,35 @@ public class CommentBlogDAO extends DBContext {
         return list;
     }
 
+    public List<CommentBlog> getCommentByRating(int blogId, int commentRating) {
+        List<CommentBlog> list = new ArrayList<>();
+        String sql = "SELECT * FROM comment WHERE blogId=? and commentRating =?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, blogId);
+            st.setInt(2, commentRating);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                CommentBlog p = new CommentBlog(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6));
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public List<CommentBlog> getCommentListByPage(List<CommentBlog> comments, int start, int end) {
+        ArrayList<CommentBlog> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(comments.get(i));
+        }
+        return arr;
+    }
 }

@@ -59,13 +59,26 @@ public class CustomerListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AccountDAO adao = new AccountDAO();
-        // Sắp xếp theo yêu cầu hoặc mặc định theo tên
+
+        // Nhận tham số tìm kiếm, sắp xếp và trạng thái từ request
+        String search = request.getParameter("search");
         String sort = request.getParameter("sort");
         String order = request.getParameter("order");
+        String status = request.getParameter("status");
+
         List<Account> p = null;
-        if (order == null || order.isEmpty()) {
-            order = "asc"; // Mặc định là tăng dần
+        order = (order == null || order.isEmpty()) ? "asc" : order; // Mặc định là tăng dần
+
+        // Kiểm tra tìm kiếm khách hàng
+        if (search != null && !search.isEmpty()) {
+            p = adao.searchCustomers(search); // Tìm kiếm khách hàng theo từ khóa
+        } else if (status != null && !status.isEmpty()) {
+            p = adao.getCustomersByStatus(Integer.parseInt(status)); // Lọc theo trạng thái
+        } else {
+            p = adao.getAllCustommer(); // Lấy tất cả khách hàng nếu không tìm kiếm hoặc lọc
         }
+
+        // Xử lý sắp xếp danh sách khách hàng
         if (sort != null && !sort.isEmpty()) {
             switch (sort) {
                 case "name":
@@ -78,35 +91,40 @@ public class CustomerListServlet extends HttpServlet {
                     p = adao.sortCustommerByPhone(order);
                     break;
                 default:
-                    p = adao.getAllCustommer(); // Nếu giá trị sort không hợp lệ
                     break;
             }
-        } else {
-            p = adao.getAllCustommer(); // Mặc định lấy danh sách nếu không có sort
         }
 
         // Phân trang
-        int page, numperpage = 1;
-        int size = p.size();
-        int num = (int) Math.ceil((double) size / numperpage); // Số trang, làm tròn lên
+        int page = 1;
+        int numperpage = 2; // Số bản ghi mỗi trang (có thể điều chỉnh)
         String xpage = request.getParameter("page");
-        if (xpage == null) {
-            page = 1;
-        } else {
-            page = Integer.parseInt(xpage);
+        if (xpage != null) {
+            try {
+                page = Integer.parseInt(xpage);
+            } catch (NumberFormatException e) {
+                page = 1; // Nếu có lỗi chuyển về trang 1
+            }
         }
+
+        int size = p.size();
+        int num = (int) Math.ceil((double) size / numperpage); // Tính số trang
         int start = (page - 1) * numperpage;
         int end = Math.min(page * numperpage, size);
+
+        // Lấy danh sách khách hàng theo trang
         List<Account> listAcc = adao.getCustomerListByPage(p, start, end);
 
-        // Truyền giá trị lại cho view
+        // Truyền giá trị về cho view (JSP)
         request.setAttribute("size", size);
         request.setAttribute("numperpage", numperpage);
         request.setAttribute("customerList", listAcc);
         request.setAttribute("page", page);
         request.setAttribute("num", num);
         request.setAttribute("sort", sort);
-        request.setAttribute("order",order );
+        request.setAttribute("order", order);
+        request.setAttribute("status", status); // Truyền lại trạng thái lọc
+        request.setAttribute("search", search); // Truyền lại từ khóa tìm kiếm
         request.getRequestDispatcher("customerList.jsp").forward(request, response);
     }
 

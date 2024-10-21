@@ -76,9 +76,28 @@
             </div>
 
             <div class="col-9 menu">
-                <span class="headerN"><a href="home" style="text-decoration:none; color: white">Xe tiêu biểu</a></span>
+                <c:choose>
+                                        <c:when test="${sessionScope.account.roleId == 1}">
+                                            <span class="headerN"><a href="admin">Admin</a></span>
+                                            </c:when>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.account.roleId == 2}">
+                                            <span class="headerN"><a href="marketing">Makerting</a></span>
+                                            </c:when>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.account.roleId == 3}">
+                                            <span class="headerN"><a href="sale">Sale</a></span>
+                                            </c:when>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.account == null||sessionScope.account.roleId == 4}">
+                                            <span class="headerN scroll"><a href="#featured-cars">Xe tiêu biểu</a></span>
+                                            </c:when>
+                                        </c:choose>
                 <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Mẫu mới</a></span>
-                <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Hãng</a></span>
+                <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Danh sách mẫu</a></span>
                 <span class="headerN"><a href="BlogListServlet" style="text-decoration:none; color: white">Tin xe</a></span>
                 <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Liên lạc</a></span>
 

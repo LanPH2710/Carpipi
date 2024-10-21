@@ -29,7 +29,7 @@
         <a href="orderlist">Order List</a>
         <a href="customerlist">Customer List</a>
         <a href="dash">Dashboard</a>
-        <a href="setting">Setting</a>
+        <a href="settingsList">Setting</a>
         <a href="proformarketing">Product List</a>
     </div>
     

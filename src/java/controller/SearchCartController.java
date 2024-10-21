@@ -4,21 +4,27 @@
  */
 package controller;
 
-import dal.AccountDAO;
+import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.LinkedHashMap;
 import java.util.List;
-import model.Account;
+import java.util.Map;
+import model.Cart;
+import model.Product;
 
 /**
  *
- * @author tuana
+ * @author hiule
  */
-public class SearchCustomerServlet extends HttpServlet {
+@WebServlet(name = "SearchCartController", urlPatterns = {"/searchCart"})
+public class SearchCartController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,19 +37,29 @@ public class SearchCustomerServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SearchCustomerServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SearchCustomerServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        HttpSession session = request.getSession();
+        String keyword = request.getParameter("keyword");
+
+        Map<String, Cart> carts = (Map<String, Cart>) session.getAttribute("carts");
+        if (carts  == null) {
+            carts  = new LinkedHashMap<>();
         }
+        // Filtered map to store the searched items
+        Map<String, Cart> filteredCarts = new LinkedHashMap<>();
+        double totalMoney = 0;
+
+        for (Map.Entry<String, Cart> entry : carts.entrySet()) {
+            Cart cartItem = entry.getValue();
+
+            // If there's a search keyword, filter the items
+            if (keyword == null || keyword.isEmpty() || cartItem.getProduct().getName().toLowerCase().contains(keyword.toLowerCase())) {
+                filteredCarts.put(entry.getKey(), cartItem);
+                totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+            }
+        }
+        session.setAttribute("filteredCarts", filteredCarts);
+    session.setAttribute("totalMoney", totalMoney);
+    request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -58,12 +74,7 @@ public class SearchCustomerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        AccountDAO adao = new AccountDAO();
-        String search = request.getParameter("search").trim();
-        List<Account> listC = adao.searchCustomerByEmail(search);
-        request.setAttribute("customerList", listC);
-        request.setAttribute("search", search);
-        request.getRequestDispatcher("customerList.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

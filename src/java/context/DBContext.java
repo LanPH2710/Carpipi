@@ -33,6 +33,7 @@ public class DBContext {
             String pass = "123456789"; // Your MySQL password
 
 
+
             String url = "jdbc:mysql://localhost:3306/carpipi"; // MySQL URL format - your schema name
             Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL driver class
             connection = DriverManager.getConnection(url, user, pass);

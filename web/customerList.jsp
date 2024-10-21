@@ -149,26 +149,39 @@
                                 </a>
                             </div>
                             <div class="row">
-                                <div class="col-sm-8"><h2>Customer <b>List</b></h2></div>
+                                <div class="col-sm-8 mb-3"><h2>Customer <b>List</b></h2></div>
                                 <div class="col-sm-4">
-                                    <form action="searchcustomer" method="get">
+                                    <form action="customerlist" method="get">
                                         <div class="search-box">
                                             <i class="material-icons">&#xE8B6;</i>
-                                            <input type="text" name="search" class="form-control" placeholder="Search by email">
+                                            <input type="text" name="search" class="form-control" placeholder="Search by email" value="${search}">
                                         </div>
                                     </form>
                                 </div>
+                                <div class="col-md-4">
+                                    <form action="customerlist" method="get" class="form-inline">
+                                        <div class="form-group mr-2">
+                                            <select name="status" class="form-control">
+                                                <option value="">Tất cả trạng thái</option>
+                                                <option value="1" ${param.status == '1' ? 'selected' : ''}>Hoạt động</option>
+                                            <option value="0" ${param.status == '0' ? 'selected' : ''}>Không hoạt động</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-secondary" type="submit">Lọc</button>
+                                </form>
                             </div>
+
                         </div>
-                        <table class="table table-striped table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        <a class="text-decoration-none" href="customerlist?sort=userId&order=${order == 'asc' && sort == 'userId' ? 'desc' : 'asc'}">
+                    </div>
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <a class="text-decoration-none" href="customerlist?sort=userId&order=${order == 'asc' && sort == 'userId' ? 'desc' : 'asc'}">
                                         ID <i class="fa fa-sort"></i>
                                     </a>
-                                    <th>
-                                        <a class="text-decoration-none" href="customerlist?sort=name&order=${order == 'asc' && sort == 'name' ? 'desc' : 'asc'}">
+                                <th>
+                                    <a class="text-decoration-none" href="customerlist?sort=name&order=${order == 'asc' && sort == 'name' ? 'desc' : 'asc'}">
                                         Họ và Tên <i class="fa fa-sort"></i>
                                     </a>
                                 </th>

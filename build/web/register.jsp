@@ -12,7 +12,7 @@
                 <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
                       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">-->
-
+<jsp:include page="header.jsp"/>
         <style>
             .body {
                 font-family: Arial, sans-serif;
@@ -33,11 +33,11 @@
                 position: relative;
             }
             .h2 {
-                text-align: center;
-                font-size: 35px; /* Increased font size */
-                margin-bottom: 20px;
-                position: relative;
-                top: -20px; /* Positioned higher */
+                text-align: center !important;
+                font-size: 35px !important; /* Increased font size */
+                margin-bottom: 20px !important;
+                position: relative !important;
+                top: -20px !important; /* Positioned higher */
             }
             .form-group {
                 margin-bottom: 15px;
@@ -86,7 +86,7 @@
     </head>
 
     <body>
-        <jsp:include page="header.jsp"/>
+        
         <div class="body">
             <div class="register-container">
                 <h2 class="h2">Đăng Ký</h2>

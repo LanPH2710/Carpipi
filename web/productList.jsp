@@ -58,6 +58,12 @@
                 text-align: center;
                 padding: 0;
             }
+            
+            li {
+                flex: 1 0 30%; /* Chia mỗi phần tử chiếm 30% chiều rộng, đảm bảo 3 phần tử trong mỗi hàng */
+                margin: 5px; /* Thêm khoảng cách giữa các phần tử */
+                text-align: start;
+            }
 
             .paginationProList li a:hover {
                 color: #666;
@@ -152,19 +158,11 @@
                                 </div>
                             </div><!--/brands_products-->
 
-                            <div class="price-range"><!--price-range-->
-                                <h2>Khoảng Giá</h2>
-                                <div class="well">
-                                    <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-                                    <b>$ 0</b> <b class="pull-right">$ 600</b>
-                                </div>
-                            </div><!--/price-range-->
-
                             <div class="shipping text-center"><!--shipping-->
                                 <h2>Mẫu mới nhất</h2>
                                 <c:forEach var="pro" items="${newProduct}">
                                     <a href="productdetail?productId=${pro.productId}">
-                                        <img src="${pro.images[1].imageUrl}" alt="${pro.name}" />
+                                        <img src="${pro.images[0].imageUrl}" alt="${pro.name}" />
                                     </a>
                                 </c:forEach>
                             </div><!--/shipping-->
@@ -181,7 +179,7 @@
                                             <div class="productinfo text-center">
                                                 <c:choose>
                                                     <c:when test="${not empty pro.images}">
-                                                        <img src="${pro.images[1].imageUrl}" alt="${pro.name}">
+                                                        <img src="${pro.images[0].imageUrl}" alt="${pro.name}">
                                                     </c:when>
                                                     <c:otherwise>
                                                         <img src="assets/images/welcome-hero/welcome-banner.jpg" alt="${pro.name}">

@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Product;
 import model.ProductImage;
 
@@ -834,7 +836,7 @@ public class ProductDAO extends DBContext {
     public void updateProduct(String id, String name, int seatNumber, double price, String fuel,
             int stock, String des, double vat, int supplyId,
             int brandId, int segmentId, int styleId) {
-        String sql = "UPDATE `carpipi`.`product`\n"
+        String sql = "UPDATE `product`\n"
                 + "SET\n"
                 + "`name` = ?,\n"
                 + "`seatNumber` = ?,\n"
@@ -846,7 +848,7 @@ public class ProductDAO extends DBContext {
                 + "`supplyId` = ?,\n"
                 + "`brandId` = ?,\n"
                 + "`segmentId` = ?,\n"
-                + "`styleId` = ?\n"
+                + "`styleId` = ?\n" // Đã loại bỏ dòng thừa
                 + "WHERE `productId` = ?";
 
         try {
@@ -867,27 +869,40 @@ public class ProductDAO extends DBContext {
 
             st.executeUpdate();
         } catch (Exception e) {
+            e.printStackTrace();  // Thêm để hiển thị lỗi chi tiết nếu có
         }
-
     }
 
-    public List<Product> getTop5ProductsByPrice() throws SQLException {
-        List<Product> products = new ArrayList<>();
-        String sql = "SELECT name, description, price FROM product WHERE status = 1 ORDER BY price DESC LIMIT 5";
-
+    // Cập nhật trạng thái tất cả sản phẩm theo brandId
+    public boolean updateProductsStatusByBrandId(int brandId, int status) {
+        String sql = "UPDATE product SET status = ? WHERE brandId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, brandId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+     // Lấy số lượng sản phẩm theo brandId
+    public int getProductCountByBrandId(int brandId) {
+        String query = "SELECT COUNT(*) FROM product WHERE brandId = ?";
         try (
-                PreparedStatement pstmt = connection.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
-            while (rs.next()) {
-                Product product = new Product();
-                product.setName(rs.getString("name"));
-                product.setDescription(rs.getString("description"));
-                product.setPrice(rs.getDouble("price"));
-                products.add(product);
-            }
-        }
+             PreparedStatement ps = connection.prepareStatement(query)) {
 
-        return products;
+            ps.setInt(1, brandId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
+
 
     /*
     public static void main(String[] args) throws SQLException {
@@ -937,17 +952,103 @@ public class ProductDAO extends DBContext {
     }
 
 }  */
+//    public int getProductCountByFuelAndStatus(String fuel, int status) {
+//        int count = 0;
+//        String sql = "SELECT COUNT(*) FROM product WHERE fuel = ? AND status = ?";
+//        
+//        try (
+//             PreparedStatement ps = connection.prepareStatement(sql)) {
+//            ps.setString(1, fuel);
+//            ps.setInt(2, status);
+//            ResultSet rs = ps.executeQuery();
+//            if (rs.next()) {
+//                count = rs.getInt(1);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return count;
+//    }
+    
+//    public Map<String, Integer> getFuelCounts() {
+//        Map<String, Integer> fuelCounts = new HashMap<>();
+//        String sql = "SELECT fuel, COUNT(*) AS productCount FROM product GROUP BY fuel";
+//
+//        try (
+//             PreparedStatement pstmt = connection.prepareStatement(sql);
+//             ResultSet rs = pstmt.executeQuery()) {
+//            while (rs.next()) {
+//                String fuel = rs.getString("fuel");
+//                int count = rs.getInt("productCount");
+//                fuelCounts.put(fuel, count);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return fuelCounts;
+//    }
+//    // Cập nhật trạng thái cho nhiên liệu
+//    public boolean updateFuelStatus(String fuel, int newStatus) {
+//        String sql = "UPDATE product SET status = ? WHERE fuel = ?";
+//        try (
+//             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+//            pstmt.setInt(1, newStatus);
+//            pstmt.setString(2, fuel);
+//            return pstmt.executeUpdate() > 0;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
+    public Map<String, Integer> getFuelCounts() {
+        Map<String, Integer> fuelCounts = new HashMap<>();
+        String sql = "SELECT fuel, COUNT(*) AS productCount FROM product GROUP BY fuel"; // Có thể thêm điều kiện lọc trạng thái nếu cần
+
+        try (
+             PreparedStatement pstmt = connection.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                String fuel = rs.getString("fuel");
+                int count = rs.getInt("productCount");
+                fuelCounts.put(fuel, count);
+                // In từng kết quả ra console để kiểm tra
+                System.out.println("Nhiên liệu: " + fuel + ", Số lượng: " + count);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return fuelCounts;
+    }
+
+    public boolean updateFuelStatus(String fuel, int newStatus) {
+        String sql = "UPDATE product SET status = ? WHERE fuel = ?";
+        try (
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, newStatus);
+            pstmt.setString(2, fuel);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }}
+    
+
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
-        String search = "g63";
-        String styleId = "1";
-        List<Product> pl = p.getProductBySearch(search);
-        List<Product> p2 = p.getAllProductByStyleId(styleId);
+        
+        //String search = "g63";
+        //String styleId = "1";
+        //List<Product> pl = p.getProductBySearch(search);
+        //List<Product> p2 = p.getAllProductByStyleId(styleId);
 
-        for (Product product : p2) {
-            System.out.println(product.getName());
-        }
+        //for (Product product : p2) {
+        //    System.out.println(product.getName());
+        //
+        // Kiểm tra số lượng sản phẩm theo loại nhiên liệu
+        // Kiểm tra số lượng sản phẩm theo loại nhiên liệu
+    Map<String, Integer> fuelCounts = p.getFuelCounts();
 
+    
     }
 
 

@@ -1,5 +1,6 @@
-package controller;
+package controller.common;
 
+import dal.AccountDAO;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.PasswordAuthentication;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Properties;
 import java.util.Random;
+import model.Account;
 
 @WebServlet("/forgotPassword")
 public class forgotPasswordServlet extends HttpServlet {
@@ -51,8 +53,17 @@ public class forgotPasswordServlet extends HttpServlet {
         RequestDispatcher dispatcher = null;
         int otpvalue = 0;
         HttpSession mySession = request.getSession();
-        
-        if (email != null && !email.equals("")) {
+
+        // Tạo đối tượng AccountDAO và kiểm tra email bằng checkEmailExists
+        AccountDAO accountDAO = new AccountDAO();
+        Account account = accountDAO.checkEmailExists(email);
+
+        if (account == null) {
+            // Nếu email không tồn tại trong database, hiển thị thông báo lỗi
+            request.setAttribute("errorMessage", "Email không tồn tại trong hệ thống.");
+            dispatcher = request.getRequestDispatcher("forgotPassword.jsp");
+            dispatcher.forward(request, response);
+        } else {
             // Generate OTP
             Random rand = new Random();
             otpvalue = rand.nextInt(1255650);

@@ -388,6 +388,36 @@ public void updateAccountStatus(Account account) {
         }
         return null;
     }
+    
+    public List<Account> getAllAuthor() {
+        List<Account> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT a.userId, a.userName, a.password, a.firstName, "
+                + "a.lastName, a.gender, a.email, a.mobile, a.address, a.roleId, a.avatar, a.status "
+                + "FROM Account a "
+                + "JOIN Blog b ON a.userId = b.userId;";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Account p = new Account(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getInt(10),
+                        rs.getString(11),
+                        rs.getInt(12));
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
 
     public Account checkAccountExits(String email) {
         String sql = "SELECT * FROM Account WHERE email = ?";
@@ -414,7 +444,7 @@ public void updateAccountStatus(Account account) {
         return null;
     }
 
-    public void editAccount(String userName, String password, String firstName, String lastName, int gender, String email, String mobile, String address, int roleId, String avatar, int userId) {
+    public void editAccount(String userName, String password, String firstName, String lastName, int gender, String email, String mobile, String address, int roleId, String avatar, int status, int userId) {
         String sql = "UPDATE Account SET "
                 + "userName = ?, "
                 + "password = ?, "
@@ -425,7 +455,8 @@ public void updateAccountStatus(Account account) {
                 + "mobile = ?, "
                 + "address = ?, "
                 + "roleId = ?, "
-                + "avatar = ? "
+                + "avatar = ?, "
+                + "status = ? "
                 + "WHERE userId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -439,20 +470,26 @@ public void updateAccountStatus(Account account) {
             st.setString(8, address);
             st.setInt(9, roleId);
             st.setString(10, avatar);
-            st.setInt(11, userId);
+            st.setInt(11, status);
+            st.setInt(12, userId);
+
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
 
-    public List<Account> searchByLastName(String txtSearch) {
+    public List<Account> searchCustomers(String search) {
         List<Account> list = new ArrayList<>();
-        String sql = "SELECT * FROM Account WHERE lastName LIKE ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, "%" + txtSearch + "%");
-            ResultSet rs = st.executeQuery();
+        String sql = "SELECT * FROM Account WHERE firstName LIKE ? OR lastName LIKE ? OR email LIKE ? OR mobile LIKE ?";
+        try (
+                PreparedStatement ps = connection.prepareStatement(sql)) {
+            String searchPattern = "%" + search + "%";
+            ps.setString(1, searchPattern);
+            ps.setString(2, searchPattern);
+            ps.setString(3, searchPattern);
+            ps.setString(4, searchPattern); // Thêm điều kiện tìm kiếm cho cột mobile
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Account p = new Account(rs.getInt(1),
                         rs.getString(2),
@@ -468,46 +505,18 @@ public void updateAccountStatus(Account account) {
                         rs.getInt(12));
                 list.add(p);
             }
+            rs.close(); // Đảm bảo đóng ResultSet
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         return list;
     }
-
-    public List<Account> searchByPhone(String txtSearch) {
+    
+    public List<Account> getCustomersByStatus(int status) {
         List<Account> list = new ArrayList<>();
-        String sql = "SELECT * FROM Account WHERE mobile LIKE ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, "%" + txtSearch + "%");
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Account p = new Account(rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getInt(6),
-                        rs.getString(7),
-                        rs.getString(8),
-                        rs.getString(9),
-                        rs.getInt(10),
-                        rs.getString(11),
-                        rs.getInt(12));
-                list.add(p);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        return list;
-    }
-
-    public List<Account> searchCustomerByEmail(String txtSearch) {
-        List<Account> list = new ArrayList<>();
-        String sql = "SELECT * FROM Account WHERE email LIKE ? and roleId=4";
+        String sql = "SELECT * FROM Account WHERE status LIKE ? and roleId=4";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
-            st.setString(1, "%" + txtSearch + "%");
+            st.setInt(1, status);
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
                     Account p = new Account(rs.getInt(1),

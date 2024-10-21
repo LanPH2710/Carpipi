@@ -76,6 +76,33 @@ public class SliderDAO extends DBContext{
 //    return sliders;
 //}
     
+    public List<Slider> getActiveSlidersByPrefix(String prefix) {
+        List<Slider> sliders = new ArrayList<>();
+        String query = "SELECT TOP 1 FROM Slider WHERE status = 1 AND title LIKE ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(query.toString())) {
+             
+            ps.setString(1, prefix + "%");  // Tìm kiếm theo prefix
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Slider slider = new Slider();
+                slider.setSliderId(rs.getInt("sliderId"));
+                slider.setProductId(rs.getString("productId"));
+                slider.setTitle(rs.getString("title"));
+                slider.setDescription(rs.getString("description"));
+                slider.setImageUrl(rs.getString("imageUrl"));
+                slider.setBacklink(rs.getString("backlink"));
+                slider.setStatus(rs.getInt("status"));
+                sliders.add(slider);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return sliders;
+    }
+    
     public List<Slider> getFilteredSliders(String search, int status, int offset, int limit) {
     List<Slider> sliders = new ArrayList<>();
     StringBuilder sql = new StringBuilder("SELECT * FROM slider");

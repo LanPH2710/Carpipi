@@ -1035,6 +1035,7 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
+        
         //String search = "g63";
         //String styleId = "1";
         //List<Product> pl = p.getProductBySearch(search);

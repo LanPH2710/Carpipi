@@ -37,7 +37,7 @@ public class FilterRole implements Filter {
     }
 
     private List<String> getMarketingUrls() {
-        return Arrays.asList("/marketing","/SliderList");
+        return Arrays.asList("/marketing","/SliderList","/editproductbymarketing");
     }
 
     @Override

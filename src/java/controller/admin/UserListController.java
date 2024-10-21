@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.admin;
 
+import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,14 +12,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Account;
 
 /**
  *
  * @author hiule
  */
-@WebServlet(name = "ResetCartController", urlPatterns = {"/reset-carts"})
-public class ResetCartController extends HttpServlet {
+@WebServlet(name = "UserListController", urlPatterns = {"/userlist"})
+public class UserListController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,14 +31,21 @@ public class ResetCartController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        // Remove the filteredCarts attribute to reset the search
-        session.removeAttribute("filteredCarts");
-        
-        // Optionally, you can also redirect to the cart controller to refresh the cart view
-        response.sendRedirect("carts");
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet UserListController</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet UserListController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -51,7 +60,24 @@ public class ResetCartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        AccountDAO accountDAO = new AccountDAO();
+
+        // Retrieve the userId parameter from the request
+        String userIdParam = request.getParameter("userId");
+
+        // Check if userId is present
+        if (userIdParam != null && !userIdParam.isEmpty()) {
+            int userId = Integer.parseInt(userIdParam);
+            Account acc = accountDAO.getAccountById(userId);
+            request.setAttribute("acc", acc);
+        }
+
+        // Always get the account list
+        List<Account> accountList = accountDAO.getAllAccount();
+        request.setAttribute("accountList", accountList);
+
+        // Forward to the JSP page
+        request.getRequestDispatcher("userList.jsp").forward(request, response);
     }
 
     /**

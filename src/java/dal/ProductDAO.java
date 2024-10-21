@@ -872,7 +872,36 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();  // Thêm để hiển thị lỗi chi tiết nếu có
         }
     }
+    
+    // Cập nhật trạng thái tất cả sản phẩm theo supplyId
+    public boolean updateProductsStatusBySupplyId(int supplyId, int status) {
+        String sql = "UPDATE product SET status = ? WHERE supplyId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, supplyId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+     // Lấy số lượng sản phẩm theo supplyId
+    public int getProductCountBySupplyId(int supplyId) {
+        String query = "SELECT COUNT(*) FROM product WHERE supplyId = ?";
+        try (
+             PreparedStatement ps = connection.prepareStatement(query)) {
 
+            ps.setInt(1, supplyId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
     // Cập nhật trạng thái tất cả sản phẩm theo brandId
     public boolean updateProductsStatusByBrandId(int brandId, int status) {
         String sql = "UPDATE product SET status = ? WHERE brandId = ?";
@@ -902,7 +931,32 @@ public class ProductDAO extends DBContext {
         }
         return 0;
     }
-
+    
+    // Cập nhật trạng thái tất cả sản phẩm theo supplyId
+    public boolean updateProductsStatusBySegmentId(int segmentId, int status) {
+        String sql = "UPDATE product SET status = ? WHERE segmentId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, segmentId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    // Cập nhật trạng thái tất cả sản phẩm theo supplyId
+    public boolean updateProductsStatusByStyleId(int styleId, int status) {
+        String sql = "UPDATE product SET status = ? WHERE styleId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, styleId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     /*
     public static void main(String[] args) throws SQLException {
@@ -1047,6 +1101,16 @@ public class ProductDAO extends DBContext {
         // Kiểm tra số lượng sản phẩm theo loại nhiên liệu
         // Kiểm tra số lượng sản phẩm theo loại nhiên liệu
     Map<String, Integer> fuelCounts = p.getFuelCounts();
+    String fuel = "Xăng"; // Giá trị fuel cần cập nhật
+            int newStatus = 1; // Giá trị trạng thái mới (0 hoặc 1)
+
+            // Gọi phương thức để cập nhật trạng thái nhiên liệu
+            boolean isUpdated = p.updateFuelStatus(fuel, newStatus);
+            if (isUpdated) {
+                System.out.println("Cập nhật trạng thái nhiên liệu thành công.");
+            } else {
+                System.out.println("Cập nhật trạng thái nhiên liệu không thành công.");
+            }
 
     
     }

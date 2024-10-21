@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+                <jsp:include page="header.jsp"/>
 
         <title>PHPJabbers.com | Free Blog Website Template</title>
 
@@ -20,6 +21,7 @@
 
         <!-- MAIN CSS -->
         <link rel="stylesheet" href="css/style_blog.css">
+        
         <style>
             .multi-line-truncate {
                 display: -webkit-box;
@@ -43,7 +45,6 @@
             </div>
         </section>
 
-        <jsp:include page="header.jsp"/>
 
         <section>
             <div class="container">

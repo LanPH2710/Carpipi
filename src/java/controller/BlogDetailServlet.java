@@ -5,6 +5,7 @@
 package controller;
 
 import dal.BlogDAO;
+import dal.BlogTopicDAO;
 import dal.CommentBlogDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -67,18 +68,60 @@ public class BlogDetailServlet extends HttpServlet {
         HttpSession session = request.getSession();
         BlogDAO bdao = new BlogDAO();
         CommentBlogDAO cbdao = new CommentBlogDAO();
+        BlogTopicDAO btdao = new BlogTopicDAO();
+
         int blogId = Integer.parseInt(request.getParameter("blogId"));
+        int commentRating = 0;
+
+        try {
+            commentRating = Integer.parseInt(request.getParameter("rating"));
+        } catch (NumberFormatException e) {
+            commentRating = 0;
+        }
+
+        // Lấy danh sách bình luận dựa vào rating
+        List<CommentBlog> comment;
+        if (commentRating > 0) {
+            comment = cbdao.getCommentByRating(blogId, commentRating);
+        } else {
+            comment = cbdao.getCommentBlogByBlogId(blogId);
+        }
+
+        // Lấy thông tin blog và các thông tin liên quan
         Blog blog = bdao.getBlogById(blogId);
-        String author = bdao.getUserFullNameById(blogId);
-        cbdao.getCommentBlogByBlogId(blogId);
-        List<CommentBlog> comment = cbdao.getCommentBlogByBlogId(blogId);
         List<Account> acc = cbdao.getUserNameByBlogId(blogId);
+        String author = bdao.getUserFullNameById(blog.getUserId());
+        String topic = btdao.getTopicById(blog.getBlogTopicId());
         List<Blog> top5 = bdao.getTop5NewBlog();
-        request.setAttribute("listacc", acc);
-        request.setAttribute("comment", comment);
+
+        // Phân trang
+        int page, numperpage = 1;
+        int size = comment.size();
+        int num = (int) Math.ceil((double) size / numperpage); // Số trang, làm tròn lên
+        String xpage = request.getParameter("page");
+        if (xpage == null) {
+            page = 1;
+        } else {
+            page = Integer.parseInt(xpage);
+        }
+        int start = (page - 1) * numperpage;
+        int end = Math.min(page * numperpage, size);
+        comment = cbdao.getCommentListByPage(comment, start, end);
+
+        // Đặt các thuộc tính để chuyển đến trang JSP
         request.setAttribute("author", author);
-        request.setAttribute("top5", top5);
+        request.setAttribute("topic", topic);
+        request.setAttribute("comment", comment);
         session.setAttribute("blog", blog);
+        request.setAttribute("top5", top5);
+        request.setAttribute("listacc", acc);
+        request.setAttribute("commentRating", commentRating);
+        request.setAttribute("size", size);
+        request.setAttribute("numperpage", numperpage);
+        request.setAttribute("page", page);
+        request.setAttribute("num", num);
+
+        // Chuyển hướng tới blogDetail.jsp
         request.getRequestDispatcher("blogDetail.jsp").forward(request, response);
     }
 

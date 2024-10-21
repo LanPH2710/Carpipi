@@ -1,6 +1,7 @@
-package controller;
+package controller.common;
 
 import context.DBContext;
+import dal.AccountDAO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import util.HashPassword;
 
 @WebServlet("/newPassword")
 public class newPasswordServlet extends HttpServlet {
@@ -25,21 +27,32 @@ public class newPasswordServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String newPassword = request.getParameter("password");
         String confPassword = request.getParameter("confPassword");
-        RequestDispatcher dispatcher;
+        AccountDAO dao = new AccountDAO();
+                boolean isPasswordValid = dao.isValidPassword(newPassword);
+                
+                RequestDispatcher dispatcher = request.getRequestDispatcher("newPassword.jsp");
 
+        if (!isPasswordValid) {
+            request.setAttribute("errorMessage", "Mật khẩu phải có ít nhất 1 chữ cái viết hoa và 1 số.");
+            dispatcher.forward(request, response);
+            return;}
         if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
             DBContext dbContext = new DBContext();
             Connection con = null;
             try {
                 con = dbContext.getConnection();
                 if (con != null) {
+                    // Mã hóa mật khẩu trước khi lưu
+                    String hashedPassword = HashPassword.toSHA1(newPassword);
                     PreparedStatement pst = con.prepareStatement("UPDATE account SET password = ? WHERE email = ?");
-                    pst.setString(1, newPassword);
+                    pst.setString(1, hashedPassword);
                     pst.setString(2, (String) session.getAttribute("email"));
 
                     int rowCount = pst.executeUpdate();
                     if (rowCount > 0) {
                         request.setAttribute("status", "resetSuccess");
+                                    request.setAttribute("message", "doi mat khau thanh cong.");
+
                     } else {
                         request.setAttribute("status", "resetFailed");
                     }
@@ -67,7 +80,8 @@ public class newPasswordServlet extends HttpServlet {
             }
         } else {
             request.setAttribute("status", "passwordMismatch");
-            dispatcher = request.getRequestDispatcher("login.jsp");
+            request.setAttribute("errorMessage", "Mật khẩu xac nhan khong dung.");
+            dispatcher = request.getRequestDispatcher("newPassword.jsp");
             dispatcher.forward(request, response);
         }
     }
@@ -77,3 +91,4 @@ public class newPasswordServlet extends HttpServlet {
         return "Short description";
     }
 }
+    

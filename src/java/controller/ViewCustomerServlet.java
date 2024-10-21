@@ -103,10 +103,11 @@ public class ViewCustomerServlet extends HttpServlet {
         // Lấy giá trị từ JSP
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
-        int gender = Integer.parseInt(request.getParameter("gender").trim());
+        int gender = Integer.parseInt(request.getParameter("gender"));
         String mobile = request.getParameter("mobile");
         String address = request.getParameter("address");
         String email = request.getParameter("email");
+        int status = Integer.parseInt(request.getParameter("status"));
         
         //Verifile moblie
         boolean isMobileValid = adao.isValidMobile(mobile);
@@ -143,7 +144,7 @@ public class ViewCustomerServlet extends HttpServlet {
             }
         }
         // Cập nhật account
-        adao.editAccount(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, userId);
+        adao.editAccount(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, status, userId);
         response.sendRedirect("customerlist");
     }
 

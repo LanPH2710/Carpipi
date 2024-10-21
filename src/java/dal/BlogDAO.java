@@ -251,6 +251,50 @@ public class BlogDAO extends DBContext {
         return list;
     }
     
+    public List<Blog> getBlogByAuthor(int userID) {
+        List<Blog> list = new ArrayList<>();
+        String sql = "SELECT * FROM Blog WHERE userId = ? ORDER BY blogTime DESC;";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, userID);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                int blogId = rs.getInt("blogId");
+                int userId = rs.getInt("userId");
+                int blogTopicId = rs.getInt("blogTopicId");
+                String blogTitle = rs.getString("blogTitle");
+                String blogTime = rs.getString("blogTime");
+                String openBlog = rs.getString("openBlog");
+                String bodyMain1 = rs.getString("bodyMain1");
+                String bodySp1 = rs.getString("bodySp1");
+                String bodyMain2 = rs.getString("bodyMain2");
+                String bodySp2 = rs.getString("bodySp2");
+                String bodyMain3 = rs.getString("bodyMain3");
+                String bodySp3 = rs.getString("bodySp3");
+                String endBlog = rs.getString("endBlog");
+                int status = rs.getInt("status");
+                List<ImageBlog> images = getImagesByProductId(blogId);
+
+                Blog blog = new Blog(blogId, userId, blogTopicId, blogTitle, blogTime, openBlog, bodyMain1, bodySp1, bodyMain2, bodySp2, bodyMain3, bodySp3, endBlog, status, images);
+                list.add(blog);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // In ra thông báo lỗi chi tiết
+        }
+        return list;
+    }
+    
+    public void updateBlogStatus(int blogId, int status) {
+        String sql = "UPDATE blog SET status = ? WHERE blogId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, blogId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public List<Blog> getBlogListByPage(List<Blog> blogs, int start, int end) {
         ArrayList<Blog> arr = new ArrayList<>();
         for (int i = start; i < end; i++) {

@@ -58,13 +58,19 @@
                 text-align: center;
                 padding: 0;
             }
+            
+            li {
+                flex: 1 0 30%; /* Chia mỗi phần tử chiếm 30% chiều rộng, đảm bảo 3 phần tử trong mỗi hàng */
+                margin: 5px; /* Thêm khoảng cách giữa các phần tử */
+                text-align: start;
+            }
 
             .paginationProList li a:hover {
                 color: #666;
             }
 
             .paginationProList li.active a {
-                background: #03A9F4;
+                background: #4e4ffa;
             }
 
             .paginationProList li.active a:hover {
@@ -95,14 +101,17 @@
         <div class="container">
             <div class="row">
                 <!-- Header Section -->
-                <div class="col-sm-2">
+                <div class="col-sm-4">
                     <header id="header">
                         <div class="header-bottom">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="search_box pull-right">
-                                            <input type="text" placeholder="Search"/>
+                                            <form action="productlist" method="get">
+                                                <input type="text"  name="keyword" placeholder="Search...."/><input type="submit" value="Search">
+
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -143,7 +152,7 @@
                                 <div class="brands-name">
                                     <ul class="nav nav-pills nav-stacked">
                                         <c:forEach var="style" items="${styleList}">
-                                            <li><a href=""> <span class="pull-right"></span>${style.styleName}</a></li>
+                                            <li><a href="productlist?styleId=${style.styleId}&page=1"> <span class="pull-right"></span>${style.styleName}</a></li>
                                         </c:forEach>
                                     </ul>
                                 </div>
@@ -205,7 +214,7 @@
                                     <!-- Điều hướng về trang trước -->
                                     <c:if test="${currentPage > 1}">
                                         <li class="page-item">
-                                            <a class="page-link" href="productlist?page=${currentPage - 1}&brandId=${selectedBrandId}">
+                                            <a class="page-link" href="productlist?page=${currentPage - 1}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}">
                                                 <i class="fa fa-angle-double-left"></i>
                                             </a>
                                         </li>
@@ -223,7 +232,7 @@
                                             <c:otherwise>
                                                 <!-- Các trang khác -->
                                                 <li class="page-item">
-                                                    <a href="productlist?page=${i}&brandId=${selectedBrandId}" class="page-link">${i}</a>
+                                                    <a href="productlist?page=${i}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}" class="page-link">${i}</a>
                                                 </li>
                                             </c:otherwise>
                                         </c:choose>
@@ -232,13 +241,14 @@
                                     <!-- Điều hướng về trang sau -->
                                     <c:if test="${currentPage < totalPages}">
                                         <li class="page-item">
-                                            <a class="page-link" href="productlist?page=${currentPage + 1}&brandId=${selectedBrandId}">
+                                            <a class="page-link" href="productlist?page=${currentPage + 1}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}">
                                                 <i class="fa fa-angle-double-right"></i>
                                             </a>
                                         </li>
                                     </c:if>
                                 </ul>
                             </div>
+
 
 
 

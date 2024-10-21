@@ -24,7 +24,7 @@ public class FilterRole implements Filter {
 
     // Method to return URLs for different role-based requests
     private List<String> getAdminUrls() {
-        return Arrays.asList("/userdetails", "/admin", "/setting");
+        return Arrays.asList("/userdetails", "/admin", "/settingsList");
     }
 
     private List<String> getAdminMarketingUrls() {
@@ -37,7 +37,7 @@ public class FilterRole implements Filter {
     }
 
     private List<String> getMarketingUrls() {
-        return Arrays.asList("/marketing","/SliderList");
+        return Arrays.asList("/marketing","/SliderList","/editproductbymarketing");
     }
 
     @Override

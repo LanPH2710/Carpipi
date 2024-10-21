@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.marketing;
 
 import dal.BrandDAO;
 import dal.ProductDAO;
@@ -68,39 +68,28 @@ public class EditByMarketingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
-        String url = request.getParameter("imageUrl");
-        ProductDAO pDao = new ProductDAO();
-        BrandDAO bDao = new BrandDAO();
-        SegmentDAO sDao = new SegmentDAO();
+
+        ProductDAO productDao = new ProductDAO();
+        BrandDAO brandDao = new BrandDAO();
+        SegmentDAO segmentDao = new SegmentDAO();
         StyleDAO styleDao = new StyleDAO();
         SupplyDAO supplyDao = new SupplyDAO();
 
-        Product car = new Product();
+        // Lấy thông tin sản phẩm
+        Product product = productDao.getProductById(id);
+        request.setAttribute("car", product);
 
-        List<Product> productList = pDao.getAllProducts();
-
-        car = pDao.getProductById(id);
-        request.setAttribute("car", car);
-
-        List<ProductImage> imageList = pDao.getImagesByProductId(id);
+        // Lấy danh sách hình ảnh của sản phẩm
+        List<ProductImage> imageList = productDao.getImagesByProductId(id);
         request.setAttribute("imageList", imageList);
 
-        List<Brand> brandList = bDao.getAllBrand();
-        request.setAttribute("brandList", brandList);
+        // Lấy danh sách thương hiệu, phân khúc, kiểu dáng và nhà cung cấp
+        request.setAttribute("brandList", brandDao.getAllBrand());
+        request.setAttribute("segmentList", segmentDao.getAllSegment());
+        request.setAttribute("styleList", styleDao.getAllStyleCar());
+        request.setAttribute("supplyList", supplyDao.getAllSupplyCar());
 
-        List<Segment> segmentList = sDao.getAllSegment();
-        request.setAttribute("segmentList", segmentList);
-
-        List<Style> styleList = styleDao.getAllStyleCar();
-        request.setAttribute("styleList", styleList);
-
-        List<Supply> supplyList = supplyDao.getAllSupplyCar();
-        request.setAttribute("supplyList", supplyList);
-
-        if(url !=null && !url.isEmpty())
-            pDao.insertImage(id, url);
-       
-
+        // Chuyển tiếp đến JSP để hiển thị thông tin
         request.getRequestDispatcher("editproductbymarketing.jsp").forward(request, response);
     }
 
@@ -116,54 +105,58 @@ public class EditByMarketingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Product product = new Product();
         ProductDAO pDao = new ProductDAO();
 
         String id = request.getParameter("id");
         String name = request.getParameter("name");
-
-        String seatNumber = request.getParameter("seatNumber");
-        int seat = Integer.parseInt(seatNumber);
-
-        String priceCar = request.getParameter("price");
-        double price = Double.parseDouble(priceCar);
-        
-        String brandCar = request.getParameter("brand");
-        int brandId = Integer.parseInt(brandCar);
-
-        String styleCar = request.getParameter("style");
-        int styleId = Integer.parseInt(styleCar);
-
-        String segmentCar = request.getParameter("segment");
-        int segmentId = Integer.parseInt(segmentCar);
-
-        String suppliCar = request.getParameter("supply");
-        int supplyId = Integer.parseInt(suppliCar);
-        
+        String brandIdParam = request.getParameter("brand");
+        String segmentIdParam = request.getParameter("segment");
+        String supplyIdParam = request.getParameter("supply");
+        String styleIdParam = request.getParameter("style");
+        int brandId = 0;
+        int segmentId = 0;
+        int supplyId = 0;
+        int styleId = 0;
+        int seat = Integer.parseInt(request.getParameter("seatNumber"));
+        double price = Double.parseDouble(request.getParameter("price"));
         String fuel = request.getParameter("fuel");
-
+        int stock = Integer.parseInt(request.getParameter("stock"));
         String des = request.getParameter("des");
 
-        String stockCar = request.getParameter("stock");
-        int stock = Integer.parseInt(stockCar);
+        // Retrieve supplyId, brandId, segmentId, and styleId from the request
+        try {
+            supplyId = Integer.parseInt(supplyIdParam);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         
-        pDao.updateProduct(id, name, seat, price,
-                fuel, stock, des, 10, supplyId, 
-                brandId, segmentId, styleId);
+        try {
+            brandId = Integer.parseInt(brandIdParam);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+         try {
+            segmentId = Integer.parseInt(segmentIdParam);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+          try {
+            styleId = Integer.parseInt(styleIdParam);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         
-        System.out.println(id);
-        System.out.println(name);
-        System.out.println(seat);
-        System.out.println(price);
-        System.out.println(brandCar);
-        System.out.println(styleCar);
-        System.out.println(segmentCar);
-        System.out.println(suppliCar);
-        System.out.println(fuel);
-        System.out.println(des);
-        System.out.println(stockCar);
-        
-        
+        // Update product
+        pDao.updateProduct(id, name, seat, price, fuel, stock, des, 10, supplyId, brandId, segmentId, styleId);
+
+        // Handle image updates if necessary
+        String[] imageUrls = request.getParameterValues("imageUrls");
+        if (imageUrls != null) {
+            for (String imageUrl : imageUrls) {
+                // Add logic to save images to the database
+            }
+        }
+
         response.sendRedirect("proformarketing");
     }
 

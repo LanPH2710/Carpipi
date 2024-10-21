@@ -60,16 +60,16 @@
     <body>
         <jsp:include page="header.jsp"></jsp:include>
 
-        <div class="container-fluid full-height">
-            <div class="otp-container">
-                <h3>
-                    <i class="fa fa-lock fa-4x"></i>
-                </h3>
-                <h2 class="text-center">Nhập OTP</h2>
-                
-                <% if(request.getAttribute("message") != null) { 
-                    out.print("<p class='text-danger'>" + request.getAttribute("message") + "</p>");
-                } %>
+            <div class="container-fluid full-height">
+                <div class="otp-container">
+                    <h3>
+                        <i class="fa fa-lock fa-4x"></i>
+                    </h3>
+                    <h2 class="text-center">Nhập OTP</h2>
+                    <c:if test="${not empty errorMessage}">
+                    <div style="color:red;">${errorMessage}</div>
+                </c:if>
+
 
                 <form id="register-form" action="valiOtpServlet" role="form" autocomplete="off"
                       class="form" method="post">

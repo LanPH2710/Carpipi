@@ -237,23 +237,31 @@
                                 <h2 class="title text-center">Features Items</h2>
                                 <c:forEach items="${listProduct}" var="product">
                                     <div class="col-sm-4">
-                                        <div class="product-image-wrapper">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <c:forEach items="${imageList}" var="image">
-                                                        <c:if test="${image.productId == product.productId}">
-                                                            <img style="width: 80px" src="${image.imageUrl}" alt="Xe">
-                                                        </c:if>
-
-                                                    </c:forEach>
-                                                    <h2><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/></h2>
-                                                    <p>${product.name}</p>
-                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <c:choose>
+                                                    <c:when test="${not empty pro.images}">
+                                                        <img src="${product.images[1].imageUrl}" alt="${product.name}">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="assets/images/welcome-hero/welcome-banner.jpg" alt="${product.name}">
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <h2><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/>đ</h2>
+                                                <p>${product.name}</p>
+                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            </div>
+                                            <div class="product-overlay">
+                                                <div class="overlay-content">
+                                                    <h2><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/>đ</h2>
+                                                    <div><a href="product?product=${pro.productId}" class="product-detail-link">${product.name}</a></div>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-2x"></i>Chi tiết</a>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 </c:forEach>
                             </div>
                         </div>

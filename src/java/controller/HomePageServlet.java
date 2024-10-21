@@ -4,8 +4,8 @@
  */
 package controller;
 
-import dal.ProductDAO;
-import model.Product;
+import dal.*;
+import model.*;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  *
@@ -38,6 +39,11 @@ public class HomePageServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         ProductDAO productDAO = new ProductDAO();
+        BrandDAO brandDao = new BrandDAO();
+        StyleDAO styleDao = new StyleDAO();
+        
+        List<Style> styleList = styleDao.getAllStyleCar();
+        List<Brand> brandList = brandDao.getAllBrand();
 
         List<Product> featuredProducts = productDAO.getLastestProductsByProductIdPrefix("ME", 4);
         featuredProducts.addAll(productDAO.getProductsByProductIdPrefix("VO", 4));
@@ -53,6 +59,8 @@ public class HomePageServlet extends HttpServlet {
         // Truyền danh sách sản phẩm đến JSP
         request.setAttribute("featuredProducts", featuredProducts); // Sử dụng tên đúng cho JSP
         request.setAttribute("newProducts", newProducts); // Sử dụng tên đúng cho JSP
+        request.setAttribute("brandList", brandList);
+        request.setAttribute("styleList", styleList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("HomePage.jsp");
         dispatcher.forward(request, response);
     }

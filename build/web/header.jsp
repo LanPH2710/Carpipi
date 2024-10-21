@@ -79,7 +79,7 @@
                 <span class="headerN"><a href="home" style="text-decoration:none; color: white">Xe tiêu biểu</a></span>
                 <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Mẫu mới</a></span>
                 <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Hãng</a></span>
-                <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Tin xe</a></span>
+                <span class="headerN"><a href="BlogListServlet" style="text-decoration:none; color: white">Tin xe</a></span>
                 <span class="headerN"><a href="HomePage.jsp" style="text-decoration:none; color: white">Liên lạc</a></span>
 
                 <c:choose>

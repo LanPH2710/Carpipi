@@ -9,15 +9,42 @@ package model;
  * @author tuana
  */
 public class Brand {
+
     private int brandId;
-    private String brandName;
+    private String name;
+    private String image;
+    private int status;
+    private int productCount;
 
     public Brand() {
     }
 
-    public Brand(int brandId, String brandName) {
+    public Brand(int brandId, String name, int status, int productCount) {
         this.brandId = brandId;
-        this.brandName = brandName;
+        this.name = name;
+        this.status = status;
+        this.productCount = productCount;
+    }
+
+    public Brand(int brandId, String name, String image, int status, int productCount) {
+        this.brandId = brandId;
+        this.name = name;
+        this.image = image;
+        this.status = status;
+        this.productCount = productCount;
+    }
+
+    public Brand(int brandId, String name, String image, int status) {
+        this.brandId = brandId;
+        this.name = name;
+        this.image = image;
+        this.status = status;
+    }
+
+    public Brand(int brandId, String name, String image) {
+        this.brandId = brandId;
+        this.name = name;
+        this.image = image;
     }
 
     public int getBrandId() {
@@ -29,11 +56,42 @@ public class Brand {
     }
 
     public String getBrandName() {
-        return brandName;
+        return name;
     }
 
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
+    public void setBrandName(String name) {
+        this.name = name;
     }
-    
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(int productCount) {
+        this.productCount = productCount;
+    }
 }

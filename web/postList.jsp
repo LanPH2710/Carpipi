@@ -23,7 +23,7 @@
         <style>
             .multi-line-truncate {
                 display: -webkit-box;
-                -webkit-line-clamp: 3; /* Giới hạn 3 dòng */
+                -webkit-line-clamp: 2; /* Giới hạn 3 dòng */
                 -webkit-box-orient: vertical;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -62,17 +62,20 @@
                                 <label class="control-label">Blog Search</label>
                                 <form action="postlist" method="get">
                                     <div class="input-group">
-                                        <input type="text" name="search" class="form-control" placeholder="Search for...">
+                                        <input type="text" name="search" class="form-control" placeholder="Search for..."> &nbsp;&nbsp;
                                         <span class="input-group-btn">
-                                            <button class="btn btn-default" type="submit">Go!</button>
+                                            <button class="btn btn-primary" type="submit">Go!</button>
                                         </span>
                                     </div>
                                 </form>
                             </div>
                         </div>
 
-                        <br>
+                        <div class="mb-3">
+                            <a href="createpost" class="btn btn-primary">Tạo Mới Bài Viết</a>
+                        </div>
 
+                        <br>
                         <label class="control-label">Danh mục bài viết</label>
                         <ul class="list">
                             <li><a href="postlist">Tất cả bài viết</a></li>
@@ -80,13 +83,18 @@
                                 <li><a href="postlist?topic=${t.blogTopicId}">${t.toppicName}</a></li>
                                 </c:forEach>
                         </ul>
-
-                        <br>
                         <label class="control-label">Bài viết theo ẩn/hiện</label>
 
                         <ul class="list">
                             <li><a href="postlist?status=0">Ẩn</a></li>
                             <li><a href="postlist?status=1">Hiện</a></li>
+                        </ul>
+                        <label class="control-label">Bài viết theo tác giả</label>
+
+                        <ul class="list">
+                            <c:forEach items="${author}" var="author">
+                                <li><a href="postlist?author=${author.userId}">${author.firstName} ${author.lastName}</a></li>
+                                </c:forEach>
                         </ul>
                     </div>
 
@@ -119,6 +127,19 @@
                                         <div class="courses-info">
                                             <a href="blogdetail?blogId=${blog.blogId}" class="section-btn btn btn-primary btn-block">Read More</a>
                                             <a href="editblog?blogId=${blog.blogId}" class="section-btn btn btn-primary btn-block">Edit</a>
+
+                                            <c:choose>
+                                                <c:when test="${blog.status == 1}">
+                                                    <a href="changestatusblog?blogId=${blog.blogId}&status=0" 
+                                                       class="section-btn btn btn-warning btn-block" 
+                                                       onclick="return confirm('Bạn có chắc chắn muốn ẩn bài viết này không?');">Ẩn</a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="changestatusblog?blogId=${blog.blogId}&status=1" 
+                                                       class="section-btn btn btn-success btn-block" 
+                                                       onclick="return confirm('Bạn có chắc chắn muốn hiện bài viết này không?');">Hiện</a>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                     </div>
                                 </div>
@@ -133,7 +154,7 @@
                         <!-- Điều hướng về trang trước -->
                         <c:if test="${page > 1}">
                             <li class="page-item">
-                                <a class="page-link" href="postlist?page=${page - 1}&search=${search}&topic=${topicId}&status=${status}">
+                                <a class="page-link" href="postlist?page=${page - 1}&search=${search}&topic=${topicId}&status=${status}&author=${userId}">
                                     <i class="fa fa-angle-double-left"></i>
                                 </a>
                             </li>
@@ -151,7 +172,7 @@
                                 <c:otherwise>
                                     <!-- Các trang khác -->
                                     <li class="page-item">
-                                        <a href="postlist?page=${i}&search=${search}&topic=${topicId}&status=${status}" class="page-link">${i}</a>
+                                        <a href="postlist?page=${i}&search=${search}&topic=${topicId}&status=${status}&author=${userId}" class="page-link">${i}</a>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
@@ -160,7 +181,7 @@
                         <!-- Điều hướng về trang sau -->
                         <c:if test="${page < num}">
                             <li class="page-item">
-                                <a class="page-link" href="postlist?page=${page + 1}&search=${search}&topic=${topicId}&status=${status}">
+                                <a class="page-link" href="postlist?page=${page + 1}&search=${search}&topic=${topicId}&status=${status}&author=${userId}">
                                     <i class="fa fa-angle-double-right"></i>
                                 </a>
                             </li>

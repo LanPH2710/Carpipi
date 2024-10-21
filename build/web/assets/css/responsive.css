@@ -72,10 +72,13 @@
 	.single-model-search h2 {font-size:16px;}
 }/*max-width:480px*/
 
-@media screen and (max-width: 440px){
-	.welcome-hero-txt h2{font-size: 24px;line-height: 1.5;}
-	
-}/*max-width:400px*/
+@media screen and (max-width: 440px) {
+    .welcome-hero-txt h2 {
+        font-size: 24px;
+        line-height: 1.5;
+    }
+} /*max-width:400px*/
+
 
 @media screen and (max-width: 399px){
 	.testimonial-carousel .col-sm-3, .testimonial-carousel .col-xs-12 {width: 260px;}

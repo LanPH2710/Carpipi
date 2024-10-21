@@ -17,12 +17,14 @@
         <url-pattern>/feedbacksList</url-pattern>
         <url-pattern>/setting</url-pattern>
         <url-pattern>/orderDetailsSale</url-pattern>
-        <url-pattern>/orderlist</url-pattern>
         <url-pattern>/dash</url-pattern>
         <url-pattern>/admin</url-pattern>
         <url-pattern>/marketing</url-pattern>
         <url-pattern>/sale</url-pattern>
         <url-pattern>/proformarketing</url-pattern>
+        <url-pattern>/SliderList</url-pattern>
+        <url-pattern>/settingsList</url-pattern>
+        <url-pattern>/editproductbymarketing</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
@@ -31,10 +33,6 @@
     <servlet>
         <servlet-name>CustomerListServlet</servlet-name>
         <servlet-class>controller.CustomerListServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SearchCustomerServlet</servlet-name>
-        <servlet-class>controller.SearchCustomerServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>BlogDetailServlet</servlet-name>
@@ -104,6 +102,22 @@
         <servlet-name>PostListServlet</servlet-name>
         <servlet-class>controller.PostListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SliderListServlet</servlet-name>
+        <servlet-class>controller.SliderListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductListServlet</servlet-name>
+        <servlet-class>controller.ProductListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SettingsListServlet</servlet-name>
+        <servlet-class>controller.SettingsListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangeStatusBlogServlet</servlet-name>
+        <servlet-class>controller.ChangeStatusBlogServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -111,10 +125,6 @@
     <servlet-mapping>
         <servlet-name>CustomerListServlet</servlet-name>
         <url-pattern>/customerlist</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SearchCustomerServlet</servlet-name>
-        <url-pattern>/searchcustomer</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BlogDetailServlet</servlet-name>
@@ -158,7 +168,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>EditByMarketingServlet</servlet-name>
-        <url-pattern>/editbymarketing</url-pattern>
+        <url-pattern>/editproductbymarketing</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Admin</servlet-name>
@@ -183,5 +193,21 @@
     <servlet-mapping>
         <servlet-name>PostListServlet</servlet-name>
         <url-pattern>/postlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SliderListServlet</servlet-name>
+        <url-pattern>/SliderList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductListServlet</servlet-name>
+        <url-pattern>/productlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SettingsListServlet</servlet-name>
+        <url-pattern>/settingsList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeStatusBlogServlet</servlet-name>
+        <url-pattern>/changestatusblog</url-pattern>
     </servlet-mapping>
 </web-app>

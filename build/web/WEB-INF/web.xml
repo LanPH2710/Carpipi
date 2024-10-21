@@ -76,7 +76,7 @@
     </servlet>
     <servlet>
         <servlet-name>EditByMarketingServlet</servlet-name>
-        <servlet-class>controller.EditByMarketingServlet</servlet-class>
+        <servlet-class>controller.marketing.EditByMarketingServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Admin</servlet-name>
@@ -104,7 +104,7 @@
     </servlet>
     <servlet>
         <servlet-name>SliderListServlet</servlet-name>
-        <servlet-class>controller.SliderListServlet</servlet-class>
+        <servlet-class>controller.marketing.SliderListServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ProductListServlet</servlet-name>
@@ -112,7 +112,7 @@
     </servlet>
     <servlet>
         <servlet-name>SettingsListServlet</servlet-name>
-        <servlet-class>controller.SettingsListServlet</servlet-class>
+        <servlet-class>controller.admin.SettingsListServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ChangeStatusBlogServlet</servlet-name>

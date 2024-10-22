@@ -381,7 +381,8 @@ public void updateAccountStatus(Account account) {
                         rs.getString(8),
                         rs.getString(9),
                         rs.getInt(10),
-                        rs.getString(11));
+                        rs.getString(11),
+                                rs.getInt(12));
             }
         } catch (SQLException e) {
             System.out.println(e);

@@ -38,6 +38,13 @@
                             <li><span class="text-primary text-medium">3. </span>Nhập OTP vào trang tiếp theo.</li>
                         </ol>
                     </div>
+                    
+                    <c:if test="${not empty errorMessage}">
+                    <div style="color:red;">${errorMessage}</div>
+                </c:if>
+                    <c:if test="${not empty message}">
+                    <div class="success">${message}</div>
+                </c:if>
                     <form class="card mt-4" action="forgotPassword" method="POST">
                         <div class="card-body">
                             <div class="form-group">

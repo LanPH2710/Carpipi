@@ -15,24 +15,24 @@
         <meta name="author" content="">
         <title>Shop | E-Shopper</title>
 
-        <link href="css/css_fpt/css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/css_fpt/css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/css_fpt/css/prettyPhoto.css" rel="stylesheet">
-        <link href="css/css_fpt/css/price-range.css" rel="stylesheet">
-        <link href="css/css_fpt/css/animate.css" rel="stylesheet">
-        <link href="css/css_fpt/css/main.css" rel="stylesheet">
-        <link href="css/css_fpt/css/responsive.css" rel="stylesheet">
-        <!--[if lt IE 9]>
-        <script src="js/html5shiv.js"></script>
-        <script src="js/respond.min.js"></script>
-        <![endif]-->       
-        <link rel="shortcut icon" href="images/ico/favicon.ico">
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
-
+        <link href="cssProList/bootstrap.min.css" rel="stylesheet">
+        <link href="cssProList/font-awesome.min.css" rel="stylesheet">
+        <link href="cssProList/price-range.css" rel="stylesheet">
+        <link href="cssProList/animate.css" rel="stylesheet">
+        <link href="cssProList/main.css" rel="stylesheet">
+        <link href="cssProList/responsive.css" rel="stylesheet">
     </head>
+
+    <style>
+        
+        .add-to-cart:hover {
+            background: #0480be;
+            border: 0 none;
+            border-radius: 0;
+            color: #FFFFFF;
+        }
+
+    </style>
 
     <body>
 
@@ -103,15 +103,15 @@
                         <div class="col-sm-3">
                             <div class="left-sidebar">
                                 <h2>Brands</h2>
-                                <div class="brands-name">
-                                    <ul class="nav nav-pills nav-stacked">
-                                        <li><a href=""><span class="pull-right">(50)</span>Mercedes</a></li>
-                                        <li><a href=""><span class="pull-right">(50)</span>Audi</a></li>
-                                        <li><a href=""><span class="pull-right">(50)</span>Porsche</a></li>
-                                        <li><a href=""><span class="pull-right">(50)</span>BMW</a></li>
-                                        <li><a href=""><span class="pull-right">(50)</span>Volkswagen</a></li>
-                                    </ul>
-                                </div>
+                                <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                                <c:forEach var="brand" items="${brandList}">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title"><a href="proformarketing?brandId=${brand.brandId}&page=1">${brand.brandName}</a></h4>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </div><!--/category-productsr-->
                                 <!--/brands_products-->
 
                                 <div class="brands_products"><!--brands_products-->
@@ -237,31 +237,25 @@
                                 <h2 class="title text-center">Features Items</h2>
                                 <c:forEach items="${listProduct}" var="product">
                                     <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center">
-                                                <c:choose>
-                                                    <c:when test="${not empty pro.images}">
-                                                        <img src="${product.images[1].imageUrl}" alt="${product.name}">
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <img src="assets/images/welcome-hero/welcome-banner.jpg" alt="${product.name}">
-                                                    </c:otherwise>
-                                                </c:choose>
-                                                <h2><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/>đ</h2>
-                                                <p>${product.name}</p>
-                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                            </div>
-                                            <div class="product-overlay">
-                                                <div class="overlay-content">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <c:choose>
+                                                        <c:when test="${not empty pro.images}">
+                                                            <img src="${product.images[1].imageUrl}" alt="${product.name}">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="assets/images/welcome-hero/welcome-banner.jpg" alt="${product.name}">
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                     <h2><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/>đ</h2>
-                                                    <div><a href="product?product=${pro.productId}" class="product-detail-link">${product.name}</a></div>
-                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-2x"></i>Chi tiết</a>
+                                                    <p>${product.name}</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class=""></i>Chi tiết</a>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 </c:forEach>
                             </div>
                         </div>
@@ -285,6 +279,7 @@
 
 
                     </div>
+
 
                     <script src="./css/css_fpt/js/jquery.js"></script>
                     <script src="./css/css_fpt/js/price-range.js"></script>

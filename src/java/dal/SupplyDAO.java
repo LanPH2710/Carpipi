@@ -66,10 +66,56 @@ public class SupplyDAO extends DBContext {
 
         return listSupply;
     }
+    
+    // Lấy danh sách các brand với số lượng sản phẩm và trạng thái
+    public List<Supply> getSupplyListWithProductCount() {
+    List<Supply> supplyList = new ArrayList<>();
+    String sql = "SELECT su.supplyId, su.supplyName, su.status, COUNT(p.productId) AS productCount " +
+                 "FROM supply su LEFT JOIN product p ON su.supplyId = p.supplyId " +
+                 "GROUP BY su.supplyId, su.supplyName, su.status";
 
+    try (PreparedStatement ps = connection.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+        
+        
+        while (rs.next()) {
+            Supply supply = new Supply();
+            supply.setSupplyId(rs.getString("supplyId"));
+            supply.setSupplyName(rs.getString("supplyName"));
+            supply.setStatus(rs.getInt("status"));
+            supply.setSupplyProductCount(rs.getInt("productCount"));
+            supplyList.add(supply);
+            
+            // Print each brand's details
+            System.out.println("Supply ID: " + supply.getSupplyId() + 
+                               ",Supply Name: " + supply.getSupplyName() + 
+                               ", Status: " + supply.getStatus() + 
+                               ",Supply Product Count: " + supply.getSupplyProductCount());
+        }
+        
+        System.out.println("Total supplies fetched: " + supplyList.size()); // Debugging
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return supplyList;
+}
+
+    // Cập nhật trạng thái của brand
+    public boolean updateSupplyStatus(int supplyId, int status) {
+        String sql = "UPDATE supply SET status = ? WHERE supplyId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, supplyId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     public static void main(String[] args) {
         SupplyDAO s = new SupplyDAO();
-
-        System.out.println(s.getAllSupplyCar());
+        List<Supply> supplyList = s.getSupplyListWithProductCount();
+        //System.out.println(s.getAllSupplyCar());
     }
 }

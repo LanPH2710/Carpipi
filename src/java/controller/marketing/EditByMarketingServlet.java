@@ -15,6 +15,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Brand;
 import model.Product;
@@ -68,6 +69,7 @@ public class EditByMarketingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
+        HttpSession session = request.getSession();
 
         ProductDAO productDao = new ProductDAO();
         BrandDAO brandDao = new BrandDAO();
@@ -78,6 +80,7 @@ public class EditByMarketingServlet extends HttpServlet {
         // Lấy thông tin sản phẩm
         Product product = productDao.getProductById(id);
         request.setAttribute("car", product);
+        session.setAttribute("productIdSession", id);
 
         // Lấy danh sách hình ảnh của sản phẩm
         List<ProductImage> imageList = productDao.getImagesByProductId(id);
@@ -102,63 +105,48 @@ public class EditByMarketingServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    // Lấy dữ liệu từ form
+    HttpSession session = request.getSession();
+    String id =(String) session.getAttribute("productIdSession"); // Không cập nhật productId
+    String name = request.getParameter("name");
+    int seatNumber = Integer.parseInt(request.getParameter("seatNumber"));
+    double price = Double.parseDouble(request.getParameter("price"));
+    String fuel = request.getParameter("fuel");
+    int stock = Integer.parseInt(request.getParameter("stock"));
+    String description = request.getParameter("des");
+    int supplyId = Integer.parseInt(request.getParameter("supply"));
+    int brandId = Integer.parseInt(request.getParameter("brandId"));
+    int segmentId = Integer.parseInt(request.getParameter("segmentId"));
+    int styleId = Integer.parseInt(request.getParameter("styleId"));
+    int status = request.getParameter("status").equals("active") ? 1 : 0;
 
-        ProductDAO pDao = new ProductDAO();
+    // Tạo đối tượng ProductDAO
+    ProductDAO productDao = new ProductDAO();
 
-        String id = request.getParameter("id");
-        String name = request.getParameter("name");
-        String brandIdParam = request.getParameter("brand");
-        String segmentIdParam = request.getParameter("segment");
-        String supplyIdParam = request.getParameter("supply");
-        String styleIdParam = request.getParameter("style");
-        int brandId = 0;
-        int segmentId = 0;
-        int supplyId = 0;
-        int styleId = 0;
-        int seat = Integer.parseInt(request.getParameter("seatNumber"));
-        double price = Double.parseDouble(request.getParameter("price"));
-        String fuel = request.getParameter("fuel");
-        int stock = Integer.parseInt(request.getParameter("stock"));
-        String des = request.getParameter("des");
+    try {
+        // Cập nhật sản phẩm
+        productDao.updateProduct1(id, name, seatNumber, price, fuel, stock, description, 10, 
+                                  supplyId, brandId, segmentId, styleId, status);
 
-        // Retrieve supplyId, brandId, segmentId, and styleId from the request
-        try {
-            supplyId = Integer.parseInt(supplyIdParam);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        
-        try {
-            brandId = Integer.parseInt(brandIdParam);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-         try {
-            segmentId = Integer.parseInt(segmentIdParam);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-          try {
-            styleId = Integer.parseInt(styleIdParam);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        
-        // Update product
-        pDao.updateProduct(id, name, seat, price, fuel, stock, des, 10, supplyId, brandId, segmentId, styleId);
+        // Nếu cập nhật thành công, chuyển hướng đến trang chi tiết sản phẩm
+        response.sendRedirect("editproductbymarketing?id=" + id);
+    } catch (Exception e) {
+        e.printStackTrace();
+        // Nếu cập nhật thất bại, thông báo lỗi
+        request.setAttribute("error", "Cập nhật sản phẩm thất bại: " + e.getMessage());
+        request.getRequestDispatcher("error.jsp").forward(request, response);
+    }}
 
-        // Handle image updates if necessary
-        String[] imageUrls = request.getParameterValues("imageUrls");
-        if (imageUrls != null) {
-            for (String imageUrl : imageUrls) {
-                // Add logic to save images to the database
-            }
-        }
+    // Xử lý cập nhật hình ảnh nếu cần thiết
+//    String[] imageUrls = request.getParameterValues("imageUrls");
+//    if (imageUrls != null) {
+//        for (String imageUrl : imageUrls) {
+//            // Thêm logic để lưu hình ảnh vào cơ sở dữ liệu
+//        }
+//    }
 
-        response.sendRedirect("proformarketing");
-    }
 
     /**
      * Returns a short description of the servlet.

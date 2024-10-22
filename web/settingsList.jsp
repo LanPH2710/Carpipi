@@ -73,10 +73,10 @@
     <!-- Buttons to switch views -->
     <form action="settingsList" method="get">
         <button type="submit" name="view" value="brand">Thương hiệu</button>
-        <button type="submit" name="view" value="fuel">Nhiên liệu</button>
-        <button type="submit" name="view" value="style">Style</button>
-        <button type="submit" name="view" value="segment">Segment</button>
-        <button type="submit" name="view" value="supply">Supply</button>
+<!--        <button type="submit" name="view" value="fuel">Nhiên liệu</button>-->
+        <button type="submit" name="view" value="style">Kiểu Dáng</button>
+        <button type="submit" name="view" value="segment">Phân Khúc</button>
+        <button type="submit" name="view" value="supply">Nhà Cung Cấp</button>
     </form>
 
     <c:choose>

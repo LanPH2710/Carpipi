@@ -873,9 +873,56 @@ public class ProductDAO extends DBContext {
         }
     }
 
+
     // Cập nhật trạng thái tất cả sản phẩm theo brandId
     public boolean updateProductsStatusByBrandId(int brandId, int status) {
         String sql = "UPDATE product SET status = ? WHERE brandId = ?";
+    
+    public void updateProduct1(String id, String name, int seatNumber, double price, String fuel,
+                          int stock, String description, double vat, // Thêm vat vào đây
+                          int supplyId, int brandId, int segmentId, int styleId, int status) {
+    String sql = "UPDATE `product`\n"
+            + "SET\n"
+            + "`name` = ?,\n"
+            + "`seatNumber` = ?,\n"
+            + "`price` = ?,\n"
+            + "`fuel` = ?,\n"
+            + "`stock` = ?,\n"
+            + "`description` = ?,\n"
+            + "`VAT` = ?,\n" // Cần cập nhật VAT
+            + "`supplyId` = ?,\n"
+            + "`brandId` = ?,\n"
+            + "`segmentId` = ?,\n"
+            + "`styleId` = ?,\n"
+            + "`status` = ?\n"
+            + "WHERE `productId` = ?";
+
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setString(1, name);
+        st.setInt(2, seatNumber);
+        st.setDouble(3, price);
+        st.setString(4, fuel);
+        st.setInt(5, stock);
+        st.setString(6, description);
+        st.setDouble(7, vat); // Đảm bảo VAT được thiết lập
+        st.setInt(8, supplyId);
+        st.setInt(9, brandId);
+        st.setInt(10, segmentId);
+        st.setInt(11, styleId);
+        st.setInt(12, status);
+        st.setString(13, id); // productId
+        st.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+
+    
+    // Cập nhật trạng thái tất cả sản phẩm theo supplyId
+    public boolean updateProductsStatusBySupplyId(int supplyId, int status) {
+        String sql = "UPDATE product SET status = ? WHERE supplyId = ?";
+
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, status);
             ps.setInt(2, brandId);
@@ -1085,7 +1132,28 @@ public class ProductDAO extends DBContext {
     Map<String, Integer> fuelCounts = p.getFuelCounts();
 
     
-    }
+    
+  
+           
+            // Thay đổi ID và các thông tin cần cập nhật theo sản phẩm cụ thể
+            String productId = "AU01"; // ID sản phẩm cần cập nhật
+            String name = "Sản phẩm mới";
+            int seatNumber = 5;
+            double price = 3000000; // Giá sản phẩm
+            //String fuel = "Xăng";
+            int stock = 10; // Số lượng
+            String description = "Mô tả sản phẩm";
+            double vat = 10.0; // Thuế giá trị gia tăng
+            int supplyId = 1; // ID nhà cung cấp
+            int brandId = 1; // ID thương hiệu
+            int segmentId = 1; // ID phân khúc
+            int styleId = 1; // ID kiểu dáng
 
+            // Gọi phương thức cập nhật sản phẩm
+            p.updateProduct(productId, name, seatNumber, price, fuel, stock, description, vat, supplyId, brandId, segmentId, styleId);
+
+            System.out.println("Cập nhật sản phẩm thành công!");
+
+    }
 
 }

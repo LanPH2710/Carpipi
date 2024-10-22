@@ -361,6 +361,33 @@ public class AccountDAO extends DBContext {
         return list;
     }
     
+    public List<Account> sortCustommerById(String order) {
+        List<Account> list = new ArrayList<>();
+        String sql = "select * from Account where roleId=4 order by userId "+order;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Account p = new Account(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getInt(10),
+                        rs.getString(11),
+                        rs.getInt(12));
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
     public Account getAccountById(int userId) {
         String sql = "select * from Account where userId=?";
         try {

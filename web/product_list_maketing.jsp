@@ -250,7 +250,7 @@
                                                     </c:choose>
                                                     <h2><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/>đ</h2>
                                                     <p>${product.name}</p>
-                                                    <a href="#" class="btn btn-default add-to-cart"><i class=""></i>Chi tiết</a>
+                                                    <a href="editproductbymarketing?id=${product.productId}" class="btn btn-default add-to-cart"><i class=""></i>Chi tiết</a>
                                                 </div>
 
                                             </div>

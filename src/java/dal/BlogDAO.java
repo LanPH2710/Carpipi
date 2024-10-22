@@ -50,6 +50,38 @@ public class BlogDAO extends DBContext {
         }
         return list;
     }
+    
+    public List<Blog> getAllBlogCommon() {
+        List<Blog> list = new ArrayList<>();
+        String sql = "SELECT * FROM Blog where status = 1";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int blogId = rs.getInt("blogId");
+                int userId = rs.getInt("userId");
+                int blogTopicId = rs.getInt("blogTopicId");
+                String blogTitle = rs.getString("blogTitle");
+                String blogTime = rs.getString("blogTime");
+                String openBlog = rs.getString("openBlog");
+                String bodyMain1 = rs.getString("bodyMain1");
+                String bodySp1 = rs.getString("bodySp1");
+                String bodyMain2 = rs.getString("bodyMain2");
+                String bodySp2 = rs.getString("bodySp2");
+                String bodyMain3 = rs.getString("bodyMain3");
+                String bodySp3 = rs.getString("bodySp3");
+                String endBlog = rs.getString("endBlog");
+                int status = rs.getInt("status");
+                List<ImageBlog> images = getImagesByProductId(blogId);
+
+                Blog blog = new Blog(blogId, userId, blogTopicId, blogTitle, blogTime, openBlog, bodyMain1, bodySp1, bodyMain2, bodySp2, bodyMain3, bodySp3, endBlog, status, images);
+                list.add(blog);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
 
     public Blog getBlogById(int blogId) {
         String sql = "SELECT * FROM Blog WHERE blogId=?";

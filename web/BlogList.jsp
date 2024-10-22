@@ -95,7 +95,7 @@
                                     <div class="courses-thumb courses-thumb-secondary">
                                         <div class="courses-top">
                                             <div class="courses-image">
-                                                <img src="${blog.images[0].imageUrl}" class="img-responsive" alt="${blog.openBlog}" style="width: 470px; height: 300px; object-fit: cover;">
+                                                <img src="img/${blog.images[0].imageUrl}" class="img-responsive" alt="${blog.openBlog}" style="width: 470px; height: 300px; object-fit: cover;">
                                             </div>
                                             <div class="courses-date">
                                                 <span title="Date"><i class="fa fa-calendar"></i> ${blog.blogTime}</span>
@@ -120,7 +120,7 @@
                         <!-- Điều hướng về trang trước -->
                         <c:if test="${page > 1}">
                             <li class="page-item">
-                                <a class="page-link" href="postlist?page=${page - 1}&search=${search}&topic=${topicId}&status=${status}&author=${userId}">
+                                <a class="page-link" href="BlogListServlet?page=${page - 1}&search=${search}&topic=${topicId}&author=${userId}">
                                     <i class="fa fa-angle-double-left"></i>
                                 </a>
                             </li>
@@ -138,7 +138,7 @@
                                 <c:otherwise>
                                     <!-- Các trang khác -->
                                     <li class="page-item">
-                                        <a href="postlist?page=${i}&search=${search}&topic=${topicId}&status=${status}&author=${userId}" class="page-link">${i}</a>
+                                        <a href="BlogListServlet?page=${i}&search=${search}&topic=${topicId}&author=${userId}" class="page-link">${i}</a>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
@@ -147,7 +147,7 @@
                         <!-- Điều hướng về trang sau -->
                         <c:if test="${page < num}">
                             <li class="page-item">
-                                <a class="page-link" href="postlist?page=${page + 1}&search=${search}&topic=${topicId}&status=${status}&author=${userId}">
+                                <a class="page-link" href="BlogListServlet?page=${page + 1}&search=${search}&topic=${topicId}&author=${userId}">
                                     <i class="fa fa-angle-double-right"></i>
                                 </a>
                             </li>

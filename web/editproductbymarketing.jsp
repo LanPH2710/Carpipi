@@ -7,6 +7,7 @@
 <head>
     <title>Chi tiết sản phẩm</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <jsp:include page="header.jsp"/>
     <style>
         /* CSS tùy chỉnh để làm đẹp form */
         .form-group label {
@@ -41,7 +42,7 @@
         }
 
         /* Hình ảnh */
-        img {
+        .image {
             width: 120px;
             height: auto;
             border: 2px solid #ddd;
@@ -106,8 +107,7 @@
     <div class="form-container">
         <h2>Chi tiết sản phẩm</h2>
         <form action="editproductbymarketing" method="post">
-            <input type="hidden" name="id" value="${car.productId}">
-
+<!--            <input type="hidden" name="id" value="${car.productId}">-->
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Tên xe</label>
@@ -123,7 +123,7 @@
                 <div class="form-group col-md-6">
                     <label>Giá</label>
 <!--                    <input type="number" name="price" class="form-control" value="${car.price}" required min="0">-->
-                    <input type="number" name="price" class="form-control" value="${car.price}" required min="0" step="0.01">
+                    <input type="number" name="price" class="form-control" value="${car.price}" required min="0" step="1">
                 </div> 
                 <div class="form-group col-md-6">
                     <label>Nhiên liệu</label>
@@ -193,7 +193,7 @@
             <div class="image-container">
                 <c:forEach items="${imageList}" var="image">
                     <div class="mb-3">
-                        <img src="${image.imageUrl}" alt="Image">
+                        <img class="image"src="${image.imageUrl}" alt="Image">
                         <input type="text" name="imageUrls" value="${image.imageUrl}" class="form-control">
                     </div>
                 </c:forEach>
@@ -206,5 +206,6 @@
         </form>
     </div>
 </div>
+            <jsp:include page="footerDemo.jsp"/>
 </body>
 </html>

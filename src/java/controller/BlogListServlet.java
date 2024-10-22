@@ -101,7 +101,7 @@ public class BlogListServlet extends HttpServlet {
         // Lấy danh sách blog
         List<Blog> blog;
         if ((search == null || search.trim().isEmpty()) && status == -1 && topic == 0 && userId == 0) {
-            blog = bdao.getAllBlog();
+            blog = bdao.getAllBlogCommon();
         } else if (status == 1 || status == 0) {
             blog = bdao.getBlogByStatus(status);
         } else if (search != null && !search.trim().isEmpty()) {
@@ -111,7 +111,7 @@ public class BlogListServlet extends HttpServlet {
         } else if (userId>0){
             blog = bdao.getBlogByAuthor(userId);
         } else {
-            blog = bdao.getAllBlog();
+            blog = bdao.getAllBlogCommon();
         }
 
         //phân trang

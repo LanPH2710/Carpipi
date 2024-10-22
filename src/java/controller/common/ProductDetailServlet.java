@@ -2,30 +2,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.common;
 
-import dal.BlogDAO;
-import dal.BlogTopicDAO;
-import dal.CommentBlogDAO;
+import dal.BrandDAO;
+import dal.FeedbackDAO;
+import dal.ProductDAO;
+import dal.SegmentDAO;
+import dal.StyleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
-import model.Blog;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import model.CommentBlog;
+import model.Product;
+import model.Feedback;
 
 /**
  *
  * @author tuana
  */
-public class BlogDetailServlet extends HttpServlet {
+public class ProductDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +43,10 @@ public class BlogDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BlogDetailServlet</title>");
+            out.println("<title>Servlet ProductDetailServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BlogDetailServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ProductDetailServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,38 +64,38 @@ public class BlogDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        BlogDAO bdao = new BlogDAO();
-        CommentBlogDAO cbdao = new CommentBlogDAO();
-        BlogTopicDAO btdao = new BlogTopicDAO();
-
-        int blogId = Integer.parseInt(request.getParameter("blogId"));
-        int commentRating = 0;
-
+        String productId = request.getParameter("productId");
+        String rateParam = request.getParameter("rate");
+        int rate = 0;
         try {
-            commentRating = Integer.parseInt(request.getParameter("rating"));
-        } catch (NumberFormatException e) {
-            commentRating = 0;
+            rate = Integer.parseInt(rateParam);
+        } catch (Exception e) {
         }
 
-        // Lấy danh sách bình luận dựa vào rating
-        List<CommentBlog> comment;
-        if (commentRating > 0) {
-            comment = cbdao.getCommentByRating(blogId, commentRating);
-        } else {
-            comment = cbdao.getCommentBlogByBlogId(blogId);
+        ProductDAO pdao = new ProductDAO();
+        BrandDAO bdao = new BrandDAO();
+        StyleDAO sdao = new StyleDAO();
+        SegmentDAO sedao = new SegmentDAO();
+        FeedbackDAO fdao = new FeedbackDAO();
+
+        List<Feedback> feedback;
+        if (rate == 0) {
+            feedback = fdao.getFeedbackByProductId(productId);
+        }else{
+            feedback = fdao.getFeedbackByRate(productId, rate);
         }
-
-        // Lấy thông tin blog và các thông tin liên quan
-        Blog blog = bdao.getBlogById(blogId);
-        List<Account> acc = cbdao.getUserNameByBlogId(blogId);
-        String author = bdao.getUserFullNameById(blog.getUserId());
-        String topic = btdao.getTopicById(blog.getBlogTopicId());
-        List<Blog> top5 = bdao.getTop5NewBlog();
-
+        Product pro = (Product) pdao.getProductById(productId);
+        List<Product> pro2 = pdao.getProductByPrice(pro.getPrice());
+        String segmentName = sedao.getSegmentNameBySegmentId(pro.getSegmentId());
+        String brand = bdao.getBrandById(pro.getBrandId());
+        String style = sdao.getStyleNameByStyleId(pro.getStyleId());
+        String supply = pdao.getSupplyNameById(pro.getSupplyId());
+        List<Account> listAcc = fdao.getUserNameByProductId(productId);
+        int rateCar = fdao.getRateProduct(productId);
+        
         // Phân trang
-        int page, numperpage = 1;
-        int size = comment.size();
+        int page, numperpage = 2;
+        int size = feedback.size();
         int num = (int) Math.ceil((double) size / numperpage); // Số trang, làm tròn lên
         String xpage = request.getParameter("page");
         if (xpage == null) {
@@ -106,23 +105,23 @@ public class BlogDetailServlet extends HttpServlet {
         }
         int start = (page - 1) * numperpage;
         int end = Math.min(page * numperpage, size);
-        comment = cbdao.getCommentListByPage(comment, start, end);
+        feedback = fdao.getFeedbackListByPage(feedback, start, end);
 
-        // Đặt các thuộc tính để chuyển đến trang JSP
-        request.setAttribute("author", author);
-        request.setAttribute("topic", topic);
-        request.setAttribute("comment", comment);
-        session.setAttribute("blog", blog);
-        request.setAttribute("top5", top5);
-        request.setAttribute("listacc", acc);
-        request.setAttribute("commentRating", commentRating);
-        request.setAttribute("size", size);
-        request.setAttribute("numperpage", numperpage);
+        request.setAttribute("pro", pro);
+        request.setAttribute("brand", brand);
+        request.setAttribute("pro2", pro2);
+        request.setAttribute("style", style);
+        request.setAttribute("supply", supply);
+        request.setAttribute("feedback", feedback);
+        request.setAttribute("segment", segmentName);
+        request.setAttribute("acc", listAcc);
+        request.setAttribute("rate", rate);
         request.setAttribute("page", page);
         request.setAttribute("num", num);
+        request.setAttribute("size", size);
+        request.setAttribute("rateCar", rateCar);
 
-        // Chuyển hướng tới blogDetail.jsp
-        request.getRequestDispatcher("blogDetail.jsp").forward(request, response);
+        request.getRequestDispatcher("productDetail.jsp").forward(request, response);
     }
 
     /**
@@ -136,17 +135,7 @@ public class BlogDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Blog blog = (Blog) session.getAttribute("blog");
-        int blogId = blog.getBlogId();
-        CommentBlogDAO cbdao = new CommentBlogDAO();
-        String commentInfor = request.getParameter("commentInfor");
-        int commentRating = Integer.parseInt(request.getParameter("rating"));
-        Timestamp commentDate = Timestamp.valueOf(LocalDateTime.now());
-        Account user = (Account) session.getAttribute("account");
-        int userId = user.getUserId();
-        cbdao.creatComment(userId, blogId, commentInfor, commentDate, commentRating);
-        response.sendRedirect("blogdetail?blogId=" + blogId);
+        processRequest(request, response);
     }
 
     /**

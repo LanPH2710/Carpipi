@@ -49,85 +49,28 @@
                     </div>
 
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+
 
 
                         <li class="sidebar-dropdown">
                             <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="doctors.html">Doctors</a></li>
-                                    <li><a href="add-doctor.html">Add Doctor</a></li>
-                                    <li><a href="dr-profile.html">Profile</a></li>
-                                </ul>
-                            </div>
+
                         </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Patients</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="patients.html">All Patients</a></li>
-                                    <li><a href="add-patient.html">Add Patients</a></li>
-                                    <li><a href="patient-profile.html">Profile</a></li>
-                                </ul>
-                            </div>
-                        </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Apps</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="chat.html">Chat</a></li>
-                                    <li><a href="email.html">Email</a></li>
-                                    <li><a href="calendar.html">Calendar</a></li>
-                                </ul>
-                            </div>
-                        </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Pharmacy</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="shop.html">Shop</a></li>
-                                    <li><a href="product-detail.html">Shop Detail</a></li>
-                                    <li><a href="shopcart.html">Shopcart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                </ul>
-                            </div>
-                        </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="blogs.html">Blogs</a></li>
-                                    <li><a href="blog-detail.html">Blog Detail</a></li>
-                                </ul>
-                            </div>
-                        </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Pages</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="faqs.html">FAQs</a></li>
-                                    <li><a href="review.html">Reviews</a></li>
-                                    <li><a href="invoice-list.html">Invoice List</a></li>
-                                    <li><a href="invoice.html">Invoice</a></li>
-                                    <li><a href="terms.html">Terms & Policy</a></li>
-                                    <li><a href="privacy.html">Privacy Policy</a></li>
-                                    <li><a href="error.html">404 !</a></li>
-                                    <li><a href="blank-page.html">Blank Page</a></li>
-                                </ul>
-                            </div>
-                        </li>
+
+
+
+
 
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="login">Login</a></li>
                                     <li><a href="signup.html">Signup</a></li>
                                     <li><a href="forgot-password.html">Forgot Password</a></li>
                                     <li><a href="lock-screen.html">Lock Screen</a></li>
@@ -168,7 +111,7 @@
                             <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
                                 <i class="uil uil-bars"></i>
                             </a>
-                            
+
 
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
@@ -179,7 +122,7 @@
                                         </div>
                                     </form>                             </div>
                             </div>
-                                            <a href="reset-carts" class="btn btn-secondary ms-2">Reset Search</a> <!-- Reset button -->
+                            <a href="reset-carts" class="btn btn-secondary ms-2">Reset Search</a> <!-- Reset button -->
                         </div>
 
 
@@ -215,69 +158,38 @@
                                         </thead>
 
                                         <tbody>
-                                            <c:if test="${not empty sessionScope.filteredCarts}">
-                                                <c:forEach items="${sessionScope.filteredCarts.values()}" var="C">
-                                                <form action="update-quantity">
-                                                    <tr>
-                                                        <td class="h5 p-3 text-center">
-                                                            <a href="delete-cart?productId=${C.product.productId}" class="text-danger">
-                                                                <i class="uil uil-times"></i>
-                                                            </a>
-                                                        </td>
-                                                        <td class="p-3">
-                                                            <div class="d-flex align-items-center">
-                                                                <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:150px; width:auto;">
-                                                                <h6 class="mb-0 ms-3">${C.product.name}</h6>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center p-3"><fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ</td>
-                                                        <td class="text-center shop-list p-3">
-                                                            <div class="qty-icons">
-                                                                <input type="hidden" name="productId" value="${C.product.productId}">
-                                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
-                                                                <input min="1" name="quantity" value="${C.quantity}" type="number" class="btn btn-icon btn-primary qty-btn quantity" onchange="this.form.submit()">
-                                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-end font-weight-bold p-3">
-                                                            <fmt:formatNumber value="${C.product.price * C.quantity}" type="number" minFractionDigits="0"/> đ
-                                                        </td>
-                                                    </tr>
-                                                </form>
-                                            </c:forEach>
-                                        </c:if>
 
-                                        <c:if test="${empty sessionScope.filteredCarts}">
-                                            <c:forEach items="${sessionScope.carts.values()}" var="C">
-                                                 <form action="update-quantity">
-                                                    <tr>
-                                                        <td class="h5 p-3 text-center">
-                                                            <a href="delete-cart?productId=${C.product.productId}" class="text-danger">
-                                                                <i class="uil uil-times"></i>
-                                                            </a>
-                                                        </td>
-                                                        <td class="p-3">
-                                                            <div class="d-flex align-items-center">
-                                                                <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:150px; width:auto;">
-                                                                <h6 class="mb-0 ms-3">${C.product.name}</h6>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center p-3"><fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ</td>
-                                                        <td class="text-center shop-list p-3">
-                                                            <div class="qty-icons">
-                                                                <input type="hidden" name="productId" value="${C.product.productId}">
-                                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
-                                                                <input min="1" name="quantity" value="${C.quantity}" type="number" class="btn btn-icon btn-primary qty-btn quantity" onchange="this.form.submit()">
-                                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-end font-weight-bold p-3">
-                                                            <fmt:formatNumber value="${C.product.price * C.quantity}" type="number" minFractionDigits="0"/> đ
-                                                        </td>
-                                                    </tr>
-                                                </form>
-                                            </c:forEach>
-                                        </c:if>
+                                            <c:forEach items="${sessionScope.carts}" var="C">
+                                            <form action="update-quantity">
+                                                <tr>
+                                                    <td class="h5 p-3 text-center">
+                                                       
+                                                            <i class="uil uil-times"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td class="p-3">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:150px; width:auto;">
+                                                            <h6 class="mb-0 ms-3">${C.product.name}</h6>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center p-3"><fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ</td>
+                                                    <td class="text-center shop-list p-3">
+                                                        <div class="qty-icons">
+                                                            <input type="hidden" name="productId" value="${C.product.productId}">
+                                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
+                                                            <input min="1" name="quantity" value="${C.quantity}" type="number" class="btn btn-icon btn-primary qty-btn quantity" onchange="this.form.submit()">
+                                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-end font-weight-bold p-3">
+                                                        <fmt:formatNumber value="${C.product.price * C.quantity}" type="number" minFractionDigits="0"/> đ
+                                                    </td>
+                                                </tr>
+                                            </form>
+                                        </c:forEach>
+
+
 
 
 

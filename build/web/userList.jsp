@@ -176,7 +176,7 @@
                             <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
                                 <i class="uil uil-bars"></i>
                             </a>
-                            
+
 
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
@@ -187,7 +187,7 @@
                                         </div>
                                     </form>                             </div>
                             </div>
-                                           
+
                         </div>
 
 
@@ -253,7 +253,28 @@
                                                             </c:choose>
                                                         </td>
                                                         <td class="p-3">${account.address}</td>
-                                                        <td class="p-3">${account.roleId}</td>
+                                                        <td class="p-3">
+                                                            <c:choose>
+                                                                <c:when test="${account.roleId == 1}">
+                                                                    Admin
+                                                                </c:when>
+                                                                <c:when test="${account.roleId == 2}">
+                                                                    Marketing
+                                                                </c:when>
+                                                                <c:when test="${account.roleId == 3}">
+                                                                    Sale
+                                                                </c:when>
+                                                                <c:when test="${account.roleId == 4}">
+                                                                    Customer
+                                                                </c:when>
+                                                                <c:when test="${account.roleId == 5}">
+                                                                    Shipper
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    Unknown Role
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
                                                         <td class="p-3"><img src="img/${account.avatar}" alt="avatar" class="avatar avatar-md-sm rounded-circle shadow"></td>
                                                         <td class="p-3"><span class="badge bg-soft-success">action</span></td>
                                                         <td class="text-end p-3">
@@ -467,35 +488,49 @@
 
                                     <li class="d-flex">
                                         <h6 class="mb-0">Role:</h6>
-                                        <p class="text-muted ms-2 mb-0">
-                                            <c:choose>
-                                                <c:when test="${acc.roleId == 1}">Admin</c:when>
-                                                <c:when test="${acc.roleId == 2}">Customer</c:when>
-                                                <c:when test="${acc.roleId == 3}">Marketing</c:when>
-                                                <c:otherwise>Unknown Role</c:otherwise>
-                                            </c:choose>
-                                        </p>
-                                    </li>
-                                </ul>
+                                    <td class="p-3">
+                                        <c:choose>
+                                            <c:when test="${account.roleId == 1}">
+                                                Admin
+                                            </c:when>
+                                            <c:when test="${account.roleId == 2}">
+                                                Marketing
+                                            </c:when>
+                                            <c:when test="${account.roleId == 3}">
+                                                Sale
+                                            </c:when>
+                                            <c:when test="${account.roleId == 4}">
+                                                Customer
+                                            </c:when>
+                                            <c:when test="${account.roleId == 5}">
+                                                Shipper
+                                            </c:when>
+                                            <c:otherwise>
+                                                Unknown Role
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
                             </li>
-                            <li>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="d-flex">
-                                        <h6>Email:</h6>
-                                        <p class="text-muted ms-2">${acc.email}</p>
-                                    </li>
+                        </ul>
+                        </li>
+                        <li>
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-flex">
+                                    <h6>Email:</h6>
+                                    <p class="text-muted ms-2">${acc.email}</p>
+                                </li>
 
-                                    <li class="d-flex">
-                                        <h6>Mobile:</h6>
-                                        <p class="text-muted ms-2">${acc.mobile}</p>
-                                    </li>
+                                <li class="d-flex">
+                                    <h6>Mobile:</h6>
+                                    <p class="text-muted ms-2">${acc.mobile}</p>
+                                </li>
 
-                                    <li class="d-flex">
-                                        <h6 class="mb-0">Address:</h6>
-                                        <p class="text-muted ms-2 mb-0">${acc.address}</p>
-                                    </li>
-                                </ul>
-                            </li>
+                                <li class="d-flex">
+                                    <h6 class="mb-0">Address:</h6>
+                                    <p class="text-muted ms-2 mb-0">${acc.address}</p>
+                                </li>
+                            </ul>
+                        </li>
                         </ul>
                     </div>
                 </div>

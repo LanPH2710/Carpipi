@@ -164,6 +164,7 @@
                             <button type="submit" class="btn btn-warning">Buy now</button>
                         </form> &nbsp;&nbsp;
                         <form action="addtocart" method="get">
+                           
                             <input type="hidden" name="productId" value="${pro.productId}">
                             <input type="hidden" name="quantity" id="quantityFieldCart" value="1">
                             <button type="submit" class="btn btn-primary">

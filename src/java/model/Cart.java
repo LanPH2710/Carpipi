@@ -11,6 +11,8 @@ package model;
 
 
 public class Cart {
+    int cartId;
+    int userId;
     private Product product;
     private int quantity;
 
@@ -33,10 +35,30 @@ public class Cart {
     public Cart() {
     }
 
-    public Cart(Product product, int quantity) {
+    public int getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(int cartId) {
+        this.cartId = cartId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public Cart(int cartId, int userId, Product product, int quantity) {
+        this.cartId = cartId;
+        this.userId = userId;
         this.product = product;
         this.quantity = quantity;
     }
+
+    
     
     
 }

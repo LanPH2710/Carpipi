@@ -90,6 +90,9 @@ public class CustomerListServlet extends HttpServlet {
                 case "phone":
                     p = adao.sortCustommerByPhone(order);
                     break;
+                case "userId":
+                    p = adao.sortCustommerById(order);
+                    break;
                 default:
                     break;
             }

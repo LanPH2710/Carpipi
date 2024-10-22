@@ -231,7 +231,7 @@
                         </tbody>
                     </table>
                     <div class="clearfix">
-                        <div class="hint-text text-muted">Showing <b>${numperpage}</b> out of <b>${size}</b> customers</div>
+                        <div class="hint-text text-muted">Showing <b>${page}</b> out of <b>${num}</b> pages customers</div>
                         <ul class="pagination justify-content-center">
                             <!-- Điều hướng về trang trước -->
                             <c:if test="${page > 1}">

@@ -876,7 +876,16 @@ public class ProductDAO extends DBContext {
 
     // Cập nhật trạng thái tất cả sản phẩm theo brandId
     public boolean updateProductsStatusByBrandId(int brandId, int status) {
-        String sql = "UPDATE product SET status = ? WHERE brandId = ?";
+String sql = "UPDATE product SET status = ? WHERE brandId = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, brandId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;}
     
     public void updateProduct1(String id, String name, int seatNumber, double price, String fuel,
                           int stock, String description, double vat, // Thêm vat vào đây
@@ -925,7 +934,7 @@ public class ProductDAO extends DBContext {
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, status);
-            ps.setInt(2, brandId);
+            ps.setInt(2, supplyId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -975,17 +984,7 @@ public class ProductDAO extends DBContext {
         return 0;
     }
     
-    public boolean updateProductsStatusBySupplyId(int supplyId, int status) {
-        String sql = "UPDATE product SET status = ? WHERE supplyId = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, status);
-            ps.setInt(2, supplyId);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+    
 
 
     /*
@@ -1150,7 +1149,7 @@ public class ProductDAO extends DBContext {
             int styleId = 1; // ID kiểu dáng
 
             // Gọi phương thức cập nhật sản phẩm
-            p.updateProduct(productId, name, seatNumber, price, fuel, stock, description, vat, supplyId, brandId, segmentId, styleId);
+//            p.updateProduct(productId, name, seatNumber, price, fuel, stock, description, vat, supplyId, brandId, segmentId, styleId);
 
             System.out.println("Cập nhật sản phẩm thành công!");
 

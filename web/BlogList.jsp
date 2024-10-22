@@ -1,14 +1,9 @@
-<%-- 
-    Document   : BlogList
-    Created on : Oct 1, 2024, 3:44:28 AM
-    Author     : nguye
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
+                <jsp:include page="header.jsp"/>
 
         <title>PHPJabbers.com | Free Blog Website Template</title>
 
@@ -26,7 +21,18 @@
 
         <!-- MAIN CSS -->
         <link rel="stylesheet" href="css/style_blog.css">
+        
+        <style>
+            .multi-line-truncate {
+                display: -webkit-box;
+                -webkit-line-clamp: 2; /* Giới hạn 3 dòng */
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: normal;
+            }
 
+        </style>
     </head>
     <body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
 
@@ -39,45 +45,46 @@
             </div>
         </section>
 
-        <jsp:include page="header.jsp"/>
 
-        <section>
-            <div class="container">
-                <div class="text-center">
-                    <h1>Blog posts</h1>
+        <div class="col-sm-12">
+                    <section id="advertisement">
+                        <div class="container">
+                            <img src="assets/images/welcome-hero/welcome-banner.jpg" alt="" class="img-responsive" />
+                        </div>
+                    </section>
                 </div>
-            </div>
-        </section>
 
         <section class="section-background">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 pull-right col-xs-12">
                         <div class="form">
-                            <form action="#">
-                                <div class="form-group">
-                                    <label class="control-label">Blog Search</label>
-
+                            <div class="form-group">
+                                <label class="control-label">Blog Search</label>
+                                <form action="BlogListServlet" method="get">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search for...">
+                                        <input type="text" name="search" class="form-control" placeholder="Search for..."> &nbsp;&nbsp;
                                         <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button">Go!</button>
+                                            <button class="btn btn-primary" type="submit">Go!</button>
                                         </span>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
 
                         <br>
-
                         <label class="control-label">Danh mục bài viết</label>
-
                         <ul class="list">
-                            <li><a href="blogdetail">Mercedes</a></li>
-                            <li><a href="blogdetail">Audi</a></li>
-                            <li><a href="blogdetail">BMW</a></li>
-                            <li><a href="blogdetail">Porsche</a></li>
-                            <li><a href="blogdetail">Volkswagen</a></li>
+                            <li><a href="BlogListServlet">Tất cả bài viết</a></li>
+                                <c:forEach items="${topic}" var="t">
+                                <li><a href="BlogListServlet?topic=${t.blogTopicId}">${t.toppicName}</a></li>
+                                </c:forEach>
+                        </ul>
+                        <label class="control-label">Bài viết theo tác giả</label>
+                        <ul class="list">
+                            <c:forEach items="${author}" var="author">
+                                <li><a href="BlogListServlet?author=${author.userId}">${author.firstName} ${author.lastName}</a></li>
+                                </c:forEach>
                         </ul>
                     </div>
 
@@ -88,19 +95,17 @@
                                     <div class="courses-thumb courses-thumb-secondary">
                                         <div class="courses-top">
                                             <div class="courses-image">
-                                                <img src="${blog.blogImage}" class="img-responsive" alt="${blog.blogInfo1}">
+                                                <img src="${blog.images[0].imageUrl}" class="img-responsive" alt="${blog.openBlog}" style="width: 470px; height: 300px; object-fit: cover;">
                                             </div>
                                             <div class="courses-date">
-                                                <span title="Brand"><i class="fa fa-user"></i>${blog.brandId}</span>
                                                 <span title="Date"><i class="fa fa-calendar"></i> ${blog.blogTime}</span>
-                                                <span title="Views"><i class="fa fa-eye"></i> 114</span>
                                             </div>
                                         </div>
                                         <div class="courses-detail">
-                                            <h3><a href="blogdetail?blogId=${blog.blogId}">${blog.blogTitle}</a></h3>
+                                            <h3><a href="blogdetail?blogId=${blog.blogId}" class="multi-line-truncate">${blog.blogTitle}</a></h3>
                                         </div>
                                         <div class="courses-info">
-                                            <a href="blogdetail?blogId=${blog.blogId}" class="section-btn btn btn-primary btn-block">Read More</a>
+                                            <a href="blogdetail?blogId=${blog.blogId}" class="section-btn btn btn-primary btn-block">Read More</a>    
                                         </div>
                                     </div>
                                 </div>
@@ -109,129 +114,49 @@
                     </div>
 
                 </div>
+                <div class="clearfix">
+                    <div class="hint-text text-muted">Showing <b>${blogList.size()}</b> out of <b>${size}</b> Blogs</div>
+                    <ul class="pagination justify-content-center">
+                        <!-- Điều hướng về trang trước -->
+                        <c:if test="${page > 1}">
+                            <li class="page-item">
+                                <a class="page-link" href="postlist?page=${page - 1}&search=${search}&topic=${topicId}&status=${status}&author=${userId}">
+                                    <i class="fa fa-angle-double-left"></i>
+                                </a>
+                            </li>
+                        </c:if>
+
+                        <!-- Vòng lặp phân trang -->
+                        <c:forEach begin="${(page - 1) <= 1 ? 1 : (page - 1)}" end="${page + 1 > num ? num : page + 1}" var="i">
+                            <c:choose>
+                                <c:when test="${i == page}">
+                                    <!-- Trang hiện tại -->
+                                    <li class="page-item active">
+                                        <a class="page-link">${i}</a>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <!-- Các trang khác -->
+                                    <li class="page-item">
+                                        <a href="postlist?page=${i}&search=${search}&topic=${topicId}&status=${status}&author=${userId}" class="page-link">${i}</a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+
+                        <!-- Điều hướng về trang sau -->
+                        <c:if test="${page < num}">
+                            <li class="page-item">
+                                <a class="page-link" href="postlist?page=${page + 1}&search=${search}&topic=${topicId}&status=${status}&author=${userId}">
+                                    <i class="fa fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                        </c:if>
+                    </ul>
+                </div>
             </div>
         </section>
-
-        <!-- FOOTER -->
-        <footer id="footer">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="footer-info">
-                            <div class="section-title">
-                                <h2>Headquarter</h2>
-                            </div>
-                            <address>
-                                <p>212 Barrington Court <br>New York, ABC 10001</p>
-                            </address>
-
-                            <ul class="social-icon">
-                                <li><a href="#" class="fa fa-facebook-square" attr="facebook icon"></a></li>
-                                <li><a href="#" class="fa fa-twitter"></a></li>
-                                <li><a href="#" class="fa fa-instagram"></a></li>
-                            </ul>
-
-                            <div class="copyright-text"> 
-                                <p>Copyright &copy; 2020 Company Name</p>
-                                <p>Template by: <a href="https://www.phpjabbers.com/">PHPJabbers.com</a></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="footer-info">
-                            <div class="section-title">
-                                <h2>Contact Info</h2>
-                            </div>
-                            <address>
-                                <p>+1 333 4040 5566</p>
-                                <p><a href="mailto:contact@company.com">contact@company.com</a></p>
-                            </address>
-
-                            <div class="footer_menu">
-                                <h2>Quick Links</h2>
-                                <ul>
-                                    <li><a href="index.html">Home</a></li>
-                                    <li><a href="about-us.html">About Us</a></li>
-                                    <li><a href="terms.html">Terms & Conditions</a></li>
-                                    <li><a href="contact.html">Contact Us</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-12">
-                        <div class="footer-info newsletter-form">
-                            <div class="section-title">
-                                <h2>Newsletter Signup</h2>
-                            </div>
-                            <div>
-                                <div class="form-group">
-                                    <form action="#" method="get">
-                                        <input type="email" class="form-control" placeholder="Enter your email" name="email" id="email" required>
-                                        <input type="submit" class="form-control" name="submit" id="form-submit" value="Send me">
-                                    </form>
-                                    <span><sup>*</sup> Please note - we do not spam your email.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </footer>
-
-        <div class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="gridSystemModalLabel">Book Now</h4>
-                    </div>
-
-                    <div class="modal-body">
-                        <form action="#" id="contact-form">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Pick-up location" required>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Return location" required>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Pick-up date/time" required>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Return date/time" required>
-                                </div>
-                            </div>
-                            <input type="text" class="form-control" placeholder="Enter full name" required>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Enter email address" required>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Enter phone" required>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="section-btn btn btn-primary">Book Now</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <jsp:include page="footerDemo.jsp"></jsp:include>
         <!-- SCRIPTS -->
         <script src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>

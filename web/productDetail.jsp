@@ -253,7 +253,7 @@
                         <h5>Các xe cùng tầm giá</h5>
                         <c:forEach items="${pro2}" var="pro2">
                             <div class="d-flex mb-3">
-                                <img src="${pro2.images[0].imageUrl}" class="img-thumbnail me-3" style="width: 50%; height: auto; object-fit: cover;" alt="Product Image"/>
+                                <img src="${pro2.images[0].imageUrl}" class="img-thumbnail me-3" style="width: 50%; height: 130px; object-fit: cover;" alt="Product Image"/>
                                 <div>
                                     <a href="productdetail?productId=${pro2.productId}" class="nav-link">${pro2.name}</a>
                                     <strong class="text-dark">

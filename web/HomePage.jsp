@@ -211,67 +211,6 @@
                 </div>
             </div>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="model-search-content">
-                            <div class="row">
-                                <div class="col-md-offset-1 col-md-2 col-sm-12">
-
-                                    <div class="single-model-search">
-                                        <h2>Kiểu dáng</h2>
-                                        <div class="model-select-icon">
-                                            <select class="form-control">
-                                                <option value="defaultStyle">Chọn kiểu dáng</option><!-- /.option-->
-                                                <c:forEach var="sty" items="${styleList}">
-                                                    <option value="${sty.styleName}">${sty.styleName}</option><!-- /.option-->
-                                                </c:forEach>
-                                            </select><!-- /.select-->
-                                        </div><!-- /.model-select-icon -->
-                                    </div>
-                                </div>
-                                <div class="col-md-offset-1 col-md-2 col-sm-12">
-                                    <div class="single-model-search">
-                                        <h2>Hãng xe</h2>
-                                        <div class="model-select-icon">
-                                            <select class="form-control">
-                                                <option value="defaultBrand">Chọn hãng</option><!-- /.option-->
-                                                <c:forEach var="bra" items="${brandList}">
-                                                    <option value="${bra.brandName}">${bra.brandName}</option><!-- /.option-->
-                                                </c:forEach>
-                                            </select><!-- /.select-->
-                                        </div><!-- /.model-select-icon -->
-                                    </div>
-                                </div>
-                                <div class="col-md-offset-1 col-md-2 col-sm-12">
-                                    <div class="single-model-search">
-                                        <h2>Giá cả</h2>
-                                        <div class="model-select-icon">
-                                            <select class="form-control">
-
-                                                <option value="defaultPrice">Khoảng giá</option><!-- /.option-->
-
-                                                <option value="$0.00">$0.00</option><!-- /.option-->
-
-                                                <option value="$0.00">$0.00</option><!-- /.option-->
-                                                <option value="$0.00">$0.00</option><!-- /.option-->
-
-                                            </select><!-- /.select-->
-                                        </div><!-- /.model-select-icon -->
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sm-12">
-                                    <div class="single-model-search text-center">
-                                        <button class="welcome-btn model-search-btn" onclick="window.location.href = '#'">
-                                            Tìm kiếm
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </section><!--/.welcome-hero-->
         <!--welcome-hero end -->

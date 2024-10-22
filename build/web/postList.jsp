@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-                <jsp:include page="header.jsp"/>
 
         <title>PHPJabbers.com | Free Blog Website Template</title>
 
@@ -21,7 +20,6 @@
 
         <!-- MAIN CSS -->
         <link rel="stylesheet" href="css/style_blog.css">
-        
         <style>
             .multi-line-truncate {
                 display: -webkit-box;
@@ -45,6 +43,7 @@
             </div>
         </section>
 
+        <jsp:include page="header.jsp"/>
 
         <section>
             <div class="container">
@@ -55,6 +54,11 @@
         </section>
 
         <section class="section-background">
+            <div class="container list" style="margin-bottom: 50px;">
+                <a href="marketing.jsp" class="btn btn-primary" style="margin-top: 20px;">
+                    <span>X</span>
+                </a>
+            </div>
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 pull-right col-xs-12">
@@ -106,9 +110,10 @@
                                     <div class="courses-thumb courses-thumb-secondary">
                                         <div class="courses-top">
                                             <div class="courses-image">
-                                                <img src="${blog.images[0].imageUrl}" class="img-responsive" alt="${blog.openBlog}" style="width: 470px; height: 300px; object-fit: cover;">
+                                                <img src="img/${blog.images[0].imageUrl}" class="img-responsive" alt="${blog.openBlog}" style="width: 470px; height: 300px; object-fit: cover;">
                                             </div>
                                             <div class="courses-date">
+                                                <span title="Blog ID: ${blog.blogId}"><i class="fa fa-tag"></i> ${blog.blogId}</span>
                                                 <span title="Date"><i class="fa fa-calendar"></i> ${blog.blogTime}</span>
                                                 <span title="Views">
                                                     <c:choose>
@@ -150,7 +155,7 @@
 
                 </div>
                 <div class="clearfix">
-                    <div class="hint-text text-muted">Showing <b>${blogList.size()}</b> out of <b>${size}</b> Blogs</div>
+                    <div class="hint-text text-muted">Showing <b>${page}</b> out of <b>${num}</b> pages Blogs</div>
                     <ul class="pagination justify-content-center">
                         <!-- Điều hướng về trang trước -->
                         <c:if test="${page > 1}">

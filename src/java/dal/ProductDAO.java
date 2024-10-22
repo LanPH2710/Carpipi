@@ -147,13 +147,13 @@ public class ProductDAO extends DBContext {
 
     public String getSupplyNameById(int supplyId) {
         String supplyName = null;
-        String sql = "SELECT segmentName FROM Segment WHERE segmentId = ?";
+        String sql = "SELECT supplyLocation FROM Supply WHERE supplyId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, supplyId);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                supplyName = rs.getString("supplyName");
+                supplyName = rs.getString("supplyLocation");
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -872,6 +872,11 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();  // Thêm để hiển thị lỗi chi tiết nếu có
         }
     }
+
+
+    // Cập nhật trạng thái tất cả sản phẩm theo brandId
+    public boolean updateProductsStatusByBrandId(int brandId, int status) {
+        String sql = "UPDATE product SET status = ? WHERE brandId = ?";
     
     public void updateProduct1(String id, String name, int seatNumber, double price, String fuel,
                           int stock, String description, double vat, // Thêm vat vào đây
@@ -917,35 +922,7 @@ public class ProductDAO extends DBContext {
     // Cập nhật trạng thái tất cả sản phẩm theo supplyId
     public boolean updateProductsStatusBySupplyId(int supplyId, int status) {
         String sql = "UPDATE product SET status = ? WHERE supplyId = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, status);
-            ps.setInt(2, supplyId);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-     // Lấy số lượng sản phẩm theo supplyId
-    public int getProductCountBySupplyId(int supplyId) {
-        String query = "SELECT COUNT(*) FROM product WHERE supplyId = ?";
-        try (
-             PreparedStatement ps = connection.prepareStatement(query)) {
 
-            ps.setInt(1, supplyId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-    // Cập nhật trạng thái tất cả sản phẩm theo brandId
-    public boolean updateProductsStatusByBrandId(int brandId, int status) {
-        String sql = "UPDATE product SET status = ? WHERE brandId = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, status);
             ps.setInt(2, brandId);
@@ -955,6 +932,31 @@ public class ProductDAO extends DBContext {
         }
         return false;
     }
+    
+    public boolean updateProductsStatusBySegmentId(int segmentId, int status) {
+        String sql = "UPDATE product SET status = ? WHERE segmentId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, segmentId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean updateProductsStatusByStyleId(int styleId, int status) {
+        String sql = "UPDATE product SET status = ? WHERE styleId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, styleId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
      // Lấy số lượng sản phẩm theo brandId
     public int getProductCountByBrandId(int brandId) {
         String query = "SELECT COUNT(*) FROM product WHERE brandId = ?";
@@ -973,31 +975,18 @@ public class ProductDAO extends DBContext {
         return 0;
     }
     
-    // Cập nhật trạng thái tất cả sản phẩm theo supplyId
-    public boolean updateProductsStatusBySegmentId(int segmentId, int status) {
-        String sql = "UPDATE product SET status = ? WHERE segmentId = ?";
+    public boolean updateProductsStatusBySupplyId(int supplyId, int status) {
+        String sql = "UPDATE product SET status = ? WHERE supplyId = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, status);
-            ps.setInt(2, segmentId);
+            ps.setInt(2, supplyId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
-    
-    // Cập nhật trạng thái tất cả sản phẩm theo supplyId
-    public boolean updateProductsStatusByStyleId(int styleId, int status) {
-        String sql = "UPDATE product SET status = ? WHERE styleId = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, status);
-            ps.setInt(2, styleId);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+
 
     /*
     public static void main(String[] args) throws SQLException {
@@ -1130,7 +1119,6 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
-        
         //String search = "g63";
         //String styleId = "1";
         //List<Product> pl = p.getProductBySearch(search);
@@ -1142,16 +1130,6 @@ public class ProductDAO extends DBContext {
         // Kiểm tra số lượng sản phẩm theo loại nhiên liệu
         // Kiểm tra số lượng sản phẩm theo loại nhiên liệu
     Map<String, Integer> fuelCounts = p.getFuelCounts();
-    String fuel = "Xăng"; // Giá trị fuel cần cập nhật
-            int newStatus = 1; // Giá trị trạng thái mới (0 hoặc 1)
-
-            // Gọi phương thức để cập nhật trạng thái nhiên liệu
-            boolean isUpdated = p.updateFuelStatus(fuel, newStatus);
-            if (isUpdated) {
-                System.out.println("Cập nhật trạng thái nhiên liệu thành công.");
-            } else {
-                System.out.println("Cập nhật trạng thái nhiên liệu không thành công.");
-            }
 
     
     

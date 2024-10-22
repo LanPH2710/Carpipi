@@ -165,13 +165,14 @@
                                 <input type="hidden" name="quantity" id="quantityFieldPayment" value="1">
                                 <button type="submit" class="btn btn-warning">Buy now</button>
                             </form> &nbsp;&nbsp;
-                            <form action="addtocart" method="get">
-                                <input type="hidden" name="productId" value="${pro.productId}">
-                                <input type="hidden" name="quantity" id="quantityFieldCart" value="1">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-shopping-basket"></i> Add to cart
-                                </button>
-                            </form>
+                           <form action="addtocart" method="get">
+                           
+                            <input type="hidden" name="productId" value="${pro.productId}">
+                            <input type="hidden" name="quantity" id="quantityFieldCart" value="1">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-shopping-basket"></i> Add to cart
+                            </button>
+                        </form>
                         </c:when>
                         <c:otherwise>
                             <p>Bạn cần <a href="login.jsp">đăng nhập</a> để mua sản phẩm.</p>

@@ -49,22 +49,22 @@
                     </div>
 
                     <ul class="sidebar-menu pt-3">
-                      
+
 
 
                         <li class="sidebar-dropdown">
                             <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
-                            
+
                         </li>
 
-                        
-
-                       
 
 
-                       
 
-                        
+
+
+
+
+
 
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
@@ -111,7 +111,7 @@
                             <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
                                 <i class="uil uil-bars"></i>
                             </a>
-                            
+
 
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
@@ -122,7 +122,7 @@
                                         </div>
                                     </form>                             </div>
                             </div>
-                                            <a href="reset-carts" class="btn btn-secondary ms-2">Reset Search</a> <!-- Reset button -->
+                            <a href="reset-carts" class="btn btn-secondary ms-2">Reset Search</a> <!-- Reset button -->
                         </div>
 
 
@@ -158,69 +158,38 @@
                                         </thead>
 
                                         <tbody>
-                                            <c:if test="${not empty sessionScope.filteredCarts}">
-                                                <c:forEach items="${sessionScope.filteredCarts.values()}" var="C">
-                                                <form action="update-quantity">
-                                                    <tr>
-                                                        <td class="h5 p-3 text-center">
-                                                            <a href="delete-cart?productId=${C.product.productId}" class="text-danger">
-                                                                <i class="uil uil-times"></i>
-                                                            </a>
-                                                        </td>
-                                                        <td class="p-3">
-                                                            <div class="d-flex align-items-center">
-                                                                <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:150px; width:auto;">
-                                                                <h6 class="mb-0 ms-3">${C.product.name}</h6>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center p-3"><fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ</td>
-                                                        <td class="text-center shop-list p-3">
-                                                            <div class="qty-icons">
-                                                                <input type="hidden" name="productId" value="${C.product.productId}">
-                                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
-                                                                <input min="1" name="quantity" value="${C.quantity}" type="number" class="btn btn-icon btn-primary qty-btn quantity" onchange="this.form.submit()">
-                                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-end font-weight-bold p-3">
-                                                            <fmt:formatNumber value="${C.product.price * C.quantity}" type="number" minFractionDigits="0"/> đ
-                                                        </td>
-                                                    </tr>
-                                                </form>
-                                            </c:forEach>
-                                        </c:if>
 
-                                        <c:if test="${empty sessionScope.filteredCarts}">
-                                            <c:forEach items="${sessionScope.carts.values()}" var="C">
-                                                 <form action="update-quantity">
-                                                    <tr>
-                                                        <td class="h5 p-3 text-center">
-                                                            <a href="delete-cart?productId=${C.product.productId}" class="text-danger">
-                                                                <i class="uil uil-times"></i>
-                                                            </a>
-                                                        </td>
-                                                        <td class="p-3">
-                                                            <div class="d-flex align-items-center">
-                                                                <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:150px; width:auto;">
-                                                                <h6 class="mb-0 ms-3">${C.product.name}</h6>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center p-3"><fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ</td>
-                                                        <td class="text-center shop-list p-3">
-                                                            <div class="qty-icons">
-                                                                <input type="hidden" name="productId" value="${C.product.productId}">
-                                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
-                                                                <input min="1" name="quantity" value="${C.quantity}" type="number" class="btn btn-icon btn-primary qty-btn quantity" onchange="this.form.submit()">
-                                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-end font-weight-bold p-3">
-                                                            <fmt:formatNumber value="${C.product.price * C.quantity}" type="number" minFractionDigits="0"/> đ
-                                                        </td>
-                                                    </tr>
-                                                </form>
-                                            </c:forEach>
-                                        </c:if>
+                                            <c:forEach items="${sessionScope.carts}" var="C">
+                                            <form action="update-quantity">
+                                                <tr>
+                                                    <td class="h5 p-3 text-center">
+                                                       
+                                                            <i class="uil uil-times"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td class="p-3">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:150px; width:auto;">
+                                                            <h6 class="mb-0 ms-3">${C.product.name}</h6>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center p-3"><fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ</td>
+                                                    <td class="text-center shop-list p-3">
+                                                        <div class="qty-icons">
+                                                            <input type="hidden" name="productId" value="${C.product.productId}">
+                                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
+                                                            <input min="1" name="quantity" value="${C.quantity}" type="number" class="btn btn-icon btn-primary qty-btn quantity" onchange="this.form.submit()">
+                                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-end font-weight-bold p-3">
+                                                        <fmt:formatNumber value="${C.product.price * C.quantity}" type="number" minFractionDigits="0"/> đ
+                                                    </td>
+                                                </tr>
+                                            </form>
+                                        </c:forEach>
+
+
 
 
 

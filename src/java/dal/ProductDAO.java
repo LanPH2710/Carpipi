@@ -45,6 +45,38 @@ public class ProductDAO extends DBContext {
         }
         return products;
     }
+    
+    public List<Product> getAllProductsCommon() {
+        List<Product> products = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM product where status = 1"; // Thay đổi tên bảng cho đúng
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProductId(resultSet.getString("productId"));
+                product.setName(resultSet.getString("name"));
+                product.setSeatNumber(resultSet.getInt("seatNumber"));
+                product.setPrice(resultSet.getDouble("price"));
+                product.setFuel(resultSet.getString("fuel"));
+                product.setStock(resultSet.getInt("stock"));
+                product.setDescription(resultSet.getString("description"));
+                product.setVAT(resultSet.getDouble("VAT"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
+                product.setBrandId(resultSet.getInt("brandId"));
+                product.setSegmentId(resultSet.getInt("segmentId"));
+                product.setStyleId(resultSet.getInt("styleId"));
+
+                // Lấy danh sách hình ảnh của sản phẩm
+                product.setImages(getImagesByProductId(product.getProductId()));
+
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return products;
+    }
 
     public List<Product> getAllProductsById(String id) {
         List<Product> products = new ArrayList<>();
@@ -147,13 +179,13 @@ public class ProductDAO extends DBContext {
 
     public String getSupplyNameById(int supplyId) {
         String supplyName = null;
-        String sql = "SELECT segmentName FROM Segment WHERE segmentId = ?";
+        String sql = "SELECT supplyLocation FROM Supply WHERE supplyId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, supplyId);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                supplyName = rs.getString("supplyName");
+                supplyName = rs.getString("supplyLocation");
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -465,8 +497,8 @@ public class ProductDAO extends DBContext {
         String sql = "SELECT * FROM Product WHERE price BETWEEN ? AND ? LIMIT 8;";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setDouble(1, price - 200000000);
-            st.setDouble(2, price + 200000000);
+            st.setDouble(1, price - 1000000000);
+            st.setDouble(2, price + 1000000000);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Product product = new Product();
@@ -872,10 +904,66 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();  // Thêm để hiển thị lỗi chi tiết nếu có
         }
     }
+
+
+    // Cập nhật trạng thái tất cả sản phẩm theo brandId
+    public boolean updateProductsStatusByBrandId(int brandId, int status) {
+String sql = "UPDATE product SET status = ? WHERE brandId = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, brandId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;}
+    
+    public void updateProduct1(String id, String name, int seatNumber, double price, String fuel,
+                          int stock, String description, double vat, // Thêm vat vào đây
+                          int supplyId, int brandId, int segmentId, int styleId, int status) {
+    String sql = "UPDATE `product`\n"
+            + "SET\n"
+            + "`name` = ?,\n"
+            + "`seatNumber` = ?,\n"
+            + "`price` = ?,\n"
+            + "`fuel` = ?,\n"
+            + "`stock` = ?,\n"
+            + "`description` = ?,\n"
+            + "`VAT` = ?,\n" // Cần cập nhật VAT
+            + "`supplyId` = ?,\n"
+            + "`brandId` = ?,\n"
+            + "`segmentId` = ?,\n"
+            + "`styleId` = ?,\n"
+            + "`status` = ?\n"
+            + "WHERE `productId` = ?";
+
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setString(1, name);
+        st.setInt(2, seatNumber);
+        st.setDouble(3, price);
+        st.setString(4, fuel);
+        st.setInt(5, stock);
+        st.setString(6, description);
+        st.setDouble(7, vat); // Đảm bảo VAT được thiết lập
+        st.setInt(8, supplyId);
+        st.setInt(9, brandId);
+        st.setInt(10, segmentId);
+        st.setInt(11, styleId);
+        st.setInt(12, status);
+        st.setString(13, id); // productId
+        st.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+
     
     // Cập nhật trạng thái tất cả sản phẩm theo supplyId
     public boolean updateProductsStatusBySupplyId(int supplyId, int status) {
         String sql = "UPDATE product SET status = ? WHERE supplyId = ?";
+
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, status);
             ps.setInt(2, supplyId);
@@ -885,35 +973,31 @@ public class ProductDAO extends DBContext {
         }
         return false;
     }
-     // Lấy số lượng sản phẩm theo supplyId
-    public int getProductCountBySupplyId(int supplyId) {
-        String query = "SELECT COUNT(*) FROM product WHERE supplyId = ?";
-        try (
-             PreparedStatement ps = connection.prepareStatement(query)) {
-
-            ps.setInt(1, supplyId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-    // Cập nhật trạng thái tất cả sản phẩm theo brandId
-    public boolean updateProductsStatusByBrandId(int brandId, int status) {
-        String sql = "UPDATE product SET status = ? WHERE brandId = ?";
+    
+    public boolean updateProductsStatusBySegmentId(int segmentId, int status) {
+        String sql = "UPDATE product SET status = ? WHERE segmentId = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, status);
-            ps.setInt(2, brandId);
+            ps.setInt(2, segmentId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
+    
+    public boolean updateProductsStatusByStyleId(int styleId, int status) {
+        String sql = "UPDATE product SET status = ? WHERE styleId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, styleId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
      // Lấy số lượng sản phẩm theo brandId
     public int getProductCountByBrandId(int brandId) {
         String query = "SELECT COUNT(*) FROM product WHERE brandId = ?";
@@ -932,31 +1016,8 @@ public class ProductDAO extends DBContext {
         return 0;
     }
     
-    // Cập nhật trạng thái tất cả sản phẩm theo supplyId
-    public boolean updateProductsStatusBySegmentId(int segmentId, int status) {
-        String sql = "UPDATE product SET status = ? WHERE segmentId = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, status);
-            ps.setInt(2, segmentId);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
     
-    // Cập nhật trạng thái tất cả sản phẩm theo supplyId
-    public boolean updateProductsStatusByStyleId(int styleId, int status) {
-        String sql = "UPDATE product SET status = ? WHERE styleId = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, status);
-            ps.setInt(2, styleId);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+
 
     /*
     public static void main(String[] args) throws SQLException {
@@ -1089,7 +1150,6 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
-        
         //String search = "g63";
         //String styleId = "1";
         //List<Product> pl = p.getProductBySearch(search);
@@ -1101,19 +1161,30 @@ public class ProductDAO extends DBContext {
         // Kiểm tra số lượng sản phẩm theo loại nhiên liệu
         // Kiểm tra số lượng sản phẩm theo loại nhiên liệu
     Map<String, Integer> fuelCounts = p.getFuelCounts();
-    String fuel = "Xăng"; // Giá trị fuel cần cập nhật
-            int newStatus = 1; // Giá trị trạng thái mới (0 hoặc 1)
-
-            // Gọi phương thức để cập nhật trạng thái nhiên liệu
-            boolean isUpdated = p.updateFuelStatus(fuel, newStatus);
-            if (isUpdated) {
-                System.out.println("Cập nhật trạng thái nhiên liệu thành công.");
-            } else {
-                System.out.println("Cập nhật trạng thái nhiên liệu không thành công.");
-            }
 
     
-    }
+    
+  
+           
+            // Thay đổi ID và các thông tin cần cập nhật theo sản phẩm cụ thể
+            String productId = "AU01"; // ID sản phẩm cần cập nhật
+            String name = "Sản phẩm mới";
+            int seatNumber = 5;
+            double price = 3000000; // Giá sản phẩm
+            //String fuel = "Xăng";
+            int stock = 10; // Số lượng
+            String description = "Mô tả sản phẩm";
+            double vat = 10.0; // Thuế giá trị gia tăng
+            int supplyId = 1; // ID nhà cung cấp
+            int brandId = 1; // ID thương hiệu
+            int segmentId = 1; // ID phân khúc
+            int styleId = 1; // ID kiểu dáng
 
+            // Gọi phương thức cập nhật sản phẩm
+//            p.updateProduct(productId, name, seatNumber, price, fuel, stock, description, vat, supplyId, brandId, segmentId, styleId);
+
+            System.out.println("Cập nhật sản phẩm thành công!");
+
+    }
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-<!--    <filter>
+    <!--    <filter>
         <filter-name>FilterRole</filter-name>
         <filter-class>filter.FilterRole</filter-class>
     </filter>
@@ -28,19 +28,19 @@
     </filter-mapping>-->
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
-        <servlet-class>controller.UserProfileServlet</servlet-class>
+        <servlet-class>controller.common.UserProfileServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CustomerListServlet</servlet-name>
-        <servlet-class>controller.CustomerListServlet</servlet-class>
+        <servlet-class>controller.marketing.CustomerListServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>BlogDetailServlet</servlet-name>
-        <servlet-class>controller.BlogDetailServlet</servlet-class>
+        <servlet-class>controller.common.BlogDetailServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddCustomerServlet</servlet-name>
-        <servlet-class>controller.AddCustomerServlet</servlet-class>
+        <servlet-class>controller.marketing.AddCustomerServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HomePageServlet</servlet-name>
@@ -60,7 +60,7 @@
     </servlet>
     <servlet>
         <servlet-name>ViewCustomerServlet</servlet-name>
-        <servlet-class>controller.ViewCustomerServlet</servlet-class>
+        <servlet-class>controller.marketing.ViewCustomerServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>BlogList</servlet-name>
@@ -92,7 +92,7 @@
     </servlet>
     <servlet>
         <servlet-name>ProductDetailServlet</servlet-name>
-        <servlet-class>controller.ProductDetailServlet</servlet-class>
+        <servlet-class>controller.common.ProductDetailServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ConfirmController</servlet-name>
@@ -100,7 +100,7 @@
     </servlet>
     <servlet>
         <servlet-name>PostListServlet</servlet-name>
-        <servlet-class>controller.PostListServlet</servlet-class>
+        <servlet-class>controller.marketing.PostListServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SliderListServlet</servlet-name>
@@ -116,7 +116,7 @@
     </servlet>
     <servlet>
         <servlet-name>ChangeStatusBlogServlet</servlet-name>
-        <servlet-class>controller.ChangeStatusBlogServlet</servlet-class>
+        <servlet-class>controller.marketing.ChangeStatusBlogServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>

@@ -12,13 +12,30 @@ public class Supply {
     private String supplyId;
     private String supplyName;
     private String supplyLocation;
-
+    private int status;
+    private int supplyProductCount;
     public Supply(String supplyId, String supplyName, String supplyLocation) {
         this.supplyId = supplyId;
         this.supplyName = supplyName;
         this.supplyLocation = supplyLocation;
     }
 
+    public Supply(String supplyId, String supplyName, String supplyLocation, int status, int supplyProductCount) {
+        this.supplyId = supplyId;
+        this.supplyName = supplyName;
+        this.supplyLocation = supplyLocation;
+        this.status = status;
+        this.supplyProductCount = supplyProductCount;
+    }
+
+    public Supply(String supplyId, String supplyName, String supplyLocation, int status) {
+        this.supplyId = supplyId;
+        this.supplyName = supplyName;
+        this.supplyLocation = supplyLocation;
+        this.status = status;
+    }
+
+    
     public Supply() {
     }
 
@@ -44,6 +61,22 @@ public class Supply {
 
     public void setSupplyLocation(String supplyLocation) {
         this.supplyLocation = supplyLocation;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getSupplyProductCount() {
+        return supplyProductCount;
+    }
+
+    public void setSupplyProductCount(int supplyProductCount) {
+        this.supplyProductCount = supplyProductCount;
     }
     
     

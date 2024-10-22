@@ -91,170 +91,52 @@
 
             <!-- Start Page Content -->
 
-            <div class="body">
-                <h1>Slider List</h1>
-                <form action="SliderList" method="get">
-                    <!-- Filter by status -->
-                    <label for="status">Status:</label>
-                    <select name="status">
-                        <option value="">All</option>
-                        <option value="1" ${param.status == '1' ? 'selected' : ''}>Active</option>
-                        <option value="0" ${param.status == '0' ? 'selected' : ''}>Inactive</option>
-                    </select>
 
-                    <!-- Search by title or backlink -->
-                    <input type="text" name="search" placeholder="Search by title or backlink" value="${param.search}" />
-                    <button type="submit">Search</button>
-                </form>
-
-
-
-            </div>
             <main class="page-content bg-light">
                 <div class="top-header">
                     <div class="header-bar d-flex justify-content-between border-bottom">
                         <div class="d-flex align-items-center">
                             <a href="#" class="logo-icon">
-                                <img src="../assets/images/logo-icon.png" height="30" class="small" alt="">
+                                <img src="assetsSlider/images/logo-icon.png" height="30" class="small" alt="">
                                 <span class="big">
-                                    <img src="../assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                                    <img src="../assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                                    <img src="assetsSlider/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
+                                    <img src="assetsSlider/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
                                 </span>
                             </a>
                             <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
                                 <i class="uil uil-bars"></i>
                             </a>
+                            <!------------search----------------->
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form role="search" method="get" id="searchform" class="searchform">
-                                        <div>
-                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Search Keywords...">
-                                            <input type="submit" id="searchsubmit" value="Search">
+                                    <form action="SliderList" role="search" method="get" id="searchform" class="searchform">
+                                        <div class="search-container">
+                                            <!-- Filter by status -->
+                                            <span>
+                                                <label for="status">Status:</label>
+                                            </span>
+                                            <span>
+                                                <select name="status">
+                                                    <option value="">All</option>
+                                                    <option value="1" ${param.status == '1' ? 'selected' : ''}>Active</option>
+                                                    <option value="0" ${param.status == '0' ? 'selected' : ''}>Inactive</option>
+                                                </select>
+                                            </span>
+                                            <!-- Search by title or backlink -->
+                                            <span>
+                                                <input type="text" class="form-control border rounded-pill" id="s" name="search" placeholder="Search by title or backlink" value="${param.search}" />
+                                            </span>
+                                            <!-- Search button -->
+                                            <span>
+                                                <input type="submit" id="searchsubmit" value="Search">
+                                            </span>
                                         </div>
                                     </form>
                                 </div>
                             </div>
+                            <!------------------end search--------------------->
+
                         </div>
-
-                        <ul class="list-unstyled mb-0">
-                            <li class="list-inline-item mb-0">
-                                <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/language/american.png" class="avatar avatar-ex-small rounded-circle p-2" alt=""></button>
-                                    <div class="dropdown-menu dd-menu drop-ups dropdown-menu-end bg-white shadow border-0 mt-3 p-2" data-simplebar style="height: 175px;">
-                                        <a href="javascript:void(0)" class="d-flex align-items-center">
-                                            <img src="../assets/images/language/chinese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Chinese</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="../assets/images/language/european.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">European</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="../assets/images/language/indian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Indian</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="../assets/images/language/japanese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Japanese</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="../assets/images/language/russian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Russian</small>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="list-inline-item mb-0 ms-1">
-                                <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="settings" class="fea icon-sm"></i></div>
-                                </a>
-                            </li>
-
-                            <li class="list-inline-item mb-0 ms-1">
-                                <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-icon btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="mail" class="fea icon-sm"></i></button>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">4 <span class="visually-hidden">unread mail</span></span>
-
-                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 px-2 py-2" data-simplebar style="height: 320px; width: 300px;">
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="../assets/images/client/02.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Janalia</b> <small class="text-muted fw-normal d-inline-block">1 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="../assets/images/client/Codepen.svg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>codepen</b>  <small class="text-muted fw-normal d-inline-block">4 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="../assets/images/client/03.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Cristina</b> <small class="text-muted fw-normal d-inline-block">5 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="../assets/images/client/dribbble.svg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Dribbble</b> <small class="text-muted fw-normal d-inline-block">24 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="../assets/images/client/06.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Donald Aghori</b> <small class="text-muted fw-normal d-inline-block">1 day ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="../assets/images/client/07.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Calvin</b> <small class="text-muted fw-normal d-inline-block">2 day ago</small></small>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="list-inline-item mb-0 ms-1">
-                                <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/doctors/01.jpg" class="avatar avatar-ex-small rounded-circle" alt=""></button>
-                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                                        <a class="dropdown-item d-flex align-items-center text-dark" href="https://shreethemes.in/doctris/layouts/admin/profile.html">
-                                            <img src="../assets/images/doctors/01.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
-                                            <div class="flex-1 ms-2">
-                                                <span class="d-block mb-1">Calvin Carlo</span>
-                                                <small class="text-muted">Orthopedic</small>
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item text-dark" href="index.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
-                                        <a class="dropdown-item text-dark" href="dr-profile.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
-                                        <div class="dropdown-divider border-top"></div>
-                                        <a class="dropdown-item text-dark" href="lock-screen.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
                     </div>
                 </div>
 
@@ -330,9 +212,37 @@
 
                         <div class="row text-center">
 
+<!-- Pagination -->
+<div class="col-12 mt-4">
+    <div class="d-md-flex align-items-center text-center justify-content-between">
+        <span class="text-muted me-3">Showing ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + sliders.size()} out of ${totalItems}</span>
+        <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+            <!-- Previous Button -->
+            <c:if test="${currentPage > 1}">
+                <li class="page-item">
+                    <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage - 1}&search=${param.search}&status=${param.status}" aria-label="Previous">Prev</a>
+                </li>
+            </c:if>
+
+            <!-- Page Numbers -->
+            <c:forEach begin="1" end="${totalPages}" var="page">
+                <li class="page-item ${currentPage == page ? 'active' : ''}">
+                    <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${page}&search=${param.search}&status=${param.status}">${page}</a>
+                </li>
+            </c:forEach>
+
+            <!-- Next Button -->
+            <c:if test="${sliders.size() == 15}">
+                <li class="page-item">
+                    <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage + 1}&search=${param.search}&status=${param.status}" aria-label="Next">Next</a>
+                </li>
+            </c:if>
+        </ul>
+    </div>
+</div>
 
                             <!-- Pagination -->
-                            <div class="pagination">
+<!--                            <div class="pagination">
                                 <c:if test="${currentPage > 1}">
                                     <a href="${pageContext.request.contextPath}/SliderList?page=${currentPage - 1}&search=${param.search}&status=${param.status}">Previous</a>
                                 </c:if>
@@ -340,7 +250,7 @@
                                 <c:if test="${sliders.size() == 15}">
                                     <a href="${pageContext.request.contextPath}/SliderList?page=${currentPage + 1}&search=${param.search}&status=${param.status}">Next</a>
                                 </c:if>
-                            </div>
+                            </div>-->
                             <!--                             PAGINATION START 
                                                         <div class="col-12 mt-4">
                                                             <div class="d-md-flex align-items-center text-center justify-content-between">
@@ -360,18 +270,10 @@
                         </div><!--end row-->
                     </div>
                 </div><!--end container-->
-
+                `
                 <!-- Footer Start -->
                 <footer class="bg-white shadow py-3">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <div class="text-sm-start text-center">
-                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </div><!--end container-->
+
                 </footer><!--end footer-->
                 <!-- End -->
             </main>
@@ -424,139 +326,7 @@
         </div>
         <!-- Offcanvas End -->
 
-        <!-- Modal start -->
-        <!-- Profile Settings Start -->
-        <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-bottom p-3">
-                        <h5 class="modal-title" id="exampleModalLabel">Profile Settings</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-3 pt-4">
-                        <div class="row align-items-center">
-                            <div class="col-lg-2 col-md-4">
-                                <img src="../assets/images/doctors/01.jpg" class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
-                            </div><!--end col-->
 
-                            <div class="col-lg-5 col-md-8 text-center text-md-start mt-4 mt-sm-0">
-                                <h6 class="">Upload your picture</h6>
-                                <p class="text-muted mb-0">For best results, use an image at least 256px by 256px in either .jpg or .png format</p>
-                            </div><!--end col-->
-
-                            <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
-                                <a href="#" class="btn btn-primary">Upload</a>
-                                <a href="#" class="btn btn-soft-primary ms-2">Remove</a>
-                            </div><!--end col-->
-                        </div><!--end row-->
-
-                        <form class="mt-4">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">First Name</label>
-                                        <input name="name" id="name" type="text" class="form-control" placeholder="First Name :">
-                                    </div>
-                                </div><!--end col-->
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Last Name</label>
-                                        <input name="name" id="name2" type="text" class="form-control" placeholder="Last Name :">
-                                    </div>
-                                </div><!--end col-->
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Your Email</label>
-                                        <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
-                                    </div> 
-                                </div><!--end col-->
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Phone no.</label>
-                                        <input name="number" id="number" type="text" class="form-control" placeholder="Phone no. :">
-                                    </div>                                                                               
-                                </div><!--end col-->
-
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Your Bio Here</label>
-                                        <textarea name="comments" id="comments" rows="4" class="form-control" placeholder="Bio :"></textarea>
-                                    </div>
-                                </div>
-                            </div><!--end row-->
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <input type="submit" id="submit" name="send" class="btn btn-primary" value="Save changes">
-                                </div><!--end col-->
-                            </div><!--end row-->
-                        </form><!--end form-->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Profile Settings End -->
-
-        <!-- Profile Start -->
-        <div class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-bottom p-3">
-                        <h5 class="modal-title" id="exampleModalLabel1">Profile</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-3 pt-4">
-                        <div class="d-flex align-items-center">
-                            <img src="../assets/images/client/01.jpg" class="avatar avatar-small rounded-pill" alt="">
-                            <h5 class="mb-0 ms-3">Howard Tanner</h5>
-                        </div>
-                        <ul class="list-unstyled mb-0 d-md-flex justify-content-between mt-4">
-                            <li>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="d-flex">
-                                        <h6>Age:</h6>
-                                        <p class="text-muted ms-2">25 year old</p>
-                                    </li>
-
-                                    <li class="d-flex">
-                                        <h6>Gender:</h6>
-                                        <p class="text-muted ms-2">Male</p>
-                                    </li>
-
-                                    <li class="d-flex">
-                                        <h6 class="mb-0">Department:</h6>
-                                        <p class="text-muted ms-2 mb-0">Cardiology</p>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="d-flex">
-                                        <h6>Date:</h6>
-                                        <p class="text-muted ms-2">20th Dec 2020</p>
-                                    </li>
-
-                                    <li class="d-flex">
-                                        <h6>Time:</h6>
-                                        <p class="text-muted ms-2">11:00 AM</p>
-                                    </li>
-
-                                    <li class="d-flex">
-                                        <h6 class="mb-0">Doctor:</h6>
-                                        <p class="text-muted ms-2 mb-0">Dr. Calvin Carlo</p>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Profile End -->
-        <!-- Modal end -->
 
         <!-- javascript -->
         <script src="assetsSlider/js/bootstrap.bundle.min.js"></script>

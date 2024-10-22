@@ -44,7 +44,7 @@ public class FeedbackDAO extends DBContext{
 
     public List<Feedback> getFeedbackByProductId(String productID) {
         List<Feedback> list = new ArrayList<>();
-        String sql = "SELECT * FROM feedback WHERE productId LIKE ?";
+        String sql = "SELECT * FROM feedback WHERE status =1 and productId LIKE ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             // Gán giá trị cho tham số productID
@@ -100,7 +100,7 @@ public class FeedbackDAO extends DBContext{
 
     public List<Feedback> getFeedbackByRate(String productID, int rate) {
         List<Feedback> list = new ArrayList<>();
-        String sql = "SELECT * FROM feedback WHERE productId LIKE ? AND feedbackRate = ?";
+        String sql = "SELECT * FROM feedback WHERE status =1 and productId LIKE ? AND feedbackRate = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, productID);

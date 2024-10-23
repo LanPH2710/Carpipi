@@ -90,18 +90,18 @@
                                         <div class="search-container">
                                             <!-- Filter by status -->
                                             <span>
-                                                <label for="status">Status:</label>
+                                                <label for="status">Trạng thái:</label>
                                             </span>
                                             <span>
-                                                <select name="status">
-                                                    <option value="">All</option>
-                                                    <option value="1" ${param.status == '1' ? 'selected' : ''}>Active</option>
-                                                    <option value="0" ${param.status == '0' ? 'selected' : ''}>Inactive</option>
+                                                <select name="status" style="height:40px; border-radius: 10px; padding: 10px; border: 1px solid #ccc;">
+                                                    <option value="">Tất cả</option>
+                                                    <option value="1" ${param.status == '1' ? 'selected' : ''}>kích hoạt</option>
+                                                    <option value="0" ${param.status == '0' ? 'selected' : ''}>Ngừng kích hoạt</option>
                                                 </select>
                                             </span>
                                             <!-- Search by title or backlink -->
                                             <span>
-                                                <input type="text" class="form-control border rounded-pill" id="s" name="search" placeholder="Search by title or backlink" value="${param.search}" />
+                                                <input type="text" class="form-control border rounded-pill" id="s" name="search" placeholder="Tìm kiếm theo tên/ backlink" value="${param.search}" />
                                             </span>
                                             <!-- Search button -->
                                             <span>
@@ -123,8 +123,18 @@
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html"></a></li>
-                                    <li class="breadcrumb-item active" aria-current="page"></li>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.account.roleId == 1}">
+                                            <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
+                                        </c:when>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.account.roleId == 2}">
+                                            <li class="breadcrumb-item"><a href="index.html">Marketing</a></li>
+                                        </c:when>
+                                    </c:choose>
+                                    
+                                    <li class="breadcrumb-item active" aria-current="page">danh sách Slide</li>
                                 </ul>
                             </nav>
                         </div>
@@ -135,11 +145,11 @@
                                         <thead>
                                             <tr>
                                                 <th class="border-bottom p-3" style="min-width: 50px;">Id</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Name</th>
-                                                <th class="border-bottom p-3">Description</th>
-                                                <th class="border-bottom p-3">Image</th>
+                                                <th class="border-bottom p-3" style="min-width: 180px;">Tên</th>
+                                                <th class="border-bottom p-3">Nội Dung</th>
+                                                <th class="border-bottom p-3">Hình ảnh</th>
                                                 <th class="border-bottom p-3">backlink</th>
-                                                <th class="border-bottom p-3">Status</th>
+                                                <th class="border-bottom p-3">Trạng thái</th>
                                                 <th class="border-bottom p-3" style="min-width: 100px;"></th>
                                             </tr>
                                         </thead>
@@ -170,13 +180,16 @@
                                                     <td>
                                                         <form action="SliderList" method="POST" style="display: inline;">
                                                             <input type="hidden" name="sliderId" value="${slider.sliderId}" />
-                                                            <select name="status" onchange="this.form.submit()">
-                                                                <option value="1" ${slider.status == 1 ? 'selected' : ''}>Show</option>
-                                                                <option value="0" ${slider.status == 0 ? 'selected' : ''}>Hide</option>
-                                                            </select>
+                                                            <input type="hidden" name="status" value="${slider.status == 1 ? 0 : 1}">
+                                                            <button type="submit" name="action" value="updateSliderStatus" class="btn btn-icon btn-pills ${slider.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
+                                                                <span class="${slider.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
+                                                            </button>
                                                         </form>
-                                                        <a href="editSlider?id=${slider.sliderId}">Edit</a>
+                                                        <a href="editSlider?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile">
+                                                            <i class="uil uil-pen"></i>
+                                                        </a>
                                                     </td>
+
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
@@ -188,7 +201,7 @@
                             <!-- Pagination -->
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
-                                    <span class="text-muted me-3">Showing ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + sliders.size()} out of ${totalItems}</span>
+                                    <span class="text-muted me-3">Hiển thị ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + sliders.size()} ${totalItems}</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <!-- Previous Button -->
                                         <c:if test="${currentPage > 1}">
@@ -213,11 +226,11 @@
                                     </ul>
                                 </div>
                             </div>
-                            <!--                                                         PAGINATION END -->-->
+                            <!--                                                         PAGINATION END -->
                         </div><!--end row-->
                     </div>
                 </div><!--end container-->
-                
+
                 <!-- Footer Start -->
                 <footer class="bg-white shadow py-3">
 

@@ -106,7 +106,50 @@ public class SegmentDAO extends DBContext{
     }
     return segmentList;
 }
+    
+    public List<Segment> getSegmentListWithPagination(String search, int status, int offset, int limit) {
+    List<Segment> segmentList = new ArrayList<>();
+    String sql = "SELECT se.segmentId, se.segmentName, se.status, COUNT(p.productId) AS segmentProductCount " +
+                 "FROM segment se LEFT JOIN product p ON se.segmentId = p.segmentId " +
+                 "WHERE (? IS NULL OR se.segmentName LIKE ?) " +
+                 "AND (? = -1 OR se.status = ?) " +
+                 "GROUP BY se.segmentId, se.segmentName, se.status " +
+                 "LIMIT ? OFFSET ?";
 
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        // Set parameters
+        ps.setString(1, search);
+        ps.setString(2, search != null ? "%" + search + "%" : null);
+        ps.setInt(3, status);
+        ps.setInt(4, status);
+        ps.setInt(5, limit);
+        ps.setInt(6, offset);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Segment segment = new Segment();
+                segment.setSegmentId(rs.getInt("segmentId"));
+                segment.setSegmentName(rs.getString("segmentName"));
+                segment.setStatus(rs.getInt("status"));
+                segment.setSegmentProductCount(rs.getInt("segmentProductCount"));
+                segmentList.add(segment);
+                
+                // In ra thông tin cho từng phân khúc
+                System.out.println("Segment ID: " + segment.getSegmentId() + 
+                                   ", Segment Name: " + segment.getSegmentName() + 
+                                   ", Status: " + segment.getStatus() + 
+                                   ", Segment Product Count: " + segment.getSegmentProductCount());
+            }
+            
+            System.out.println("Total segments fetched: " + segmentList.size()); // Debugging
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return segmentList;
+}
+
+    
     // Cập nhật trạng thái của segment
     public boolean updateSegmentStatus(int segmentId, int status) {
         String sql = "UPDATE segment SET status = ? WHERE segmentId = ?";

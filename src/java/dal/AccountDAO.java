@@ -21,6 +21,43 @@ import java.sql.PreparedStatement;
  */
 public class AccountDAO extends DBContext {
     
+    //hieu
+    public static void main(String[] args) {
+        // Assuming DBContext has a method to get a connection
+        DBContext dbContext = new DBContext();
+      
+
+        // Create an instance of AccountDAO
+        AccountDAO accountDAO = new AccountDAO();
+
+        // Test updating the account status
+        int userId = 3; // Example user ID
+        int newStatus = 1; // Example status (1 = active)
+
+        boolean result = accountDAO.updateAccountStatus1(userId, newStatus);
+
+        // Print result
+        if (result) {
+            System.out.println("Account status updated successfully.");
+        } else {
+            System.out.println("Failed to update account status.");
+        }
+    }
+    
+     public boolean updateAccountStatus1(int userId, int status) {
+        String sql = "UPDATE account SET status = ? WHERE userId = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, status); // Set the new status (0, 1, or 2)
+            stmt.setInt(2, userId);  // Set userId value
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     public void insertPendingAccount(Account acc) {
         // Chèn thông tin tài khoản vào bảng 'account' với trạng thái 'pending'
         String sql = "INSERT INTO account (userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, status) "
@@ -45,6 +82,31 @@ public class AccountDAO extends DBContext {
             System.err.println("Lỗi khi thêm tài khoản vào danh sách chờ: " + e.getMessage());
         }
     }
+    //hieu
+    public void insertAccountAdmin(Account acc) {
+        
+        String sql = "INSERT INTO account (userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, status) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, acc.getUserName());
+            stm.setString(2, acc.getPassword());
+            stm.setString(3, acc.getFirstName());
+            stm.setString(4, acc.getLastName());
+            stm.setInt(5, acc.getGender());
+            stm.setString(6, acc.getEmail());
+            stm.setString(7, acc.getMobile());
+            stm.setString(8, acc.getAddress());
+            stm.setInt(9, 4); // Role mặc định - customer
+            stm.setString(10, "avatar-trang-4.jpg"); // Avatar mặc định
+            stm.setInt(11, 1); // Trạng thái 'pending'
+            
+            stm.executeUpdate();
+            System.out.println("Tài khoản đã được thêm vào danh sách  thành công!");
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi thêm tài khoản vào danh sách " + e.getMessage());
+        }
+    }
     
     public Account getPendingAccountByEmail(String email) {
         // Truy vấn thông tin tài khoản từ bảng 'account' với trạng thái 'pending'
@@ -53,6 +115,88 @@ public class AccountDAO extends DBContext {
         
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setString(1, email);
+            ResultSet rs = stm.executeQuery();
+            
+            if (rs.next()) {
+                pendingAccount = new Account();
+                pendingAccount.setUserName(rs.getString("userName"));
+                pendingAccount.setPassword(rs.getString("password"));
+                pendingAccount.setFirstName(rs.getString("firstName"));
+                pendingAccount.setLastName(rs.getString("lastName"));
+                pendingAccount.setGender(rs.getInt("gender"));
+                pendingAccount.setEmail(rs.getString("email"));
+                pendingAccount.setMobile(rs.getString("mobile"));
+                pendingAccount.setAddress(rs.getString("address"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi truy vấn tài khoản chờ: " + e.getMessage());
+        }
+        
+        return pendingAccount;
+    }
+    //hieu
+    public Account getAccountByEmail(String email) {
+        // Truy vấn thông tin tài khoản từ bảng 'account' với trạng thái 'pending'
+        String sql = "SELECT * FROM account WHERE email = ? ";
+        Account pendingAccount = null;
+        
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, email);
+            ResultSet rs = stm.executeQuery();
+            
+            if (rs.next()) {
+                pendingAccount = new Account();
+                pendingAccount.setUserName(rs.getString("userName"));
+                pendingAccount.setPassword(rs.getString("password"));
+                pendingAccount.setFirstName(rs.getString("firstName"));
+                pendingAccount.setLastName(rs.getString("lastName"));
+                pendingAccount.setGender(rs.getInt("gender"));
+                pendingAccount.setEmail(rs.getString("email"));
+                pendingAccount.setMobile(rs.getString("mobile"));
+                pendingAccount.setAddress(rs.getString("address"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi truy vấn tài khoản chờ: " + e.getMessage());
+        }
+        
+        return pendingAccount;
+    }
+    //hieu
+    //hieu
+    public Account getAccountByPhone(String mobile) {
+        // Truy vấn thông tin tài khoản từ bảng 'account' với trạng thái 'pending'
+        String sql = "SELECT * FROM account WHERE mobile = ? ";
+        Account pendingAccount = null;
+        
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, mobile);
+            ResultSet rs = stm.executeQuery();
+            
+            if (rs.next()) {
+                pendingAccount = new Account();
+                pendingAccount.setUserName(rs.getString("userName"));
+                pendingAccount.setPassword(rs.getString("password"));
+                pendingAccount.setFirstName(rs.getString("firstName"));
+                pendingAccount.setLastName(rs.getString("lastName"));
+                pendingAccount.setGender(rs.getInt("gender"));
+                pendingAccount.setEmail(rs.getString("email"));
+                pendingAccount.setMobile(rs.getString("mobile"));
+                pendingAccount.setAddress(rs.getString("address"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi truy vấn tài khoản chờ: " + e.getMessage());
+        }
+        
+        return pendingAccount;
+    }
+    //hieu
+    public Account getAccountByUserName(String userName) {
+        // Truy vấn thông tin tài khoản từ bảng 'account' với trạng thái 'pending'
+        String sql = "SELECT * FROM account WHERE userName = ? ";
+        Account pendingAccount = null;
+        
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, userName);
             ResultSet rs = stm.executeQuery();
             
             if (rs.next()) {
@@ -244,7 +388,8 @@ public class AccountDAO extends DBContext {
                         rs.getString(8),
                         rs.getString(9),
                         rs.getInt(10),
-                        rs.getString(11));
+                        rs.getString(11),
+                                rs.getInt(12));
                 list.add(p);
             }
         } catch (SQLException e) {
@@ -503,6 +648,38 @@ public class AccountDAO extends DBContext {
             System.out.println(e);
         }
     }
+    public void editAccountAdmin(String firstName, String lastName, int gender, String email, String mobile, String address, int roleId, String avatar, int status, int userId) {
+    String sql = "UPDATE Account SET "
+            + "firstName = ?, "
+            + "lastName = ?, "
+            + "gender = ?, "
+            + "email = ?, "
+            + "mobile = ?, "
+            + "address = ?, "
+            + "roleId = ?, "
+            + "avatar = ?, "
+            + "status = ? "
+            + "WHERE userId = ?"; // Ensure this matches your database schema
+
+    try {
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, firstName);
+        st.setString(2, lastName);
+        st.setInt(3, gender);
+        st.setString(4, email);
+        st.setString(5, mobile);
+        st.setString(6, address);
+        st.setInt(7, roleId);
+        st.setString(8, avatar);
+        st.setInt(9, status);
+        st.setInt(10, userId);  // Note the correct parameter count here
+
+        st.executeUpdate();
+    } catch (SQLException e) {
+        System.out.println(e);
+    }
+}
+
     
     public List<Account> searchCustomers(String search) {
         List<Account> list = new ArrayList<>();
@@ -573,9 +750,5 @@ public class AccountDAO extends DBContext {
         return arr;
     }
     
-    public static void main(String[] args) {
-        AccountDAO add = new AccountDAO();
-        Account acc = add.getAccountById(1);
-        System.out.println(acc.getAvatar());
-    }
+   
 }

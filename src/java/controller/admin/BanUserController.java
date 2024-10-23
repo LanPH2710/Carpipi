@@ -12,16 +12,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
 import model.Account;
 
 /**
  *
- * @author hiule
+ * @author hiul
  */
-@WebServlet(name = "UserListController", urlPatterns = {"/userlist"})
-public class UserListController extends HttpServlet {
+@WebServlet(name = "BanUserController", urlPatterns = {"/banUser"})
+public class BanUserController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,23 +30,26 @@ public class UserListController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UserListController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UserListController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            AccountDAO accountDAO = new AccountDAO();
+            Account acc = accountDAO.getAccountById(userId);  // Get account by userId
+
+            if (acc != null) {
+                if (acc.getStatus() == 1) {
+                    accountDAO.updateAccountStatus1(userId, 2);  // Set to "banned" (2)
+                } else if (acc.getStatus() == 2) {
+                    accountDAO.updateAccountStatus1(userId, 1);  // Set to "active" (1)
+                }
+                response.sendRedirect("userlist");
+            } else {
+                out.println("Account not found!");
+            }
         }
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -61,15 +62,7 @@ public class UserListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        AccountDAO accountDAO = new AccountDAO();
-
-        // Always get the account list
-        List<Account> accountList = accountDAO.getAllAccount();
-        session.setAttribute("accountListAdmin", accountList);
-
-        // Forward to the JSP page
-        request.getRequestDispatcher("userList.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

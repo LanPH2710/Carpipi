@@ -334,4 +334,44 @@ public class BlogDAO extends DBContext {
         }
         return arr;
     }
+    
+     public void updateBlog(int blogId, int blogTopicId, String title, String open,
+            String main1, String sp1, String main2, String sp2,
+            String main3, String sp3, String end) {
+
+        String sql = "UPDATE `carpipi`.`blog`\n"
+                + "SET\n"
+                + "`blogTopicId` = ?,\n"
+                + "`blogTitle` = ?,\n"
+                + "`openBlog` = ?,\n"
+                + "`bodyMain1` = ?,\n"
+                + "`bodySp1` = ?,\n"
+                + "`bodyMain2` = ?,\n"
+                + "`bodySp2` = ?,\n"
+                + "`bodyMain3` = ?,\n"
+                + "`bodySp3` = ?,\n"
+                + "`endBlog` = ?\n"
+                + "WHERE `blogId` = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, blogTopicId);
+            st.setString(2, title);
+            st.setString(3, open);
+            st.setString(4, main1);
+            st.setString(5, sp1);
+            st.setString(6, main2);
+            st.setString(7, sp2);
+            st.setString(8, main3);
+            st.setString(9, sp3);
+            st.setString(10, end);
+            st.setInt(11, blogId);
+
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();  // Thêm để hiển thị lỗi chi tiết nếu có
+
+        }
+
+    }
 }

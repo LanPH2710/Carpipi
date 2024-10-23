@@ -176,7 +176,16 @@
                                     <li class=""><a href="productlist">Danh sách mẫu</a></li>
                                     <li class=""><a href="BlogListServlet">Tin xe</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
-                                    <li ><a href="carts">CART</a></li>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.account.roleId == 1||sessionScope.account.roleId == 2||sessionScope.account.roleId == 3||sessionScope.account.roleId == 4}">
+                                            <li><a href="carts">Giỏ Hàng</a></li>
+                                        </c:when>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.account == null}">
+                                        <li><a href="error.jsp">Giỏ Hàng</a></li>
+                                        </c:when>
+                                    </c:choose>
 
                                     <c:choose>
                                         <c:when test="${sessionScope.account == null}">

@@ -75,9 +75,13 @@ public class UpdateCartQuantityController extends HttpServlet {
             // Save the updated carts and total money back to session
             session.setAttribute("carts", carts);
             session.setAttribute("totalMoney", totalMoney);
-
+            String urlHistory = (String) session.getAttribute("urlHistory");
+            if (urlHistory == null) {
+                urlHistory = "carts";
+            }
+           
             // Redirect to the cart page or forward to the appropriate view
-            response.sendRedirect(request.getContextPath() + "/carts"); // Redirect to the CartController
+            response.sendRedirect(urlHistory); // Redirect to the CartController
 
         } catch (SQLException e) {
             e.printStackTrace(); // Print the exception stack trace for debugging

@@ -118,6 +118,10 @@
         <servlet-name>ChangeStatusBlogServlet</servlet-name>
         <servlet-class>controller.marketing.ChangeStatusBlogServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditBlogMarketingServlet</servlet-name>
+        <servlet-class>controller.marketing.EditBlogMarketingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -209,5 +213,9 @@
     <servlet-mapping>
         <servlet-name>ChangeStatusBlogServlet</servlet-name>
         <url-pattern>/changestatusblog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditBlogMarketingServlet</servlet-name>
+        <url-pattern>/editblogbymarketing</url-pattern>
     </servlet-mapping>
 </web-app>

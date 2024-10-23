@@ -14,7 +14,7 @@
         <meta name="website" content="../../../index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assetsSlider/images/favicon.ico.png">
+        <link rel="shortcut icon" href="img/logo3.png">
         <!-- Bootstrap -->
         <link href="assetsTuan/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
@@ -41,8 +41,7 @@
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
                         <a href="index.html">
-                            <img src="assetsTuan/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                            <img src="assetsTuan/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                            <img src="img/logoBnoBG.png" height="120px" class="logo-light-mode" alt="">
                         </a>
                     </div>
 

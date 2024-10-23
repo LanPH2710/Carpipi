@@ -14,7 +14,7 @@
         <meta name="website" content="../../../index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assetsSlider/images/favicon.ico.png">
+        <link rel="shortcut icon" href="img/logo3.png">
         <!-- Bootstrap -->
         <link href="assetsTuan/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
@@ -43,8 +43,7 @@
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
                         <a href="index.html">
-                            <img src="assetsTuan/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                            <img src="assetsTuan/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                            <img src="img/logoBnoBG.png" height="120px" class="logo-light-mode" alt="">
                         </a>
                     </div>
 
@@ -83,7 +82,7 @@
                                     <div id="search" class="menu-search mb-0">
                                         <form method="get" id="searchform" class="searchform" action="customerlist">
                                             <div>
-                                                <input type="text" class="form-control border rounded-pill" name="search" id="s" placeholder="Search Keywords..." value="${search}" >
+                                                <input type="text" class="form-control border rounded-pill" name="search" id="s" placeholder="Search Customer..." value="${search}" >
                                                 <input type="submit" id="searchsubmit" value="Search">
                                             </div>
                                         </form>                             
@@ -162,7 +161,7 @@
                                                         <td class="p-3">${customer.userId}</td>
                                                         <td class="p-3">${customer.firstName} ${customer.lastName}</td>
                                                         <td class="p-3">
-                                                            <img src="img/${customer.avatar}" alt="avatar" class="avatar avatar-md-sm rounded-circle shadow">
+                                                            <img src="img/${customer.avatar}" alt="avatar" style="width: 80px; height: 80px;" class="avatar avatar-md-sm rounded-circle shadow">
                                                         </td>
                                                         <td class="py-3">
                                                             <c:choose>
@@ -188,9 +187,7 @@
                                                             </c:choose>
                                                         </td>
                                                         <td class="p-3">
-                                                            <a href="viewcustomer?userId=${customer.userId}" class="btn btn-icon btn-pills btn-soft-primary">
-                                                                <i class="uil uil-eye"></i>
-                                                            </a>
+                                                            
                                                             <a href="viewcustomer?userId=${customer.userId}" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
                                                         </td>
                                                     </tr>

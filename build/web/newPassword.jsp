@@ -124,8 +124,8 @@
                     </div>
                     <!-- Confirm Password Input -->
                     <div class="form-group form-group-full">
-                        <label for="password">Nhập Lại Mật Khẩu*</label>
-                        <input type="password" id="password" name="password" required>
+                        <label for="confPassword">Nhập Lại Mật Khẩu*</label>
+                        <input type="password" id="confPassword" name="confPassword" required>
                     </div>
                     <!-- Submit Button -->
                     <div class="form-group resetBtn">

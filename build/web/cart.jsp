@@ -25,7 +25,12 @@
         <link href="assets1/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
 
     </head>
-
+    <script> $(document).ready(function () {
+            $('.breadcrumb-item a').click(function () {
+                $('.breadcrumb-item').removeClass('active'); // Xóa lớp active của tất cả
+                $(this).parent().addClass('active'); // Thêm lớp active cho mục đang nhấp
+            });
+        });</script>
     <body>
         <!-- Loader -->
         <div id="preloader">
@@ -122,7 +127,7 @@
                                         </div>
                                     </form>                             </div>
                             </div>
-                            <a href="reset-carts" class="btn btn-secondary ms-2">Reset Search</a> <!-- Reset button -->
+                            <a href="carts" class="btn btn-secondary ms-2">Reset Search</a> <!-- Reset button -->
                         </div>
 
 
@@ -132,16 +137,42 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">ShopCart</h5>
+                            <h3 class=" text-center">ShopCart</h3>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="home">Home</a></li>
-
-                                    <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                                    <li class="breadcrumb-item ${param.supplyId == null ? 'active" aria-current="page' : ''}">
+                                        <a href="carts">All</a>
+                                    </li>
+                                    <li class="breadcrumb-item ${param.supplyId == 3 ? 'active" aria-current="page' : ''}">
+                                        <a href="brandCart?supplyId=3">Audi</a>
+                                    </li>
+                                    <li class="breadcrumb-item ${param.supplyId == 1 ? 'active" aria-current="page' : ''}">
+                                        <a href="brandCart?supplyId=1">Mercedes</a>
+                                    </li>
+                                    <li class="breadcrumb-item ${param.supplyId == 5 ? 'active" aria-current="page' : ''}">
+                                        <a href="brandCart?supplyId=5">BMW</a>
+                                    </li>
+                                    <li class="breadcrumb-item ${param.supplyId == 2 ? 'active" aria-current="page' : ''}">
+                                        <a href="brandCart?supplyId=2">Porsche</a>
+                                    </li>
+                                    <li class="breadcrumb-item ${param.supplyId == 4 ? 'active" aria-current="page' : ''}">
+                                        <a href="brandCart?supplyId=4">Volkswagen</a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
+                        <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
+                            <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
+                                <li class="breadcrumb-item"><a href="home">Home</a></li>
+
+                                <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                            </ul>
+
+                        </nav>
+
+
+
 
                         <div class="row mt-4">
                             <div class="col-12">
@@ -149,28 +180,30 @@
                                     <table class="table table-center table-padding mb-0">
                                         <thead>
                                             <tr>
-                                                <th class="border-bottom p-3" style="min-width:20px "></th>
-                                                <th class="border-bottom p-3" style="min-width: 300px;">Product</th>
-                                                <th class="border-bottom text-center p-3" style="min-width: 160px;">Price</th>
-                                                <th class="border-bottom text-center p-3" style="min-width: 190px;">Quantity</th>
-                                                <th class="border-bottom text-end p-3" style="min-width: 50px;">Total</th>
+
+                                                <th class="border-bottom text-center p-3" style="min-width: 300px;">Sản phẩm</th>
+                                                <th class="border-bottom text-center p-3" style="min-width: 160px;">Giá</th>
+                                                <th class="border-bottom text-center p-3" style="min-width: 190px;">Số Lượng</th>
+                                                <th class="border-bottom text-center p-3" style="min-width: 50px;">Tổng</th>
+                                                <th class="border-bottom p-3" style="min-width:20px ">Xóa</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
+                                            <c:if test="${ empty sessionScope.carts}"> 
+                                            <div class="alert alert-primary" role="alert"> Giỏ hàng trống</div>
+                                        </c:if>
 
-                                            <c:forEach items="${sessionScope.carts}" var="C">
+                                        <c:forEach items="${sessionScope.carts}" var="C">
                                             <form action="update-quantity">
                                                 <tr>
-                                                    <td class="h5 p-3 text-center">
-                                                       
-                                                            <i class="uil uil-times"></i>
-                                                        </a>
-                                                    </td>
+
+
                                                     <td class="p-3">
+
                                                         <div class="d-flex align-items-center">
                                                             <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:150px; width:auto;">
-                                                            <h6 class="mb-0 ms-3">${C.product.name}</h6>
+                                                            <a href="product-detail?productId=${C.product.productId}" class="mb-0 ms-3">${C.product.name}</a> <!-- Thêm liên kết ở đây -->
                                                         </div>
                                                     </td>
                                                     <td class="text-center p-3"><fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ</td>
@@ -185,6 +218,9 @@
                                                     <td class="text-end font-weight-bold p-3">
                                                         <fmt:formatNumber value="${C.product.price * C.quantity}" type="number" minFractionDigits="0"/> đ
                                                     </td>
+                                                    <td class="h5 p-3 text-center">
+                                                        <a href="delete-cart?productId=${C.product.productId}" class="text-danger"><i class="uil uil-times"></i></a>
+                                                    </td>
                                                 </tr>
                                             </form>
                                         </c:forEach>
@@ -193,48 +229,51 @@
 
 
 
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div><!--end col-->
                         </div><!--end row-->
 
-                        <div class="row">
-                            <div class="col-lg-8 col-md-6 mt-4 pt-2">
-                                <a href="#" class="btn btn-primary">Shop More</a>
-                                <a href="#" class="btn btn-soft-primary ms-2">Update Cart</a>
-                            </div>
-                            <div class="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
-                                <div class="table-responsive bg-white rounded shadow">
-                                    <table class="table table-center table-padding mb-0">
-                                        <tbody>
+                        <c:if test="${not empty sessionScope.carts}">       
+                            <div class="row">
+                                <div class="col-lg-8 col-md-6 mt-4 pt-2">
+                                    <a href="#" class="btn btn-primary">Shop More</a>
+                                    <a href="#" class="btn btn-soft-primary ms-2">Update Cart</a>
+                                </div>
+                                <div class="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
+                                    <div class="table-responsive bg-white rounded shadow">
+                                        <table class="table table-center table-padding mb-0">
+                                            <tbody>
 
-                                            <tr>
-                                                <td class="h6 p-3">Subtotal</td>
-                                                <td class="text-end font-weight-bold p-3">
-                                                    <fmt:formatNumber value="${sessionScope.totalMoney}" type="number" minFractionDigits="0"/> đ
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="h6 p-3">Taxes (10%)</td>
-                                                <td class="text-end font-weight-bold p-3">
-                                                    <fmt:formatNumber value="${sessionScope.totalMoney * 0.1}" type="number" minFractionDigits="0"/> đ
-                                                </td>
-                                            </tr>
-                                            <tr class="bg-light">
-                                                <td class="h6 p-3">Total</td>
-                                                <td class="text-end font-weight-bold p-3">
-                                                    <fmt:formatNumber value="${sessionScope.totalMoney * 1.1}" type="number" minFractionDigits="0"/> đ
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="mt-4 pt-2 text-end">
-                                    <a href="#" class="btn btn-primary">Proceed to checkout</a>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
+                                                <tr>
+                                                    <td class="h6 p-3">Subtotal</td>
+                                                    <td class="text-end font-weight-bold p-3">
+                                                        <fmt:formatNumber value="${sessionScope.totalMoney}" type="number" minFractionDigits="0"/> đ
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="h6 p-3">Taxes (10%)</td>
+                                                    <td class="text-end font-weight-bold p-3">
+                                                        <fmt:formatNumber value="${sessionScope.totalMoney * 0.1}" type="number" minFractionDigits="0"/> đ
+                                                    </td>
+                                                </tr>
+                                                <tr class="bg-light">
+                                                    <td class="h6 p-3">Total</td>
+                                                    <td class="text-end font-weight-bold p-3">
+                                                        <fmt:formatNumber value="${sessionScope.totalMoney * 1.1}" type="number" minFractionDigits="0"/> đ
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="mt-4 pt-2 text-end">
+                                        <a href="#" class="btn btn-primary">Proceed to checkout</a>
+                                    </div>
+                                </div><!--end col-->
+                            </div><!--end row-->
+                        </c:if> 
                     </div>
                 </div><!--end container-->
 

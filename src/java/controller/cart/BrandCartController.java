@@ -4,6 +4,7 @@
  */
 package controller.cart;
 
+import dal.CartDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,13 +13,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
+import java.util.List;
+import model.Cart;
+import java.sql.SQLException;
 /**
  *
  * @author hiule
  */
-@WebServlet(name = "ResetCartController", urlPatterns = {"/reset-carts"})
-public class ResetCartController extends HttpServlet {
+@WebServlet(name = "BrandCartController", urlPatterns = {"/brandCart"})
+public class BrandCartController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,14 +32,25 @@ public class ResetCartController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        // Remove the filteredCarts attribute to reset the search
-        session.removeAttribute("filteredCarts");
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            HttpSession session = request.getSession();
+            int supplyId = Integer.parseInt(request.getParameter("supplyId")); // Nhận supplyId từ yêu cầu
+        CartDAO cartDAO = new CartDAO();
         
-        // Optionally, you can also redirect to the cart controller to refresh the cart view
-        response.sendRedirect("carts");
+        try {
+            List<Cart> carts = cartDAO.getCartsBySupplyId(supplyId); // Lấy giỏ hàng theo supplyId
+            session.setAttribute("carts", carts); // Truyền danh sách giỏ hàng vào request
+            request.getSession().setAttribute("urlHistory", "brandCart?supplyId="+supplyId);
+            request.getRequestDispatcher("cart.jsp").forward(request, response); // Chuyển tiếp đến trang giỏ hàng
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendRedirect("error.jsp"); // Xử lý lỗi
+        }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

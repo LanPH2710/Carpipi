@@ -1213,8 +1213,8 @@ button:not(:disabled){
     width:36px
 }
 .avatar.avatar-md-sm{
-    height:45px;
-    width:45px
+    height:80px;
+/*    width:45px*/
 }
 .avatar.avatar-small{
     height:65px;
@@ -3459,3 +3459,4 @@ footer .footer-bar,footer.footer-bar{
 .search-container label {
     margin-right: 5px;
 }
+

@@ -243,7 +243,7 @@
                     </div>
 
                     <div class="blog-image-container">
-                        <img src="${blog.images[0].imageUrl}" class="blog-image" alt="Blog Image">
+                        <img src="img/${blog.images[0].imageUrl}" class="blog-image" alt="Blog Image">
                         <h2>Tiêu đề hình ảnh: </h2>
                         <strong class="textImage"><textarea name="imageText1" rows="2" class="form-control" placeholder="Nhập mô tả" required>${blog.images[0].imageText}</textarea></strong>
                     </div>
@@ -255,7 +255,7 @@
                     </div>
 
                     <div class="blog-image-container">
-                        <img src="${blog.images[1].imageUrl}" class="blog-image" alt="Blog Image">
+                        <img src="img/${blog.images[1].imageUrl}" class="blog-image" alt="Blog Image">
                         <h2>Tiêu đề hình ảnh: </h2>
                         <strong class="textImage"><textarea name="imageText2" rows="2" class="form-control" placeholder="Nhập mô tả" required>${blog.images[1].imageText}</textarea></strong>
                     </div>
@@ -267,7 +267,7 @@
                     </div>
 
                     <div class="blog-image-container">
-                        <img src="${blog.images[2].imageUrl}" class="blog-image" alt="Blog Image">
+                        <img src="img/${blog.images[2].imageUrl}" class="blog-image" alt="Blog Image">
                         <strong class="textImage"><textarea name="imageText3" rows="2" class="form-control" placeholder="Nhập mô tả" required>${blog.images[2].imageText}</textarea></strong>
                     </div>
 
@@ -306,38 +306,7 @@
 
 
                     <!-- Comment List -->
-                    <div class="comments-list mb-5">
-                        <c:forEach items="${comment}" var="comment">
-                            <div class="comment-item">
-                                <!-- Display Comment Author -->
-                                <c:set var="userDisplayed" value="false" />
-                                <c:forEach items="${listacc}" var="acc"> 
-                                    <c:if test="${acc.userId == comment.userId && !userDisplayed}">
-                                        <div class="user-info mt-3 d-flex align-items-center">
-                                            <img class="avatar rounded-circle mr-3" width="40px" height="40px" src="img/${acc.avatar}" alt="${acc.firstName} ${acc.lastName}">&nbsp&nbsp 
-                                            <div>
-                                                <strong class="user-name">${acc.firstName} ${acc.lastName}</strong>
-                                            </div>
-                                        </div>
-                                        <c:set var="userDisplayed" value="true" />
-                                    </c:if>
-                                </c:forEach>
-
-                                <!-- Comment Info and Rating -->
-                                <div class="comment-info">
-                                    <small>${comment.commentDate}</small>
-                                </div>
-                                <div class="rating-stars">
-                                    <c:forEach begin="1" end="${comment.commentRating}">
-                                        &#9733;
-                                    </c:forEach>
-                                </div>
-
-                                <!-- Comment Content -->
-                                <p>${comment.commentInfor}</p>
-                            </div>
-                        </c:forEach>
-                    </div>
+                    
                     <div class="clearfix">
                         <div class="hint-text text-muted">Showing <b>${comment.size()}</b> out of <b>${size}</b> comments</div>
                         <ul class="pagination justify-content-center">
@@ -380,26 +349,7 @@
                     </div>
 
                     <!-- Post a Comment Section -->
-                    <c:choose>
-                        <c:when test="${sessionScope.account != null}">
-                            <form action="blogdetail?blogId=${blog.blogId}" method="post" class="comment-form">
-                                <textarea name="commentInfor" rows="4" class="form-control mb-3" placeholder="Nhập bình luận của bạn" required></textarea>
-                                <label for="rating">Đánh giá:</label>
-                                <select name="rating" class="form-control mb-3" required>
-                                    <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
-                                    <option value="4">&#9733;&#9733;&#9733;&#9733;</option>
-                                    <option value="3">&#9733;&#9733;&#9733;</option>
-                                    <option value="2">&#9733;&#9733;</option>
-                                    <option value="1">&#9733;</option>
-                                </select>
-                                <input type="hidden" name="commentDate" value="<%= LocalDateTime.now() %>">
-                                <input type="submit" value="Gửi bình luận" class="btn btn-primary">
-                            </form>
-                        </c:when>
-                        <c:otherwise>
-                            <p>Bạn cần <a href="login.jsp">đăng nhập</a> để bình luận.</p>
-                        </c:otherwise>
-                    </c:choose>
+                    
                 </div>
 
             </div>

@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
@@ -15,11 +6,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Slider List</title>
-
-
-
-
-
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -39,11 +25,9 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assetsSlider/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-
         <%--<jsp:include page="header.jsp"/>--%>
         <%--<jsp:include page="footerDemo.jsp"/>--%>
     </head>
-
     <body>
         <!-- Loader -->
         <div id="preloader">
@@ -55,7 +39,6 @@
             </div>
         </div>
         <!-- Loader -->
-
         <div class="page-wrapper doctris-theme toggled">
             <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
@@ -65,7 +48,6 @@
                             <img src="assetsSlider/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
                         </a>
                     </div>
-
                     <ul class="sidebar-menu pt-3">
                         <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                         <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
@@ -73,8 +55,6 @@
                         <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
                         <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
                         <li><a href="postlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>Post List</a></li>
-
-
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -88,10 +68,7 @@
                 </ul>
             </nav>
             <!-- sidebar-wrapper  -->
-
             <!-- Start Page Content -->
-
-
             <main class="page-content bg-light">
                 <div class="top-header">
                     <div class="header-bar d-flex justify-content-between border-bottom">
@@ -135,7 +112,6 @@
                                 </div>
                             </div>
                             <!------------------end search--------------------->
-
                         </div>
                     </div>
                 </div>
@@ -152,7 +128,6 @@
                                 </ul>
                             </nav>
                         </div>
-
                         <div class="row">
                             <div class="col-12 mt-4">
                                 <div class="table-responsive shadow rounded">
@@ -168,7 +143,6 @@
                                                 <th class="border-bottom p-3" style="min-width: 100px;"></th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
                                             <c:forEach var="slider" items="${sliders}">
                                                 <tr>
@@ -209,64 +183,36 @@
                                 </div>
                             </div>
                         </div><!--end row-->
-
                         <div class="row text-center">
-
-<!-- Pagination -->
-<div class="col-12 mt-4">
-    <div class="d-md-flex align-items-center text-center justify-content-between">
-        <span class="text-muted me-3">Showing ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + sliders.size()} out of ${totalItems}</span>
-        <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-            <!-- Previous Button -->
-            <c:if test="${currentPage > 1}">
-                <li class="page-item">
-                    <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage - 1}&search=${param.search}&status=${param.status}" aria-label="Previous">Prev</a>
-                </li>
-            </c:if>
-
-            <!-- Page Numbers -->
-            <c:forEach begin="1" end="${totalPages}" var="page">
-                <li class="page-item ${currentPage == page ? 'active' : ''}">
-                    <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${page}&search=${param.search}&status=${param.status}">${page}</a>
-                </li>
-            </c:forEach>
-
-            <!-- Next Button -->
-            <c:if test="${sliders.size() == 15}">
-                <li class="page-item">
-                    <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage + 1}&search=${param.search}&status=${param.status}" aria-label="Next">Next</a>
-                </li>
-            </c:if>
-        </ul>
-    </div>
-</div>
-
                             <!-- Pagination -->
-<!--                            <div class="pagination">
-                                <c:if test="${currentPage > 1}">
-                                    <a href="${pageContext.request.contextPath}/SliderList?page=${currentPage - 1}&search=${param.search}&status=${param.status}">Previous</a>
-                                </c:if>
-                                <span>Page ${currentPage}</span>
-                                <c:if test="${sliders.size() == 15}">
-                                    <a href="${pageContext.request.contextPath}/SliderList?page=${currentPage + 1}&search=${param.search}&status=${param.status}">Next</a>
-                                </c:if>
-                            </div>-->
-                            <!--                             PAGINATION START 
-                                                        <div class="col-12 mt-4">
-                                                            <div class="d-md-flex align-items-center text-center justify-content-between">
-                                                                <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
-                                                                <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                                                    <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>
-                                                                    <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
-                                                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-                                                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                                                                    <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>end col
-                                                         PAGINATION END -->
+                            <div class="col-12 mt-4">
+                                <div class="d-md-flex align-items-center text-center justify-content-between">
+                                    <span class="text-muted me-3">Showing ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + sliders.size()} out of ${totalItems}</span>
+                                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                        <!-- Previous Button -->
+                                        <c:if test="${currentPage > 1}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage - 1}&search=${param.search}&status=${param.status}" aria-label="Previous">Prev</a>
+                                            </li>
+                                        </c:if>
 
+                                        <!-- Page Numbers -->
+                                        <c:forEach begin="1" end="${totalPages}" var="page">
+                                            <li class="page-item ${currentPage == page ? 'active' : ''}">
+                                                <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${page}&search=${param.search}&status=${param.status}">${page}</a>
+                                            </li>
+                                        </c:forEach>
 
+                                        <!-- Next Button -->
+                                        <c:if test="${sliders.size() == 15}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage + 1}&search=${param.search}&status=${param.status}" aria-label="Next">Next</a>
+                                            </li>
+                                        </c:if>
+                                    </ul>
+                                </div>
+                            </div>
+<!--                                                         PAGINATION END -->-->
                         </div><!--end row-->
                     </div>
                 </div><!--end container-->

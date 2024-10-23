@@ -1,30 +1,28 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package controller.cart;
 
 import dal.CartDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import model.Account;
 import model.Cart;
-
+import java.sql.SQLException;
 /**
  *
- * @author Admin
+ * @author hiule
  */
-@WebServlet(name = "DeleteCartController", urlPatterns = {"/delete-cart"})
-public class DeleteCartController extends HttpServlet {
+@WebServlet(name = "SearchCartController", urlPatterns = {"/searchCart"})
+public class SearchCartController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,34 +37,31 @@ public class DeleteCartController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String productId = request.getParameter("productId");
+            response.setContentType("text/html;charset=UTF-8");
             HttpSession session = request.getSession();
             Account account = (Account) session.getAttribute("account");
-            int userId = account.getUserId(); // Lấy userId từ session
+            int userId = account.getUserId();
+            String keyword = request.getParameter("keyword");
 
-            // Tạo instance của CartDAO
             CartDAO cartDAO = new CartDAO();
-            // Gọi phương thức deleteCartItem để thực hiện xóa mềm
-            boolean isDeleted = cartDAO.deleteCartItem(userId, productId);
+            List<Cart> searchResults;
 
-            // Ghi thông báo cho người dùng
-            if (isDeleted) {
-                out.write("Product removed from cart successfully."); // Ghi thông báo thành công
-            } else {
-                out.write("Failed to remove product from cart."); // Ghi thông báo thất bại
+            try {
+                // Gọi phương thức tìm kiếm
+                searchResults = cartDAO.searchCartItems(userId, keyword);
+                // Đưa kết quả vào request
+                session.setAttribute("carts", searchResults);
+                // Chuyển hướng tới cart.jsp
+                request.getSession().setAttribute("urlHistory", "searchCart?keyword="+keyword);
+                request.getRequestDispatcher("cart.jsp").forward(request, response);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                response.getWriter().write("Error during search: " + e.getMessage());
             }
-
-            // Chuyển hướng về trang giỏ hàng
-            response.sendRedirect("carts");
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect("error.jsp"); // Chuyển hướng đến trang lỗi nếu có ngoại lệ
         }
-
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

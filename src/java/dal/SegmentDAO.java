@@ -73,4 +73,56 @@ public class SegmentDAO extends DBContext{
         }
         return list;
     }
+    
+    // Lấy danh sách các segment với số lượng sản phẩm và trạng thái
+    public List<Segment> getSegmentListWithProductCount() {
+    List<Segment> segmentList = new ArrayList<>();
+    String sql = "SELECT se.segmentId, se.segmentName, se.status, COUNT(p.productId) AS segmentProductCount " +
+                 "FROM segment se LEFT JOIN product p ON se.segmentId = p.segmentId " +
+                 "GROUP BY se.segmentId, se.segmentName, se.status";
+
+    try (PreparedStatement ps = connection.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+        
+        
+        while (rs.next()) {
+            Segment segment = new Segment();
+            segment.setSegmentId(rs.getInt("segmentId"));
+            segment.setSegmentName(rs.getString("segmentName"));
+            segment.setStatus(rs.getInt("status"));
+            segment.setSegmentProductCount(rs.getInt("segmentProductCount"));
+            segmentList.add(segment);
+            
+            // Print each brand's details
+            System.out.println("Segment ID: " + segment.getSegmentId() + 
+                               ",Segment Name: " + segment.getSegmentName() + 
+                               ", Status: " + segment.getStatus() + 
+                               ",Segment Product Count: " + segment.getSegmentProductCount());
+        }
+        
+        System.out.println("Total Segments fetched: " + segmentList.size()); // Debugging
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return segmentList;
+}
+
+    // Cập nhật trạng thái của segment
+    public boolean updateSegmentStatus(int segmentId, int status) {
+        String sql = "UPDATE segment SET status = ? WHERE segmentId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, segmentId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public static void main(String[] args) {
+        SegmentDAO s = new SegmentDAO();
+        List<Segment> segmentList = s.getSegmentListWithProductCount();
+        //System.out.println(s.getAllSupplyCar());
+    }
 }

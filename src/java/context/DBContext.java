@@ -30,7 +30,7 @@ public class DBContext {
             String user = "root"; // Your MySQL username
 
 
-            String pass = "1234"; // Your MySQL password
+            String pass = "12345"; // Your MySQL password
 
 
 

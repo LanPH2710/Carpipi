@@ -214,7 +214,7 @@
                 <div class="blog-meta"><b>Tác giả: </b>${author} | <b>Ngày: </b>${blog.blogTime} | <b>Thể loại: </b>${topic}</div>
 
                 <div class="blog-image-container">
-                    <img src="${blog.images[0].imageUrl}" class="blog-image" alt="Blog Image">
+                    <img src="img/${blog.images[0].imageUrl}" class="blog-image" alt="Blog Image">
                     <strong class="textImage">${blog.images[0].imageText}</strong>
                 </div>
 
@@ -224,7 +224,7 @@
                 </div>
 
                 <div class="blog-image-container">
-                    <img src="${blog.images[1].imageUrl}" class="blog-image" alt="Blog Image">
+                    <img src="img/${blog.images[1].imageUrl}" class="blog-image" alt="Blog Image">
                     <strong class="textImage">${blog.images[1].imageText}</strong>
                 </div>
 
@@ -234,7 +234,7 @@
                 </div>
 
                 <div class="blog-image-container">
-                    <img src="${blog.images[2].imageUrl}" class="blog-image" alt="Blog Image">
+                    <img src="img/${blog.images[2].imageUrl}" class="blog-image" alt="Blog Image">
                     <strong class="textImage">${blog.images[2].imageText}</strong>
                 </div>
 
@@ -299,7 +299,7 @@
                         </c:forEach>
                     </div>
                     <div class="clearfix">
-                        <div class="hint-text text-muted">Showing <b>${comment.size()}</b> out of <b>${size}</b> comments</div>
+                        <div class="hint-text text-muted">Showing <b>${page}</b> out of <b>${num}</b> pages comments</div>
                         <ul class="pagination justify-content-center">
                             <!-- Điều hướng về trang trước -->
                             <c:if test="${page > 1}">
@@ -369,7 +369,7 @@
                     <h3>Bài Viết Mới Nhất</h3>
                     <c:forEach items="${requestScope.top5}" var="top5">
                         <div class="latest-post-item">
-                            <img src="${top5.images[0].imageUrl}" alt="Blog Image" class="latest-post-image">
+                            <img src="img/${top5.images[0].imageUrl}" alt="Blog Image" class="latest-post-image">
                             <div class="latest-post-info">
                                 <h4><a href="blogdetail?blogId=${top5.blogId}" class="text-decoration-none">${top5.blogTitle}</a></h4>
                                 <p class="post-date">Ngày: ${top5.blogTime}</p>

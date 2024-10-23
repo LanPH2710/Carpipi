@@ -9,7 +9,6 @@ import dal.ProductDAO;
 import dal.StyleDAO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -67,7 +66,7 @@ public class ProductListServlet extends HttpServlet {
             prefix = "au"; // Có thể thay đổi nếu bạn muốn
         } else {
             // Nếu không có brandId, lấy tất cả sản phẩm
-            allPro = productDao.getAllProducts();
+            allPro = productDao.getAllProductsCommon();
             prefix = "Me";
         }
 

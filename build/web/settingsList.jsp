@@ -2,7 +2,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="vn">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Slider List</title>
@@ -14,7 +14,7 @@
         <meta name="website" content="../../../index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assetsSlider/images/favicon.ico.png">
+        <link rel="shortcut icon" href="img/logo3.png"">
         <!-- Bootstrap -->
         <link href="assetsSlider/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
@@ -29,7 +29,6 @@
         <%--<jsp:include page="footerDemo.jsp"/>--%>
     </head>
     <body>
-
         <!-- Loader -->
         <div id="preloader">
             <div id="status">
@@ -44,9 +43,9 @@
             <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
-                        <a href="index.html">
-                            <img src="assetsSlider/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                            <img src="assetsSlider/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                        <a href="home">
+                            <img src="img/logoBnoBG.png" height="120px" class="logo-light-mode" alt="">
+                            <img src="img/logoBnoBG.png" height="120px" class="logo-dark-mode" alt="">
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
@@ -87,23 +86,25 @@
                             <!------------search----------------->
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form action="SliderList" role="search" method="get" id="searchform" class="searchform">
+                                    <form action="${pageContext.request.contextPath}/settingsList" role="search" method="get" id="searchform" class="searchform">
                                         <div class="search-container">
                                             <!-- Filter by status -->
                                             <span>
-                                                <label for="status">Status:</label>
+                                                <label for="status">Trạng thái:</label>
                                             </span>
                                             <span>
-                                                <select name="status">
+                                                <select name="status" style="height:40px; border-radius: 10px; padding: 10px; border: 1px solid #ccc;">
                                                     <option value="">All</option>
-                                                    <option value="1" ${param.status == '1' ? 'selected' : ''}>Active</option>
-                                                    <option value="0" ${param.status == '0' ? 'selected' : ''}>Inactive</option>
+                                                    <option value="1" ${param.status == '1' ? 'selected' : ''}>kích hoạt</option>
+                                                    <option value="0" ${param.status == '0' ? 'selected' : ''}>Ngừng kích hoạt</option>
                                                 </select>
                                             </span>
-                                            <!-- Search by title or backlink -->
+                                            <!-- Search input -->
                                             <span>
-                                                <input type="text" class="form-control border rounded-pill" id="s" name="search" placeholder="Search by title or backlink" value="${param.search}" />
+                                                <input type="text" class="form-control border rounded-pill" id="s" name="search" placeholder="Tìm kiếm theo tên" value="${param.search}" />
                                             </span>
+                                            <!-- Hidden input to keep track of view -->
+                                            <input type="hidden" name="view" value="${view}" />
                                             <!-- Search button -->
                                             <span>
                                                 <input type="submit" id="searchsubmit" value="Search">
@@ -113,35 +114,50 @@
                                 </div>
                             </div>
                             <!------------------end search--------------------->
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div class="container-fluid">
-                    <div class="layout-specing">
-                        <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Settings List</h5>
-
                             <!-- Buttons to switch views -->
                             <form action="settingsList" method="get">
                                 <label for="viewOption">Chọn Danh Mục:</label>
-                                <select name="view" id="viewOption">
-                                    
-                                    <!-- <option value="fuel">Nhiên Liệu</option> -->
-                                    <option value="style">Kiểu Dáng</option>
-                                    <option value="segment">Phân Khúc</option>
-                                    <option value="brand">Thương Hiệu</option>
-                                    <option value="supply">Nhà Cung Cấp</option>
+                                <select name="view" id="viewOption" onchange="this.form.submit()" style="height:40px; border-radius: 10px; padding: 10px; border: 1px solid #ccc;">
+<!--                                    <option value="fuel" ${view == 'fuel' ? 'selected' : ''}>Nhiên Liệu</option>-->
+                                    <option value="brand" ${view == 'brand' ? 'selected' : ''}>Thương Hiệu</option>
+                                    <option value="style" ${view == 'style' ? 'selected' : ''}>Kiểu Dáng</option>
+                                    <option value="segment" ${view == 'segment' ? 'selected' : ''}>Phân Khúc</option>
+                                    <option value="supply" ${view == 'supply' ? 'selected' : ''}>Nhà Cung Cấp</option>
                                 </select>
-                                <button type="submit">Xem</button>
                             </form>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="layout-specing">
+                        <div class="d-md-flex justify-content-between">
+                            <c:set var="view" value="${view}" />
+
+                            <c:choose>
+                                <c:when test="${view == 'fuel'}">
+                                    <h5 class="mb-0">Nhiên liệu</h5>
+                                </c:when>
+                                <c:when test="${view == 'brand'}">
+                                    <h5 class="mb-0">Thương Hiệu</h5>
+                                </c:when>
+                                <c:when test="${view == 'style'}">
+                                    <h5 class="mb-0">Kiểu Dáng</h5>
+                                </c:when>
+                                <c:when test="${view == 'segment'}">
+                                    <h5 class="mb-0">Phân Khúc</h5>
+                                </c:when>
+                                <c:when test="${view == 'supply'}">
+                                    <h5 class="mb-0">Nhà Cung Cấp</h5>
+                                </c:when>
+                            </c:choose>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Patients</li>
+                                    <li class="breadcrumb-item"><a href="admin">Admin</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">danh sách cài đặt</li>
                                 </ul>
                             </nav>
                         </div>
@@ -163,19 +179,19 @@
                                                     <c:forEach var="entry" items="${fuelCounts.entrySet()}">
                                                         <tr>
                                                             <td class="p-3">${entry.key}</td>
-                                                            
+
 
                                                             <td class="p-3">
-                                                                <span class="badge bg-soft-success">
-                                                                    ${slider.status == 1 ? 'Kích hoạt' : 'Ngừng kích hoạt'}
+                                                                <span class="badge ${entry.status == 1 ? 'bg-soft-success' : 'bg-soft-warning'}">
+                                                                    ${entry.status == 1 ? 'Kích hoạt' : 'Ngừng kích hoạt'}
                                                                 </span>
                                                             </td>
                                                             <td>
                                                                 <form action="settingsList" method="POST" style="display: inline;">
                                                                     <input type="hidden" name="fuel" value="${entry.key}" />
                                                                     <select name="status" onchange="this.form.submit()">
-                                                                        <option value="1" ${slider.status == 1 ? 'selected' : ''}>Show</option>
-                                                                        <option value="0" ${slider.status == 0 ? 'selected' : ''}>Hide</option>
+                                                                        <option value="1" ${entry.status == 1 ? 'selected' : ''}>Show</option>
+                                                                        <option value="0" ${entry.status == 0 ? 'selected' : ''}>Hide</option>
                                                                     </select>
                                                                 </form>
                                                                 <a href="editSetting?id=${slider.sliderId}">Edit</a>
@@ -186,7 +202,7 @@
                                             </table>
                                         </c:when>
 
-                                        <c:when test="${param.view == 'brand'}">
+                                        <c:when test="${view == 'brand'}">
                                             <table class="table table-center bg-white mb-0">
                                                 <thead>
                                                     <tr>
@@ -203,13 +219,10 @@
                                                             <td class="p-3">${brand.brandId}</td>
                                                             <td class="p-3">${brand.name}</td>
                                                             <td class="p-3">${brand.productCount}</td>
-                                                            <td class="p-3"><c:choose>
-                                                                    <c:when test="${brand.status == 1}">Kích hoạt</c:when>
-                                                                    <c:otherwise>Ngừng kích hoạt</c:otherwise>
-                                                                </c:choose></td>
+
 
                                                             <td class="p-3">
-                                                                <span class="badge bg-soft-success">
+                                                                <span class="badge ${brand.status == 1 ? 'bg-soft-success' : 'bg-soft-warning'}">
                                                                     ${brand.status == 1 ? 'Kích hoạt' : 'Ngừng kích hoạt'}
                                                                 </span>
                                                             </td>
@@ -217,10 +230,11 @@
                                                                 <form action="settingsList" method="POST" style="display: inline;">
                                                                     <input type="hidden" name="brandId" value="${brand.brandId}">
                                                                     <input type="hidden" name="status" value="${brand.status == 1 ? 0 : 1}">
-                                                                    <button type="submit">${brand.status == 1 ? 'Ngừng kích hoạt' : 'Kích hoạt'}</button>
-
+                                                                    <button type="submit" class="btn btn-icon btn-pills ${brand.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
+                                                                        <span class="dashicons ${brand.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
+                                                                    </button>
                                                                 </form>
-                                                                <a href="editSetting?id=${slider.sliderId}">Edit</a>
+                                                                <a href="editSetting?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
@@ -228,7 +242,7 @@
                                             </table>
                                         </c:when>
 
-                                        <c:when test="${param.view == 'style'}">
+                                        <c:when test="${view == 'style'}">
                                             <table class="table table-center bg-white mb-0">
                                                 <thead>
                                                     <tr>
@@ -246,17 +260,28 @@
                                                             <td class="p-3">${style.styleName}</td>
                                                             <td class="p-3">${style.styleProductCount}</td>
                                                             <td class="p-3">
-                                                                <span class="badge bg-soft-success">
+                                                                <span class="badge ${style.status == 1 ? 'bg-soft-success' : 'bg-soft-warning'}">
                                                                     ${style.status == 1 ? 'Kích hoạt' : 'Ngừng kích hoạt'}
                                                                 </span>
                                                             </td>
                                                             <td>
+                                                                <!--                                                                <form action="settingsList" method="POST" style="display: inline;">
+                                                                                                                                    <input type="hidden" name="styleId" value="${style.styleId}">
+                                                                                                                                    <input type="hidden" name="status" value="${style.status == 1 ? 0 : 1}">
+                                                                                                                                    <button type="submit" class="btn btn-icon btn-pills ${style.status == 1 ? 'btn-soft-success' : 'btn-soft-danger'}">
+                                                                                                                                        <span class=" ${style.status == 1 ? 'uil uil-check' : 'uil uil-times'}"></span>
+                                                                                                                                    </button>
+                                                                                                                                    <button type="submit" name="action" value="updateStyleStatus">${style.status == 1 ? 'Ngừng kích hoạt' : 'Kích hoạt'}</button>
+                                                                                                                                </form>-->
                                                                 <form action="settingsList" method="POST" style="display: inline;">
                                                                     <input type="hidden" name="styleId" value="${style.styleId}">
                                                                     <input type="hidden" name="status" value="${style.status == 1 ? 0 : 1}">
-                                                                    <button type="submit" name="action" value="updateStyleStatus">${style.status == 1 ? 'Ngừng kích hoạt' : 'Kích hoạt'}</button>
+                                                                    <button type="submit" name="action" value="updateStyleStatus" class="btn btn-icon btn-pills ${style.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
+                                                                        <span class="${style.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
+                                                                    </button>
                                                                 </form>
-                                                                <a href="editSetting?id=${slider.sliderId}">Edit</a>
+                                                                <a href="editSetting?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
+
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
@@ -264,7 +289,7 @@
                                             </table>
                                         </c:when>
 
-                                        <c:when test="${param.view == 'segment'}">
+                                        <c:when test="${view == 'segment'}">
                                             <table class="table table-center bg-white mb-0">
                                                 <thead>
                                                     <tr>
@@ -281,9 +306,9 @@
                                                             <td class="p-3">${segment.segmentId}</td>
                                                             <td class="p-3">${segment.segmentName}</td>
                                                             <td class="p-3">${segment.segmentProductCount}</td>
-                                                            
+
                                                             <td class="p-3">
-                                                                <span class="badge bg-soft-success">
+                                                                <span class="badge ${segment.status == 1 ? 'bg-soft-success' : 'bg-soft-warning'}">
                                                                     ${segment.status == 1 ? 'Kích hoạt' : 'Ngừng kích hoạt'}
                                                                 </span>
                                                             </td>
@@ -291,9 +316,12 @@
                                                                 <form action="settingsList" method="POST" style="display: inline;">
                                                                     <input type="hidden" name="segmentId" value="${segment.segmentId}">
                                                                     <input type="hidden" name="status" value="${segment.status == 1 ? 0 : 1}">
-                                                                    <button type="submit" name="action" value="updateSegmentStatus">${segment.status == 1 ? 'Ngừng kích hoạt' : 'Kích hoạt'}</button>
+                                                                    <button type="submit" name="action" value="updateSegmentStatus" class="btn btn-icon btn-pills ${segment.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
+                                                                        <span class="${segment.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
+                                                                    </button>
                                                                 </form>
-                                                                <a href="editSetting?id=${slider.sliderId}">Edit</a>
+                                                                <a href="editSetting?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
+
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
@@ -301,13 +329,13 @@
                                             </table>
                                         </c:when>
 
-                                        <c:when test="${param.view == 'supply'}">
+                                        <c:when test="${view == 'supply'}">
                                             <table class="table table-center bg-white mb-0">
                                                 <thead>
                                                     <tr>
                                                         <th class="border-bottom p-3" style="min-width: 50px;">Id</th>
                                                         <th class="border-bottom p-3" style="min-width: 180px;">Tên</th>
-                                                        <th class="border-bottom p-3" style="min-width: 180px;">Số lượng sản phẩm</th>
+                                                        <th class="border-bottom p-3" style="min-width: 180px;">Số lượng</th>
                                                         <th class="border-bottom p-3">Trạng thái</th>
                                                         <th class="border-bottom p-3" style="min-width: 100px;">Hành động</th>
                                                     </tr>
@@ -319,7 +347,7 @@
                                                             <td class="p-3">${supply.supplyName}</td>
                                                             <td class="p-3">${supply.supplyProductCount}</td>
                                                             <td class="p-3">
-                                                                <span class="badge bg-soft-success">
+                                                                <span class="badge ${supply.status == 1 ? 'bg-soft-success' : 'bg-soft-warning'}">
                                                                     ${supply.status == 1 ? 'Kích hoạt' : 'Ngừng kích hoạt'}
                                                                 </span>
                                                             </td>
@@ -327,9 +355,12 @@
                                                                 <form action="settingsList" method="POST" style="display: inline;">
                                                                     <input type="hidden" name="supplyId" value="${supply.supplyId}">
                                                                     <input type="hidden" name="status" value="${supply.status == 1 ? 0 : 1}">
-                                                                    <button type="submit" name="action" value="updateSupplyStatus">${supply.status == 1 ? 'Ngừng kích hoạt' : 'Kích hoạt'}</button>
+                                                                    <button type="submit" name="action" value="updateSupplyStatus" class="btn btn-icon btn-pills ${supply.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
+                                                                        <span class="${supply.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
+                                                                    </button>
                                                                 </form>
-                                                                <a href="editSetting?id=${slider.sliderId}">Edit</a>
+                                                                <a href="editSetting?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
+
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
@@ -337,40 +368,38 @@
                                             </table>
                                         </c:when>
                                     </c:choose>
-
                                 </div>
                             </div>
                         </div><!--end row-->
                         <div class="row text-center">
-                            <!-- Pagination -->
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
-                                    <span class="text-muted me-3">Showing ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + sliders.size()} out of ${totalItems}</span>
+                                    <span class="text-muted me-3">
+                                        Hiển thị ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + (view == 'brand' ? brandList.size() : (view == 'style' ? styleList.size() : (view == 'segment' ? segmentList.size() : supplyList.size())))}  ${totalItems}
+                                    </span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                        <!-- Previous Button -->
+                                        <!-- Nút Trước -->
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="${pageContext.request.contextPath}/settingsList?page=${currentPage - 1}&search=${param.search}&status=${param.status}" aria-label="Previous">Prev</a>
+                                                <a class="page-link" href="${pageContext.request.contextPath}/settingsList?page=${currentPage - 1}&view=${view}&search=${param.search}&status=${param.status}" aria-label="Previous">Prev</a>
                                             </li>
                                         </c:if>
-
-                                        <!-- Page Numbers -->
+                                        <!-- Số Trang -->
                                         <c:forEach begin="1" end="${totalPages}" var="page">
                                             <li class="page-item ${currentPage == page ? 'active' : ''}">
-                                                <a class="page-link" href="${pageContext.request.contextPath}/settingsList?page=${page}&search=${param.search}&status=${param.status}">${page}</a>
+                                                <a class="page-link" href="${pageContext.request.contextPath}/settingsList?page=${page}&view=${view}&search=${param.search}&status=${param.status}">${page}</a>
                                             </li>
                                         </c:forEach>
-
-                                        <!-- Next Button -->
-                                        <c:if test="${sliders.size() == 15}">
+                                        <!-- Nút Tiếp -->
+                                        <c:if test="${(view == 'brand' ? brandList.size() : (view == 'style' ? styleList.size() : (view == 'segment' ? segmentList.size() : supplyList.size()))) == 15}">
                                             <li class="page-item">
-                                                <a class="page-link" href="${pageContext.request.contextPath}/settingsList?page=${currentPage + 1}&search=${param.search}&status=${param.status}" aria-label="Next">Next</a>
+                                                <a class="page-link" href="${pageContext.request.contextPath}/settingsList?page=${currentPage + 1}&view=${view}&search=${param.search}&status=${param.status}" aria-label="Next">Next</a>
                                             </li>
                                         </c:if>
                                     </ul>
                                 </div>
                             </div>
-                            <!--                                                         PAGINATION END -->-->
+
                         </div><!--end row-->
                     </div>
                 </div><!--end container-->
@@ -384,54 +413,6 @@
             <!--End page-content" -->
         </div>
         <!-- page-wrapper -->
-
-        <!-- Offcanvas Start -->
-        <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-            <div class="offcanvas-header p-4 border-bottom">
-                <h5 id="offcanvasRightLabel" class="mb-0">
-                    <img src="../assets/images/logo-dark.png" height="24" class="light-version" alt="">
-                    <img src="../assets/images/logo-light.png" height="24" class="dark-version" alt="">
-                </h5>
-                <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
-            </div>
-            <div class="offcanvas-body p-4 px-md-5">
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Style switcher -->
-                        <div id="style-switcher">
-                            <div>
-                                <ul class="text-center list-unstyled mb-0">
-                                    <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="../assets/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="../assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="../assets/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="../assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="../assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="../assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
-                                    <li class="d-grid"><a href="../landing/index.html" target="_blank" class="mt-4"><img src="../assets/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- end Style switcher -->
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div>
-
-            <div class="offcanvas-footer p-4 border-top text-center">
-                <ul class="list-unstyled social-icon mb-0">
-                    <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="../../../index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
-                </ul><!--end icon-->
-            </div>
-        </div>
-        <!-- Offcanvas End -->
-
-
-
         <!-- javascript -->
         <script src="assetsSlider/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->
@@ -440,7 +421,5 @@
         <script src="assetsSlider/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assetsSlider/js/app.js"></script>
-
     </body>
-
 </html>

@@ -19,63 +19,6 @@ import java.sql.ResultSet;
 public class SliderDAO extends DBContext{
 
     
-//    public List<Slider> getFilteredSliders(String search, int status) {
-//    List<Slider> sliders = new ArrayList<>();
-//    String sql = "SELECT * FROM slider";
-//    
-//    // Kiểm tra xem có điều kiện lọc không
-//    boolean hasCondition = false;
-//
-//    // Điều kiện lọc theo status
-//    if (status != -1) {
-//        sql += " WHERE status = ?";
-//        hasCondition = true; // Đánh dấu là có điều kiện
-//    }
-//
-//    // Điều kiện tìm kiếm theo title hoặc backlink
-//    if (search != null && !search.isEmpty()) {
-//        if (hasCondition) {
-//            sql += " AND (title LIKE ? OR backlink LIKE ?)";
-//        } else {
-//            sql += " WHERE (title LIKE ? OR backlink LIKE ?)";
-//            hasCondition = true; // Cập nhật điều kiện có
-//        }
-//    }
-//
-//    try (PreparedStatement stm = connection.prepareStatement(sql)) {
-//        // Nếu có điều kiện status, thiết lập tham số
-//        int paramIndex = 1; // Chỉ số tham số bắt đầu từ 1
-//
-//        if (status != -1) {
-//            stm.setInt(paramIndex++, status); // Thiết lập giá trị cho status
-//        }
-//
-//        // Nếu có điều kiện tìm kiếm, thiết lập tham số cho search
-//        if (search != null && !search.isEmpty()) {
-//            String searchParam = "%" + search + "%"; // Thêm ký tự wildcards
-//            stm.setString(paramIndex++, searchParam); // Thiết lập giá trị cho title
-//            stm.setString(paramIndex++, searchParam); // Thiết lập giá trị cho backlink
-//        }
-//
-//        ResultSet rs = stm.executeQuery();
-//        while (rs.next()) {
-//            Slider slider = new Slider();
-//            slider.setSliderId(rs.getInt("sliderId"));
-//            slider.setProductId(rs.getString("productId"));
-//            slider.setTitle(rs.getString("title"));
-//            slider.setDescription(rs.getString("description"));
-//            slider.setImageUrl(rs.getString("imageUrl"));
-//            slider.setBacklink(rs.getString("backlink"));
-//            slider.setStatus(rs.getInt("status"));
-//            sliders.add(slider);
-//        }
-//    } catch (SQLException e) {
-//        e.printStackTrace(); // In ra lỗi để kiểm tra
-//    }
-//
-//    return sliders;
-//}
-    
     public List<Slider> getFilteredSliders(String search, int status, int offset, int limit) {
     List<Slider> sliders = new ArrayList<>();
     StringBuilder sql = new StringBuilder("SELECT * FROM slider");
@@ -136,7 +79,31 @@ public class SliderDAO extends DBContext{
     return sliders;
 }
 
+    public List<Slider> getAllActiveSlider() {
+        List<Slider> activeSliders = new ArrayList<>();
+        String sql = "SELECT * FROM slider WHERE status = 1"; // Giả sử trạng thái 1 là hoạt động
 
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Slider slider = new Slider();
+                slider.setSliderId(resultSet.getInt("sliderId"));
+                slider.setProductId(resultSet.getString("productId"));
+                slider.setTitle(resultSet.getString("title"));
+                slider.setDescription(resultSet.getString("description"));
+                slider.setImageUrl(resultSet.getString("imageUrl"));
+                slider.setBacklink(resultSet.getString("backlink"));
+                slider.setStatus(resultSet.getInt("status"));
+
+                activeSliders.add(slider);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý lỗi
+        }
+
+        return activeSliders;
+    }
 
 
     // Phương thức cập nhật trạng thái slider

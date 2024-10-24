@@ -40,7 +40,7 @@
             <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
-                        <a href="index.html">
+                        <a href="home">
                             <img src="img/logoBnoBG.png" height="120px" class="logo-light-mode" alt="">
                         </a>
                     </div>
@@ -50,7 +50,11 @@
                         <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
                         <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
                         <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
-                        <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
+                        <c:choose>
+                            <c:when test="${sessionScope.account.roleId == 1}">
+                                <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
+                                </c:when>
+                        </c:choose>
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)">
                                 <i class="uil uil-flip-h me-2 d-inline-block"></i>Posts List</a>

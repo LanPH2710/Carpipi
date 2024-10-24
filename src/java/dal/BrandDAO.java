@@ -45,7 +45,7 @@ public class BrandDAO extends DBContext {
 
     public List<Brand> getAllBrand() {
     List<Brand> list = new ArrayList<>();
-    String sql = "SELECT * FROM brand";
+    String sql = "SELECT * FROM brand where status =1";
     
     try (PreparedStatement st = connection.prepareStatement(sql);
          ResultSet rs = st.executeQuery()) {
@@ -188,8 +188,9 @@ public class BrandDAO extends DBContext {
     public static void main(String[] args) {
         //System.out.println(b.getBrandIdByName("Audi"));
         BrandDAO b = new BrandDAO();
-    List<Brand> brandList = b.getBrandListWithProductCount();
-    
+    //List<Brand> brandList = b.getBrandListWithProductCount();
+    List<Brand> brandList = b.getAllBrand();
+        System.out.println("");
     // Check if brandList is empty
     
 }

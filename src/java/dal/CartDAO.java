@@ -194,7 +194,7 @@ public class CartDAO extends DBContext {
                 + "FROM carpipi.cart c "
                 + "JOIN product p ON c.productId = p.productId "
                 + "JOIN supply s ON p.supplyId = s.supplyId "
-                + "WHERE  s.supplyId = ? and c.isDeleted = 0";  // Dùng '?' để truyền tham số
+                + "WHERE  s.supplyId = ? and c.isDeleted = 0 ";  // Dùng '?' để truyền tham số
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, supplyId); // Gán giá trị cho supplyId

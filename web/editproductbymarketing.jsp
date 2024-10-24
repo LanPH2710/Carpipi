@@ -1,204 +1,211 @@
-
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-        <title>Admin</title>
+<head>
+    <title>Chi tiết sản phẩm</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <jsp:include page="header.jsp"/>
+    <style>
+        /* CSS tùy chỉnh để làm đẹp form */
+        .form-group label {
+            font-weight: bold;
+            color: #333;
+        }
 
-        <style>
-            .modal-dialog {
-                display: flex;
-                flex-direction: column;
-                justify-content: center; /* Căn dọc */
-                height: 100vh; /* Đặt chiều cao của khung là 100% chiều cao màn hình */
-            }
+        .form-row .form-group {
+            padding-right: 15px;
+        }
 
-            .modal-content {
-                margin: auto;
-                width: 100%;
-                max-width: 600px; /* Giới hạn chiều rộng của modal */
-            }
+        .form-control {
+            border-radius: 0.5rem;
+            box-shadow: none;
+        }
 
-            .form-group-image image{
-                display: flex;
-                align-content: center;
-                justify-content: space-between;
-            }
+        .btn-info {
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 0.5rem;
+        }
 
-            .form-group{
-                margin-bottom: 3px;
-            }
+        .modal-footer a {
+            margin-right: 20px;
+            color: #4CAF50;
+            font-weight: bold;
+        }
 
-            .image {
-                display: flex;
-                flex-wrap: wrap; /* Cho phép các phần tử xuống dòng khi hết chỗ */
-                list-style-type: none; /* Loại bỏ dấu chấm đầu dòng của danh sách */
-                padding: 0;
-                margin: 0;
-            }
+        .modal-footer .btn-info {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
 
-            .image li {
-                flex: 1 0 30%; /* Chia mỗi phần tử chiếm 30% chiều rộng, đảm bảo 3 phần tử trong mỗi hàng */
-                margin: 5px; /* Thêm khoảng cách giữa các phần tử */
-                text-align: center;
-            }
+        /* Hình ảnh */
+        .image {
+            width: 120px;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            display: block;
+            margin-bottom: 10px;
+        }
 
+        /* Mô tả sản phẩm */
+        textarea {
+            width: 100%;
+            border-radius: 0.5rem;
+            padding: 10px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+        }
 
-            .form-select{
-                display: flex;
-                align-content: center;
-                justify-content: space-evenly;
+        .form-container {
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
 
-            }
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
 
+        .form-row .form-group {
+            margin-bottom: 15px;
+        }
 
-        </style>
-    </head>
-    <body>
-    <div class="modal-content">
-        <form id="productForm" action="addbymarketing" method="post" onsubmit="return validateForm()">
-            <div class="modal-header">						
-                <h4 class="modal-title">Sửa sản phẩm </h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body">	
-                <div class="form-group-image">
-                    <input type="hidden" class="form-control" required>
-                </div>
-                <div class="form-group">
+        /* Điều chỉnh tiêu đề hình ảnh */
+        h3 {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        /* Custom mô tả trên một dòng riêng */
+        .description-container {
+            margin-bottom: 20px;
+        }
+
+        .description-container label {
+            display: block;
+            font-size: 16px;
+            color: #4CAF50;
+        }
+
+        .image-container {
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="form-container">
+        <h2>Chi tiết sản phẩm</h2>
+        <form action="editproductbymarketing" method="post">
+<!--            <input type="hidden" name="id" value="${car.productId}">-->
+            <div class="form-row">
+                <div class="form-group col-md-6">
                     <label>Tên xe</label>
-                    <input type="text" placeholder="Tên xe" name="name" class="form-control" required>
+                    <input type="text" name="name" class="form-control" value="${car.name}" required>
                 </div>
-                <div class="form-group form-group-image">
-                    <label>Ảnh</label>
-                    <ul class="image">
-                        <c:forEach items="${requestScope.imageList}" var="imageList">
-                            <li>
-                                <img style="width: 200px; cursor: pointer;" src="${imageList.imageUrl}" alt="Xe" onclick="openModal('${imageList.imageUrl}')"/>
-                            </li>
-                        </c:forEach>
-                       
-                        <li>
-                            <label>Enter Image URL</label>
-                            <input type="text" name="imageUrl" placeholder="Nhập link ảnh" class="form-control">
-                        </li>
-                    </ul>
-                </div>
-                <div class="form-select">
-                    <div class="form-group">
-                        <label>Thương hiệu</label>
-                        <select name="brand" required>
-                            <c:forEach items="${requestScope.brandList}" var="brandList">
-                                <option value="${brandList.brandId}">${brandList.brandName}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Kiểu dáng</label>
-                        <select name="style" required>
-                            <c:forEach items="${requestScope.styleList}" var="style">
-                                <option value="${style.styleId}">${style.styleName}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-select">
-                    <div class="form-group">
-                        <label>Phân khúc</label>
-                        <select name="segment" required>
-                            <c:forEach items="${requestScope.segmentList}" var="segmentList">
-                                <option value="${segmentList.segmentId}">${segmentList.segmentName}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Nhà cung cấp</label>
-                        <select name="supply" required>
-                            <c:forEach items="${requestScope.supplyList}" var="supplyList">
-                                <option value="${supplyList.supplyId}">${supplyList.supplyName}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label>Số chỗ ngồi</label>
-                    <input type="number" name="seatNumber" placeholder="Số chỗ" class="form-control" required min="1" oninput="validity.valid || (value='')">
-                </div>
-                <div class="form-group">
-                    <label>Giá</label>
-                    <input type="number" name="price" placeholder="Giá" class="form-control" required min="0" oninput="validity.valid || (value='')">
-                </div>
-                <div class="form-group">
-                    <label>Nhiên liệu</label>
-                    <input type="text" name="fuel" placeholder="Nhiên liệu" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Số lượng</label>
-                    <input type="number" name="stock" placeholder="Số lượng" class="form-control" required min="1" oninput="validity.valid || (value='')">
-                </div>
-                <div class="form-group">
-                    <label>Mô tả</label>
-                    <textarea name="des" rows="4" class="form-control" placeholder="Nhập mô tả" required></textarea>
+                    <input type="number" name="seatNumber" class="form-control" value="${car.seatNumber}" required min="1">
                 </div>
             </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Giá</label>
+<!--                    <input type="number" name="price" class="form-control" value="${car.price}" required min="0">-->
+                    <input type="number" name="price" class="form-control" value="${car.price}" required min="0" step="1">
+                </div> 
+                <div class="form-group col-md-6">
+                    <label>Nhiên liệu</label>
+                    <input type="text" name="fuel" class="form-control" value="${car.fuel}" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Số lượng</label>
+                    <input type="number" name="stock" class="form-control" value="${car.stock}" required min="1">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Trạng thái</label>
+                    <select name="status" class="form-control">
+                        <option value="active">Hiển thị</option>
+                        <option value="inactive">Ẩn</option>
+                    </select>
+                </div>
+            </div>
+
+            
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Thương hiệu</label>
+                    <select name="brandId" class="form-control" required>
+                        <c:forEach items="${brandList}" var="brand">
+                            <option value="${brand.brandId}" <c:if test="${brand.brandId == car.brandId}">selected</c:if>>${brand.brandName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Nhà cung cấp</label>
+                    <select name="supply" class="form-control" required>
+                        <c:forEach items="${supplyList}" var="supply">
+                            <option value="${supply.supplyId}" <c:if test="${supply.supplyId == car.supplyId}">selected</c:if>>${supply.supplyName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Phân khúc</label>
+                    <select name="segmentId" class="form-control" required>
+                        <c:forEach items="${segmentList}" var="segment">
+                            <option value="${segment.segmentId}" <c:if test="${segment.segmentId == car.segmentId}">selected</c:if>>${segment.segmentName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Kiểu dáng</label>
+                    <select name="styleId" class="form-control" required>
+                        <c:forEach items="${styleList}" var="style">
+                            <option value="${style.styleId}" <c:if test="${style.styleId == car.styleId}">selected</c:if>>${style.styleName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+                <!-- Mô tả sản phẩm (Trước phần hình ảnh) -->
+            <div class="description-container">
+                <label>Mô tả</label>
+                <textarea name="des" rows="4" class="form-control" required>${car.description}</textarea>
+            </div>
+            <h3>Hình ảnh sản phẩm</h3>
+            <div class="image-container">
+                <c:forEach items="${imageList}" var="image">
+                    <div class="mb-3">
+                        <img class="image"src="${image.imageUrl}" alt="Image">
+                        <input type="text" name="imageUrls" value="${image.imageUrl}" class="form-control">
+                    </div>
+                </c:forEach>
+            </div>
+
             <div class="modal-footer">
-                <a href="proformarketing">Cancel</a>
-                <input type="submit" class="btn btn-info" value="Save">
+                <a href="proformarketing" class="btn btn-secondary">Hủy</a>
+                <input type="submit" class="btn btn-info" value="Lưu">
             </div>
         </form>
     </div>
-
-    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body text-center">
-                    <img id="modalImage" src="" alt="Image" style="width: 100%; height: auto;">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function openModal(imageUrl) {
-            document.getElementById('modalImage').src = imageUrl;
-            $('#imageModal').modal('show');
-        }
-
-        function validateForm() {
-            const form = document.getElementById('productForm');
-            const inputs = form.querySelectorAll('input, textarea, select');
-            for (let input of inputs) {
-                if (input.required && input.value.trim() === '') {
-                    alert(`Vui lòng điền ${input.previousElementSibling.innerText}`);
-                    return false; // Ngăn không cho gửi form
-                }
-                // Kiểm tra nếu là input số
-                if ((input.name === 'seatNumber' || input.name === 'price' || input.name === 'stock') && (isNaN(input.value) || input.value < 0)) {
-                    alert(`${input.previousElementSibling.innerText} phải là số và không được âm.`);
-                    return false; // Ngăn không cho gửi form
-                }
-            }
-            return true; // Cho phép gửi form nếu tất cả kiểm tra thành công
-        }
-    </script>
+</div>
+            <jsp:include page="footerDemo.jsp"/>
 </body>
 </html>

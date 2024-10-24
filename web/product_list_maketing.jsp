@@ -15,24 +15,24 @@
         <meta name="author" content="">
         <title>Shop | E-Shopper</title>
 
-        <link href="css/css_fpt/css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/css_fpt/css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/css_fpt/css/prettyPhoto.css" rel="stylesheet">
-        <link href="css/css_fpt/css/price-range.css" rel="stylesheet">
-        <link href="css/css_fpt/css/animate.css" rel="stylesheet">
-        <link href="css/css_fpt/css/main.css" rel="stylesheet">
-        <link href="css/css_fpt/css/responsive.css" rel="stylesheet">
-        <!--[if lt IE 9]>
-        <script src="js/html5shiv.js"></script>
-        <script src="js/respond.min.js"></script>
-        <![endif]-->       
-        <link rel="shortcut icon" href="images/ico/favicon.ico">
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
-
+        <link href="cssProList/bootstrap.min.css" rel="stylesheet">
+        <link href="cssProList/font-awesome.min.css" rel="stylesheet">
+        <link href="cssProList/price-range.css" rel="stylesheet">
+        <link href="cssProList/animate.css" rel="stylesheet">
+        <link href="cssProList/main.css" rel="stylesheet">
+        <link href="cssProList/responsive.css" rel="stylesheet">
     </head>
+
+    <style>
+        
+        .add-to-cart:hover {
+            background: #0480be;
+            border: 0 none;
+            border-radius: 0;
+            color: #FFFFFF;
+        }
+
+    </style>
 
     <body>
 
@@ -103,15 +103,15 @@
                         <div class="col-sm-3">
                             <div class="left-sidebar">
                                 <h2>Brands</h2>
-                                <div class="brands-name">
-                                    <ul class="nav nav-pills nav-stacked">
-                                        <li><a href=""><span class="pull-right">(50)</span>Mercedes</a></li>
-                                        <li><a href=""><span class="pull-right">(50)</span>Audi</a></li>
-                                        <li><a href=""><span class="pull-right">(50)</span>Porsche</a></li>
-                                        <li><a href=""><span class="pull-right">(50)</span>BMW</a></li>
-                                        <li><a href=""><span class="pull-right">(50)</span>Volkswagen</a></li>
-                                    </ul>
-                                </div>
+                                <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                                <c:forEach var="brand" items="${brandList}">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title"><a href="proformarketing?brandId=${brand.brandId}&page=1">${brand.brandName}</a></h4>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </div><!--/category-productsr-->
                                 <!--/brands_products-->
 
                                 <div class="brands_products"><!--brands_products-->
@@ -240,15 +240,17 @@
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
-                                                    <c:forEach items="${imageList}" var="image">
-                                                        <c:if test="${image.productId == product.productId}">
-                                                            <img style="width: 80px" src="${image.imageUrl}" alt="Xe">
-                                                        </c:if>
-
-                                                    </c:forEach>
-                                                    <h2><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/></h2>
+                                                    <c:choose>
+                                                        <c:when test="${not empty pro.images}">
+                                                            <img src="${product.images[1].imageUrl}" alt="${product.name}">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="assets/images/welcome-hero/welcome-banner.jpg" alt="${product.name}">
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    <h2><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/>đ</h2>
                                                     <p>${product.name}</p>
-                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                    <a href="editproductbymarketing?id=${product.productId}" class="btn btn-default add-to-cart"><i class=""></i>Chi tiết</a>
                                                 </div>
 
                                             </div>
@@ -277,6 +279,7 @@
 
 
                     </div>
+
 
                     <script src="./css/css_fpt/js/jquery.js"></script>
                     <script src="./css/css_fpt/js/price-range.js"></script>

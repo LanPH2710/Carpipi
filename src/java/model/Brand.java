@@ -9,11 +9,36 @@ package model;
  * @author tuana
  */
 public class Brand {
+
     private int brandId;
     private String name;
     private String image;
+    private int status;
+    private int productCount;
 
     public Brand() {
+    }
+
+    public Brand(int brandId, String name, int status, int productCount) {
+        this.brandId = brandId;
+        this.name = name;
+        this.status = status;
+        this.productCount = productCount;
+    }
+
+    public Brand(int brandId, String name, String image, int status, int productCount) {
+        this.brandId = brandId;
+        this.name = name;
+        this.image = image;
+        this.status = status;
+        this.productCount = productCount;
+    }
+
+    public Brand(int brandId, String name, String image, int status) {
+        this.brandId = brandId;
+        this.name = name;
+        this.image = image;
+        this.status = status;
     }
 
     public Brand(int brandId, String name, String image) {
@@ -46,5 +71,27 @@ public class Brand {
         this.image = image;
     }
 
-    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(int productCount) {
+        this.productCount = productCount;
+    }
 }

@@ -24,11 +24,29 @@ public class Product {
     private int brandId;
     private int segmentId;
     private int styleId;
+    private int status;
     private List<ProductImage> images; 
 
     public Product() {
     }
 
+    public Product(String productId, String name, int seatNumber, double price, String fuel, int stock, String description, double VAT, int supplyId, int brandId, int segmentId, int styleId, int status) {
+        this.productId = productId;
+        this.name = name;
+        this.seatNumber = seatNumber;
+        this.price = price;
+        this.fuel = fuel;
+        this.stock = stock;
+        this.description = description;
+        this.VAT = VAT;
+        this.supplyId = supplyId;
+        this.brandId = brandId;
+        this.segmentId = segmentId;
+        this.styleId = styleId;
+        this.status = status;
+    }
+
+    
     public Product(String productId, String name, int seatNumber, double price, String fuel, int stock, String description, double VAT, int supplyId, int brandId, int segmentId, int styleId) {
         this.productId = productId;
         this.name = name;
@@ -169,6 +187,14 @@ public class Product {
 
     public void setImages(List<ProductImage> images) {
         this.images = images;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     

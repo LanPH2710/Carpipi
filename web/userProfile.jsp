@@ -25,7 +25,7 @@
                 margin-bottom: 10px;
             }
             .profile-button {
-                background: #6f42c1;
+                background: #0480be;
                 border: none;
             }
             .profile-button:hover {
@@ -43,11 +43,11 @@
             .labels {
                 font-size: 14px;
                 font-weight: bold;
-                color: #495057;
+                color: #0480be;
             }
             .avatar {
                 border-radius: 50%;
-                border: 4px solid #56757d;
+                border: 4px solid #0480be;
                 transition: transform 0.3s;
             }
             .avatar:hover {
@@ -55,7 +55,7 @@
             }
             .header-title {
                 font-size: 2rem;
-                color: #282430;
+                color: #0480be;
                 font-weight: bold;
             }
             .error-message {

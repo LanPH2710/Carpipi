@@ -5,7 +5,9 @@
 
 package controller;
 
+import dal.AccountDAO;
 import dal.BlogDAO;
+import dal.BlogTopicDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,7 +15,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Account;
 import model.Blog;
+import model.BlogTopic;
 
 /**
  *
@@ -56,10 +60,87 @@ public class BlogListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        BlogDAO blogDAO = new BlogDAO();
-        List<Blog> blogList = blogDAO.getAllBlog();
-        request.setAttribute("blogList", blogList);
-        request.getRequestDispatcher("BlogList.jsp").forward(request, response);
+        BlogDAO bdao = new BlogDAO();
+        BlogTopicDAO btdao = new BlogTopicDAO();
+        AccountDAO adao = new AccountDAO();
+        List<Account> listAuthor = adao.getAllAuthor();
+        List<BlogTopic> listTopic = btdao.getAllTopic();
+        // Lấy các tham số từ request
+        String search = request.getParameter("search");
+        String statusParam = request.getParameter("status");
+        String topicParam = request.getParameter("topic");
+        String userIdParam = request.getParameter("author");
+
+        int status = -1;  // Giá trị mặc định khi status không hợp lệ
+        int topic = 0, userId = 0;
+        // Kiểm tra và chuyển đổi status
+        if (statusParam != null && !statusParam.isEmpty()) {
+            try {
+                status = Integer.parseInt(statusParam);
+            } catch (NumberFormatException e) {
+                System.out.println("Lỗi chuyển đổi status: " + e);
+            }
+        }
+
+        if (topicParam != null && !topicParam.isEmpty()) {
+            try {
+                topic = Integer.parseInt(topicParam);
+            } catch (NumberFormatException e) {
+                System.out.println("Lỗi chuyển đổi topic: " + e);
+            }
+        }
+
+        if (userIdParam != null && !userIdParam.isEmpty()) {
+            try {
+                userId = Integer.parseInt(userIdParam);
+            } catch (NumberFormatException e) {
+                System.out.println("Lỗi chuyển đổi userId: " + e);
+            }
+        }
+
+        // Lấy danh sách blog
+        List<Blog> blog;
+        if ((search == null || search.trim().isEmpty()) && status == -1 && topic == 0 && userId == 0) {
+            blog = bdao.getAllBlogCommon();
+        } else if (status == 1 || status == 0) {
+            blog = bdao.getBlogByStatus(status);
+        } else if (search != null && !search.trim().isEmpty()) {
+            blog = bdao.getBlogBySearch(search);
+        } else if (topic >= 1 && topic <= 5) {
+            blog = bdao.getBlogByTopic(topic);
+        } else if (userId>0){
+            blog = bdao.getBlogByAuthor(userId);
+        } else {
+            blog = bdao.getAllBlogCommon();
+        }
+
+        //phân trang
+        int page, numperpage = 2;
+        int size = blog.size();
+        int num = (int) Math.ceil((double) size / numperpage); // Số trang, làm tròn lên
+        String xpage = request.getParameter("page");
+        if (xpage == null) {
+            page = 1;
+        } else {
+            page = Integer.parseInt(xpage);
+        }
+        int start = (page - 1) * numperpage;
+        int end = Math.min(page * numperpage, size);
+        List<Blog> listBlog = bdao.getBlogListByPage(blog, start, end);
+
+        request.setAttribute("size", size);
+        request.setAttribute("numperpage", numperpage);
+        request.setAttribute("blogList", listBlog);
+        request.setAttribute("author", listAuthor);
+        request.setAttribute("search", search);
+        request.setAttribute("page", page);
+        request.setAttribute("num", num);
+        request.setAttribute("topicId", topic);
+        request.setAttribute("status", status);
+        request.setAttribute("userId", userId);
+        request.setAttribute("topic", listTopic);
+        request.getRequestDispatcher("blogList.jsp").forward(request, response);
+    
     } 
 
     /** 

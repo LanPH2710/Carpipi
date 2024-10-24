@@ -173,9 +173,11 @@
                                             </c:when>
                                         </c:choose>
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
+                                    <li ><a href="userlist">User List</a></li>
                                     <li class=""><a href="productlist">Danh sách mẫu</a></li>
                                     <li class=""><a href="BlogListServlet">Tin xe</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
+                                    <li ><a href="carts">CART</a></li>
 
                                     <c:choose>
                                         <c:when test="${sessionScope.account == null}">
@@ -211,67 +213,6 @@
                 </div>
             </div>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="model-search-content">
-                            <div class="row">
-                                <div class="col-md-offset-1 col-md-2 col-sm-12">
-
-                                    <div class="single-model-search">
-                                        <h2>Kiểu dáng</h2>
-                                        <div class="model-select-icon">
-                                            <select class="form-control">
-                                                <option value="defaultStyle">Chọn kiểu dáng</option><!-- /.option-->
-                                                <c:forEach var="sty" items="${styleList}">
-                                                    <option value="${sty.styleName}">${sty.styleName}</option><!-- /.option-->
-                                                </c:forEach>
-                                            </select><!-- /.select-->
-                                        </div><!-- /.model-select-icon -->
-                                    </div>
-                                </div>
-                                <div class="col-md-offset-1 col-md-2 col-sm-12">
-                                    <div class="single-model-search">
-                                        <h2>Hãng xe</h2>
-                                        <div class="model-select-icon">
-                                            <select class="form-control">
-                                                <option value="defaultBrand">Chọn hãng</option><!-- /.option-->
-                                                <c:forEach var="bra" items="${brandList}">
-                                                    <option value="${bra.brandName}">${bra.brandName}</option><!-- /.option-->
-                                                </c:forEach>
-                                            </select><!-- /.select-->
-                                        </div><!-- /.model-select-icon -->
-                                    </div>
-                                </div>
-                                <div class="col-md-offset-1 col-md-2 col-sm-12">
-                                    <div class="single-model-search">
-                                        <h2>Giá cả</h2>
-                                        <div class="model-select-icon">
-                                            <select class="form-control">
-
-                                                <option value="defaultPrice">Khoảng giá</option><!-- /.option-->
-
-                                                <option value="$0.00">$0.00</option><!-- /.option-->
-
-                                                <option value="$0.00">$0.00</option><!-- /.option-->
-                                                <option value="$0.00">$0.00</option><!-- /.option-->
-
-                                            </select><!-- /.select-->
-                                        </div><!-- /.model-select-icon -->
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sm-12">
-                                    <div class="single-model-search text-center">
-                                        <button class="welcome-btn model-search-btn" onclick="window.location.href = '#'">
-                                            Tìm kiếm
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </section><!--/.welcome-hero-->
         <!--welcome-hero end -->
@@ -358,9 +299,6 @@
                                         <!-- Hiển thị mô tả ngắn về sản phẩm -->
                                         <p class="car-desc">${product.description}</p>
                                     </div>
-                                    <div class="text-center">
-                                        <a class="btn btn-outline-dark mt-auto" href="addtocart?productId=${product.productId}">Add to cart</a>
-                                    </div>
                                 </div>
                             </div>
                         </c:forEach>
@@ -380,7 +318,7 @@
                     <div class="owl-carousel owl-theme brand-item">
                         <c:forEach var="bra" items="${brandList}">
                             <div class="item">
-                                <a href="brand?brandId=${bra.brandId}">
+                                <a href="productlist?brandId=${bra.brandId}&page=1">
                                     <img src="${bra.image}" alt="brand-image" />
                                 </a>
                             </div><!--/.item-->

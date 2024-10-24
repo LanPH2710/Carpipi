@@ -1,16 +1,20 @@
+
+
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-
-            <file>file:/D:/Net_bean_apache_project/Carpipi/src/java/controller/BrandControl.java</file>
-            <file>file:/D:/Net_bean_apache_project/Carpipi/src/java/controller/ProductListServlet.java</file>
-            <file>file:/D:/Net_bean_apache_project/Carpipi/web/productList.jsp</file>
-            <file>file:/D:/Net_bean_apache_project/Carpipi/web/cssProList/main.css</file>
-
+            <file>file:/D:/FALL-2024/Carpipi/src/java/controller/common/UserProfileServlet.java</file>
+            <file>file:/D:/FALL-2024/Carpipi/web/userProfile.jsp</file>
+            <file>file:/D:/FALL-2024/Carpipi/web/userList.jsp</file>
+            <file>file:/D:/FALL-2024/Carpipi/web/userProfile_1.jsp</file>
+            <file>file:/D:/FALL-2024/Carpipi/src/java/controller/admin/BanUserController.java</file>
+            <file>file:/D:/FALL-2024/Carpipi/web/addUserList.jsp</file>
+            <file>file:/D:/FALL-2024/Carpipi/src/java/dal/AccountDAO.java</file>
+            <file>file:/D:/FALL-2024/Carpipi/src/java/controller/admin/UserProfileAdmin.java</file>
+            <file>file:/D:/FALL-2024/Carpipi/src/java/controller/admin/UserListController.java</file>
         </group>
     </open-files>
-
 </project-private>
+

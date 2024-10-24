@@ -100,49 +100,6 @@ public class SupplyDAO extends DBContext {
     return supplyList;
 }
 
-    public List<Supply> getSupplyListWithPagination(String search, int status, int offset, int limit) {
-    List<Supply> supplyList = new ArrayList<>();
-    String sql = "SELECT su.supplyId, su.supplyName, su.status, COUNT(p.productId) AS productCount " +
-                 "FROM supply su LEFT JOIN product p ON su.supplyId = p.supplyId " +
-                 "WHERE (? IS NULL OR su.supplyName LIKE ?) " +
-                 "AND (? = -1 OR su.status = ?) " +
-                 "GROUP BY su.supplyId, su.supplyName, su.status " +
-                 "LIMIT ? OFFSET ?";
-
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        // Set parameters
-        ps.setString(1, search);
-        ps.setString(2, search != null ? "%" + search + "%" : null);
-        ps.setInt(3, status);
-        ps.setInt(4, status);
-        ps.setInt(5, limit);
-        ps.setInt(6, offset);
-
-        try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Supply supply = new Supply();
-                supply.setSupplyId(rs.getString("supplyId")); // Chú ý kiểu dữ liệu
-                supply.setSupplyName(rs.getString("supplyName"));
-                supply.setStatus(rs.getInt("status"));
-                supply.setSupplyProductCount(rs.getInt("productCount"));
-                supplyList.add(supply);
-                
-                // In ra thông tin cho từng nhà cung cấp
-                System.out.println("Supply ID: " + supply.getSupplyId() + 
-                                   ", Supply Name: " + supply.getSupplyName() + 
-                                   ", Status: " + supply.getStatus() + 
-                                   ", Product Count: " + supply.getSupplyProductCount());
-            }
-            
-            System.out.println("Total supplies fetched: " + supplyList.size()); // Debugging
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return supplyList;
-}
-
-    
     // Cập nhật trạng thái của brand
     public boolean updateSupplyStatus(int supplyId, int status) {
         String sql = "UPDATE supply SET status = ? WHERE supplyId = ?";

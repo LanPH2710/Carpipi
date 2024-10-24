@@ -56,7 +56,29 @@ public class SliderListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+//        // Lấy thông tin từ request (search và status)
+//String search = request.getParameter("search"); // Đảm bảo biến này là kiểu String
+//String statusString = request.getParameter("status"); // Đảm bảo biến này là kiểu String
+//int status = -1; // Giá trị mặc định để kiểm tra
+//
+//// Chuyển đổi status từ String sang int
+//if (statusString != null && !statusString.isEmpty()) {
+//    try {
+//        status = Integer.parseInt(statusString); // Chuyển đổi kiểu dữ liệu
+//    } catch (NumberFormatException e) {
+//        // Xử lý lỗi nếu giá trị không hợp lệ
+//        e.printStackTrace(); // In ra lỗi để kiểm tra
+//    }
+//}
 
+// Lấy danh sách slider từ SliderDAO
+//SliderDAO sliderDAO = new SliderDAO();
+//List<Slider> sliders = sliderDAO.getFilteredSliders(search, status);
+//
+//// Gửi danh sách slider về cho view (JSP)
+//request.setAttribute("sliders", sliders);
+//request.getRequestDispatcher("SliderList.jsp").forward(request, response);
+    
     String search = request.getParameter("search");
     String statusString = request.getParameter("status");
     int status = -1; // Giá trị mặc định để kiểm tra

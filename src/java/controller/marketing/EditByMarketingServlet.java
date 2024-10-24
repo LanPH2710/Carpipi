@@ -121,7 +121,21 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
     int segmentId = Integer.parseInt(request.getParameter("segmentId"));
     int styleId = Integer.parseInt(request.getParameter("styleId"));
     int status = request.getParameter("status").equals("active") ? 1 : 0;
+    String newImageUrl = request.getParameter("newImageUrl"); // Lấy URL ảnh mới
 
+    // Kiểm tra nếu người dùng đã nhập URL mới
+    if (newImageUrl != null && !newImageUrl.trim().isEmpty()) {
+        // Giả sử bạn đã có phương thức thêm ảnh sản phẩm mới trong DAO (ProductDAO)
+        ProductDAO productDAO = new ProductDAO();
+        try {
+            // Gọi hàm thêm ảnh mới với ID sản phẩm
+            productDAO.addProductImage(id, newImageUrl); 
+            System.out.println("Thêm ảnh mới thành công!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Có lỗi xảy ra khi thêm ảnh sản phẩm mới: " + e.getMessage());
+        }
+    }
     // Tạo đối tượng ProductDAO
     ProductDAO productDao = new ProductDAO();
 

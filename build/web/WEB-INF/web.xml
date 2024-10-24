@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-<!--        <filter>
+    <!--        <filter>
         <filter-name>FilterRole</filter-name>
         <filter-class>filter.FilterRole</filter-class>
     </filter>
@@ -118,6 +118,10 @@
         <servlet-name>ChangeStatusBlogServlet</servlet-name>
         <servlet-class>controller.marketing.ChangeStatusBlogServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderDetailForSaleServlet</servlet-name>
+        <servlet-class>controller.OrderDetailForSaleServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -209,5 +213,9 @@
     <servlet-mapping>
         <servlet-name>ChangeStatusBlogServlet</servlet-name>
         <url-pattern>/changestatusblog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderDetailForSaleServlet</servlet-name>
+        <url-pattern>/orderdetailforsale</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -4,23 +4,27 @@
  */
 package controller;
 
-import dal.LoginDAO;
+import dal.AccountDAO;
+import dal.OrderDAO;
+import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.awt.Image;
 import model.Account;
-import util.HashPassword;
+import model.OrderDetail;
+import model.Product;
+import model.ProductImage;
 
 /**
  *
  * @author Sonvu
  */
-public class LoginByAccountServlet extends HttpServlet {
+public class OrderDetailForSaleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +43,10 @@ public class LoginByAccountServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginByAccountServlet</title>");
+            out.println("<title>Servlet OrderDetailForSaleServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginByAccountServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet OrderDetailForSaleServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,22 +65,33 @@ public class LoginByAccountServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Cookie[] arr = request.getCookies();
-        System.out.println(arr);
-        if (arr != null) {
-            for (Cookie cookie : arr) {
-                System.out.println("Cookie Name: " + cookie.getName());
-                System.out.println("Cookie Value: " + cookie.getValue());
-                if (cookie.getName().equalsIgnoreCase("userCookie")) {
-                    request.setAttribute("userName", cookie.getValue());
-                }
-                if (cookie.getName().equalsIgnoreCase("passCookie")) {
-                    request.setAttribute("passWord", cookie.getValue());
-                }
-            }
-        }
+        HttpSession session = request.getSession();
 
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        int orderDetailId = Integer.parseInt(request.getParameter("orderDetailId"));
+
+        AccountDAO accountDao = new AccountDAO();
+        OrderDAO orderDao = new OrderDAO();
+        ProductDAO p = new ProductDAO();
+        Product product = new Product();
+        ProductImage image = new ProductImage();
+
+        Account accountOrder = accountDao.getAccountById(6);
+
+        OrderDetail orderDetail = orderDao.getOrderDetail(orderDetailId);
+
+        product = p.getProductById(orderDetail.getProductId());
+
+        image = p.getOneImagesByProductId(orderDetail.getProductId());
+
+        System.out.println(image.getImageUrl());
+        System.out.println(orderDetailId);
+        
+        session.setAttribute("image", image);
+
+        session.setAttribute("product", product);
+        session.setAttribute("orderDetail", orderDetail);
+        session.setAttribute("accountOrder", accountOrder);
+        request.getRequestDispatcher("orderdetailforsale.jsp").forward(request, response);
     }
 
     /**
@@ -90,40 +105,7 @@ public class LoginByAccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String username = request.getParameter("username");
-        String pass = request.getParameter("password");
-        String cpass = HashPassword.toSHA1(pass);
-        String remember = request.getParameter("remember");
-
-        LoginDAO loginDao = new LoginDAO();
-        Account account = loginDao.getUsernameAndPassword(username, cpass);
-        if(account == null){
-            account = loginDao.getEmailAndPassword(username, pass);
-        }
-
-        if (account != null) // login successfully!
-        {
-            if (remember != null) {
-                Cookie c_user = new Cookie("userCookie", username);
-                Cookie c_pass = new Cookie("passCookie", pass);
-                c_user.setMaxAge(3600 * 24 * 30);
-                c_pass.setMaxAge(3600 * 24 * 30);
-                response.addCookie(c_user);
-                response.addCookie(c_pass);
-
-            }
-            session.setAttribute("account", account);
-            session.setMaxInactiveInterval(60 * 600);
-            response.sendRedirect("home");
-        } else //login fail
-        {
-
-            request.setAttribute("mess", "Wrong username or password");
-            request.setAttribute("user", username);
-            request.setAttribute("pass", pass);
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**

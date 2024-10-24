@@ -535,7 +535,7 @@
                                         </td>
                                         <td>${product.stock}</td>
                                         <td>
-                                            <a href="editbymarketing?id=${product.productId}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                            <a href="editproductbymarketing?id=${product.productId}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                         </td>
                                     </tr>
                                 </c:forEach>

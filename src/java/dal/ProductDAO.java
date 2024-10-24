@@ -1017,7 +1017,23 @@ String sql = "UPDATE product SET status = ? WHERE brandId = ?";
     }
     
     
+    public void addProductImage(String productId, String imageUrl) throws SQLException {
+    // Truy vấn để chèn hình ảnh mới vào bảng
+    String query = "INSERT INTO productImage (productId, imageUrl) VALUES (?,?)";
 
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setString(1, productId); // Gán productId cho tham số thứ 1
+//        ps.setInt(2, imageId);      // Gán imageId cho tham số thứ 2
+        ps.setString(2, imageUrl);  // Gán imageUrl cho tham số thứ 3
+        int rowsInserted = ps.executeUpdate();
+
+        if (rowsInserted > 0) {
+            System.out.println("Chèn hình ảnh thành công!");
+        } else {
+            System.out.println("Không thể chèn hình ảnh.");
+        }
+    }
+}
 
     /*
     public static void main(String[] args) throws SQLException {

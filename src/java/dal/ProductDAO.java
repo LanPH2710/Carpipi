@@ -750,7 +750,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getPagingAllProductsById(String id, int index) {
         List<Product> products = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM carpipi.product where productId Like ? order by productId limit 5 offset ? "; // Thay đổi tên bảng cho đúng
+            String sql = "SELECT * FROM carpipi.product where productId Like ? and status = 1  order by productId limit 5 offset ?"; // Thay đổi tên bảng cho đúng
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, id + "%");
             st.setInt(2, ((index - 1) * 5));

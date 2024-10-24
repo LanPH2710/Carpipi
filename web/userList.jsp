@@ -12,7 +12,7 @@
 
     <head>
         <meta charset="UTF-8">
-        <title>Carpipi</title>
+        <title>Doctris - Doctor Appointment Booking System</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -21,7 +21,7 @@
         <meta name="website" content="../../../index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="img/logo3.png">
+        <link rel="shortcut icon" href="assets1/images/favicon.ico.png">
         <!-- Bootstrap -->
         <link href="assets1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
@@ -34,7 +34,33 @@
         <link href="assets1/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
 
     </head>
+    <style>.dropdown {
+            position: relative;
+            display: inline-block;
+        }
 
+        .dropdown-menu {
+            display: none; /* Hide dropdown by default */
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block; /* Show dropdown on hover */
+        }
+
+        .dropdown-item {
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+            display: block;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f0f0f0; /* Change background on hover */
+        }</style>
     <body>
         <!-- Loader -->
         <div id="preloader">
@@ -51,33 +77,48 @@
             <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
-                        <a href="index.html">
+                        <a href="home">
                             <img src="img/logoBlack.png" height="120" class="logo-light-mode" alt="">
                         </a>
                     </div>
 
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                        <li><a href="dash"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                      
 
-                        <div class="sidebar-submenu">
-                            <ul>
-
-                                <li><a href="userprofile">Profile</a></li>
-                            </ul>
-                        </div>
+                        <li class="sidebar-dropdown">
+                            <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
+                            
                         </li>
 
+                      
 
+                      
 
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Cart</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                   
+                                    <li><a href="product-detail.html">Shop Detail</a></li>
+                                    <li><a href="carts">Shopcart</a></li>
+                                    <li><a href="checkout.html">Checkout</a></li>
+                                </ul>
+                            </div>
+                        </li>
 
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="blogs.html">Blogs</a></li>
+                                    <li><a href="blog-detail.html">Blog Detail</a></li>
+                                </ul>
+                            </div>
+                        </li>
 
-
-
-
-
-
-
-
+                        
+                       
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -113,13 +154,12 @@
                                 <div id="search" class="menu-search mb-0">
                                     <form method="get" id="searchform" class="searchform" action="searchUser">
                                         <div>
-                                            <input type="text" class="form-control border rounded-pill" name="keyword" id="s" placeholder="Search Keywords..." value="${param.keyword}">
+                                            <input type="text" class="form-control border rounded-pill" name="keyword" id="s" placeholder="Search Keywords..." value="${param.keyword}" >
                                             <input type="submit" id="searchsubmit" value="Search">
                                         </div>
-                                    </form>
-                                </div>
+                                    </form>                             </div>
                             </div>
-
+                            <a href="userlist" class="btn btn-secondary ms-2">Reset Search</a> <!-- Reset button -->
                         </div>
 
 
@@ -133,8 +173,10 @@
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="homel">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="home">Home</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">User List</li>
+                                    <li class="breadcrumb-item active" aria-current="page"><a href="addUser">Add User</a></li>
+
                                 </ul>
                             </nav>
                         </div>
@@ -157,26 +199,120 @@
                                                     <th class="border-bottom p-3">Address</th>
                                                     <th class="border-bottom p-3">Role</th>
                                                     <th class="border-bottom p-3">Avatar</th>
-                                                    <th class="border-bottom p-3">Status</th>
-                                                    <th class="border-bottom p-3">Edit</th>
+                                                    <th class="border-bottom p-2">Status</th>
+                                                    <th class="border-bottom text-center p-4">Edit</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <c:forEach var="account" items="${accountList}">
+                                                <c:if test="${ empty sessionScope.accountOneAdmin}"> 
+                                                    <c:forEach var="account" items="${sessionScope.accountListAdmin}">
+                                                        <tr>
+
+                                                            <td class="p-3">${account.firstName} ${account.lastName}</td>
+                                                            <td class="p-3">${account.email}</td>
+                                                            <td class="p-3">${account.mobile}</td>
+                                                            <td class="p-3">
+                                                                <c:choose>
+                                                                    <c:when test="${account.gender == 0}">
+                                                                        Male
+                                                                    </c:when>
+                                                                    <c:when test="${account.gender == 1}">
+                                                                        Female
+                                                                    </c:when>
+                                                                    <c:when test="${account.gender == 3}">
+                                                                        Other
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        Not Specified
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </td>
+                                                            <td class="p-3">${account.address}</td>
+                                                            <td class="p-3">
+                                                                <c:choose>
+                                                                    <c:when test="${account.roleId == 1}">
+                                                                        Admin
+                                                                    </c:when>
+                                                                    <c:when test="${account.roleId == 2}">
+                                                                        Marketing
+                                                                    </c:when>
+                                                                    <c:when test="${account.roleId == 3}">
+                                                                        Sale
+                                                                    </c:when>
+                                                                    <c:when test="${account.roleId == 4}">
+                                                                        Customer
+                                                                    </c:when>
+                                                                    <c:when test="${account.roleId == 5}">
+                                                                        Shipper
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        Unknown Role
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </td>
+                                                            <td class="p-3"><img src="img/${account.avatar}" alt="avatar" class="avatar avatar-md-sm rounded-circle shadow"></td>
+                                                            <td class="p-2">
+                                                                <c:if test="${ account.status == 1 }">  
+                                                                    <span class="badge bg-soft-success">Hoạt Động</span>
+                                                                </c:if>
+                                                                <c:if test="${ account.status == 2 }">  
+                                                                    <span class="badge bg-soft-warning">Không Hoạt Động</span>
+                                                                </c:if>
+                                                                <c:if test="${ account.status == 0 }">  
+                                                                    <span class="badge bg-soft-warning">Pending</span>
+                                                                </c:if>
+
+                                                            </td>
+
+                                                            <td class="text-center p-4">
+                                                                <div class="dropdown">
+                                                                    <a href="" class="btn btn-icon btn-pills btn-soft-success dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
+                                                                        <i class="uil uil-pen"></i>
+                                                                    </a>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=1">Admin</a>
+                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=2">Marketing</a>
+                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=3">Sale</a>
+                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=4">Customer</a>
+                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=5">Shipper</a>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="dropdown">
+                                                                    <a href="" class="btn btn-icon btn-pills btn-soft-danger dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
+                                                                        <i class="uil uil-ban"></i>
+                                                                    </a>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                        <a class="dropdown-item" href="banUser?userId=${account.userId}&status=0">Duyệt Lại</a>
+                                                                        <a class="dropdown-item" href="banUser?userId=${account.userId}&status=1">Hoạt Động</a>
+                                                                        <a class="dropdown-item" href="banUser?userId=${account.userId}&status=2">Cấm</a>
+
+                                                                    </div>
+                                                                </div>
+                                                                <a href="userprofileadmin?userId=${account.userId}" class="btn btn-icon btn-pills btn-soft-primary">
+                                                                    <i class="uil uil-eye"></i>
+
+
+
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </c:if>
+                                                <c:if test="${not empty sessionScope.accountOneAdmin}">  
                                                     <tr>
 
-                                                        <td class="p-3">${account.firstName} ${account.lastName}</td>
-                                                        <td class="p-3">${account.email}</td>
-                                                        <td class="p-3">${account.mobile}</td>
+                                                        <td class="p-3">${sessionScope.accountOneAdmin.firstName} ${sessionScope.accountOneAdmin.lastName}</td>
+                                                        <td class="p-3">${sessionScope.accountOneAdmin.email}</td>
+                                                        <td class="p-3">${sessionScope.accountOneAdmin.mobile}</td>
                                                         <td class="p-3">
                                                             <c:choose>
-                                                                <c:when test="${account.gender == 0}">
+                                                                <c:when test="${sessionScope.accountOneAdmin.gender == 0}">
                                                                     Male
                                                                 </c:when>
-                                                                <c:when test="${account.gender == 1}">
+                                                                <c:when test="${sessionScope.accountOneAdmin.gender == 1}">
                                                                     Female
                                                                 </c:when>
-                                                                <c:when test="${account.gender == 3}">
+                                                                <c:when test="${sessionScope.accountOneAdmin.gender == 3}">
                                                                     Other
                                                                 </c:when>
                                                                 <c:otherwise>
@@ -184,22 +320,22 @@
                                                                 </c:otherwise>
                                                             </c:choose>
                                                         </td>
-                                                        <td class="p-3">${account.address}</td>
+                                                        <td class="p-3">${sessionScope.accountOneAdmin.address}</td>
                                                         <td class="p-3">
                                                             <c:choose>
-                                                                <c:when test="${account.roleId == 1}">
+                                                                <c:when test="${sessionScope.accountOneAdmin.roleId == 1}">
                                                                     Admin
                                                                 </c:when>
-                                                                <c:when test="${account.roleId == 2}">
+                                                                <c:when test="${sessionScope.accountOneAdmin.roleId == 2}">
                                                                     Marketing
                                                                 </c:when>
-                                                                <c:when test="${account.roleId == 3}">
+                                                                <c:when test="${sessionScope.accountOneAdmin.roleId == 3}">
                                                                     Sale
                                                                 </c:when>
-                                                                <c:when test="${account.roleId == 4}">
+                                                                <c:when test="${sessionScope.accountOneAdmin.roleId == 4}">
                                                                     Customer
                                                                 </c:when>
-                                                                <c:when test="${account.roleId == 5}">
+                                                                <c:when test="${sessionScope.accountOneAdmin.roleId == 5}">
                                                                     Shipper
                                                                 </c:when>
                                                                 <c:otherwise>
@@ -207,37 +343,50 @@
                                                                 </c:otherwise>
                                                             </c:choose>
                                                         </td>
-                                                        <td class="p-3"><img src="img/${account.avatar}" alt="avatar" class="avatar avatar-md-sm rounded-circle shadow"></td>
+                                                        <td class="p-3"><img src="img/${sessionScope.accountOneAdmin.avatar}" alt="avatar" class="avatar avatar-md-sm rounded-circle shadow"></td>
                                                         <td class="p-3"><span class="badge bg-soft-success">action</span></td>
                                                         <td class="text-end p-3">
-                                                            <a href="#" class="btn btn-icon btn-pills btn-soft-primary" data-bs-toggle="modal" data-bs-target="#viewprofile" data-user-id="${account.userId}">
-                                                                <i class="uil uil-eye"></i>
-                                                            </a>                                                            <a href="#" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
+
+
+                                                            <a href="" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
                                                             <a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i class="uil uil-trash"></i></a>
                                                         </td>
-                                                    </tr>
-                                                </c:forEach>
-                                            </tbody>
-                                        </table>
+                                                    </tr>    </c:if>
+                                                </tbody>
+                                            </table>
 
-
-
+                                    </div>
                                 </div>
-                            </div>
-                        </div><!--end row-->
+                            </div><!--end row-->
 
-                        <div class="row text-center">
-                            <!-- PAGINATION START -->
-                            <div class="col-12 mt-4">
-                                <div class="d-md-flex align-items-center text-center justify-content-between">
-                                    <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
-                                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>
-                                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>
-                                    </ul>
+                            <div class="row text-center">
+                                <!-- PAGINATION START -->
+                                <div class="col-12 mt-4">
+                                    <div class="d-md-flex align-items-center text-center justify-content-between">
+
+<!--                                        <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                            <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>
+                                            <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                                            <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>
+                                        </ul>-->
+                                    <c:choose>
+                                        <c:when test="${accountListAdmin==null || accountListAdmin.size()==0}">
+                                            Not founds
+                                        </c:when>
+                                        <c:otherwise>
+                                            <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+                                                <ul class="pagination">
+
+                                                    <c:forEach begin="1" end="${totalPage}" var="i">
+                                                        <li class="page-item ${i == page?"active":""}"><a class="page-link" href="userlist?page=${i}">${i}</a></li>
+                                                        </c:forEach>
+
+                                                </ul>
+                                            </nav>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                             </div><!--end col-->
                             <!-- PAGINATION END -->
@@ -246,17 +395,7 @@
                 </div><!--end container-->
 
                 <!-- Footer Start -->
-                <footer class="bg-white shadow py-3">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <div class="text-sm-start text-center">
-                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </div><!--end container-->
-                </footer><!--end footer-->
+
                 <!-- End -->
             </main>
             <!--End page-content" -->
@@ -384,93 +523,109 @@
         </div>
         <!--         Profile Settings End 
         
-                 Profile Start 
-        -->       <div  class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-bottom p-3">
-                        <h5 class="modal-title" id="exampleModalLabel1">Profile</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-3 pt-4">
-                        <div class="d-flex align-items-center">
-                            <!-- Use the account's avatar if available, otherwise provide a default image -->
-                            <img src="img/${account.avatar}" class="avatar avatar-small rounded-pill" alt="Avatar">
-                            <h5 class="mb-0 ms-3">${acc.firstName} ${acc.lastName}</h5>
-                        </div>
-                        <ul class="list-unstyled mb-0 d-md-flex justify-content-between mt-4">
-                            <li>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="d-flex">
-                                        <h6></h6>
-                                        <p class="text-muted ms-2"></p>
-                                    </li>
+        -->                 Profile Start 
+        <!--               <div  class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header border-bottom p-3">
+                                <h5 class="modal-title" id="exampleModalLabel1">Profile</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-3 pt-4">
+                                <div class="d-flex align-items-center">
+                                     Use the account's avatar if available, otherwise provide a default image 
+                                    <img src="img/${account.avatar}" class="avatar avatar-small rounded-pill" alt="Avatar">
+                                    <h5 class="mb-0 ms-3">${acc.firstName} ${acc.lastName}</h5>
+                                </div>
+                                <ul class="list-unstyled mb-0 d-md-flex justify-content-between mt-4">
+                                    <li>
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="d-flex">
+                                                <h6></h6>
+                                                <p class="text-muted ms-2"></p>
+                                            </li>
+        
+                                            <li class="d-flex">
+                                                <h6>Gender:</h6>
+                                                <p class="text-muted ms-2">
+        <c:choose>
+            <c:when test="${acc.gender == 0}">Male</c:when>
+            <c:when test="${acc.gender == 1}">Female</c:when>
+            <c:when test="${acc.gender == 3}">Other</c:when>
+            <c:otherwise>Not Specified</c:otherwise>
+        </c:choose>
+        </p>
+        </li>
+        
+        <li class="d-flex">
+        <h6 class="mb-0">Role:</h6>
+        <td class="p-3">
+        <c:choose>
+            <c:when test="${account.roleId == 1}">
+                Admin
+            </c:when>
+            <c:when test="${account.roleId == 2}">
+                Marketing
+            </c:when>
+            <c:when test="${account.roleId == 3}">
+                Sale
+            </c:when>
+            <c:when test="${account.roleId == 4}">
+                Customer
+            </c:when>
+            <c:when test="${account.roleId == 5}">
+                Shipper
+            </c:when>
+            <c:otherwise>
+                Unknown Role
+            </c:otherwise>
+        </c:choose>
+        </td>
+        </li>
+        </ul>
+        </li>
+        <li>
+        <ul class="list-unstyled mb-0">
+        <li class="d-flex">
+        <h6>Email:</h6>
+        <p class="text-muted ms-2">${acc.email}</p>
+        </li>
+        
+        <li class="d-flex">
+        <h6>Mobile:</h6>
+        <p class="text-muted ms-2">${acc.mobile}</p>
+        </li>
+        
+        <li class="d-flex">
+        <h6 class="mb-0">Address:</h6>
+        <p class="text-muted ms-2 mb-0">${acc.address}</p>
+        </li>
+        </ul>
+        </li>
+        </ul>
+        </div>
+        </div>
+        </div>
+        </div>
+        Profile End 
+        Modal end -->
+        <script>
+            document.getElementById("dropdownMenuButton").addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent default anchor behavior
+                const dropdownMenu = this.nextElementSibling;
+                dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+            });
 
-                                    <li class="d-flex">
-                                        <h6>Gender:</h6>
-                                        <p class="text-muted ms-2">
-                                            <c:choose>
-                                                <c:when test="${acc.gender == 0}">Male</c:when>
-                                                <c:when test="${acc.gender == 1}">Female</c:when>
-                                                <c:when test="${acc.gender == 3}">Other</c:when>
-                                                <c:otherwise>Not Specified</c:otherwise>
-                                            </c:choose>
-                                        </p>
-                                    </li>
-
-                                    <li class="d-flex">
-                                        <h6 class="mb-0">Role:</h6>
-                                    <td class="p-3">
-                                        <c:choose>
-                                            <c:when test="${account.roleId == 1}">
-                                                Admin
-                                            </c:when>
-                                            <c:when test="${account.roleId == 2}">
-                                                Marketing
-                                            </c:when>
-                                            <c:when test="${account.roleId == 3}">
-                                                Sale
-                                            </c:when>
-                                            <c:when test="${account.roleId == 4}">
-                                                Customer
-                                            </c:when>
-                                            <c:when test="${account.roleId == 5}">
-                                                Shipper
-                                            </c:when>
-                                            <c:otherwise>
-                                                Unknown Role
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
-                            </li>
-                        </ul>
-                        </li>
-                        <li>
-                            <ul class="list-unstyled mb-0">
-                                <li class="d-flex">
-                                    <h6>Email:</h6>
-                                    <p class="text-muted ms-2">${acc.email}</p>
-                                </li>
-
-                                <li class="d-flex">
-                                    <h6>Mobile:</h6>
-                                    <p class="text-muted ms-2">${acc.mobile}</p>
-                                </li>
-
-                                <li class="d-flex">
-                                    <h6 class="mb-0">Address:</h6>
-                                    <p class="text-muted ms-2 mb-0">${acc.address}</p>
-                                </li>
-                            </ul>
-                        </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div><!--
-                 Profile End 
-                 Modal end -->
-
+            // Close dropdown if clicked outside
+            window.addEventListener("click", function (event) {
+                if (!event.target.matches('#dropdownMenuButton')) {
+                    const dropdowns = document.querySelectorAll('.dropdown-menu');
+                    dropdowns.forEach(dropdown => {
+                        dropdown.style.display = 'none';
+                    });
+                }
+            });
+        </script>
         <!-- javascript -->
         <script src="assets1/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->

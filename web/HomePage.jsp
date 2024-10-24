@@ -173,9 +173,17 @@
                                             </c:when>
                                         </c:choose>
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
+                                   
+                                    <li ><a href="userlist">User List</a></li>
+                                    
                                     <li class=""><a href="productlist">Danh sách mẫu</a></li>
                                     <li class=""><a href="BlogListServlet">Tin xe</a></li>
                                     <li class="scroll"><a href="#contact">Liên lạc</a></li>
+                                    <c:if test="${sessionScope.account != null}">
+                                        <li>
+                                            <a href="carts">CART</a>
+                                        </li>
+                                    </c:if>
 
                                     <c:choose>
                                         <c:when test="${sessionScope.account == null}">

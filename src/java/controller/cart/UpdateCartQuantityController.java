@@ -5,6 +5,8 @@
  */
 package controller.cart;
 
+import java.sql.SQLException;
+import dal.CartDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedHashMap;
@@ -15,9 +17,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Account;
 import model.Cart;
-
-
 
 @WebServlet(name = "UpdateCartQuantityController", urlPatterns = {"/update-quantity"})
 public class UpdateCartQuantityController extends HttpServlet {
@@ -31,33 +33,64 @@ public class UpdateCartQuantityController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
 
-        // Get productId as a String
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        int userId = account.getUserId();
         String productId = request.getParameter("productId");
         int quantity = Integer.parseInt(request.getParameter("quantity"));
 
-        HttpSession session = request.getSession();
-        Map<String, Cart> carts = (Map<String, Cart>) session.getAttribute("carts");
-        if (carts == null) {
-            carts = new LinkedHashMap<>();
+        // Create an instance of CartDAO
+        CartDAO cartDAO = new CartDAO();
+
+        try {
+            // Get the current cart items from the database
+            List<Cart> carts = cartDAO.getCartsByUserId(userId);
+            Cart cartToUpdate = null;
+
+            // Find the cart item that matches the productId
+            for (Cart cartItem : carts) {
+                if (cartItem.getProduct().getProductId().equals(productId)) {
+                    cartToUpdate = cartItem;
+                    break;
+                }
+            }
+
+            if (cartToUpdate != null) {
+                // Update the quantity in the database
+                cartDAO.updateCart2(cartToUpdate.getCartId(), userId, productId, quantity);
+
+                // Update the cart quantity in the list
+                cartToUpdate.setQuantity(quantity);
+            }
+
+            // Update total money after the change
+            double totalMoney = 0;
+            for (Cart cartItem : carts) {
+                totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+            }
+
+            // Save the updated carts and total money back to session
+            session.setAttribute("carts", carts);
+            session.setAttribute("totalMoney", totalMoney);
+            String urlHistory = (String) session.getAttribute("urlHistory");
+            if (urlHistory == null) {
+                urlHistory = "carts";
+            }
+           
+            // Redirect to the cart page or forward to the appropriate view
+            response.sendRedirect(urlHistory); // Redirect to the CartController
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Print the exception stack trace for debugging
+            request.setAttribute("errorMessage", "An error occurred while updating the cart.");
+            request.getRequestDispatcher("error.jsp").forward(request, response); // Forward to an error page
         }
 
-        // Update the quantity if the productId exists in the cart
-        if (carts.containsKey(productId)) {
-            carts.get(productId).setQuantity(quantity);
-        }
-
-        // Save updated cart in session
-        session.setAttribute("carts", carts);
-
-        // Redirect to cart page
-        response.sendRedirect("carts");
+        // Cập nhật số lượng sản phẩm trong database
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

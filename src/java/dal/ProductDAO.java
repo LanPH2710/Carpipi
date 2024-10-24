@@ -45,6 +45,38 @@ public class ProductDAO extends DBContext {
         }
         return products;
     }
+    
+    public List<Product> getAllProductsCommon() {
+        List<Product> products = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM product where status = 1"; // Thay đổi tên bảng cho đúng
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProductId(resultSet.getString("productId"));
+                product.setName(resultSet.getString("name"));
+                product.setSeatNumber(resultSet.getInt("seatNumber"));
+                product.setPrice(resultSet.getDouble("price"));
+                product.setFuel(resultSet.getString("fuel"));
+                product.setStock(resultSet.getInt("stock"));
+                product.setDescription(resultSet.getString("description"));
+                product.setVAT(resultSet.getDouble("VAT"));
+                product.setSupplyId(resultSet.getInt("supplyId"));
+                product.setBrandId(resultSet.getInt("brandId"));
+                product.setSegmentId(resultSet.getInt("segmentId"));
+                product.setStyleId(resultSet.getInt("styleId"));
+
+                // Lấy danh sách hình ảnh của sản phẩm
+                product.setImages(getImagesByProductId(product.getProductId()));
+
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return products;
+    }
 
     public List<Product> getAllProductsById(String id) {
         List<Product> products = new ArrayList<>();
@@ -465,8 +497,8 @@ public class ProductDAO extends DBContext {
         String sql = "SELECT * FROM Product WHERE price BETWEEN ? AND ? LIMIT 8;";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setDouble(1, price - 200000000);
-            st.setDouble(2, price + 200000000);
+            st.setDouble(1, price - 1000000000);
+            st.setDouble(2, price + 1000000000);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Product product = new Product();

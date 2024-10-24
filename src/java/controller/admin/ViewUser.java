@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Account;
 
 /**
@@ -38,7 +39,7 @@ public class ViewUser extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewUser</title>");            
+            out.println("<title>Servlet ViewUser</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ViewUser at " + request.getContextPath() + "</h1>");
@@ -59,11 +60,12 @@ public class ViewUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         int userId = Integer.parseInt(request.getParameter("userId"));
         AccountDAO accountDAO = new AccountDAO();
         Account acc = accountDAO.getAccountById(userId);
-        request.setAttribute("acc", acc);
-        request.getRequestDispatcher("viewUser.jsp").forward(request, response);
+        session.setAttribute("accountOneAdmin", acc);
+        request.getRequestDispatcher("userList.jsp").forward(request, response);
     }
 
     /**

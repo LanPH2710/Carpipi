@@ -5,6 +5,7 @@
  */
 package controller.cart;
 
+import dal.CartDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedHashMap;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Account;
 import model.Cart;
 
 /**
@@ -37,25 +39,34 @@ public class DeleteCartController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-           /* TODO output your page here. You may use following sample code. */
-           String productId = request.getParameter("productId");
-           
+            /* TODO output your page here. You may use following sample code. */
+            String productId = request.getParameter("productId");
             HttpSession session = request.getSession();
-            
-            Map<String, Cart> carts = (Map<String, Cart>) session.getAttribute("carts");
-            if (carts == null) {
-                carts = new LinkedHashMap<>();
+            Account account = (Account) session.getAttribute("account");
+            int userId = account.getUserId(); // Lấy userId từ session
+
+            // Tạo instance của CartDAO
+            CartDAO cartDAO = new CartDAO();
+            // Gọi phương thức deleteCartItem để thực hiện xóa mềm
+            boolean isDeleted = cartDAO.deleteCartItem(userId, productId);
+
+            // Ghi thông báo cho người dùng
+            if (isDeleted) {
+                out.write("Product removed from cart successfully."); // Ghi thông báo thành công
+            } else {
+                out.write("Failed to remove product from cart."); // Ghi thông báo thất bại
             }
-            
-            if(carts.containsKey(productId)){
-                carts.remove(productId);
-            }
-            session.setAttribute("carts", carts);
+
+            // Chuyển hướng về trang giỏ hàng
             response.sendRedirect("carts");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("error.jsp"); // Chuyển hướng đến trang lỗi nếu có ngoại lệ
         }
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

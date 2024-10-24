@@ -5,6 +5,7 @@
  */
 package controller.cart;
 
+import dal.CartDAO;
 import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +17,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Account;
 import model.Cart;
 import model.Product;
 
@@ -35,30 +38,35 @@ public class CartController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
- protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
 
-    HttpSession session = request.getSession();
-    Map<String, Cart> carts = (Map<String, Cart>) session.getAttribute("carts");
-    if (carts == null) {
-        carts = new LinkedHashMap<>();
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        int userId = account.getUserId();
+
+        // Create an instance of CartDAO
+        CartDAO cartDAO = new CartDAO();
+
+        // Get cart items from database
+        List<Cart> carts = cartDAO.getCartsByUserId(userId);
+
+        // Initialize total money
+        double totalMoney = 0;
+
+        // Calculate total money
+        for (Cart cartItem : carts) {
+            totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+        }
+
+        // Save carts and total money to session
+        session.setAttribute("carts", carts);
+        session.setAttribute("totalMoney", totalMoney);
+
+        // Forward to cart.jsp
+        request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
-
-    double totalMoney = 0;
-
-    for (Map.Entry<String, Cart> entry : carts.entrySet()) {
-        Cart cartItem = entry.getValue();
-        totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
-    }
-
-    // Save carts and total money to session
-    session.setAttribute("carts", carts);
-    session.setAttribute("totalMoney", totalMoney);
-
-    // Forward to cart.jsp
-    request.getRequestDispatcher("cart.jsp").forward(request, response);
-}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -98,7 +106,5 @@ public class CartController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-  
 
 }

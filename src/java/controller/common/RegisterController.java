@@ -117,7 +117,7 @@ public class RegisterController extends HttpServlet {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
 
             message.setSubject("Xác nhận đăng ký tài khoản");
-            String confirmationLink = "http://localhost:9999/Iter1_Test/confirm?email=" + toEmail; // Đảm bảo thay đổi 'yourapp' thành tên ứng dụng của bạn
+            String confirmationLink = "http://localhost:8015/Iter1_Test/confirm?email=" + toEmail; // Đảm bảo thay đổi 'yourapp' thành tên ứng dụng của bạn
             message.setText("Vui lòng nhấp vào liên kết sau để xác nhận tài khoản của bạn: " + confirmationLink);
 
             // Gửi email

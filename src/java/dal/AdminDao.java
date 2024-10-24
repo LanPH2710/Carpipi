@@ -62,6 +62,47 @@ public class AdminDao extends DBContext {
         }
         return accounts;
     }
+    //hieu
+
+    public void insertAccountAdmin(Account acc) {
+
+        String sql = "INSERT INTO account (userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, status) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, acc.getUserName());
+            stm.setString(2, acc.getPassword());
+            stm.setString(3, acc.getFirstName());
+            stm.setString(4, acc.getLastName());
+            stm.setInt(5, acc.getGender());
+            stm.setString(6, acc.getEmail());
+            stm.setString(7, acc.getMobile());
+            stm.setString(8, acc.getAddress());
+            stm.setInt(9, 4); // Role mặc định - customer
+            stm.setString(10, "avatar-trang-4.jpg"); // Avatar mặc định
+            stm.setInt(11, 1); // Trạng thái 'pending'
+
+            stm.executeUpdate();
+            System.out.println("Tài khoản đã được thêm vào danh sách  thành công!");
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi thêm tài khoản vào danh sách " + e.getMessage());
+        }
+    }
+
+    public boolean updateAccountStatus1(int userId, int status) {
+        String sql = "UPDATE account SET status = ? WHERE userId = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, status); // Set the new status (0, 1, or 2)
+            stmt.setInt(2, userId);  // Set userId value
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public boolean updateRoleId(int userId, int roleId) {
         String sql = "UPDATE account SET roleId = ? WHERE userId = ?";

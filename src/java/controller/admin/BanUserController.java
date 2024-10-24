@@ -5,6 +5,7 @@
 package controller.admin;
 
 import dal.AccountDAO;
+import dal.AdminDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -36,7 +37,7 @@ public class BanUserController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             int userId = Integer.parseInt(request.getParameter("userId"));
             int status = Integer.parseInt(request.getParameter("status"));
-            AccountDAO accountDAO = new AccountDAO();
+            AdminDao accountDAO = new AdminDao();
 
             // Call to update status
             boolean isUpdated = accountDAO.updateAccountStatus1(userId, status);

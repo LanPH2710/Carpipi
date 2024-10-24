@@ -5,74 +5,44 @@
  */
 package controller.cart;
 
-import dal.CartDAO;
-import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
 import model.Account;
-import model.Cart;
-import model.Product;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "CartController", urlPatterns = {"/carts"})
-public class CartController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+public abstract class BaseRequiredAuthenController extends HttpServlet {
+
+    private boolean isAuthenticated(HttpServletRequest request)
+    {
+        Account account = (Account)request.getSession().getAttribute("account");
+        return account != null;
+    }
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        if (account == null) {
-            // Nếu chưa đăng nhập
+        if(isAuthenticated(request))
+        {
+            processRequests(request, response);
+        }
+        else
+        {
+           
             response.sendRedirect("login.jsp");
-            return;
         }
-        int userId = account.getUserId();
-
-        // Create an instance of CartDAO
-        CartDAO cartDAO = new CartDAO();
-
-        // Get cart items from database
-        List<Cart> carts = cartDAO.getCartsByUserId(userId);
-
-        // Initialize total money
-        double totalMoney = 0;
-
-        // Calculate total money
-        for (Cart cartItem : carts) {
-            totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
-        }
-
-        // Save carts and total money to session
-        session.setAttribute("carts", carts);
-        session.setAttribute("totalMoney", totalMoney);
-
-        // Forward to cart.jsp
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
-
+    protected abstract void processRequests(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

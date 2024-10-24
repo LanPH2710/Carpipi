@@ -31,6 +31,7 @@
         <a href="dash">Dashboard</a>
         <a href="settingsList">Setting</a>
         <a href="proformarketing">Product List</a>
+        <a href="userlist">User List</a>
     </div>
     
     <p>Select an option above to manage the application.</p>

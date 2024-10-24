@@ -239,7 +239,7 @@
                         <c:if test="${not empty sessionScope.carts}">       
                             <div class="row">
                                 <div class="col-lg-8 col-md-6 mt-4 pt-2">
-                                    <a href="#" class="btn btn-primary">Shop More</a>
+                                    <a href="productlist" class="btn btn-primary">Shop More</a>
                                     
                                 </div>
                                 <div class="col-lg-4 col-md-6 ms-auto mt-4 pt-2">

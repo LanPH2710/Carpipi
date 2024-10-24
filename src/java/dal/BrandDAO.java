@@ -111,66 +111,6 @@ public class BrandDAO extends DBContext {
     }
     return brandList;
 }
-    public List<Brand> getBrandListWithPagination(String search, int status, int offset, int limit) {
-    List<Brand> brandList = new ArrayList<>();
-    StringBuilder sql = new StringBuilder("SELECT b.brandId, b.name, b.status, COUNT(p.productId) AS productCount " +
-                                          "FROM brand b LEFT JOIN product p ON b.brandId = p.brandId ");
-    
-    boolean hasCondition = false;
-
-    // Điều kiện lọc theo status
-    if (status != -1) {
-        sql.append("WHERE b.status = ? ");
-        hasCondition = true;
-    }
-
-    // Điều kiện tìm kiếm
-    if (search != null && !search.isEmpty()) {
-        if (hasCondition) {
-            sql.append("AND b.name LIKE ? ");
-        } else {
-            sql.append("WHERE b.name LIKE ? ");
-            hasCondition = true;
-        }
-    }
-
-    sql.append("GROUP BY b.brandId, b.name, b.status ");
-    sql.append("LIMIT ? OFFSET ?");
-
-    try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
-        int paramIndex = 1;
-
-        // Thiết lập tham số cho status
-        if (status != -1) {
-            ps.setInt(paramIndex++, status);
-        }
-
-        // Thiết lập tham số tìm kiếm
-        if (search != null && !search.isEmpty()) {
-            ps.setString(paramIndex++, "%" + search + "%");
-        }
-
-        // Thiết lập tham số LIMIT và OFFSET
-        ps.setInt(paramIndex++, limit);
-        ps.setInt(paramIndex, offset);
-
-        try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Brand brand = new Brand();
-                brand.setBrandId(rs.getInt("brandId"));
-                brand.setName(rs.getString("name"));
-                brand.setStatus(rs.getInt("status"));
-                brand.setProductCount(rs.getInt("productCount"));
-                brandList.add(brand);
-            }
-        }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-
-    return brandList;
-}
 
     // Cập nhật trạng thái của brand
     public boolean updateBrandStatus(int brandId, int status) {

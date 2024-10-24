@@ -117,7 +117,7 @@ public class PostListServlet extends HttpServlet {
         }
 
         //phân trang
-        int page, numperpage = 4;
+        int page, numperpage = 2;
         int size = blog.size();
         int num = (int) Math.ceil((double) size / numperpage); // Số trang, làm tròn lên
         String xpage = request.getParameter("page");

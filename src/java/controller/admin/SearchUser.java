@@ -4,7 +4,7 @@
  */
 package controller.admin;
 
-import dal.AccountDAO;
+import dal.AdminDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +13,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import model.Account;
 
 /**
  *
  * @author hiule
  */
-@WebServlet(name = "ViewUser", urlPatterns = {"/viewuser"})
-public class ViewUser extends HttpServlet {
+@WebServlet(name = "SearchUser", urlPatterns = {"/searchUser"})
+public class SearchUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,15 +37,19 @@ public class ViewUser extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewUser</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewUser at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            // Get the search keyword from the request
+        String keyword = request.getParameter("keyword");
+         HttpSession session = request.getSession();
+        // Prepare to get search results
+        AdminDao adminDao = new AdminDao();
+        List<Account> accounts = adminDao.searchAccounts(keyword);
+        
+        // Set the accounts as a request attribute to access in the JSP
+        request.setAttribute("searchResults", accounts);
+        request.setAttribute("keyword", keyword);
+        session.setAttribute("accountListAdmin", accounts);
+        // Forward the request to the results JSP page
+         request.getRequestDispatcher("userList.jsp").forward(request, response);
         }
     }
 
@@ -60,12 +65,7 @@ public class ViewUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        AccountDAO accountDAO = new AccountDAO();
-        Account acc = accountDAO.getAccountById(userId);
-        session.setAttribute("accountOneAdmin", acc);
-        request.getRequestDispatcher("userList.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

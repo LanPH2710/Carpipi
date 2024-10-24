@@ -203,21 +203,23 @@
                 </div>
 
                 <div class="login-google">
-                    <section class="gg">
+<!--                    <section class="gg">
                         <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:9999/Iter1_Test/login&response_type=code&client_id=425567804160-tpdr9so617et1ijjcp3oqe7d35tl6n07.apps.googleusercontent.com&approval_prompt=force"> 
                             Đăng nhập bằng tài khoản Google
                         </a>
 
 
-                    </section>
+                    </section>-->
                 </div>
                 <form action="byaccount" method="post">
                     <p style="color: red;">${mess}</p>
                     <div class="input-box">
+                        <p>Tên đăng nhập</p>
                         <input type="text" value="${userName}" name="username" class="input-field" placeholder="Tên đăng nhập" autocomplete="off" required>
 
                     </div>
                     <div class="input-box">
+                        <p>Mật khẩu</p>
                         <input type="password" value="${passWord}" name="password" class="input-field" placeholder="Mật khẩu" autocomplete="off" required>
                     </div>
                     <div class="input-submit">

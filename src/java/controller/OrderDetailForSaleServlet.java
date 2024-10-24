@@ -1,33 +1,30 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.cart;
+package controller;
 
-import dal.CartDAO;
+import dal.AccountDAO;
+import dal.OrderDAO;
 import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
+import java.awt.Image;
 import model.Account;
-import model.Cart;
+import model.OrderDetail;
 import model.Product;
+import model.ProductImage;
 
 /**
  *
- * @author Admin
+ * @author Sonvu
  */
-@WebServlet(name = "CartController", urlPatterns = {"/carts"})
-public class CartController extends HttpServlet {
+public class OrderDetailForSaleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,36 +38,18 @@ public class CartController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        if (account == null) {
-            // Nếu chưa đăng nhập
-            response.sendRedirect("login.jsp");
-            return;
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet OrderDetailForSaleServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet OrderDetailForSaleServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        int userId = account.getUserId();
-
-        // Create an instance of CartDAO
-        CartDAO cartDAO = new CartDAO();
-
-        // Get cart items from database
-        List<Cart> carts = cartDAO.getCartsByUserId(userId);
-
-        // Initialize total money
-        double totalMoney = 0;
-
-        // Calculate total money
-        for (Cart cartItem : carts) {
-            totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
-        }
-
-        // Save carts and total money to session
-        session.setAttribute("carts", carts);
-        session.setAttribute("totalMoney", totalMoney);
-
-        // Forward to cart.jsp
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -85,7 +64,34 @@ public class CartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        HttpSession session = request.getSession();
+
+        int orderDetailId = Integer.parseInt(request.getParameter("orderDetailId"));
+
+        AccountDAO accountDao = new AccountDAO();
+        OrderDAO orderDao = new OrderDAO();
+        ProductDAO p = new ProductDAO();
+        Product product = new Product();
+        ProductImage image = new ProductImage();
+
+        Account accountOrder = accountDao.getAccountById(6);
+
+        OrderDetail orderDetail = orderDao.getOrderDetail(orderDetailId);
+
+        product = p.getProductById(orderDetail.getProductId());
+
+        image = p.getOneImagesByProductId(orderDetail.getProductId());
+
+        System.out.println(image.getImageUrl());
+        System.out.println(orderDetailId);
+        
+        session.setAttribute("image", image);
+
+        session.setAttribute("product", product);
+        session.setAttribute("orderDetail", orderDetail);
+        session.setAttribute("accountOrder", accountOrder);
+        request.getRequestDispatcher("orderdetailforsale.jsp").forward(request, response);
     }
 
     /**

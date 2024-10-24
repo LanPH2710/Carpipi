@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Brand;
 import model.Product;
@@ -39,7 +40,7 @@ public class ProductListServlet extends HttpServlet {
         BrandDAO brandDao = new BrandDAO();
         ProductDAO productDao = new ProductDAO();
         StyleDAO styleDao = new StyleDAO();
-
+        HttpSession session = request.getSession();
         // Lấy số trang từ yêu cầu (mặc định là 1)
         int page = 1;
         String pageParam = request.getParameter("page");
@@ -91,7 +92,7 @@ public class ProductListServlet extends HttpServlet {
         request.setAttribute("selectedBrandId", brandId);
         request.setAttribute("selectedStyleId", styleId);
         request.setAttribute("keyword", keyword);
-
+        session.setAttribute("urlHistory", "productlist");
         RequestDispatcher dispatcher = request.getRequestDispatcher("productList.jsp");
         dispatcher.forward(request, response);
     }

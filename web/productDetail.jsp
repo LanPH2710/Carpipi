@@ -159,155 +159,156 @@
                     </script>
                     <div class="d-flex align-items-center">
                         <c:choose>
-                        <c:when test="${sessionScope.account != null}">
-                            <form action="payment" method="get">
-                                <input type="hidden" name="productId" value="${pro.productId}">
-                                <input type="hidden" name="quantity" id="quantityFieldPayment" value="1">
-                                <button type="submit" class="btn btn-warning">Buy now</button>
-                            </form> &nbsp;&nbsp;
-                            <form action="addtocart" method="get">
-                                <input type="hidden" name="productId" value="${pro.productId}">
-                                <input type="hidden" name="quantity" id="quantityFieldCart" value="1">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-shopping-basket"></i> Add to cart
-                                </button>
-                            </form>
-                        </c:when>
-                        <c:otherwise>
-                            <p>Bạn cần <a href="login.jsp">đăng nhập</a> để mua sản phẩm.</p>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-            </main>
-        </div>
+                            <c:when test="${sessionScope.account != null}">
+                                <form action="payment" method="get">
+                                    <input type="hidden" name="productId" value="${pro.productId}">
+                                    <input type="hidden" name="quantity" id="quantityFieldPayment" value="1">
+                                    <button type="submit" class="btn btn-warning">Buy now</button>
+                                </form> &nbsp;&nbsp;
+                                <form action="addtocart" method="get" onsubmit="alert('Item has been added to your cart!')">
+                                    <input type="hidden" name="productId" value="${pro.productId}">
+                                    <input type="hidden" name="quantity" id="quantityFieldCart" value="1">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-shopping-basket"></i> Add to cart
+                                    </button>
+                                </form>
 
-        <section class="bg-light border-top py-4 mt-5">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="h5">Đánh giá sản phẩm</div>
-                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link ${rate == 0 ? 'active' : ''}" id="pills-home-tab" data-bs-toggle="pill" href="#" role="tab"
-                               onclick="window.location.href = 'productdetail?productId=${pro.productId}&rate=0';">Tất cả</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link ${rate == 5 ? 'active' : ''}" id="pills-5star-tab" data-bs-toggle="pill" href="#" role="tab"
-                               onclick="window.location.href = 'productdetail?productId=${pro.productId}&rate=5';">5 sao</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link ${rate == 4 ? 'active' : ''}" id="pills-4star-tab" data-bs-toggle="pill" href="#" role="tab"
-                               onclick="window.location.href = 'productdetail?productId=${pro.productId}&rate=4';">4 sao</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link ${rate == 3 ? 'active' : ''}" id="pills-3star-tab" data-bs-toggle="pill" href="#" role="tab"
-                               onclick="window.location.href = 'productdetail?productId=${pro.productId}&rate=3';">3 sao</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link ${rate == 2 ? 'active' : ''}" id="pills-2star-tab" data-bs-toggle="pill" href="#" role="tab"
-                               onclick="window.location.href = 'productdetail?productId=${pro.productId}&rate=2';">2 sao</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link ${rate == 1 ? 'active' : ''}" id="pills-1star-tab" data-bs-toggle="pill" href="#" role="tab"
-                               onclick="window.location.href = 'productdetail?productId=${pro.productId}&rate=1';">1 sao</a>
-                        </li>
-                    </ul>
+                            </c:when>
+                            <c:otherwise>
+                                <p>Bạn cần <a href="login.jsp">đăng nhập</a> để mua sản phẩm.</p>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </main>
+            </div>
 
-                    <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
-                            <c:forEach items="${feedback}" var="all">
-                                <c:set var="userDisplayed" value="false" />
-                                <div class="review p-3 mb-3" style="background-color: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6;">
-                                    <div class="review-header d-flex align-items-center">
-                                        <c:forEach items="${acc}" var="acc"> 
-                                            <c:if test="${acc.userId == all.userId && !userDisplayed}">
-                                                <div class="user-info mt-3 d-flex align-items-center">
-                                                    <img style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 15px;" 
-                                                         src="img/${acc.avatar}" 
-                                                         alt="Avatar" class="avatar">
-                                                    <div>
-                                                        <!-- Tên người dùng sẽ nằm trên dãy sao -->
-                                                        <h6 class="mb-1 font-weight-bold">${acc.firstName} ${acc.lastName}</h6>
-                                                        <div class="text-warning">
-                                                            <c:forEach var="i" begin="1" end="${all.feedbackRate}">
-                                                                <i class="fa fa-star"></i>
-                                                            </c:forEach>
+            <section class="bg-light border-top py-4 mt-5">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="h5">Đánh giá sản phẩm</div>
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link ${rate == 0 ? 'active' : ''}" id="pills-home-tab" data-bs-toggle="pill" href="#" role="tab"
+                                   onclick="window.location.href = 'productdetail?productId=${pro.productId}&rate=0';">Tất cả</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link ${rate == 5 ? 'active' : ''}" id="pills-5star-tab" data-bs-toggle="pill" href="#" role="tab"
+                                   onclick="window.location.href = 'productdetail?productId=${pro.productId}&rate=5';">5 sao</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link ${rate == 4 ? 'active' : ''}" id="pills-4star-tab" data-bs-toggle="pill" href="#" role="tab"
+                                   onclick="window.location.href = 'productdetail?productId=${pro.productId}&rate=4';">4 sao</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link ${rate == 3 ? 'active' : ''}" id="pills-3star-tab" data-bs-toggle="pill" href="#" role="tab"
+                                   onclick="window.location.href = 'productdetail?productId=${pro.productId}&rate=3';">3 sao</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link ${rate == 2 ? 'active' : ''}" id="pills-2star-tab" data-bs-toggle="pill" href="#" role="tab"
+                                   onclick="window.location.href = 'productdetail?productId=${pro.productId}&rate=2';">2 sao</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link ${rate == 1 ? 'active' : ''}" id="pills-1star-tab" data-bs-toggle="pill" href="#" role="tab"
+                                   onclick="window.location.href = 'productdetail?productId=${pro.productId}&rate=1';">1 sao</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
+                                <c:forEach items="${feedback}" var="all">
+                                    <c:set var="userDisplayed" value="false" />
+                                    <div class="review p-3 mb-3" style="background-color: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6;">
+                                        <div class="review-header d-flex align-items-center">
+                                            <c:forEach items="${acc}" var="acc"> 
+                                                <c:if test="${acc.userId == all.userId && !userDisplayed}">
+                                                    <div class="user-info mt-3 d-flex align-items-center">
+                                                        <img style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 15px;" 
+                                                             src="img/${acc.avatar}" 
+                                                             alt="Avatar" class="avatar">
+                                                        <div>
+                                                            <!-- Tên người dùng sẽ nằm trên dãy sao -->
+                                                            <h6 class="mb-1 font-weight-bold">${acc.firstName} ${acc.lastName}</h6>
+                                                            <div class="text-warning">
+                                                                <c:forEach var="i" begin="1" end="${all.feedbackRate}">
+                                                                    <i class="fa fa-star"></i>
+                                                                </c:forEach>
+                                                            </div>
+                                                            <!-- Thời gian hiển thị dưới dãy sao -->
+                                                            <h6 class="mb-1 font-weight-bold">${all.feedbackTime}</h6>
                                                         </div>
-                                                        <!-- Thời gian hiển thị dưới dãy sao -->
-                                                        <h6 class="mb-1 font-weight-bold">${all.feedbackTime}</h6>
                                                     </div>
-                                                </div>
-                                                <c:set var="userDisplayed" value="true" />
-                                            </c:if>
-                                        </c:forEach>
+                                                    <c:set var="userDisplayed" value="true" />
+                                                </c:if>
+                                            </c:forEach>
+                                        </div>
+                                        <div class="review-body mt-3">
+                                            <p>${all.feedbackInfo}</p>
+                                        </div>
                                     </div>
-                                    <div class="review-body mt-3">
-                                        <p>${all.feedbackInfo}</p>
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="border rounded-2 p-3">
+                            <h5>Các xe cùng tầm giá</h5>
+                            <c:forEach items="${pro2}" var="pro2">
+                                <div class="d-flex mb-3">
+                                    <img src="${pro2.images[0].imageUrl}" class="img-thumbnail me-3" style="width: 50%; height: 130px; object-fit: cover;" alt="Product Image"/>
+                                    <div>
+                                        <a href="productdetail?productId=${pro2.productId}" class="nav-link">${pro2.name}</a>
+                                        <strong class="text-dark">
+                                            <fmt:formatNumber value="${pro2.price}" type="number" pattern="#,###"/> VNĐ
+                                        </strong>
                                     </div>
                                 </div>
                             </c:forEach>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="border rounded-2 p-3">
-                        <h5>Các xe cùng tầm giá</h5>
-                        <c:forEach items="${pro2}" var="pro2">
-                            <div class="d-flex mb-3">
-                                <img src="${pro2.images[0].imageUrl}" class="img-thumbnail me-3" style="width: 50%; height: 130px; object-fit: cover;" alt="Product Image"/>
-                                <div>
-                                    <a href="productdetail?productId=${pro2.productId}" class="nav-link">${pro2.name}</a>
-                                    <strong class="text-dark">
-                                        <fmt:formatNumber value="${pro2.price}" type="number" pattern="#,###"/> VNĐ
-                                    </strong>
-                                </div>
-                            </div>
+                <div class="clearfix">
+                    <div class="hint-text text-muted">Showing <b>${page}</b> out of <b>${num}</b> pages feedback</div>
+                    <ul class="pagination justify-content-center">
+                        <!-- Điều hướng về trang trước -->
+                        <c:if test="${page > 1}">
+                            <li class="page-item">
+                                <a class="page-link" href="productdetail?productId=${pro.productId}&page=${page - 1}&rate=${rate}">
+                                    <i class="fa fa-angle-double-left"></i>
+                                </a>
+                            </li>
+                        </c:if>
+
+                        <!-- Vòng lặp phân trang -->
+                        <c:forEach begin="${(page - 1) <= 1 ? 1 : (page - 1)}" end="${page + 1 > num ? num : page + 1}" var="i">
+                            <c:choose>
+                                <c:when test="${i == page}">
+                                    <!-- Trang hiện tại -->
+                                    <li class="page-item active">
+                                        <a class="page-link">${i}</a>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <!-- Các trang khác -->
+                                    <li class="page-item">
+                                        <a href="productdetail?productId=${pro.productId}&page=${i}&rate=${rate}" class="page-link">${i}</a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
-                    </div>
+
+                        <!-- Điều hướng về trang sau -->
+                        <c:if test="${page < num}">
+                            <li class="page-item">
+                                <a class="page-link" href="productdetail?productId=${pro.productId}&page=${page + 1}&rate=${rate}">
+                                    <i class="fa fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                        </c:if>
+                    </ul>
                 </div>
-            </div>
-            <div class="clearfix">
-                <div class="hint-text text-muted">Showing <b>${page}</b> out of <b>${num}</b> pages feedback</div>
-                <ul class="pagination justify-content-center">
-                    <!-- Điều hướng về trang trước -->
-                    <c:if test="${page > 1}">
-                        <li class="page-item">
-                            <a class="page-link" href="productdetail?productId=${pro.productId}&page=${page - 1}&rate=${rate}">
-                                <i class="fa fa-angle-double-left"></i>
-                            </a>
-                        </li>
-                    </c:if>
-
-                    <!-- Vòng lặp phân trang -->
-                    <c:forEach begin="${(page - 1) <= 1 ? 1 : (page - 1)}" end="${page + 1 > num ? num : page + 1}" var="i">
-                        <c:choose>
-                            <c:when test="${i == page}">
-                                <!-- Trang hiện tại -->
-                                <li class="page-item active">
-                                    <a class="page-link">${i}</a>
-                                </li>
-                            </c:when>
-                            <c:otherwise>
-                                <!-- Các trang khác -->
-                                <li class="page-item">
-                                    <a href="productdetail?productId=${pro.productId}&page=${i}&rate=${rate}" class="page-link">${i}</a>
-                                </li>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-
-                    <!-- Điều hướng về trang sau -->
-                    <c:if test="${page < num}">
-                        <li class="page-item">
-                            <a class="page-link" href="productdetail?productId=${pro.productId}&page=${page + 1}&rate=${rate}">
-                                <i class="fa fa-angle-double-right"></i>
-                            </a>
-                        </li>
-                    </c:if>
-                </ul>
-            </div>
-        </section>
-    </div>
-    <jsp:include page="footerDemo.jsp"></jsp:include>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+            </section>
+        </div>
+        <jsp:include page="footerDemo.jsp"></jsp:include>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>

@@ -70,22 +70,23 @@
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-        <form action="userProfileAdmin?userId=${accountProfile.userId}" method="post" enctype="multipart/form-data">
-            <div class="container rounded mt-5 mb-5 p-4">
+            
+            <form action="userprofileadmin" method="post" enctype="multipart/form-data">
+                 <input type="hidden" name="userId" value="${param.userId == null ? userUpdate.userId : param.userId}">
+                <div class="container rounded mt-5 mb-5 p-4">
                 <c:if test="${not empty errorMessage}">
                     <div class="error-message">${errorMessage}</div>
                 </c:if>
                 <c:if test="${not empty successMessage}">
                     <div class="success-message">${successMessage}</div>
                 </c:if>
-                <input name="firstName" type="hidden" class="form-control" value="${accountProfile.firstName}" >
                 <div class="row">
                     <!-- Avatar and User Info -->
                     <div class="col-md-4 border-right">
                         <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <img class="avatar mt-5" width="200px" height="200px" src="img/${accountProfile.avatar}">
-                            <h3 class="font-weight-bold mt-3">${accountProfile.firstName} ${accountProfile.lastName}</h3>
-                            <span class="text-black-50">${accountProfile.email}</span>
+                            <img class="avatar mt-5" width="200px" height="200px" src="img/${userUpdate.avatar}">
+                            <h3 class="font-weight-bold mt-3">${userUpdate.firstName} ${userUpdate.lastName}</h3>
+                            <span class="text-black-50">${userUpdate.email}</span>
                         </div>
                     </div>
 
@@ -93,83 +94,83 @@
                     <div class="col-md-8 border-right">
                         <div class="p-3 py-5">
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h4 class="header-title">Thông tin cá nhân</h4>
+                                <h4 class="header-title">Thông tin người dùng</h4>
                             </div>
+                            
+                            
+                             
                             <div class="row mt-3">
                                 <div class="col-md-6">
-                                    <label class="labels">Họ</label>
-                                    <input name="firstName" type="text" class="form-control" value="${param.firstName == null ? accountProfile.firstName : param.firstName}" required>
+                                    <label for="firstName" class="labels">Họ</label>
+                                    <input name="firstName" type="text" class="form-control" id="firstName" value="${param.firstName == null ? userUpdate.firstName : param.firstName}" readonly="">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="labels">Tên</label>
-                                    <input name="lastName" type="text" class="form-control" value="${param.lastName == null ? accountProfile.lastName : param.lastName}" required>
+                                    <label for="lastName"  class="labels">Tên</label>
+                                    <input name="lastName" type="text" class="form-control" id="lastName" value="${param.lastName == null ? userUpdate.lastName : param.lastName}" readonly="">
                                 </div>
                                 <div class="col-md-6">
                                     <c:if test="${param.gender != null}">
-                                        <label for="genderSelect" class="form-label">Giới tính</label>
-                                        <select class="form-select" style="margin-left: 10px" id="genderSelect" name="gender">
-                                            <option value="0" ${param.gender == 1 ? "selected" : ""}>Nam</option>
-                                            <option value="1" ${param.gender == 0 ? "selected" : ""}>Nữ</option>
-                                            <option value="2" ${param.gender == -1 ? "selected" : ""}>N/A</option>
+                                        <label for="genderSelect" class="labels">Giới tính</label>
+                                        <select name="gender" class="form-select" id="genderSelect" disabled>
+                                            <option value="0" ${param.gender == 0 ? "selected" : ""}> Nam </option>
+                                            <option value="1" ${param.gender == 1 ? "selected" : ""}>Nữ</option>
+                                            <option value="2" ${param.gender == 2 ? "selected" : ""}>Khác</option>
                                         </select>
                                     </c:if>
                                     <c:if test="${param.gender == null}">
-                                        <label for="genderSelect" class="form-label">Giới tính</label>
-                                        <select class="form-select" style="margin-left: 10px" id="genderSelect" name="gender">
-                                            <option value="0" ${accountProfile.gender == 1 ? "selected" : ""}>Nam</option>
-                                            <option value="1" ${accountProfile.gender == 0 ? "selected" : ""}>Nữ</option>
-                                            <option value="2" ${accountProfile.gender == -1 ? "selected" : ""}>N/A</option>
+                                        <label for="genderSelect" class="labels">Giới tính</label>
+                                        <select name="gender" class="form-select" id="genderSelect" disabled>
+                                            <option value="0" ${userUpdate.gender == 0 ? "selected" : ""}> Nam </option>
+                                            <option value="1" ${userUpdate.gender == 1 ? "selected" : ""}>Nữ</option>
+                                            <option value="2" ${userUpdate.gender == 2 ? "selected" : ""}>Khác</option>
                                         </select>
-                                    </c:if>
-                                   
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="labels">Số điện thoại</label>
-                                        <input name="mobile" type="text" class="form-control" value="${param.mobile == null ? accountProfile.mobile : param.mobile}" required>
+                                    </c:if>  
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels">Số điện thoại</label>
+                                    <input name="mobile" type="text" class="form-control" id="mobile" value="${param.mobile == null ? userUpdate.mobile : param.mobile}" readonly="">
                                 </div>
                                 <div class="col-md-12">
                                     <label class="labels">Địa chỉ</label>
-                                    <input name="address" type="text" class="form-control" value="${param.mobile == null ? accountProfile.mobile : param.mobile}" required>
+                                    <input name="address" type="text" class="form-control" id="address" value="${param.address == null ? userUpdate.address : param.address}" readonly="" >
                                 </div>
                                 <!-- Role (Read-Only) -->
                                 <div class="col-md-12">
+                                    
                                     <c:if test="${param.role != null}">
-                                        <label for="roleSelect" class="form-label">Role</label>
-                                        <select class="form-select" id="roleSelect" name="role">
-                                            <option value="1" ${param.role == 1 ? "selected" : ""}>admin</option>
-                                            <option value="2" ${param.role == 2 ? "selected" : ""}>marketing</option>
-                                            <option value="3" ${param.role == 3 ? "selected" : ""}>saleg</option>
-                                            <option value="4" ${param.role == 4 ? "selected" : ""}>customer</option>
-                                            <option value="5" ${param.role == 5 ? "selected" : ""}>shipper</option>
+                                        <label for="roleSelect" class="labels">Role</label>
+                                        <select class="form-select" id="roleSelect" name="role" readonly="">
+                                            <option value="1" ${param.role == 1 ? "selected" : ""}>Admin</option>
+                                            <option value="2" ${param.role == 2 ? "selected" : ""}>Makerting</option>
+                                            <option value="3" ${param.role == 3 ? "selected" : ""}>Sale</option>
+                                            <option value="4" ${param.role == 4 ? "selected" : ""}>Customer</option>
+                                            <option value="5" ${param.role == 5 ? "selected" : ""}>Shipper</option>
                                         </select>
                                     </c:if>
                                     <c:if test="${param.role == null}">
-                                        <label for="roleSelect" class="form-label">Vai trò</label>
-                                        <select class="form-select" id="roleSelect" name="role">
-                                            <option value="1" ${accountProfile.role == 1 ? "selected" : ""}>admin</option>
-                                            <option value="2" ${accountProfile.role == 2 ? "selected" : ""}>marketing</option>
-                                            <option value="3" ${accountProfile.role == 3 ? "selected" : ""}>sale</option>
-                                            <option value="4" ${accountProfile.role == 4 ? "selected" : ""}>customer</option>
-                                            <option value="5" ${accountProfile.role == 5 ? "selected" : ""}>shipper</option>
+                                        <label for="roleSelect" class="labels" >Vai trò</label>
+                                        <select class="form-select" id="roleSelect" name="role" disabled>
+                                           <option value="1" ${userUpdate.roleId == 1 ? "selected" : ""}>Admin</option>
+                                            <option value="2" ${userUpdate.roleId == 2 ? "selected" : ""}>Makerting</option>
+                                            <option value="3" ${userUpdate.roleId == 3 ? "selected" : ""}>Sale</option>
+                                            <option value="4" ${userUpdate.roleId == 4 ? "selected" : ""}>Customer</option>
+                                            <option value="5" ${userUpdate.roleId == 5 ? "selected" : ""}>Shipper</option>
                                         </select>
                                     </c:if>
                                 </div>
-                                <!-- Email (Read-Only) -->
+                                
                                 <div class="col-md-12">
-                                    <label class="labels">Email</label>
-                                    <input name="email" type="text" class="form-control" value="${accountProfile.email}" >
+                                    <label for="email" class="labels">Email</label>
+                                    <input name="email" type="text" class="form-control" id="email" value="${param.email == null ? userUpdate.email : param.email}" readonly="" >
                                 </div>
-                                <div class="col-md-12">
-                                    <label class="labels">Thay đổi ảnh đại diện</label>
-                                    <input name="avatar" type="file" class="form-control" accept="image/*">
-                                    <small class="form-text text-muted mb-2">Chỉ cần chọn ảnh mới nếu bạn muốn thay đổi ảnh đại diện.</small>
-                                </div>
+                                
                             </div>
                             <!-- Save Button -->
                             <span class="mt-5 text-center">
-                                <button class="btn btn-primary profile-button" type="submit">Lưu Thông Tin</button>
+<!--                                <button class="btn btn-primary profile-button" type="submit">Lưu Thông Tin</button>-->
                             </span>
                         </div>
+                                <button class="btn btn-secondary profile-button" type="button" onclick="window.history.back();">Trở Về</button>
                     </div>
                 </div>
             </div>

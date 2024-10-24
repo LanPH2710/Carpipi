@@ -4,7 +4,7 @@
  */
 package controller.admin;
 
-import dal.AccountDAO;
+import dal.AdminDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,14 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Account;
-import java.sql.SQLException;
+
 /**
  *
- * @author hiul
+ * @author hiule
  */
-@WebServlet(name = "BanUserController", urlPatterns = {"/banUser"})
-public class BanUserController extends HttpServlet {
+@WebServlet(name = "EditRole", urlPatterns = {"/editRole"})
+public class EditRole extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,31 +33,35 @@ public class BanUserController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             int userId = Integer.parseInt(request.getParameter("userId"));
-            int status = Integer.parseInt(request.getParameter("status"));
-            AccountDAO accountDAO = new AccountDAO();
+            int roleId = Integer.parseInt(request.getParameter("roleId")); // Fixed to read from request
 
-            // Call to update status
-            boolean isUpdated = accountDAO.updateAccountStatus1(userId, status);
-            response.sendRedirect("userlist");
-        } catch (NumberFormatException e) {
-            // Handle invalid number format
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid user ID or status.");
-        } 
+            // Create an instance of AdminDao
+            AdminDao adminDao = new AdminDao();
 
-    
-}
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-/**
- * Handles the HTTP <code>GET</code> method.
- *
- * @param request servlet request
- * @param response servlet response
- * @throws ServletException if a servlet-specific error occurs
- * @throws IOException if an I/O error occurs
- */
-@Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            // Update the roleId for the specified userId
+            boolean isUpdated = adminDao.updateRoleId(userId, roleId);
+            
+            // Check if the update was successful and redirect accordingly
+           
+            
+            response.sendRedirect("userlist"); // Redirect to user list with an error
+        
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -72,7 +75,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
      * @throws IOException if an I/O error occurs
      */
     @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -83,7 +86,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
      * @return a String containing servlet description
      */
     @Override
-public String getServletInfo() {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

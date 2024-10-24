@@ -34,7 +34,33 @@
         <link href="assets1/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
 
     </head>
+    <style>.dropdown {
+            position: relative;
+            display: inline-block;
+        }
 
+        .dropdown-menu {
+            display: none; /* Hide dropdown by default */
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block; /* Show dropdown on hover */
+        }
+
+        .dropdown-item {
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+            display: block;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f0f0f0; /* Change background on hover */
+        }</style>
     <body>
         <!-- Loader -->
         <div id="preloader">
@@ -180,14 +206,14 @@
 
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form method="get" id="searchform" class="searchform" action="searchCart">
+                                    <form method="get" id="searchform" class="searchform" action="searchUser">
                                         <div>
                                             <input type="text" class="form-control border rounded-pill" name="keyword" id="s" placeholder="Search Keywords..." value="${param.keyword}" >
                                             <input type="submit" id="searchsubmit" value="Search">
                                         </div>
                                     </form>                             </div>
                             </div>
-
+                            <a href="userlist" class="btn btn-secondary ms-2">Reset Search</a> <!-- Reset button -->
                         </div>
 
 
@@ -286,16 +312,42 @@
                                                                 <c:if test="${ account.status == 2 }">  
                                                                     <span class="badge bg-soft-warning">Không Hoạt Động</span>
                                                                 </c:if>
+                                                                <c:if test="${ account.status == 0 }">  
+                                                                    <span class="badge bg-soft-warning">Pending</span>
+                                                                </c:if>
 
                                                             </td>
 
                                                             <td class="text-end p-3">
-                                                                <a href="viewuser?userId=${account.userId}" class="btn btn-icon btn-pills btn-soft-primary">
-                                                                    <i class="uil uil-eye"></i>
-                                                                </a>
+                                                                <div class="dropdown">
+                                                                    <a href="" class="btn btn-icon btn-pills btn-soft-success dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
+                                                                        <i class="uil uil-pen"></i>
+                                                                    </a>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=1">Admin</a>
+                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=2">Marketing</a>
+                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=3">Sale</a>
+                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=4">Customer</a>
+                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=5">Shipper</a>
+                                                                    </div>
+                                                                </div>
 
-                                                                <a href="userProfileAdmin?userId=${account.userId}" class="btn btn-icon btn-pills btn-soft-success" ><i class="uil uil-pen"></i></a>
-                                                                <a href="banUser?userId=${account.userId}" class="btn btn-icon btn-pills btn-soft-danger"><i class="uil uil-trash"></i></a>
+                                                                <div class="dropdown">
+                                                                    <a href="" class="btn btn-icon btn-pills btn-soft-danger dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
+                                                                        <i class="uil uil-ban"></i>
+                                                                    </a>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                        <a class="dropdown-item" href="banUser?userId=${account.userId}&status=0">Duyệt Lại</a>
+                                                                        <a class="dropdown-item" href="banUser?userId=${account.userId}&status=1">Hoạt Động</a>
+                                                                        <a class="dropdown-item" href="banUser?userId=${account.userId}&status=2">Cấm</a>
+
+                                                                    </div>
+                                                                </div>
+                                                                <a href="userprofileadmin?userId=${account.userId}" class="btn btn-icon btn-pills btn-soft-primary">
+                                                                    <i class="uil uil-eye"></i>
+
+
+
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
@@ -365,185 +417,191 @@
                                 <!-- PAGINATION START -->
                                 <div class="col-12 mt-4">
                                     <div class="d-md-flex align-items-center text-center justify-content-between">
-                                        <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
-                                        <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+
+<!--                                        <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                             <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>
                                             <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
                                             <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
                                             <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
                                             <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>
-                                        </ul>
-                                    </div>
-                                </div><!--end col-->
-                                <!-- PAGINATION END -->
-                            </div><!--end row-->
-                        </div>
-                    </div><!--end container-->
+                                        </ul>-->
+                                    <c:choose>
+                                        <c:when test="${accountListAdmin==null || accountListAdmin.size()==0}">
+                                            Not founds
+                                        </c:when>
+                                        <c:otherwise>
+                                            <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+                                                <ul class="pagination">
 
-                    <!-- Footer Start -->
-                    <footer class="bg-white shadow py-3">
-                        <div class="container-fluid">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="text-sm-start text-center">
-                                        <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-                        </div><!--end container-->
-                    </footer><!--end footer-->
-                    <!-- End -->
-                </main>
-                <!--End page-content" -->
-            </div>
-            <!-- page-wrapper -->
+                                                    <c:forEach begin="1" end="${totalPage}" var="i">
+                                                        <li class="page-item ${i == page?"active":""}"><a class="page-link" href="userlist?page=${i}">${i}</a></li>
+                                                        </c:forEach>
 
-            <!-- Offcanvas Start -->
-            <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                <div class="offcanvas-header p-4 border-bottom">
-                    <h5 id="offcanvasRightLabel" class="mb-0">
-                        <img src="assets1/images/logo-dark.png" height="24" class="light-version" alt="">
-                        <img src="assets1/images/logo-light.png" height="24" class="dark-version" alt="">
-                    </h5>
-                    <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
-                </div>
-                <div class="offcanvas-body p-4 px-md-5">
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- Style switcher -->
-                            <div id="style-switcher">
-                                <div>
-                                    <ul class="text-center list-unstyled mb-0">
-                                        <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets1/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                        <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets1/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                        <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets1/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                        <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets1/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                        <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets1/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
-                                        <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets1/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
-                                        <li class="d-grid"><a href="../landing/index.html" target="_blank" class="mt-4"><img src="assets1/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
-                                    </ul>
+                                                </ul>
+                                            </nav>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
-                            </div>
-                            <!-- end Style switcher -->
-                        </div><!--end col-->
-                    </div><!--end row-->
-                </div>
+                            </div><!--end col-->
+                            <!-- PAGINATION END -->
+                        </div><!--end row-->
+                    </div>
+                </div><!--end container-->
 
-                <div class="offcanvas-footer p-4 border-top text-center">
-                    <ul class="list-unstyled social-icon mb-0">
-                        <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
-                        <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
-                        <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
-                        <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
-                        <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
-                        <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
-                        <li class="list-inline-item mb-0"><a href="../../../index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
-                    </ul><!--end icon-->
-                </div>
+                <!-- Footer Start -->
+
+                <!-- End -->
+            </main>
+            <!--End page-content" -->
+        </div>
+        <!-- page-wrapper -->
+
+        <!-- Offcanvas Start -->
+        <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header p-4 border-bottom">
+                <h5 id="offcanvasRightLabel" class="mb-0">
+                    <img src="assets1/images/logo-dark.png" height="24" class="light-version" alt="">
+                    <img src="assets1/images/logo-light.png" height="24" class="dark-version" alt="">
+                </h5>
+                <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
             </div>
-            <!-- Offcanvas End -->
-
-            <!-- Modal start -->
-            <!-- Profile Settings Start -->
-            <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header border-bottom p-3">
-                            <h5 class="modal-title" id="exampleModalLabel">Profile Settings</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="offcanvas-body p-4 px-md-5">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Style switcher -->
+                        <div id="style-switcher">
+                            <div>
+                                <ul class="text-center list-unstyled mb-0">
+                                    <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets1/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets1/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets1/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets1/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets1/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets1/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
+                                    <li class="d-grid"><a href="../landing/index.html" target="_blank" class="mt-4"><img src="assets1/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="modal-body p-3 pt-4">
-                            <div class="row align-items-center">
-                                <div class="col-lg-2 col-md-4">
-                                    <img src="assets1/images/doctors/01.jpg" class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
+                        <!-- end Style switcher -->
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div>
+
+            <div class="offcanvas-footer p-4 border-top text-center">
+                <ul class="list-unstyled social-icon mb-0">
+                    <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="../../../index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
+                </ul><!--end icon-->
+            </div>
+        </div>
+        <!-- Offcanvas End -->
+
+        <!-- Modal start -->
+        <!-- Profile Settings Start -->
+        <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom p-3">
+                        <h5 class="modal-title" id="exampleModalLabel">Profile Settings</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-3 pt-4">
+                        <div class="row align-items-center">
+                            <div class="col-lg-2 col-md-4">
+                                <img src="assets1/images/doctors/01.jpg" class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
+                            </div><!--end col-->
+
+                            <div class="col-lg-5 col-md-8 text-center text-md-start mt-4 mt-sm-0">
+                                <h6 class="">Upload your picture</h6>
+                                <p class="text-muted mb-0">For best results, use an image at least 256px by 256px in either .jpg or .png format</p>
+                            </div><!--end col-->
+
+                            <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
+                                <a href="#" class="btn btn-primary">Upload</a>
+                                <a href="#" class="btn btn-soft-primary ms-2">Remove</a>
+                            </div><!--end col-->
+                        </div><!--end row-->
+
+                        <form class="mt-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">First Name</label>
+                                        <input name="name" id="name" type="text" class="form-control" placeholder="First Name :">
+                                    </div>
                                 </div><!--end col-->
 
-                                <div class="col-lg-5 col-md-8 text-center text-md-start mt-4 mt-sm-0">
-                                    <h6 class="">Upload your picture</h6>
-                                    <p class="text-muted mb-0">For best results, use an image at least 256px by 256px in either .jpg or .png format</p>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Last Name</label>
+                                        <input name="name" id="name2" type="text" class="form-control" placeholder="Last Name :">
+                                    </div>
                                 </div><!--end col-->
 
-                                <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
-                                    <a href="#" class="btn btn-primary">Upload</a>
-                                    <a href="#" class="btn btn-soft-primary ms-2">Remove</a>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Your Email</label>
+                                        <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
+                                    </div> 
                                 </div><!--end col-->
+
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Phone no.</label>
+                                        <input name="number" id="number" type="text" class="form-control" placeholder="Phone no. :">
+                                    </div>                                                                               
+                                </div><!--end col-->
+
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Your Bio Here</label>
+                                        <textarea name="comments" id="comments" rows="4" class="form-control" placeholder="Bio :"></textarea>
+                                    </div>
+                                </div>
                             </div><!--end row-->
 
-                            <form class="mt-4">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">First Name</label>
-                                            <input name="name" id="name" type="text" class="form-control" placeholder="First Name :">
-                                        </div>
-                                    </div><!--end col-->
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Last Name</label>
-                                            <input name="name" id="name2" type="text" class="form-control" placeholder="Last Name :">
-                                        </div>
-                                    </div><!--end col-->
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Your Email</label>
-                                            <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
-                                        </div> 
-                                    </div><!--end col-->
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Phone no.</label>
-                                            <input name="number" id="number" type="text" class="form-control" placeholder="Phone no. :">
-                                        </div>                                                                               
-                                    </div><!--end col-->
-
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Your Bio Here</label>
-                                            <textarea name="comments" id="comments" rows="4" class="form-control" placeholder="Bio :"></textarea>
-                                        </div>
-                                    </div>
-                                </div><!--end row-->
-
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <input type="submit" id="submit" name="send" class="btn btn-primary" value="Save changes">
-                                    </div><!--end col-->
-                                </div><!--end row-->
-                            </form><!--end form-->
-                        </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="submit" id="submit" name="send" class="btn btn-primary" value="Save changes">
+                                </div><!--end col-->
+                            </div><!--end row-->
+                        </form><!--end form-->
                     </div>
                 </div>
             </div>
-            <!--         Profile Settings End 
-            
-            -->                 Profile Start 
-            <!--               <div  class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header border-bottom p-3">
-                                    <h5 class="modal-title" id="exampleModalLabel1">Profile</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!--         Profile Settings End 
+        
+        -->                 Profile Start 
+        <!--               <div  class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header border-bottom p-3">
+                                <h5 class="modal-title" id="exampleModalLabel1">Profile</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-3 pt-4">
+                                <div class="d-flex align-items-center">
+                                     Use the account's avatar if available, otherwise provide a default image 
+                                    <img src="img/${account.avatar}" class="avatar avatar-small rounded-pill" alt="Avatar">
+                                    <h5 class="mb-0 ms-3">${acc.firstName} ${acc.lastName}</h5>
                                 </div>
-                                <div class="modal-body p-3 pt-4">
-                                    <div class="d-flex align-items-center">
-                                         Use the account's avatar if available, otherwise provide a default image 
-                                        <img src="img/${account.avatar}" class="avatar avatar-small rounded-pill" alt="Avatar">
-                                        <h5 class="mb-0 ms-3">${acc.firstName} ${acc.lastName}</h5>
-                                    </div>
-                                    <ul class="list-unstyled mb-0 d-md-flex justify-content-between mt-4">
-                                        <li>
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="d-flex">
-                                                    <h6></h6>
-                                                    <p class="text-muted ms-2"></p>
-                                                </li>
-            
-                                                <li class="d-flex">
-                                                    <h6>Gender:</h6>
-                                                    <p class="text-muted ms-2">
+                                <ul class="list-unstyled mb-0 d-md-flex justify-content-between mt-4">
+                                    <li>
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="d-flex">
+                                                <h6></h6>
+                                                <p class="text-muted ms-2"></p>
+                                            </li>
+        
+                                            <li class="d-flex">
+                                                <h6>Gender:</h6>
+                                                <p class="text-muted ms-2">
         <c:choose>
             <c:when test="${acc.gender == 0}">Male</c:when>
             <c:when test="${acc.gender == 1}">Female</c:when>
@@ -605,7 +663,23 @@
         </div>
         Profile End 
         Modal end -->
+        <script>
+            document.getElementById("dropdownMenuButton").addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent default anchor behavior
+                const dropdownMenu = this.nextElementSibling;
+                dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+            });
 
+            // Close dropdown if clicked outside
+            window.addEventListener("click", function (event) {
+                if (!event.target.matches('#dropdownMenuButton')) {
+                    const dropdowns = document.querySelectorAll('.dropdown-menu');
+                    dropdowns.forEach(dropdown => {
+                        dropdown.style.display = 'none';
+                    });
+                }
+            });
+        </script>
         <!-- javascript -->
         <script src="assets1/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->

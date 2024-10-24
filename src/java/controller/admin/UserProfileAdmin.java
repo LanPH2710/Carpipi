@@ -27,7 +27,7 @@ import model.Account;
  *
  * @author tuana
  */
-@WebServlet(name = "UserProfileAdmin", urlPatterns = {"/userProfileAdmin"})
+@WebServlet(name = "UserProfileAdmin", urlPatterns = {"/userprofileadmin"})
 public class UserProfileAdmin extends HttpServlet {
 
     /**
@@ -72,12 +72,10 @@ public class UserProfileAdmin extends HttpServlet {
         int userId = Integer.parseInt(request.getParameter("userId"));
         HttpSession session = request.getSession();
 
-        Account user = adao.getAccountById(userId);
+        Account userUpdate = adao.getAccountById(userId);
 
-        RoleDAO rdao = new RoleDAO();
-        String role = rdao.getRoleNameById(user.getRoleId());
-        request.setAttribute("roleHieu", role);
-        request.setAttribute("accountProfile", user);
+       
+        request.setAttribute("userUpdate", userUpdate);
         request.getRequestDispatcher("userProfile_1.jsp").forward(request, response);
     }
 
@@ -110,9 +108,14 @@ public class UserProfileAdmin extends HttpServlet {
 
         String mobile = request.getParameter("mobile");
         String address = request.getParameter("address");
-
+        boolean flag = true;
         if (userIdStr == null || userIdStr.isEmpty()) {
             request.setAttribute("errorMessage", "Missing required field: userId.");
+            request.getRequestDispatcher("userProfile_1.jsp").forward(request, response);
+            return;
+        }
+          if (genderStr == null || genderStr.isEmpty()) {
+            request.setAttribute("errorMessage", "Missing required field: gender.");
             request.getRequestDispatcher("userProfile_1.jsp").forward(request, response);
             return;
         }
@@ -123,11 +126,7 @@ public class UserProfileAdmin extends HttpServlet {
             return;
         }
 // Validate gender
-        if (genderStr == null || genderStr.isEmpty()) {
-            request.setAttribute("errorMessage", "Missing required field: gender.");
-            request.getRequestDispatcher("userProfile_1.jsp").forward(request, response);
-            return;
-        }
+      
 
 
 
@@ -138,8 +137,7 @@ public class UserProfileAdmin extends HttpServlet {
         boolean isMobileValid = adao.isValidMobile(mobile);
         if (!isMobileValid) {
             request.setAttribute("errorMessage", "Số điện thoại phải có 10 số.");
-            request.getRequestDispatcher("userProfile_1.jsp").forward(request, response);
-            return;
+            
         }
 
         // Xử lý upload avatar nếu có file mới
@@ -168,9 +166,9 @@ public class UserProfileAdmin extends HttpServlet {
         }
 
         // Cập nhật account
-        adao.editAccountAdmin(firstName, lastName, gender, email, mobile, address, roleId, avatar, 1, userId);
+        adao.editAccountAdmin(firstName, lastName, 1, email, mobile, address, 4, avatar, 1, userId);
         Account acc = adao.getAccountById(userId);
-        request.setAttribute("accountProfile", acc);
+        request.setAttribute("userUpdate", acc);
         request.getRequestDispatcher("userProfile_1.jsp").forward(request, response);
     }
 

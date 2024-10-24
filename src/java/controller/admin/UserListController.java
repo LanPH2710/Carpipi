@@ -5,6 +5,7 @@
 package controller.admin;
 
 import dal.AccountDAO;
+import dal.AdminDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -61,13 +62,26 @@ public class UserListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        final int PAGE_SIZE = 8;
         HttpSession session = request.getSession();
-        AccountDAO accountDAO = new AccountDAO();
-
+        AdminDao adminDao = new AdminDao();
+        int page = 1;
+        String pageStr = request.getParameter("page");
+        if (pageStr != null) {
+            page = Integer.parseInt(pageStr);
+        }
+        
         // Always get the account list
-        List<Account> accountList = accountDAO.getAllAccount();
+        List<Account> accountList = adminDao.getAccountsWithPaging(page, PAGE_SIZE);
+        int totalAccount = adminDao.countAccounts();
+        int totalPage = totalAccount / PAGE_SIZE; //1
+        if (totalAccount % PAGE_SIZE != 0) {
+            totalPage += 1;
+        }
+        
         session.setAttribute("accountListAdmin", accountList);
-
+        request.setAttribute("page", page);
+        request.setAttribute("totalPage", totalPage);
         // Forward to the JSP page
         request.getRequestDispatcher("userList.jsp").forward(request, response);
     }

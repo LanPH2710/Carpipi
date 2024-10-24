@@ -216,6 +216,23 @@ public class CartDAO extends DBContext {
         }
         return cartList;
     }
+    public int countCartsByUserId(int userId) throws SQLException {
+    int totalCarts = 0;  // Variable to hold the count
+    String sql = "SELECT COUNT(*) AS totalCarts " +
+                 "FROM carpipi.cart " +
+                 "WHERE userId = ? AND isDeleted = 0";  // Ensure only active carts are counted
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, userId);  // Set the userId parameter
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            totalCarts = rs.getInt("totalCarts");  // Retrieve the count
+        }
+    }
+    
+    return totalCarts;  // Return the total count
+}
 
     public static void main(String[] args) {
     // Thay đổi thông tin kết nối database và supplyId nếu cần

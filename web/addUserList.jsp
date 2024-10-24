@@ -15,7 +15,7 @@
         <meta name="website" content="../../../index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets1/images/favicon.ico.png">
+      <link rel="shortcut icon" href="img/logo3.png">
         <!-- Bootstrap -->
         <link href="assets1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->

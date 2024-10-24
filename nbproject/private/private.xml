@@ -3,7 +3,25 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Net_bean_apache_project/Carpipi/web/HomePage.jsp</file>
+<<<<<<< HEAD
+            <file>file:/D:/FPT-Uni/Ki%205/SWP391/Carpipi/src/java/controller/ProductListMarketingServlet.java</file>
+            <file>file:/D:/FPT-Uni/Ki%205/SWP391/Carpipi/src/java/dal/StyleDAO.java</file>
+            <file>file:/D:/FPT-Uni/Ki%205/SWP391/Carpipi/web/product_list_maketing.jsp</file>
+            <file>file:/D:/FPT-Uni/Ki%205/SWP391/Carpipi/src/java/controller/ProductListServlet.java</file>
+            <file>file:/D:/FPT-Uni/Ki%205/SWP391/Carpipi/src/java/controller/marketing/CustomerListServlet.java</file>
+            <file>file:/D:/FPT-Uni/Ki%205/SWP391/Carpipi/src/java/context/DBContext.java</file>
+            <file>file:/D:/FPT-Uni/Ki%205/SWP391/Carpipi/web/customerList.jsp</file>
+=======
+            <file>file:/D:/FALL-2024/Carpipi/src/java/controller/common/UserProfileServlet.java</file>
+            <file>file:/D:/FALL-2024/Carpipi/web/userProfile.jsp</file>
+            <file>file:/D:/FALL-2024/Carpipi/web/userList.jsp</file>
+            <file>file:/D:/FALL-2024/Carpipi/web/userProfile_1.jsp</file>
+            <file>file:/D:/FALL-2024/Carpipi/src/java/controller/admin/BanUserController.java</file>
+            <file>file:/D:/FALL-2024/Carpipi/web/addUserList.jsp</file>
+            <file>file:/D:/FALL-2024/Carpipi/src/java/dal/AccountDAO.java</file>
+            <file>file:/D:/FALL-2024/Carpipi/src/java/controller/admin/UserProfileAdmin.java</file>
+            <file>file:/D:/FALL-2024/Carpipi/src/java/controller/admin/UserListController.java</file>
+>>>>>>> 45f573f767b3f0d0e861c50bb62956987fc18eda
         </group>
     </open-files>
 </project-private>

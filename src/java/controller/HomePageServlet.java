@@ -12,13 +12,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import java.sql.SQLException;
 
 /**
  *
@@ -38,10 +39,25 @@ public class HomePageServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
         ProductDAO productDAO = new ProductDAO();
         BrandDAO brandDao = new BrandDAO();
         StyleDAO styleDao = new StyleDAO();
-        
+        CartDAO cartDAO = new CartDAO();
+        AccountDAO accountDAO = new AccountDAO();
+        Account account = (Account) session.getAttribute("account");
+        if (account != null) {
+            try {
+                // Get totalCart count for the logged-in user
+                int totalCart = cartDAO.countCartsByUserId(account.getUserId());
+                session.setAttribute("totalCart", totalCart);  // Set the totalCart in session
+            } catch (SQLException ex) {
+                Logger.getLogger(HomePageServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            // If user is not logged in, set totalCart to 0
+            session.setAttribute("totalCart", 0);
+        }
         List<Style> styleList = styleDao.getAllStyleCar();
         List<Brand> brandList = brandDao.getAllBrand();
 

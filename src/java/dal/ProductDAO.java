@@ -296,7 +296,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getAllProductByBrandId(String braId) {
         List<Product> products = new ArrayList<>();
         try {
-            String sql = "select * from carpipi.product where brandId = ?";
+            String sql = "select * from carpipi.product where brandId = ? AND status = 1";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, braId);
 
@@ -326,7 +326,7 @@ public class ProductDAO extends DBContext {
 
     public List<Product> searchProductsByKeyword(String keyword) {
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM product WHERE REPLACE(name, ' ', '') LIKE CONCAT('%', REPLACE(?, ' ', ''), '%')";
+        String sql = "SELECT * FROM product WHERE REPLACE(name, ' ', '') LIKE CONCAT('%', REPLACE(?, ' ', ''), '%') AND status = 1";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, "%" + keyword + "%"); 
@@ -357,7 +357,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getAllProductByStyleId(String styleId) {
         List<Product> products = new ArrayList<>();
         try {
-            String sql = "select * from carpipi.product where styleId = ?";
+            String sql = "select * from carpipi.product where styleId = ? AND status = 1";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, styleId);
 
@@ -750,7 +750,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getPagingAllProductsById(String id, int index) {
         List<Product> products = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM carpipi.product where productId Like ? order by productId limit 5 offset ? "; // Thay đổi tên bảng cho đúng
+            String sql = "SELECT * FROM carpipi.product where productId Like ? and status = 1  order by productId limit 5 offset ?"; // Thay đổi tên bảng cho đúng
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, id + "%");
             st.setInt(2, ((index - 1) * 5));

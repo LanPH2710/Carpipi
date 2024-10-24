@@ -15,6 +15,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
 import model.Product;
@@ -64,6 +65,7 @@ public class ProductDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String productId = request.getParameter("productId");
         String rateParam = request.getParameter("rate");
         int rate = 0;
@@ -120,7 +122,7 @@ public class ProductDetailServlet extends HttpServlet {
         request.setAttribute("num", num);
         request.setAttribute("size", size);
         request.setAttribute("rateCar", rateCar);
-
+        session.setAttribute("urlHistory", "productdetail?productId=" +productId);
         request.getRequestDispatcher("productDetail.jsp").forward(request, response);
     }
 

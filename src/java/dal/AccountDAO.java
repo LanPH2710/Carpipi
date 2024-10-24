@@ -57,7 +57,7 @@ public class AccountDAO extends DBContext {
             System.out.println("Tài khoản đã được thêm vào danh sách  thành công!");
         } catch (SQLException e) {
             System.err.println("Lỗi khi thêm tài khoản vào danh sách " + e.getMessage());
-        }
+        }}
         //hieu
     public Account getAccountByEmail(String email) {
         // Truy vấn thông tin tài khoản từ bảng 'account' với trạng thái 'pending'

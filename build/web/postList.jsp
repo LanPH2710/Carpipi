@@ -1,208 +1,222 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-
-        <title>PHPJabbers.com | Free Blog Website Template</title>
-
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-        <meta name="description" content="">
-        <meta name="keywords" content="">
-        <meta name="author" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/owl.carousel.css">
-        <link rel="stylesheet" href="css/owl.theme.default.min.css">
-
-        <!-- MAIN CSS -->
-        <link rel="stylesheet" href="css/style_blog.css">
-        <style>
-            .multi-line-truncate {
-                display: -webkit-box;
-                -webkit-line-clamp: 2; /* Giới hạn 3 dòng */
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: normal;
-            }
-
-        </style>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Posts List</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
+        <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
+        <meta name="author" content="Shreethemes" />
+        <meta name="email" content="support@shreethemes.in" />
+        <meta name="website" content="../../../index.html" />
+        <meta name="Version" content="v1.2.0" />
+        <!-- favicon -->
+        <link rel="shortcut icon" href="img/logo3.png">
+        <!-- Bootstrap -->
+        <link href="assetsTuan/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- simplebar -->
+        <link href="assetsTuan/css/simplebar.css" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="assetsTuan/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assetsTuan/css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
+        <!-- Css -->
+        <link href="assetsTuan/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
     </head>
-    <body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
-
-        <!-- PRE LOADER -->
-        <section class="preloader">
-            <div class="spinner">
-
-                <span class="spinner-rotate"></span>
-
-            </div>
-        </section>
-
-        <jsp:include page="header.jsp"/>
-
-        <section>
-            <div class="container">
-                <div class="text-center">
-                    <h1>Post List</h1>
+    <body>
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
                 </div>
             </div>
-        </section>
+        </div> 
 
-        <section class="section-background">
-            <div class="container list" style="margin-bottom: 50px;">
-                <a href="marketing.jsp" class="btn btn-primary" style="margin-top: 20px;">
-                    <span>X</span>
-                </a>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 pull-right col-xs-12">
-                        <div class="form">
-                            <div class="form-group">
-                                <label class="control-label">Blog Search</label>
-                                <form action="postlist" method="get">
+        <div class="page-wrapper doctris-theme toggled">
+            <nav id="sidebar" class="sidebar-wrapper">
+                <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
+                    <div class="sidebar-brand">
+                        <a href="index.html">
+                            <img src="img/logoBnoBG.png" height="120px" class="logo-light-mode" alt="">
+                        </a>
+                    </div>
+
+                    <ul class="sidebar-menu pt-3">
+                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                        <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
+                        <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
+                        <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
+                        <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)">
+                                <i class="uil uil-flip-h me-2 d-inline-block"></i>Posts List</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="postlist">Tất cả bài viết</a></li>
+                                        <c:forEach items="${topic}" var="t">
+                                        <li><a href="postlist?topic=${t.blogTopicId}">${t.toppicName}</a></li>
+                                        </c:forEach>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- sidebar-menu  -->
+                </div>
+                <!-- sidebar-content  -->
+                <ul class="sidebar-footer list-unstyled mb-0">
+                    <li class="list-inline-item mb-0 ms-1">
+                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary">
+                            <i class="uil uil-comment icons"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- sidebar-wrapper  -->
+            <!-- Start Page Content -->
+            <div class="body">
+                <h1>Posts List</h1>
+                <main class="page-content bg-light">
+                    <div class="top-header">
+                        <div class="header-bar d-flex justify-content-between border-bottom">
+                            <div class="d-flex align-items-center">                                
+                                <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
+                                    <i class="uil uil-bars"></i>
+                                </a>
+
+                                <div class="search-bar p-0 d-none d-lg-block ms-2">
+                                    <div id="search" class="menu-search mb-0">
+                                        <form method="get" id="searchform" class="searchform" action="postlist">
+                                            <div>
+                                                <input type="text" class="form-control border rounded-pill" name="search" id="s" placeholder="Search Keywords..." value="${search}" >
+                                                <input type="submit" id="searchsubmit" value="Search">
+                                            </div>
+                                        </form>                             
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="layout-specing">
+                            <div class="d-md-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0">Posts List</h5>                              
+                                <nav aria-label="breadcrumb" class="d-inline-block mt-2 mt-sm-0">
+                                    <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
+                                        <li class="breadcrumb-item"><a href="home">Home</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Posts List</li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                            <div class="mb-3">
+                                <a href="createpost" class="btn btn-primary">Tạo Mới Bài Viết</a>
+                            </div>
+
+                            <!-- Khối lọc trạng thái -->
+                            <div class="col-sm-3">
+                                <form action="postlist" method="get" class="d-flex">
                                     <div class="input-group">
-                                        <input type="text" name="search" class="form-control" placeholder="Search for..."> &nbsp;&nbsp;
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" type="submit">Go!</button>
+                                        <select name="status" class="form-control">
+                                            <option value="">Tất cả trạng thái</option>
+                                            <option value="1" ${param.status == '1' ? 'selected' : ''}>Đang Hiện</option>
+                                            <option value="0" ${param.status == '0' ? 'selected' : ''}>Đang Ẩn</option>
+                                        </select>
+                                        <span class="input-group-append">
+                                            <button class="btn btn-secondary" type="submit">Lọc</button>
                                         </span>
                                     </div>
                                 </form>
                             </div>
-                        </div>
+                            <div class="row">
+                                <c:forEach var="blog" items="${blogList}">
+                                    <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4">
+                                        <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
+                                            <img src="img/${blog.images[0].imageUrl}" class="img-fluid" style="width: 368px; height: 190px; object-fit: cover;">
+                                            <div class="card-body p-4">
+                                                <ul class="list-unstyled mb-2">
+                                                    <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i>${blog.blogTime}</li>
+                                                    <li class="list-inline-item text-muted small"><i class="uil uil-comment text-dark h6 me-1"></i>
+                                                        <span title="Views">
+                                                            <c:choose>
+                                                                <c:when test="${blog.status == 1}">
+                                                                    <i class="fa fa-eye"></i>Đang Hiện
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <i class="fa fa-eye-slash"></i>Đang Ẩn
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                                <a href="blogdetail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogTitle}</a>
+                                                <div class="post-meta d-flex justify-content-between mt-3">
+                                                    <a href="blogdetail?blogId=${blog.blogId}" class="section-btn btn btn-primary btn-block">Đọc thêm</a>
+                                                    <a href="editblogbymarketing?blogId=${blog.blogId}" class="section-btn btn btn-primary">Chỉnh sửa</a>
 
-                        <div class="mb-3">
-                            <a href="createpost" class="btn btn-primary">Tạo Mới Bài Viết</a>
-                        </div>
-
-                        <br>
-                        <label class="control-label">Danh mục bài viết</label>
-                        <ul class="list">
-                            <li><a href="postlist">Tất cả bài viết</a></li>
-                                <c:forEach items="${topic}" var="t">
-                                <li><a href="postlist?topic=${t.blogTopicId}">${t.toppicName}</a></li>
-                                </c:forEach>
-                        </ul>
-                        <label class="control-label">Bài viết theo ẩn/hiện</label>
-
-                        <ul class="list">
-                            <li><a href="postlist?status=0">Ẩn</a></li>
-                            <li><a href="postlist?status=1">Hiện</a></li>
-                        </ul>
-                        <label class="control-label">Bài viết theo tác giả</label>
-
-                        <ul class="list">
-                            <c:forEach items="${author}" var="author">
-                                <li><a href="postlist?author=${author.userId}">${author.firstName} ${author.lastName}</a></li>
-                                </c:forEach>
-                        </ul>
-                    </div>
-
-                    <div class="col-lg-9 col-xs-12">
-                        <div class="row">
-                            <c:forEach var="blog" items="${blogList}">
-                                <div class="col-sm-6">
-                                    <div class="courses-thumb courses-thumb-secondary">
-                                        <div class="courses-top">
-                                            <div class="courses-image">
-                                                <img src="img/${blog.images[0].imageUrl}" class="img-responsive" alt="${blog.openBlog}" style="width: 470px; height: 300px; object-fit: cover;">
-                                            </div>
-                                            <div class="courses-date">
-                                                <span title="Blog ID: ${blog.blogId}"><i class="fa fa-tag"></i> ${blog.blogId}</span>
-                                                <span title="Date"><i class="fa fa-calendar"></i> ${blog.blogTime}</span>
-                                                <span title="Views">
                                                     <c:choose>
                                                         <c:when test="${blog.status == 1}">
-                                                            <i class="fa fa-eye"></i> Hiện
+                                                            <a href="changestatusblog?blogId=${blog.blogId}&status=0" 
+                                                               class="section-btn btn btn-warning" 
+                                                               onclick="return confirm('Bạn có chắc chắn muốn ẩn bài viết này không?');">Ẩn</a>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <i class="fa fa-eye-slash"></i> Ẩn
+                                                            <a href="changestatusblog?blogId=${blog.blogId}&status=1" 
+                                                               class="section-btn btn btn-success" 
+                                                               onclick="return confirm('Bạn có chắc chắn muốn hiện bài viết này không?');">Hiện</a>
                                                         </c:otherwise>
                                                     </c:choose>
-                                                </span>
+                                                </div>
+
                                             </div>
                                         </div>
-                                        <div class="courses-detail">
-                                            <h3><a href="blogdetail?blogId=${blog.blogId}" class="multi-line-truncate">${blog.blogTitle}</a></h3>
-                                        </div>
-                                        <div class="courses-info">
-                                            <a href="blogdetail?blogId=${blog.blogId}" class="section-btn btn btn-primary btn-block">Read More</a>
-                                            <a href="editblog?blogId=${blog.blogId}" class="section-btn btn btn-primary btn-block">Edit</a>
-
-                                            <c:choose>
-                                                <c:when test="${blog.status == 1}">
-                                                    <a href="changestatusblog?blogId=${blog.blogId}&status=0" 
-                                                       class="section-btn btn btn-warning btn-block" 
-                                                       onclick="return confirm('Bạn có chắc chắn muốn ẩn bài viết này không?');">Ẩn</a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <a href="changestatusblog?blogId=${blog.blogId}&status=1" 
-                                                       class="section-btn btn btn-success btn-block" 
-                                                       onclick="return confirm('Bạn có chắc chắn muốn hiện bài viết này không?');">Hiện</a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>
+                                    </div><!--end col-->
+                                </c:forEach>
+                                <!--end col-->
+                            </div><!--end row-->
+                            <div class="row text-center">
+                                <!-- Pagination -->
+                                <div class="col-12 mt-4">
+                                    <div class="d-md-flex align-items-center text-center justify-content-between">
+                                        <span class="text-muted me-3">Showing <b>${page}</b> out of <b>${num}</b> pages Blogs</span>
+                                        <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                            <c:if test="${page > 1}">
+                                                <li class="page-item"><a class="page-link" href="postlist?page=${page - 1}&search=${search}&topic=${topicId}&status=${status}&author=${userId}" aria-label="Previous">Prev</a></li>
+                                                </c:if>
+                                                <c:forEach begin="${(page - 1) <= 1 ? 1 : (page - 1)}" end="${page + 1 > num ? num : page + 1}" var="i">
+                                                    <c:choose>
+                                                        <c:when test="${i == page}">
+                                                        <li class="page-item active"><a class="page-link">${i}</a></li>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                        <li class="page-item"><a href="postlist?page=${i}&search=${search}&topic=${topicId}&status=${status}&author=${userId}" class="page-link">${i}</a></li>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                                <c:if test="${page < num}">
+                                                <li class="page-item"><a class="page-link" href="postlist?page=${page + 1}&search=${search}&topic=${topicId}&status=${status}&author=${userId}" aria-label="Next">Next</a></li>
+                                                </c:if>
+                                        </ul>
                                     </div>
                                 </div>
-                            </c:forEach>
+                            </div><!--end row-->
                         </div>
                     </div>
-
-                </div>
-                <div class="clearfix">
-                    <div class="hint-text text-muted">Showing <b>${page}</b> out of <b>${num}</b> pages Blogs</div>
-                    <ul class="pagination justify-content-center">
-                        <!-- Điều hướng về trang trước -->
-                        <c:if test="${page > 1}">
-                            <li class="page-item">
-                                <a class="page-link" href="postlist?page=${page - 1}&search=${search}&topic=${topicId}&status=${status}&author=${userId}">
-                                    <i class="fa fa-angle-double-left"></i>
-                                </a>
-                            </li>
-                        </c:if>
-
-                        <!-- Vòng lặp phân trang -->
-                        <c:forEach begin="${(page - 1) <= 1 ? 1 : (page - 1)}" end="${page + 1 > num ? num : page + 1}" var="i">
-                            <c:choose>
-                                <c:when test="${i == page}">
-                                    <!-- Trang hiện tại -->
-                                    <li class="page-item active">
-                                        <a class="page-link">${i}</a>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <!-- Các trang khác -->
-                                    <li class="page-item">
-                                        <a href="postlist?page=${i}&search=${search}&topic=${topicId}&status=${status}&author=${userId}" class="page-link">${i}</a>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-
-                        <!-- Điều hướng về trang sau -->
-                        <c:if test="${page < num}">
-                            <li class="page-item">
-                                <a class="page-link" href="postlist?page=${page + 1}&search=${search}&topic=${topicId}&status=${status}&author=${userId}">
-                                    <i class="fa fa-angle-double-right"></i>
-                                </a>
-                            </li>
-                        </c:if>
-                    </ul>
-                </div>
             </div>
-        </section>
-        <jsp:include page="footerDemo.jsp"></jsp:include>
-        <!-- SCRIPTS -->
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <script src="js/smoothscroll.js"></script>
-        <script src="js/custom.js"></script>
-
-    </body>
+        </main>
+    </div>
+    <!-- javascript -->
+    <script src="assetsSlider/js/bootstrap.bundle.min.js"></script>
+    <!-- simplebar -->
+    <script src="assetsSlider/js/simplebar.min.js"></script>
+    <!-- Icons -->
+    <script src="assetsSlider/js/feather.min.js"></script>
+    <!-- Main Js -->
+    <script src="assetsSlider/js/app.js"></script>
+</body>
 </html>

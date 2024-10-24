@@ -78,6 +78,10 @@ public class ProductListMarketingServlet extends HttpServlet {
         String indexPage = request.getParameter("index");
         String search = request.getParameter("searchse");
 
+        String orderId = request.getParameter("orderId");
+        String orderName = request.getParameter("orderName");
+        String orderPrice = request.getParameter("orderPrice");
+
         if (indexPage == null || indexPage.isEmpty()) {
             indexPage = "1";
         }
@@ -124,21 +128,26 @@ public class ProductListMarketingServlet extends HttpServlet {
             request.setAttribute("listProduct", listProduct);
 
         }
+        
+        
 
         if (search != null && !search.isEmpty()) {
             listProduct = pDao.getPagingProductBySearch(search, index);
             if (listProduct != null && !listProduct.isEmpty()) {
-                
+
                 request.setAttribute("listProduct", listProduct);
                 count = pDao.getToTalPagingProductBySearch(search);
-            } 
+            }
         }
+
+        System.out.println(search);
 
         int endPage = count / 5;
         if (count % 5 != 0) {
             endPage++;
         }
 
+        System.out.println(search);
         request.setAttribute("imageList", pImageList);
         request.setAttribute("searchch", search);
         request.setAttribute("endP", endPage);

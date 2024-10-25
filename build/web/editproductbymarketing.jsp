@@ -105,13 +105,8 @@
                 gap: 15px; /* Khoảng cách giữa các ảnh */
             }
 
-            .image-item {
-                flex: 1 1 calc(33.333% - 30px); /* Chia đều 3 phần tử trên 1 dòng, trừ khoảng cách */
-                box-sizing: border-box;
-            }
-
             .image {
-                width: 100%; /* Đảm bảo ảnh chiếm toàn bộ chiều rộng của container */
+                width: 400px; /* Đảm bảo ảnh chiếm toàn bộ chiều rộng của container */
                 height: auto;
             }
 
@@ -204,16 +199,12 @@
                         <label>Mô tả</label>
                         <textarea name="des" rows="4" class="form-control" required>${car.description}</textarea>
                     </div>
-                    <!--            <h3>Hình ảnh sản phẩm</h3>
-                                <div class="image-container">
-                    <c:forEach items="${imageList}" var="image">
-                        <div class="mb-3">
-                            <img class="image"src="${image.imageUrl}" alt="Image">
-                            <input type="text" name="imageUrls" value="${image.imageUrl}" class="form-control">
-                        </div>
-                    </c:forEach>
-                </div>-->
-
+                    
+                    <h3>Thêm ảnh sản phẩm mới</h3>
+                    <div class="form-group">
+                        <label>Nhập đường dẫn ảnh mới</label>
+                        <input type="text" name="newImageUrl" class="form-control" placeholder="Nhập URL ảnh mới">
+                    </div>
                     <h3>Hình ảnh sản phẩm</h3>
                     <div class="image-container">
                         <c:forEach items="${imageList}" var="image">

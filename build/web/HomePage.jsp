@@ -173,12 +173,15 @@
                                             </c:when>
                                         </c:choose>
                                     <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
-                                   
-                                    <li ><a href="userlist">User List</a></li>
-                                    
+
+
+
                                     <li class=""><a href="productlist">Danh sách mẫu</a></li>
                                     <li class=""><a href="BlogListServlet">Tin xe</a></li>
-                                    <li class="scroll"><a href="#contact">Liên lạc</a></li>
+                                        <c:if test="${sessionScope.account == null||sessionScope.account.roleId == 4}">
+                                        <li ><li class="scroll"><a href="#contact">Liên lạc</a></li></li>
+                                        </c:if>
+
                                     <c:if test="${sessionScope.account != null}">
                                         <li>
                                             <a href="carts">CART</a>
@@ -215,7 +218,6 @@
             <div class="container">
                 <div class="welcome-hero-txt">
                     <h2>Sở hữu chiếc xe bạn mong muốn với mức giá hợp lý! </h2>
-                    <button class="welcome-btn" onclick="window.location.href = '#'">Liên hệ với chúng tôi</button>
                 </div>
             </div>
 
@@ -239,12 +241,12 @@
                                     <div class="row">
                                         <div class="col-md-7 col-sm-12">
                                             <div class="new-cars-img">
-                                                <img src="${nCar.images[0].imageUrl}" alt="${nCar.name}"/>
+                                                <img src="${nCar.imageUrl}" alt="${nCar.title}"/>
                                             </div><!--/.new-cars-img-->
                                         </div>
                                         <div class="col-md-5 col-sm-12">
                                             <div class="new-cars-txt">
-                                                <h2><a href="productdetail?productId=${nCar.productId}">${nCar.name}<span> za100</span></a></h2>
+                                                <h2><a href="productdetail?productId=${nCar.productId}">${nCar.title}<span> za100</span></a></h2>
                                                 <p>
                                                     ${nCar.description}
                                                 </p>
@@ -261,6 +263,7 @@
                 </div><!--/.new-cars-content-->
             </div><!--/.container-->
         </section><!--/.new-cars-->
+        <!--new-cars end -->-->
         <!--new-cars end -->
 
 

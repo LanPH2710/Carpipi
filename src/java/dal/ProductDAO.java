@@ -296,7 +296,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getAllProductByBrandId(String braId) {
         List<Product> products = new ArrayList<>();
         try {
-            String sql = "select * from carpipi.product where brandId = ?";
+            String sql = "select * from carpipi.product where brandId = ? AND status = 1";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, braId);
 
@@ -326,7 +326,7 @@ public class ProductDAO extends DBContext {
 
     public List<Product> searchProductsByKeyword(String keyword) {
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM product WHERE REPLACE(name, ' ', '') LIKE CONCAT('%', REPLACE(?, ' ', ''), '%')";
+        String sql = "SELECT * FROM product WHERE REPLACE(name, ' ', '') LIKE CONCAT('%', REPLACE(?, ' ', ''), '%') AND status = 1";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, "%" + keyword + "%"); 
@@ -357,7 +357,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getAllProductByStyleId(String styleId) {
         List<Product> products = new ArrayList<>();
         try {
-            String sql = "select * from carpipi.product where styleId = ?";
+            String sql = "select * from carpipi.product where styleId = ? AND status = 1";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, styleId);
 
@@ -750,7 +750,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getPagingAllProductsById(String id, int index) {
         List<Product> products = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM carpipi.product where productId Like ? order by productId limit 5 offset ? "; // Thay đổi tên bảng cho đúng
+            String sql = "SELECT * FROM carpipi.product where productId Like ? and status = 1  order by productId limit 5 offset ?"; // Thay đổi tên bảng cho đúng
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, id + "%");
             st.setInt(2, ((index - 1) * 5));
@@ -1017,7 +1017,23 @@ String sql = "UPDATE product SET status = ? WHERE brandId = ?";
     }
     
     
+    public void addProductImage(String productId, String imageUrl) throws SQLException {
+    // Truy vấn để chèn hình ảnh mới vào bảng
+    String query = "INSERT INTO productImage (productId, imageUrl) VALUES (?,?)";
 
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setString(1, productId); // Gán productId cho tham số thứ 1
+//        ps.setInt(2, imageId);      // Gán imageId cho tham số thứ 2
+        ps.setString(2, imageUrl);  // Gán imageUrl cho tham số thứ 3
+        int rowsInserted = ps.executeUpdate();
+
+        if (rowsInserted > 0) {
+            System.out.println("Chèn hình ảnh thành công!");
+        } else {
+            System.out.println("Không thể chèn hình ảnh.");
+        }
+    }
+}
 
     /*
     public static void main(String[] args) throws SQLException {

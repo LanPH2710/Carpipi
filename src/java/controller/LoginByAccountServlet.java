@@ -98,6 +98,9 @@ public class LoginByAccountServlet extends HttpServlet {
 
         LoginDAO loginDao = new LoginDAO();
         Account account = loginDao.getUsernameAndPassword(username, cpass);
+        if(account == null){
+            account = loginDao.getEmailAndPassword(username, pass);
+        }
 
         if (account != null) // login successfully!
         {

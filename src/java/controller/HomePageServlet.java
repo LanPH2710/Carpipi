@@ -44,6 +44,7 @@ public class HomePageServlet extends HttpServlet {
         BrandDAO brandDao = new BrandDAO();
         StyleDAO styleDao = new StyleDAO();
         CartDAO cartDAO = new CartDAO();
+        SliderDAO sliderDAO = new SliderDAO();
         AccountDAO accountDAO = new AccountDAO();
         Account account = (Account) session.getAttribute("account");
         if (account != null) {
@@ -67,11 +68,7 @@ public class HomePageServlet extends HttpServlet {
         featuredProducts.addAll(productDAO.getProductsByProductIdPrefix("AU", 4));
         featuredProducts.addAll(productDAO.getProductsByProductIdPrefix("PO", 4));
 
-        List<Product> newProducts = productDAO.getLastestProductsByProductIdPrefix("ME", 2);
-        newProducts.addAll(productDAO.getLastestProductsByProductIdPrefix("PO", 1));
-        newProducts.addAll(productDAO.getLastestProductsByProductIdPrefix("AU", 1));
-        newProducts.addAll(productDAO.getLastestProductsByProductIdPrefix("VO", 1));
-
+        List<Slider> newProducts = sliderDAO.getAllActiveSlider();
         // Truyền danh sách sản phẩm đến JSP
         request.setAttribute("featuredProducts", featuredProducts); // Sử dụng tên đúng cho JSP
         request.setAttribute("newProducts", newProducts); // Sử dụng tên đúng cho JSP

@@ -14,7 +14,7 @@
         <meta name="website" content="../../../index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assetsSlider/images/favicon.ico.png">
+        <link rel="shortcut icon" href="img/logo3.png">
         <!-- Bootstrap -->
         <link href="assetsSlider/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
@@ -43,9 +43,9 @@
             <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
-                        <a href="index.html">
-                            <img src="assetsSlider/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                            <img src="assetsSlider/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                        <a href="home">
+                            <img src="img/logoBnoBG.png" height="120px" class="logo-light-mode" alt="">
+                            <img src="img/logoBnoBG.png" height="120px" class="logo-dark-mode" alt="">
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
@@ -53,7 +53,11 @@
                         <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
                         <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
                         <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
-                        <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
+                        <c:choose>
+                            <c:when test="${sessionScope.account.roleId == 1}">
+                                <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
+                                </c:when>
+                        </c:choose>
                         <li><a href="postlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>Post List</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
@@ -90,18 +94,18 @@
                                         <div class="search-container">
                                             <!-- Filter by status -->
                                             <span>
-                                                <label for="status">Status:</label>
+                                                <label for="status">Trạng thái:</label>
                                             </span>
                                             <span>
-                                                <select name="status">
-                                                    <option value="">All</option>
-                                                    <option value="1" ${param.status == '1' ? 'selected' : ''}>Active</option>
-                                                    <option value="0" ${param.status == '0' ? 'selected' : ''}>Inactive</option>
+                                                <select name="status" style="height:40px; border-radius: 10px; padding: 10px; border: 1px solid #ccc;">
+                                                    <option value="">Tất cả</option>
+                                                    <option value="1" ${param.status == '1' ? 'selected' : ''}>kích hoạt</option>
+                                                    <option value="0" ${param.status == '0' ? 'selected' : ''}>Ngừng kích hoạt</option>
                                                 </select>
                                             </span>
                                             <!-- Search by title or backlink -->
                                             <span>
-                                                <input type="text" class="form-control border rounded-pill" id="s" name="search" placeholder="Search by title or backlink" value="${param.search}" />
+                                                <input type="text" class="form-control border rounded-pill" id="s" name="search" placeholder="Tìm kiếm theo tên/ backlink" value="${param.search}" />
                                             </span>
                                             <!-- Search button -->
                                             <span>
@@ -119,12 +123,22 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Patients List</h5>
+                            <h5 class="mb-0">Slider</h5>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Patients</li>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.account.roleId == 1}">
+                                            <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
+                                        </c:when>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.account.roleId == 2}">
+                                            <li class="breadcrumb-item"><a href="index.html">Marketing</a></li>
+                                        </c:when>
+                                    </c:choose>
+                                    
+                                    <li class="breadcrumb-item active" aria-current="page">danh sách Slide</li>
                                 </ul>
                             </nav>
                         </div>
@@ -135,11 +149,11 @@
                                         <thead>
                                             <tr>
                                                 <th class="border-bottom p-3" style="min-width: 50px;">Id</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Name</th>
-                                                <th class="border-bottom p-3">Description</th>
-                                                <th class="border-bottom p-3">Image</th>
+                                                <th class="border-bottom p-3" style="min-width: 180px;">Tên</th>
+                                                <th class="border-bottom p-3">Nội Dung</th>
+                                                <th class="border-bottom p-3">Hình ảnh</th>
                                                 <th class="border-bottom p-3">backlink</th>
-                                                <th class="border-bottom p-3">Status</th>
+                                                <th class="border-bottom p-3">Trạng thái</th>
                                                 <th class="border-bottom p-3" style="min-width: 100px;"></th>
                                             </tr>
                                         </thead>
@@ -152,7 +166,8 @@
                                                     <td class="py-3">
                                                         <a href="#" class="text-dark">
                                                             <div class="d-flex align-items-center">
-                                                                <img src="${slider.imageUrl}" class="avatar avatar-md-sm shadow" alt="${slider.title}" />
+                                                                <img src="${slider.imageUrl}" class="avatar avatar-md-sm shadow" alt="${slider.title}"  style="height: 90px; width: fit-content; width: 150px;"
+                                                                     />
                                                             </div>
                                                         </a>
                                                     </td>
@@ -162,20 +177,23 @@
 
                                                     </td>
                                                     <td class="p-3">
-                                                        <span class="badge bg-soft-success">
-                                                            ${slider.status == 1 ? 'Active' : 'Inactive'}
+                                                        <span class="badge ${slider.status == 1 ? 'bg-soft-success' : 'bg-soft-warning'}">
+                                                            ${slider.status == 1 ? 'Kích hoạt' : 'Ngừng kích hoạt'}
                                                         </span>
                                                     </td>
                                                     <td>
                                                         <form action="SliderList" method="POST" style="display: inline;">
                                                             <input type="hidden" name="sliderId" value="${slider.sliderId}" />
-                                                            <select name="status" onchange="this.form.submit()">
-                                                                <option value="1" ${slider.status == 1 ? 'selected' : ''}>Show</option>
-                                                                <option value="0" ${slider.status == 0 ? 'selected' : ''}>Hide</option>
-                                                            </select>
+                                                            <input type="hidden" name="status" value="${slider.status == 1 ? 0 : 1}">
+                                                            <button type="submit" name="action" value="updateSliderStatus" class="btn btn-icon btn-pills ${slider.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
+                                                                <span class="${slider.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
+                                                            </button>
                                                         </form>
-                                                        <a href="editSlider?id=${slider.sliderId}">Edit</a>
+                                                        <a href="editSlider?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile">
+                                                            <i class="uil uil-pen"></i>
+                                                        </a>
                                                     </td>
+
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
@@ -187,7 +205,7 @@
                             <!-- Pagination -->
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
-                                    <span class="text-muted me-3">Showing ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + sliders.size()} out of ${totalItems}</span>
+                                    <span class="text-muted me-3">Hiển thị ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + sliders.size()} ${totalItems}</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <!-- Previous Button -->
                                         <c:if test="${currentPage > 1}">
@@ -212,11 +230,11 @@
                                     </ul>
                                 </div>
                             </div>
-<!--                                                         PAGINATION END -->-->
+                            <!--                                                         PAGINATION END -->
                         </div><!--end row-->
                     </div>
                 </div><!--end container-->
-                `
+
                 <!-- Footer Start -->
                 <footer class="bg-white shadow py-3">
 
@@ -226,54 +244,6 @@
             <!--End page-content" -->
         </div>
         <!-- page-wrapper -->
-
-        <!-- Offcanvas Start -->
-        <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-            <div class="offcanvas-header p-4 border-bottom">
-                <h5 id="offcanvasRightLabel" class="mb-0">
-                    <img src="../assets/images/logo-dark.png" height="24" class="light-version" alt="">
-                    <img src="../assets/images/logo-light.png" height="24" class="dark-version" alt="">
-                </h5>
-                <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
-            </div>
-            <div class="offcanvas-body p-4 px-md-5">
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Style switcher -->
-                        <div id="style-switcher">
-                            <div>
-                                <ul class="text-center list-unstyled mb-0">
-                                    <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="../assets/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="../assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="../assets/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="../assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="../assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="../assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
-                                    <li class="d-grid"><a href="../landing/index.html" target="_blank" class="mt-4"><img src="../assets/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- end Style switcher -->
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div>
-
-            <div class="offcanvas-footer p-4 border-top text-center">
-                <ul class="list-unstyled social-icon mb-0">
-                    <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="../../../index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
-                </ul><!--end icon-->
-            </div>
-        </div>
-        <!-- Offcanvas End -->
-
-
-
         <!-- javascript -->
         <script src="assetsSlider/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->

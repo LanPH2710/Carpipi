@@ -6,7 +6,7 @@
 
     <head>
         <meta charset="UTF-8">
-        <title>Doctris - Doctor Appointment Booking System</title>
+        <title>Carpipi</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -15,7 +15,7 @@
         <meta name="website" content="../../../index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets1/images/favicon.ico.png">
+      <link rel="shortcut icon" href="img/logo3.png">
         <!-- Bootstrap -->
         <link href="assets1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->

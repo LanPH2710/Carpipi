@@ -45,7 +45,7 @@ public class StyleDAO extends DBContext {
 
         List<Style> listStyle = new ArrayList<>();
 
-        String sql = "SELECT * FROM carpipi.style";
+        String sql = "SELECT * FROM carpipi.style where status = 1";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);

@@ -33,7 +33,7 @@ public class UpdateCartQuantityController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
@@ -49,6 +49,12 @@ public class UpdateCartQuantityController extends HttpServlet {
             // Get the current cart items from the database
             List<Cart> carts = cartDAO.getCartsByUserId(userId);
             Cart cartToUpdate = null;
+
+            // Check if the quantity exceeds the limit
+            if (quantity > 10) {
+                response.sendRedirect("carts"); // Redirect to the cart page if quantity is greater than 10
+                return; // Stop further processing
+            }
 
             // Find the cart item that matches the productId
             for (Cart cartItem : carts) {
@@ -79,9 +85,9 @@ public class UpdateCartQuantityController extends HttpServlet {
             if (urlHistory == null) {
                 urlHistory = "carts";
             }
-           
+
             // Redirect to the cart page or forward to the appropriate view
-            response.sendRedirect(urlHistory); // Redirect to the CartController
+            response.sendRedirect("carts"); // Redirect to the CartController
 
         } catch (SQLException e) {
             e.printStackTrace(); // Print the exception stack trace for debugging
@@ -91,7 +97,6 @@ public class UpdateCartQuantityController extends HttpServlet {
 
         // Cập nhật số lượng sản phẩm trong database
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

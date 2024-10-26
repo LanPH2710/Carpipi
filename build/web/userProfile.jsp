@@ -139,6 +139,10 @@
                             <span class="mt-5 text-center">
                                 <button class="btn btn-primary profile-button" type="submit">Lưu Thông Tin</button>
                             </span>
+                            <span class="mt-5 text-center">
+                                <a href="changePassWord.jsp" class="btn btn-primary profile-button">Đổi mật khẩu</a>
+                            </span>
+
                         </div>
                     </div>
                 </div>

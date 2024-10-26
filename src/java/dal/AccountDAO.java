@@ -14,13 +14,15 @@ import java.util.regex.Pattern;
 import model.Account;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import util.HashPassword;
 
 /**
  *
  * @author tuana
  */
 public class AccountDAO extends DBContext {
-     public boolean updateAccountStatus1(int userId, int status) {
+
+    public boolean updateAccountStatus1(int userId, int status) {
         String sql = "UPDATE account SET status = ? WHERE userId = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -34,6 +36,7 @@ public class AccountDAO extends DBContext {
             return false;
         }
     }
+
     //hieu
     public void insertAccountAdmin(Account acc) {
 
@@ -57,8 +60,10 @@ public class AccountDAO extends DBContext {
             System.out.println("Tài khoản đã được thêm vào danh sách  thành công!");
         } catch (SQLException e) {
             System.err.println("Lỗi khi thêm tài khoản vào danh sách " + e.getMessage());
-        }}
-        //hieu
+        }
+    }
+    //hieu
+
     public Account getAccountByEmail(String email) {
         // Truy vấn thông tin tài khoản từ bảng 'account' với trạng thái 'pending'
         String sql = "SELECT * FROM account WHERE email = ? ";
@@ -85,6 +90,7 @@ public class AccountDAO extends DBContext {
 
         return pendingAccount;
     }
+
     //hieu
     public Account getAccountByPhone(String mobile) {
         // Truy vấn thông tin tài khoản từ bảng 'account' với trạng thái 'pending'
@@ -112,6 +118,7 @@ public class AccountDAO extends DBContext {
 
         return pendingAccount;
     }
+
     //hieu
     public Account getAccountByUserName(String userName) {
         // Truy vấn thông tin tài khoản từ bảng 'account' với trạng thái 'pending'
@@ -139,6 +146,7 @@ public class AccountDAO extends DBContext {
 
         return pendingAccount;
     }
+
     public void insertPendingAccount(Account acc) {
         // Chèn thông tin tài khoản vào bảng 'account' với trạng thái 'pending'
         String sql = "INSERT INTO account (userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, status) "
@@ -362,8 +370,8 @@ public class AccountDAO extends DBContext {
                         rs.getString(8),
                         rs.getString(9),
                         rs.getInt(10),
-                         rs.getString(11),
-                                rs.getInt(12));
+                        rs.getString(11),
+                        rs.getInt(12));
                 list.add(p);
             }
         } catch (SQLException e) {
@@ -371,37 +379,38 @@ public class AccountDAO extends DBContext {
         }
         return list;
     }
-public void editAccountAdmin(String firstName, String lastName, int gender, String email, String mobile, String address, int roleId, String avatar, int status, int userId) {
-    String sql = "UPDATE Account SET "
-            + "firstName = ?, "
-            + "lastName = ?, "
-            + "gender = ?, "
-            + "email = ?, "
-            + "mobile = ?, "
-            + "address = ?, "
-            + "roleId = ?, "
-            + "avatar = ?, "
-            + "status = ? "
-            + "WHERE userId = ?"; // Ensure this matches your database schema
 
-    try {
-        PreparedStatement st = connection.prepareStatement(sql);
-        st.setString(1, firstName);
-        st.setString(2, lastName);
-        st.setInt(3, gender);
-        st.setString(4, email);
-        st.setString(5, mobile);
-        st.setString(6, address);
-        st.setInt(7, roleId);
-        st.setString(8, avatar);
-        st.setInt(9, status);
-        st.setInt(10, userId);  // Note the correct parameter count here
+    public void editAccountAdmin(String firstName, String lastName, int gender, String email, String mobile, String address, int roleId, String avatar, int status, int userId) {
+        String sql = "UPDATE Account SET "
+                + "firstName = ?, "
+                + "lastName = ?, "
+                + "gender = ?, "
+                + "email = ?, "
+                + "mobile = ?, "
+                + "address = ?, "
+                + "roleId = ?, "
+                + "avatar = ?, "
+                + "status = ? "
+                + "WHERE userId = ?"; // Ensure this matches your database schema
 
-        st.executeUpdate();
-    } catch (SQLException e) {
-        System.out.println(e);
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, firstName);
+            st.setString(2, lastName);
+            st.setInt(3, gender);
+            st.setString(4, email);
+            st.setString(5, mobile);
+            st.setString(6, address);
+            st.setInt(7, roleId);
+            st.setString(8, avatar);
+            st.setInt(9, status);
+            st.setInt(10, userId);  // Note the correct parameter count here
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
-}
 
     public List<Account> getAllCustommer() {
         List<Account> list = new ArrayList<>();
@@ -726,6 +735,20 @@ public void editAccountAdmin(String firstName, String lastName, int gender, Stri
             arr.add(accounts.get(i));
         }
         return arr;
+    }
+
+    // Manhhuy check tk mk nguoi 
+    public boolean checkCurrentPassword(String username, String currentPassword) {
+        LoginDAO dao = new LoginDAO();
+
+        // Mã hóa mật khẩu trước khi kiểm tra trong database
+        String hashedPassword = HashPassword.toSHA1(currentPassword);
+
+        // Gọi phương thức getUsernameAndPassword để kiểm tra thông tin tài khoản
+        Account account = dao.getUsernameAndPassword(username, hashedPassword);
+
+        // Nếu account không null, nghĩa là thông tin hợp lệ
+        return account != null;
     }
 
     public static void main(String[] args) {

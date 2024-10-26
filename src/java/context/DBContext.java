@@ -31,7 +31,7 @@ public class DBContext {
 
 
 
-            String pass = "123456"; // Your MySQL password
+            String pass = "1234"; // Your MySQL password
 
 
 

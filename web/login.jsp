@@ -203,13 +203,13 @@
                 </div>
 
                 <div class="login-google">
-<!--                    <section class="gg">
+                    <section class="gg">
                         <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:9999/Iter1_Test/login&response_type=code&client_id=425567804160-tpdr9so617et1ijjcp3oqe7d35tl6n07.apps.googleusercontent.com&approval_prompt=force"> 
                             Đăng nhập bằng tài khoản Google
                         </a>
 
 
-                    </section>-->
+                    </section>
                 </div>
                 <form action="byaccount" method="post">
                     <p style="color: red;">${mess}</p>

@@ -51,7 +51,7 @@ public class LoginDAO extends DBContext {
         return null;
 
     }
-    
+
     public Account getEmailAndPassword(String username, String password) {
 
         String sql = "select * from account where email = ? and password = ?";
@@ -109,7 +109,8 @@ public class LoginDAO extends DBContext {
                 account.setMobile(rs.getString(8));
                 account.setAddress(rs.getString(9));
                 account.setRoleId(rs.getInt(10));
-                ;
+                account.setAvatar(rs.getString(11));
+                account.setStatus(rs.getInt(12));
 
                 return account;
 
@@ -166,19 +167,8 @@ public class LoginDAO extends DBContext {
 
     public void inserUserByEmail(String username, String password, String firstName,
             String lastName, String gender, String email, String phone, String address, String avatar) {
-        String sql = "INSERT INTO `carpipi`.`account`\n"
-                + "(`userName`,\n"
-                + "`password`,\n"
-                + "`firstName`,\n"
-                + "`lastName`,\n"
-                + "`gender`,\n"
-                + "`email`,\n"
-                + "`mobile`,\n"
-                + "`address`,\n"
-                + "`roleId`,\n"
-                + "`avatar`)\n"
-                + "VALUES\n"
-                + "(?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO account (userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, status) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -193,6 +183,7 @@ public class LoginDAO extends DBContext {
             ps.setString(8, "");
             ps.setString(9, "4");
             ps.setString(10, avatar);
+            ps.setString(11, "1");
 
             ps.executeUpdate();
         } catch (Exception e) {
@@ -201,9 +192,9 @@ public class LoginDAO extends DBContext {
 
     public static void main(String[] args) {
         LoginDAO l = new LoginDAO();
-        
-       
+        l.inserUserByEmail("s", "s", "s", "s", "2", "abc", "", "", "http");
+        System.out.println(l);
+
     }
 
-   
 }

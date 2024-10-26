@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Account;
 import model.GoogleAccount;
+import util.HashPassword;
 
 /**
  *
@@ -41,28 +42,28 @@ public class LoginServlet extends HttpServlet {
         System.out.println(ggAcount);
         String firstName = ggAcount.getGiven_name();
         String lastName = ggAcount.getFamily_name();
+        String gender = "2";
         String email = ggAcount.getEmail();
         String picture = ggAcount.getPicture();
         String password = Iconstant.generateRandomPassword(8);
+        String cpass = HashPassword.toSHA1(password);
 
         HttpSession session = request.getSession();
         LoginDAO login = new LoginDAO();
 
         try {
             Account account = login.getByEmail(email);
-            
 
             if (account == null) {
-                login.inserUserByEmail(email, password, firstName, lastName, "", email, "", "", picture);
+                login.inserUserByEmail(email, cpass, firstName, lastName, gender, email, "", "", picture);
                 account = login.getByEmail(email);
-                
-            } 
-               
-                session.setAttribute("account", account);
-                session.setMaxInactiveInterval(60 * 600);
-                request.getRequestDispatcher("home").forward(request, response);
-                System.out.println("Da cp");
-            
+
+            }
+
+            session.setAttribute("account", account);
+            session.setMaxInactiveInterval(60 * 600);
+            request.getRequestDispatcher("home").forward(request, response);
+            System.out.println("Da cp");
 
         } catch (Exception e) {
         }

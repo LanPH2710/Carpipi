@@ -136,7 +136,7 @@ public class ProductDAO extends DBContext {
                 product.setBrandId(rs.getInt("brandId"));
                 product.setSegmentId(rs.getInt("segmentId"));
                 product.setStyleId(rs.getInt("styleId"));
-
+                product.setStatus(rs.getInt("status"));
                 // Lấy danh sách hình ảnh của sản phẩm từ bảng productimages
                 product.setImages(getImagesByProductId(product.getProductId()));
             }
@@ -1033,7 +1033,33 @@ String sql = "UPDATE product SET status = ? WHERE brandId = ?";
             System.out.println("Không thể chèn hình ảnh.");
         }
     }
-}
+    }
+    
+    public void deleteImage(String imageUrl) {
+        String sql = "DELETE FROM productImage WHERE imageUrl = ?"; // Giả sử bạn có bảng product_image với cột image_url
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, imageUrl);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Xử lý ngoại lệ, có thể ném ra hoặc ghi log
+        }
+    }
+
+    public void updateImage(String oldImageUrl, String newImageUrl) {
+        String sql = "UPDATE productImage SET imageUrl = ? WHERE imageUrl = ?"; // Giả sử bạn có bảng product_image với cột image_url
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, newImageUrl);
+            preparedStatement.setString(2, oldImageUrl);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Xử lý ngoại lệ, có thể ném ra hoặc ghi log
+        }
+    }
+
 
     /*
     public static void main(String[] args) throws SQLException {
@@ -1101,36 +1127,8 @@ String sql = "UPDATE product SET status = ? WHERE brandId = ?";
 //        return count;
 //    }
     
-//    public Map<String, Integer> getFuelCounts() {
-//        Map<String, Integer> fuelCounts = new HashMap<>();
-//        String sql = "SELECT fuel, COUNT(*) AS productCount FROM product GROUP BY fuel";
-//
-//        try (
-//             PreparedStatement pstmt = connection.prepareStatement(sql);
-//             ResultSet rs = pstmt.executeQuery()) {
-//            while (rs.next()) {
-//                String fuel = rs.getString("fuel");
-//                int count = rs.getInt("productCount");
-//                fuelCounts.put(fuel, count);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return fuelCounts;
-//    }
-//    // Cập nhật trạng thái cho nhiên liệu
-//    public boolean updateFuelStatus(String fuel, int newStatus) {
-//        String sql = "UPDATE product SET status = ? WHERE fuel = ?";
-//        try (
-//             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-//            pstmt.setInt(1, newStatus);
-//            pstmt.setString(2, fuel);
-//            return pstmt.executeUpdate() > 0;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
+
+
     public Map<String, Integer> getFuelCounts() {
         Map<String, Integer> fuelCounts = new HashMap<>();
         String sql = "SELECT fuel, COUNT(*) AS productCount FROM product GROUP BY fuel"; // Có thể thêm điều kiện lọc trạng thái nếu cần

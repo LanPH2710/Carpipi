@@ -120,11 +120,11 @@ public class CartDAO extends DBContext {
                 int cartId = rs.getInt("cartId");
                 String productId = rs.getString("productId");
                 int quantity = rs.getInt("quantity");
-
+                int isSelect = rs.getInt("isSelect");
                 // You may need to fetch product details based on productId
                 Product product = new ProductDAO().getProductById(productId);  // Implement this method as needed
 
-                Cart cart = new Cart(cartId, userId, product, quantity);
+                Cart cart = new Cart(cartId, userId, product, quantity, isSelect);
                 cartList.add(cart);
             }
         } catch (SQLException e) {
@@ -133,6 +133,25 @@ public class CartDAO extends DBContext {
 
         return cartList;
     }
+
+   public Integer getStockByCartId(int cartId) {
+    String sql = "SELECT quantity FROM cart WHERE cartId = ? AND isDeleted = 0";
+    Integer quantity = null; // Use Integer to allow null if no record is found
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, cartId);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            // Retrieve the stock quantity
+            quantity = rs.getInt("quantity");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); // Handle exceptions appropriately
+    }
+
+    return quantity; // Will be null if no stock is found
+}
 
     public void updateCart1(int cartId, int userId, String productId, int quantity) throws SQLException {
         String sql = "UPDATE cart SET quantity = quantity + ? WHERE cartId = ? AND userId = ? AND productId = ?";
@@ -145,7 +164,8 @@ public class CartDAO extends DBContext {
         }
     }
 
-    public void updateCart2(int cartId, int userId, String productId, int quantity) throws SQLException {
+    // Phương thức cập nhật số lượng sản phẩm trong giỏ hàng
+    public void updateCart2(int cartId, int userId, String productId, int quantity) {
         String sql = "UPDATE cart SET quantity = ? WHERE cartId = ? AND userId = ? AND productId = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, quantity); // Set the quantity directly
@@ -153,17 +173,36 @@ public class CartDAO extends DBContext {
             ps.setInt(3, userId);
             ps.setString(4, productId);
             ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error updating cart: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    // Xóa sản phẩm khỏi giỏ hàng
-    public void removeFromCart(int userId, String productId) throws SQLException {
+    public void updateCart3(int userId, String productId, int quantity) {
+        String sql = "UPDATE cart SET quantity = ? WHERE cartId = ? AND userId = ? AND productId = ? AND isDeleted = 0";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setString(2, productId);
+            ps.setInt(3, quantity); // Set the quantity directly
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error updating cart: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+// Phương thức xóa sản phẩm khỏi giỏ hàng
+
+    public void removeFromCart(int userId, String productId) {
         String sql = "DELETE FROM cart WHERE userId = ? AND productId = ?";
-        try (
-                PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, userId);
             ps.setString(2, productId);
             ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error removing product from cart: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -180,47 +219,49 @@ public class CartDAO extends DBContext {
                 int cartId = rs.getInt("cartId");
                 String productId = rs.getString("productId");
                 int quantity = rs.getInt("quantity");
+                int isSelect = rs.getInt("isSelect");
                 // Tạo Cart object và thêm vào danh sách
-                Cart cartItem = new Cart(cartId, userId, new ProductDAO().getProductById(productId), quantity);
+                Cart cartItem = new Cart(cartId, userId, new ProductDAO().getProductById(productId), quantity, isSelect);
                 cartItems.add(cartItem);
             }
         }
         return cartItems;
     }
 
-    public List<Cart> getCartsBySupplyId(int supplyId) throws SQLException {
+    public List<Cart> getCartsBySupplyId(int supplyId, int userId) throws SQLException {
         List<Cart> cartList = new ArrayList<>();
-        String sql = "SELECT c.cartId, c.userId, c.productId, c.quantity, p.name AS productName, s.supplyName "
+        String sql = "SELECT c.cartId, c.userId, c.productId, c.quantity, c.isSelect, p.name AS productName, s.supplyName "
                 + "FROM carpipi.cart c "
                 + "JOIN product p ON c.productId = p.productId "
                 + "JOIN supply s ON p.supplyId = s.supplyId "
-                + "WHERE  s.supplyId = ? and c.isDeleted = 0 ";  // Dùng '?' để truyền tham số
+                + "WHERE s.supplyId = ? AND c.userId = ? AND c.isDeleted = 0";  // Added userId condition
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, supplyId); // Gán giá trị cho supplyId
+            ps.setInt(1, supplyId); // Assign value for supplyId
+            ps.setInt(2, userId);   // Assign value for userId
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 int cartId = rs.getInt("cartId");
-                int userId = rs.getInt("userId");
                 String productId = rs.getString("productId");
                 int quantity = rs.getInt("quantity");
+                int isSelect = rs.getInt("isSelect");
+                // Fetch product details based on productId
+                Product product = new ProductDAO().getProductById(productId);  // Ensure this method is implemented
 
-                // You may need to fetch product details based on productId
-                Product product = new ProductDAO().getProductById(productId);  // Implement this method as needed
-
-                Cart cart = new Cart(cartId, userId, product, quantity);
+                // Create Cart object with new isSelect parameter
+                Cart cart = new Cart(cartId, userId, product, quantity, isSelect);
                 cartList.add(cart);
-
             }
         }
         return cartList;
     }
-    public int countCartsByUserId(int userId) throws SQLException {
+
+   public int countCartsByUserId(int userId) {
     int totalCarts = 0;  // Variable to hold the count
-    String sql = "SELECT COUNT(*) AS totalCarts " +
-                 "FROM carpipi.cart " +
-                 "WHERE userId = ? AND isDeleted = 0";  // Ensure only active carts are counted
+    String sql = "SELECT COUNT(*) AS totalCarts "
+               + "FROM carpipi.cart "
+               + "WHERE userId = ? AND isDeleted = 0";  // Ensure only active carts are counted
 
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
         ps.setInt(1, userId);  // Set the userId parameter
@@ -229,38 +270,85 @@ public class CartDAO extends DBContext {
         if (rs.next()) {
             totalCarts = rs.getInt("totalCarts");  // Retrieve the count
         }
+    } catch (SQLException e) {
+        e.printStackTrace();  // Print the stack trace to help debug any SQL errors
     }
-    
+
     return totalCarts;  // Return the total count
 }
 
-    public static void main(String[] args) {
-    // Thay đổi thông tin kết nối database và supplyId nếu cần
-    int supplyId = 1; // Giả sử đây là supplyId mà bạn muốn tìm kiếm
 
-    CartDAO cartDAO = new CartDAO();
+    public List<Cart> getSelectedCarts() throws SQLException {
+        List<Cart> selectedCarts = new ArrayList<>();
+        String sql = "SELECT c.cartId, c.userId, c.productId, c.quantity, p.name AS productName, s.supplyName "
+                + "FROM cart c "
+                + "JOIN product p ON c.productId = p.productId "
+                + "JOIN supply s ON p.supplyId = s.supplyId "
+                + "WHERE c.isSelect = 1 ";
 
-    try {
-        // Gọi phương thức để lấy các giỏ hàng theo supplyId
-        List<Cart> cartList = cartDAO.getCartsBySupplyId(supplyId);
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
-        // In kết quả ra console
-        if (cartList.isEmpty()) {
-            System.out.println("Không tìm thấy sản phẩm nào cho supplyId: " + supplyId);
-        } else {
-            System.out.println("Kết quả tìm kiếm:");
-            for (Cart cart : cartList) {
-                Product product = cart.getProduct();
-                System.out.println("Giỏ hàng ID: " + cart.getCartId() +
-                                   ", Sản phẩm ID: " + product.getProductId() +
-                                   ", Tên: " + product.getName() +
-                                   ", Số lượng: " + cart.getQuantity());
+            while (rs.next()) {
+                int cartId = rs.getInt("cartId");
+                int userId = rs.getInt("userId");
+                String productId = rs.getString("productId");
+                int quantity = rs.getInt("quantity");
+
+                // Fetch product details based on productId if needed
+                Product product = new ProductDAO().getProductById(productId); // Implement getProductById
+
+                Cart cart = new Cart(cartId, userId, product, quantity, 1);
+                selectedCarts.add(cart);
             }
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        System.out.println("Lỗi khi tìm kiếm sản phẩm: " + e.getMessage());
+        return selectedCarts;
     }
-}
+
+    public void updateCartSelection(int userId, String productId, int isSelect) throws SQLException {
+        String sql = "UPDATE cart c "
+                + "JOIN account a ON c.userId = a.userId "
+                + "JOIN product p ON c.productId = p.productId "
+                + "SET c.isSelect = ? "
+                + "WHERE a.userId = ? AND p.productId = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, isSelect);
+            ps.setInt(2, userId);
+            ps.setString(3, productId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            // Handle the exception (e.g., log it or rethrow)
+            throw new SQLException("Error updating cart selection for userId: " + userId + " and productId: " + productId, e);
+        }
+    }
+
+    public static void main(String[] args) {
+        // Thay đổi thông tin kết nối database và supplyId nếu cần
+        int supplyId = 1; // Giả sử đây là supplyId mà bạn muốn tìm kiếm
+
+        CartDAO cartDAO = new CartDAO();
+
+        try {
+            // Gọi phương thức để lấy các giỏ hàng theo supplyId
+            List<Cart> cartList = cartDAO.getCartsBySupplyId(supplyId, 1);
+
+            // In kết quả ra console
+            if (cartList.isEmpty()) {
+                System.out.println("Không tìm thấy sản phẩm nào cho supplyId: " + supplyId);
+            } else {
+                System.out.println("Kết quả tìm kiếm:");
+                for (Cart cart : cartList) {
+                    Product product = cart.getProduct();
+                    System.out.println("Giỏ hàng ID: " + cart.getCartId()
+                            + ", Sản phẩm ID: " + product.getProductId()
+                            + ", Tên: " + product.getName()
+                            + ", Số lượng: " + cart.getQuantity());
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Lỗi khi tìm kiếm sản phẩm: " + e.getMessage());
+        }
+    }
 
 }

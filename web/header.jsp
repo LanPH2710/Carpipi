@@ -77,28 +77,28 @@
 
             <div class="col-9 menu">
                 <c:choose>
-                                        <c:when test="${sessionScope.account.roleId == 1}">
-                                            <span class="headerN"><a href="admin">Admin</a></span>
-                                            </c:when>
-                                        </c:choose>
-                                        <c:choose>
-                                            <c:when test="${sessionScope.account.roleId == 2}">
-                                            <span class="headerN"><a href="marketing">Makerting</a></span>
-                                            </c:when>
-                                        </c:choose>
-                                        <c:choose>
-                                            <c:when test="${sessionScope.account.roleId == 3}">
-                                            <span class="headerN"><a href="sale">Sale</a></span>
-                                            </c:when>
-                                        </c:choose>
-                                        <c:choose>
-                                            <c:when test="${sessionScope.account == null||sessionScope.account.roleId == 4}">
-                                            <span class="headerN scroll"><a href="#featured-cars">Xe tiêu biểu</a></span>
-                                            </c:when>
-                                        </c:choose>
-                
+                    <c:when test="${sessionScope.account.roleId == 1}">
+                        <span class="headerN"><a href="admin">Admin</a></span>
+                    </c:when>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${sessionScope.account.roleId == 2}">
+                        <span class="headerN"><a href="marketing">Makerting</a></span>
+                    </c:when>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${sessionScope.account.roleId == 3}">
+                        <span class="headerN"><a href="sale">Sale</a></span>
+                    </c:when>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${sessionScope.account == null||sessionScope.account.roleId == 4}">
+                        <span class="headerN scroll"><a href="#featured-cars">Xe tiêu biểu</a></span>
+                    </c:when>
+                </c:choose>
+
                 <span class="headerN"><a href="home#new-cars" style="text-decoration:none; color: white">Mẫu mới</a></span>
-                <span class="headerN"><a href="carts" style="text-decoration:none; color: white">Giỏ Hàng</a></span>
+
                 <span class="headerN"><a href="BlogListServlet" style="text-decoration:none; color: white">Tin xe</a></span>
                 <span class="headerN"><a href="home#contact" style="text-decoration:none; color: white">Liên lạc</a></span>
 
@@ -119,7 +119,20 @@
                         <span class="headerN"><a style="text-decoration:none; color: white" href="logout">Đăng Xuất</a></span>
                     </c:otherwise>
                 </c:choose>
+               
+                <c:set var="sizeCart" value="${sessionScope.sizeCart}"/>
+                <span class="headerN">
+                    <a href="carts" style="text-decoration:none; color: white; position: relative;">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span style="margin-left: 5px;">Giỏ Hàng</span>
+                        <c:if test="${sizeCart > 0}">
+                            <span class="cart-amount">${sizeCart}</span>
+                        </c:if>
+                    </a>
+                </span>
             </div>
         </div>
+       
     </body>
+
 </html>

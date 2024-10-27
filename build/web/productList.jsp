@@ -198,13 +198,16 @@
                                                 </a>
                                             </div>
                                             <div class="product-overlay">
-                                                <div class="overlay-content">
-                                                    <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
-                                                    <div><a href="productdetail?productId=${pro.productId}" class="product-detail-link">${pro.name}</a></div>
-                                                    <a href="addtocart?productId=${pro.productId}&quantity=1" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-
-                                                </div>
-                                            </div>
+    <div class="overlay-content">
+        <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
+        <div><a href="productdetail?productId=${pro.productId}" class="product-detail-link">${pro.name}</a></div>
+        <a href="addtocart?productId=${pro.productId}&quantity=1" 
+           class="btn btn-default add-to-cart"
+           onclick="return confirm('Item has been added to your cart!')">
+            <i class="fa fa-shopping-cart"></i>Add to cart
+        </a>
+    </div>
+</div>
                                         </div>
                                     </div>
                                 </div>
@@ -266,5 +269,61 @@
         <script src="jsProList/bootstrap.min.js"></script>
         <script src="jsProList/jquery.prettyPhoto.js"></script>
         <script src="jsProList/main.js"></script>
-    </body>
+    </body><!-- Thêm style cho alert -->
+<style>
+.custom-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    z-index: 1000;
+    animation: fadeout 2s linear forwards;
+}
+
+@keyframes fadeout {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+</style>
+
+<!-- Code HTML đã sửa -->
+<a href="addtocart?productId=${pro.productId}&quantity=1" 
+   class="btn btn-default add-to-cart" 
+   onclick="showCartAlert(event)">
+    <i class="fa fa-shopping-cart"></i> Add to cart
+</a>
+
+<div class="product-overlay">
+    <div class="overlay-content">
+        <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
+        <div><a href="productdetail?productId=${pro.productId}" class="product-detail-link">${pro.name}</a></div>
+        <a href="addtocart?productId=${pro.productId}&quantity=1" 
+           class="btn btn-default add-to-cart"
+           onclick="showCartAlert(event)">
+            <i class="fa fa-shopping-cart"></i>Add to cart
+        </a>
+    </div>
+</div>
+
+<!-- Thêm script -->
+<script>
+function showCartAlert(event) {
+    event.preventDefault(); // Ngăn chặn chuyển trang ngay lập tức
+    
+    // Tạo và hiển thị alert
+    var alertDiv = document.createElement('div');
+    alertDiv.className = 'custom-alert';
+    alertDiv.textContent = 'Item has been added to your cart!';
+    document.body.appendChild(alertDiv);
+    
+    // Chuyển trang sau khi hiển thị alert
+    setTimeout(function() {
+        window.location.href = event.target.href;
+    }, 1000); // Đợi 1 giây trước khi chuyển trang
+}
+</script>
 </html>

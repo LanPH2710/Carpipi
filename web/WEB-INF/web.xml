@@ -132,8 +132,14 @@
         <servlet-class>controller.ChangePasswordServlet</servlet-class>
     </servlet>
     <servlet>
+
         <servlet-name>EditProductImageServlet</servlet-name>
         <servlet-class>controller.marketing.EditProductImageServlet</servlet-class>
+        </servlet>
+        <servlet>
+        <servlet-name>SliderDetailServlet</servlet-name>
+        <servlet-class>controller.marketing.SliderDetailServlet</servlet-class>
+
     </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
@@ -240,7 +246,12 @@
         <url-pattern>/changepassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+
         <servlet-name>EditProductImageServlet</servlet-name>
         <url-pattern>/image</url-pattern>
+</servlet-mapping><servlet-mapping>
+        <servlet-name>SliderDetailServlet</servlet-name>
+        <url-pattern>/sliderdetail</url-pattern>
+
     </servlet-mapping>
 </web-app>

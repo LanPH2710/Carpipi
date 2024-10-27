@@ -164,7 +164,7 @@
                                                     <td class="p-3">${slider.title}</td>
                                                     <td class="p-3">${slider.description}</td>
                                                     <td class="py-3">
-                                                        <a href="#" class="text-dark">
+                                                        <a href="sliderdetail?id=${slider.sliderId}" class="text-dark">
                                                             <div class="d-flex align-items-center">
                                                                 <img src="${slider.imageUrl}" class="avatar avatar-md-sm shadow" alt="${slider.title}"  style="height: 90px; width: fit-content; width: 150px;"
                                                                      />

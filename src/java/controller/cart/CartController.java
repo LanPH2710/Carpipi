@@ -61,13 +61,11 @@ public class CartController extends HttpServlet {
         double totalMoney = 0;
 
         // Calculate total money
-        for (Cart cartItem : carts) {
-            totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
-        }
+        
 
         // Save carts and total money to session
         session.setAttribute("carts", carts);
-        session.setAttribute("totalMoney", totalMoney);
+       
 
         // Forward to cart.jsp
         request.getRequestDispatcher("cart.jsp").forward(request, response);

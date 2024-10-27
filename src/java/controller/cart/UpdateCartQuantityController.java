@@ -7,6 +7,7 @@ package controller.cart;
 
 import java.sql.SQLException;
 import dal.CartDAO;
+import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedHashMap;
@@ -20,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
 import model.Cart;
+import model.Product;
 
 @WebServlet(name = "UpdateCartQuantityController", urlPatterns = {"/update-quantity"})
 public class UpdateCartQuantityController extends HttpServlet {
@@ -38,64 +40,71 @@ public class UpdateCartQuantityController extends HttpServlet {
 
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
+         if (account == null) {
+            // Nếu chưa đăng nhập
+            response.sendRedirect("login.jsp");
+            return;
+        }
         int userId = account.getUserId();
         String productId = request.getParameter("productId");
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        String qua = request.getParameter("quantity");
+        int quantity = Integer.parseInt(qua);
 
         // Create an instance of CartDAO
         CartDAO cartDAO = new CartDAO();
-
-        try {
-            // Get the current cart items from the database
-            List<Cart> carts = cartDAO.getCartsByUserId(userId);
-            Cart cartToUpdate = null;
-
-            // Check if the quantity exceeds the limit
-            if (quantity > 10) {
-                response.sendRedirect("carts"); // Redirect to the cart page if quantity is greater than 10
-                return; // Stop further processing
+         ProductDAO productDAO = new ProductDAO();
+         Product product = productDAO.getProductById(productId);
+         if (quantity > product.getStock()) {
+             session.setAttribute("messCart", "Mua quá số lượng");
+             session.setAttribute("flashTime", System.currentTimeMillis());
+             response.sendRedirect("carts");
+              return;
+         }else if (qua.isEmpty() || qua == null) {
+             session.setAttribute("messCart", "Vui lòng nhập số nguyên");
+             session.setAttribute("flashTime", System.currentTimeMillis());
+             response.sendRedirect("carts");
+              return;
+         }
+         
+       
+        List<Cart> carts = cartDAO.getCartsByUserId(userId);
+        Cart cartToUpdate = null;
+        // Check if the quantity exceeds the limit
+        
+        // Find the cart item that matches the productId
+        for (Cart cartItem : carts) {
+            if (cartItem.getProduct().getProductId().equals(productId)) {
+                cartToUpdate = cartItem;
+                
+               break;
             }
-
-            // Find the cart item that matches the productId
-            for (Cart cartItem : carts) {
-                if (cartItem.getProduct().getProductId().equals(productId)) {
-                    cartToUpdate = cartItem;
-                    break;
-                }
-            }
-
-            if (cartToUpdate != null) {
-                // Update the quantity in the database
-                cartDAO.updateCart2(cartToUpdate.getCartId(), userId, productId, quantity);
-
-                // Update the cart quantity in the list
-                cartToUpdate.setQuantity(quantity);
-            }
-
-            // Update total money after the change
-            double totalMoney = 0;
-            for (Cart cartItem : carts) {
-                totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
-            }
-
-            // Save the updated carts and total money back to session
-            session.setAttribute("carts", carts);
-            session.setAttribute("totalMoney", totalMoney);
-            String urlHistory = (String) session.getAttribute("urlHistory");
-            if (urlHistory == null) {
-                urlHistory = "carts";
-            }
-
-            // Redirect to the cart page or forward to the appropriate view
-            response.sendRedirect("carts"); // Redirect to the CartController
-
-        } catch (SQLException e) {
-            e.printStackTrace(); // Print the exception stack trace for debugging
-            request.setAttribute("errorMessage", "An error occurred while updating the cart.");
-            request.getRequestDispatcher("error.jsp").forward(request, response); // Forward to an error page
         }
-
-        // Cập nhật số lượng sản phẩm trong database
+         
+        
+             
+         
+        if (cartToUpdate != null) {
+            // Update the quantity in the database
+            cartDAO.updateCart2(cartToUpdate.getCartId(), userId, productId, quantity);
+            
+            // Update the cart quantity in the list
+            cartToUpdate.setQuantity(quantity);
+        }
+        // Update total money after the change
+        double totalMoney = 0;
+        for (Cart cartItem : carts) {
+            totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+        }
+        session.setAttribute("messCart", "");
+        // Save the updated carts and total money back to session
+        session.setAttribute("carts", carts);
+        session.setAttribute("totalMoney", totalMoney);
+        String urlHistory = (String) session.getAttribute("urlHistory");
+        if (urlHistory == null) {
+            urlHistory = "carts";
+        }
+        // Redirect to the cart page or forward to the appropriate view
+        response.sendRedirect("carts"); // Redirect to the CartController
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

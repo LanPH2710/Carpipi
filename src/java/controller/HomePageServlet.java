@@ -47,18 +47,11 @@ public class HomePageServlet extends HttpServlet {
         SliderDAO sliderDAO = new SliderDAO();
         AccountDAO accountDAO = new AccountDAO();
         Account account = (Account) session.getAttribute("account");
-        if (account != null) {
-            try {
-                // Get totalCart count for the logged-in user
-                int totalCart = cartDAO.countCartsByUserId(account.getUserId());
-                session.setAttribute("totalCart", totalCart);  // Set the totalCart in session
-            } catch (SQLException ex) {
-                Logger.getLogger(HomePageServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            // If user is not logged in, set totalCart to 0
-            session.setAttribute("totalCart", 0);
+        if (account !=null) {
+             int sizeCart = cartDAO.countCartsByUserId(account.getUserId());
+             session.setAttribute("sizeCart", sizeCart);
         }
+       
         List<Style> styleList = styleDao.getAllStyleCar();
         List<Brand> brandList = brandDao.getAllBrand();
 
@@ -70,6 +63,7 @@ public class HomePageServlet extends HttpServlet {
 
         List<Slider> newProducts = sliderDAO.getAllActiveSlider();
         // Truyền danh sách sản phẩm đến JSP
+        
         request.setAttribute("featuredProducts", featuredProducts); // Sử dụng tên đúng cho JSP
         request.setAttribute("newProducts", newProducts); // Sử dụng tên đúng cho JSP
         request.setAttribute("brandList", brandList);

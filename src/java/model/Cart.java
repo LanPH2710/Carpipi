@@ -1,20 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
-
-
-
-
-
 
 public class Cart {
     int cartId;
     int userId;
     private Product product;
     private int quantity;
+    private int isSelect; // New property for selection status
 
     public Product getProduct() {
         return product;
@@ -30,6 +21,14 @@ public class Cart {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getIsSelect() {
+        return isSelect; // Getter for isSelect
+    }
+
+    public void setIsSelect(int isSelect) {
+        this.isSelect = isSelect; // Setter for isSelect
     }
 
     public Cart() {
@@ -51,14 +50,11 @@ public class Cart {
         this.userId = userId;
     }
 
-    public Cart(int cartId, int userId, Product product, int quantity) {
+    public Cart(int cartId, int userId, Product product, int quantity, int isSelect) {
         this.cartId = cartId;
         this.userId = userId;
         this.product = product;
         this.quantity = quantity;
+        this.isSelect = isSelect; // Initialize isSelect
     }
-
-    
-    
-    
 }

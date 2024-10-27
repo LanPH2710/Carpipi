@@ -25,6 +25,29 @@
         <link href="assets1/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
 
     </head>
+
+    <style>
+        .productCheckbox {
+            transform: scale(1.2); /* Increase checkbox size */
+            margin-top: 0.5rem; /* Adjust top margin for better alignment */
+        }
+        .qty-btn1 {
+            width: 65px;
+            padding-left: 0; /* Remove left padding for true centering */
+            text-align: center; /* Centers the number within the input */
+            pointer-events: auto;
+            appearance: none; /* Hides default arrows in WebKit browsers */
+            -moz-appearance: textfield; /* Hides default arrows in Firefox */
+        }
+
+        .qty-btn1::-webkit-inner-spin-button,
+        .qty-btn1::-webkit-outer-spin-button {
+            -webkit-appearance: none; /* Hides spin buttons in Chrome/Safari */
+            margin: 0;
+
+        }
+
+    </style>
     <script> $(document).ready(function () {
             $('.breadcrumb-item a').click(function () {
                 $('.breadcrumb-item').removeClass('active'); // Xóa lớp active của tất cả
@@ -128,6 +151,8 @@
                                     </form>                             </div>
                             </div>
                             <a href="carts" class="btn btn-secondary ms-2">Reset Search</a> <!-- Reset button -->
+
+
                         </div>
 
 
@@ -160,6 +185,7 @@
                                         <a href="brandCart?supplyId=4">Volkswagen</a>
                                     </li>
                                 </ul>
+
                             </nav>
                         </div>
                         <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
@@ -167,6 +193,20 @@
                                 <li class="breadcrumb-item"><a href="home">Home</a></li>
 
                                 <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                                <li class="breadcrumb-item active" style="color: red"><%
+    Long flashTime = (Long)session.getAttribute("flashTime");
+    if (flashTime != null && System.currentTimeMillis() - flashTime < 2000) { // 2 giây
+                                    %>
+                                    <c:if test="${not empty messCart}">
+                                        ${messCart}
+                                    </c:if>
+                                    <%
+                                        } else {
+                                            session.removeAttribute("messCart");
+                                            session.removeAttribute("flashTime");
+                                        }
+                                    %></li>
+
                             </ul>
 
                         </nav>
@@ -185,8 +225,7 @@
                                                 <th class="border-bottom text-center p-3" style="min-width: 160px;">Giá</th>
                                                 <th class="border-bottom text-center p-3" style="min-width: 190px;">Số Lượng</th>
                                                 <th class="border-bottom text-center p-3" style="min-width: 50px;">Tổng</th>
-                                                <th class="border-bottom p-3" style="min-width:20px ">Xóa</th>
-                                            </tr>
+                                                <th class="border-bottom p-3" style="min-width: 20px;">Xóa</th>                                            </tr>
                                         </thead>
 
                                         <tbody>
@@ -198,22 +237,23 @@
                                             <form action="update-quantity">
                                                 <tr>
 
-
-                                                    <td class="p-3">
-
+                                                    <td>
                                                         <div class="d-flex align-items-center">
-                                                            <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height:150px; width:auto;">
-                                                            <a href="product-detail?productId=${C.product.productId}" class="mb-0 ms-3">${C.product.name}</a> <!-- Thêm liên kết ở đây -->
+                                                            <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height: 150px; width: auto;">
+                                                            <a href="product-detail?productId=${C.product.productId}" class="mb-0 ms-3">${C.product.name}</a>
                                                         </div>
                                                     </td>
-                                                    <td class="text-center p-3"><fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ</td>
+                                                    <td class="text-center p-3">
+                                                        <fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ
+                                                    </td>
                                                     <td class="text-center shop-list p-3">
                                                         <div class="qty-icons">
                                                             <input type="hidden" name="productId" value="${C.product.productId}">
                                                             <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
-                                                            <input min="1" name="quantity" value="${C.quantity}" type="number" class="btn btn-icon btn-primary qty-btn quantity" onchange="this.form.submit()">
+                                                            <input type="number" name="quantity" value="${C.quantity}" min="0" step="1" title="Please enter a non-negative integer!" class="btn btn-icon btn-primary qty-btn1 quantity" onchange="this.form.submit()" required>
                                                             <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
                                                         </div>
+                                                        Còn lại: ${C.product.stock}
                                                     </td>
                                                     <td class="text-end font-weight-bold p-3">
                                                         <fmt:formatNumber value="${C.product.price * C.quantity}" type="number" minFractionDigits="0"/> đ
@@ -240,7 +280,7 @@
                             <div class="row">
                                 <div class="col-lg-8 col-md-6 mt-4 pt-2">
                                     <a href="productlist" class="btn btn-primary">Shop More</a>
-                                    
+
                                 </div>
                                 <div class="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
                                     <div class="table-responsive bg-white rounded shadow">

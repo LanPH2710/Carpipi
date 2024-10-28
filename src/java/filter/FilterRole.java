@@ -29,7 +29,7 @@ public class FilterRole implements Filter {
 
     private List<String> getAdminMarketingUrls() {
         return Arrays.asList("/sliderDetails", "/addcustomer", "/customerlist", "/postList", 
-                             "/postDetails", "/productDetails", "/feedbacksList", "/dash", "/proformarketing","/SliderList");
+                             "/postDetails", "/productDetails", "/feedbacksList", "/dash", "/proformarketing","/SliderList","/editproductbymarketing");
     }
 
     private List<String> getSaleAdminUrls() {
@@ -37,7 +37,7 @@ public class FilterRole implements Filter {
     }
 
     private List<String> getMarketingUrls() {
-        return Arrays.asList("/marketing","/editproductbymarketing");
+        return Arrays.asList("/marketing");
     }
 
     @Override

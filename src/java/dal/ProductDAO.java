@@ -460,12 +460,12 @@ public class ProductDAO extends DBContext {
         return brand;
     }
 
-    public List<Product> getProductByBrandId(int brandId) {
+    public List<Product> getProductByBrandId(String brandId) {
         List<Product> list = new ArrayList<>();
-        String sql = "SELECT * FROM Product WHERE brandId = ? LIMIT 8;";
+        String sql = "SELECT * FROM Product WHERE brandId = ?;";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, brandId);
+            st.setString(1, brandId);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Product product = new Product();

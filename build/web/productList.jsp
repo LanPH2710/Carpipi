@@ -93,6 +93,53 @@
             }
 
         </style>
+        <style>
+            .message-popup {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: #4CAF50;
+                color: white;
+                padding: 15px;
+                border-radius: 5px;
+                z-index: 1000;
+                display: none;
+                animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                }
+                to {
+                    opacity: 0;
+                }
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Kiểm tra nếu có thông báo
+                var message = "${mesOfCart}";
+                if (message && message.trim() !== "") {
+                    var messageDiv = document.getElementById("message");
+                    messageDiv.style.display = "block";
+
+                    // Tự động ẩn sau 3 giây
+                    setTimeout(function () {
+                        messageDiv.style.display = "none";
+                    }, 3000);
+                }
+            });
+        </script>
     </head><!--/head-->
 
     <body>
@@ -112,9 +159,10 @@
                                                 <input type="text"  name="keyword" placeholder="Search...."/><input type="submit" value="Search">
 
                                             </form>
-                                            <div id="cartNotification" style="display:none; background-color: #dff0d8; color: #3c763d; padding: 10px; margin-top: 10px;">
-                                                    Item has been added to your cart!
-                                                </div>
+
+                                            <div id="message" class="message-popup" style="display: none;">
+                                                ${mesOfCart}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -161,7 +209,7 @@
                                 </div>
                             </div><!--/brands_products-->
 
-                           
+
 
                             <div class="shipping text-center"><!--shipping-->
                                 <h2>Mẫu mới nhất</h2>
@@ -192,22 +240,23 @@
                                                 </c:choose>
                                                 <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
                                                 <p>${pro.name}</p>
-                                                
-                                                <a href="addtocart?productId=${pro.productId}&quantity=1" class="btn btn-default add-to-cart" onclick="showCartNotification(event, this.href)">
+
+                                                <a href="addtocart?productId=${pro.productId}&quantity=1" class="btn btn-default add-to-cart" onclick="showNotification()">
                                                     <i class="fa fa-shopping-cart"></i> Add to cart
                                                 </a>
                                             </div>
                                             <div class="product-overlay">
-    <div class="overlay-content">
-        <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
-        <div><a href="productdetail?productId=${pro.productId}" class="product-detail-link">${pro.name}</a></div>
-        <a href="addtocart?productId=${pro.productId}&quantity=1" 
-           class="btn btn-default add-to-cart"
-           onclick="return confirm('Item has been added to your cart!')">
-            <i class="fa fa-shopping-cart"></i>Add to cart
-        </a>
-    </div>
-</div>
+                                                <div class="overlay-content">
+                                                    <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
+                                                    <div>
+                                                        <a href="productdetail?productId=${pro.productId}" class="product-detail-link">${pro.name}</a>
+                                                    </div>
+                                                    <a href="addtocart?productId=${pro.productId}&quantity=1" 
+                                                       class="btn btn-default add-to-cart"
+                                                       onclick="showNotification()">
+                                                        <i class="fa fa-shopping-cart"></i>Add to cart
+                                                    </a>
+                                                </div>                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -263,67 +312,72 @@
         </section>
 
         <jsp:include page="footerDemo.jsp"></jsp:include>
-        <script src="jsProList/jquery.js"></script>
-        <script src="jsProList/price-range.js"></script>
-        <script src="jsProList/jquery.scrollUp.min.js"></script>
-        <script src="jsProList/bootstrap.min.js"></script>
-        <script src="jsProList/jquery.prettyPhoto.js"></script>
-        <script src="jsProList/main.js"></script>
-    </body><!-- Thêm style cho alert -->
-<style>
-.custom-alert {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px;
-    border-radius: 5px;
-    z-index: 1000;
-    animation: fadeout 2s linear forwards;
-}
+            <script src="jsProList/jquery.js"></script>
+            <script src="jsProList/price-range.js"></script>
+            <script src="jsProList/jquery.scrollUp.min.js"></script>
+            <script src="jsProList/bootstrap.min.js"></script>
+            <script src="jsProList/jquery.prettyPhoto.js"></script>
+            <script src="jsProList/main.js"></script>
+        </body><!-- Thêm style cho alert -->
+        <style>
+            .custom-alert {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: #4CAF50;
+                color: white;
+                padding: 15px;
+                border-radius: 5px;
+                z-index: 1000;
+                animation: fadeout 2s linear forwards;
+            }
 
-@keyframes fadeout {
-    0% { opacity: 1; }
-    70% { opacity: 1; }
-    100% { opacity: 0; visibility: hidden; }
-}
-</style>
+            @keyframes fadeout {
+                0% {
+                    opacity: 1;
+                }
+                70% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+            }
+            .notification {
+                background-color: #4CAF50; /* Green */
+                color: white;
+                padding: 15px;
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1000;
+                opacity: 0; /* Initially hidden */
+                transition: opacity 1s ease; /* Fade in/out effect */
+            }
+        </style>
+        <script>
+
 
 <!-- Code HTML đã sửa -->
-<a href="addtocart?productId=${pro.productId}&quantity=1" 
-   class="btn btn-default add-to-cart" 
-   onclick="showCartAlert(event)">
-    <i class="fa fa-shopping-cart"></i> Add to cart
-</a>
+                                                           <a href="addtocart?productId=${pro.productId}&quantity=1" 
+            class="btn btn-default add-to-cart" 
+            onclick="showCartAlert(event)">
+            <i class="fa fa-shopping-cart"></i> Add to cart
+            </a>
 
-<div class="product-overlay">
-    <div class="overlay-content">
+                                                           <div class="product-overlay">
+        <div class="overlay-content">
         <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
         <div><a href="productdetail?productId=${pro.productId}" class="product-detail-link">${pro.name}</a></div>
         <a href="addtocart?productId=${pro.productId}&quantity=1" 
-           class="btn btn-default add-to-cart"
-           onclick="showCartAlert(event)">
-            <i class="fa fa-shopping-cart"></i>Add to cart
+        class="btn btn-default add-to-cart"
+        onclick="showCartAlert(event)">
+        <i class="fa fa-shopping-cart"></i>Add to cart
         </a>
-    </div>
-</div>
+        </div>
+        </div>
+    </script>
+    <!-- Thêm script -->
 
-<!-- Thêm script -->
-<script>
-function showCartAlert(event) {
-    event.preventDefault(); // Ngăn chặn chuyển trang ngay lập tức
-    
-    // Tạo và hiển thị alert
-    var alertDiv = document.createElement('div');
-    alertDiv.className = 'custom-alert';
-    alertDiv.textContent = 'Item has been added to your cart!';
-    document.body.appendChild(alertDiv);
-    
-    // Chuyển trang sau khi hiển thị alert
-    setTimeout(function() {
-        window.location.href = event.target.href;
-    }, 1000); // Đợi 1 giây trước khi chuyển trang
-}
-</script>
 </html>

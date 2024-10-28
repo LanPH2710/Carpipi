@@ -26,6 +26,7 @@
         <url-pattern>/settingsList</url-pattern>
         <url-pattern>/editproductbymarketing</url-pattern>
         <url-pattern>/image</url-pattern>
+        <url-pattern>/addUser</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>

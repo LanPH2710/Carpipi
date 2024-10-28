@@ -177,7 +177,7 @@
                             </div>
                         </div>
 
-                        <form action="product" method="get">
+                        <form action="proformarketing" method="get">
                             <div class="card-group">
 
                                 <div class="card" style="width: 50%; border-radius: 3px">
@@ -243,7 +243,7 @@
                         <div class="order" style="display: flex" >
                             <div class="col-2">
                                 Sắp xếp theo tên 
-                                <form action="product" method="get" style="display: inline;">
+                                <form action="proformarketing" method="get" style="display: inline;">
 
                                     <select class="form-select" name="orderName" onchange="this.form.submit()">
                                         <option value="1" ${requestScope.orderName == 1 ? 'selected' : ''}>Từ bé đến lớn</option>
@@ -270,33 +270,33 @@
                             <div class="col-2">
                                 <div>
                                     Sắp xếp theo giá 
-                                    <form action="product" method="get" style="display: inline;">
+                                    <form action="proformarketing" method="get" style="display: inline;">
 
-                                    <select class="form-select" name="orderName" onchange="this.form.submit()">
-                                        <option value="1" ${requestScope.orderName == 1 ? 'selected' : ''}>Từ bé đến lớn</option>
-                                        <option value="0" ${requestScope.orderName == 0 ? 'selected' : ''}>Từ lớn đến bé</option>
-                                    </select>
+                                        <select class="form-select" name="orderName" onchange="this.form.submit()">
+                                            <option value="1" ${requestScope.orderName == 1 ? 'selected' : ''}>Từ bé đến lớn</option>
+                                            <option value="0" ${requestScope.orderName == 0 ? 'selected' : ''}>Từ lớn đến bé</option>
+                                        </select>
 
-                                    <input type="hidden" name="brandId" value="${requestScope.brandId}">
+                                        <input type="hidden" name="brandId" value="${requestScope.brandId}">
 
-                                    <!-- Vòng lặp thêm input ẩn cho từng styleId đã chọn -->
-                                    <c:forEach var="styleId" items="${sessionScope.styleIdList}">
-                                        <input type="hidden" name="styleId" value="${styleId}">
-                                    </c:forEach>
-                                    <c:forEach var="segmentId" items="${sessionScope.segmentIdList}">
-                                        <input type="hidden" name="segmentId" value="${segmentId}">
-                                    </c:forEach>
-                                    <c:forEach var="supplyId" items="${sessionScope.supplyIdList}">
-                                        <input type="hidden" name="supplyId" value="${supplyId}">
-                                    </c:forEach>
+                                        <!-- Vòng lặp thêm input ẩn cho từng styleId đã chọn -->
+                                        <c:forEach var="styleId" items="${sessionScope.styleIdList}">
+                                            <input type="hidden" name="styleId" value="${styleId}">
+                                        </c:forEach>
+                                        <c:forEach var="segmentId" items="${sessionScope.segmentIdList}">
+                                            <input type="hidden" name="segmentId" value="${segmentId}">
+                                        </c:forEach>
+                                        <c:forEach var="supplyId" items="${sessionScope.supplyIdList}">
+                                            <input type="hidden" name="supplyId" value="${supplyId}">
+                                        </c:forEach>
 
-                                </form>
+                                    </form>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div>
                                     Sắp xếp theo nhiên liệu 
-                                    <form action="product" method="post" style="display: inline;">
+                                    <form action="proformarketing" method="post" style="display: inline;">
                                         <input type="hidden" name="sliderId" value="${slider.sliderId}" />
                                         <select class="form-select" name="orderPrice" onchange="this.form.submit()">
                                             <option value="1" ${requestScope.orderName == 1 ? 'selected' : ''}>Từ bé đến lớn</option>
@@ -316,10 +316,11 @@
                                             <li><a href="javascript:void(0)" class="badge badge-pill badge-success">Featured</a></li>
                                         </ul>
                                         <div class="shop-image position-relative overflow-hidden">
-                                            <a href="product-detail.html"><c:forEach items="${imageList}" var="image">
+                                            <a href="editproductbymarketing?id=${product.productId}">
+                                                <c:forEach items="${imageList}" var="image">
                                                     <c:if test="${image.productId == product.productId}">
                                                         <div class="shop-image position-relative overflow-hidden">
-                                                            <a href="product-detail.html">
+                                                            <a href="editproductbymarketing?id=${product.productId}">
                                                                 <img src="${image.imageUrl}" alt="Xe">
                                                             </a>
                                                         </div>
@@ -330,23 +331,39 @@
                                             </a>
                                             <ul class="list-unstyled shop-icons">
 
-                                                <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
+                                                <li class="mt-2"><a href="editproductbymarketing?id=${product.productId}" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
                                             </ul>                                
 
 
                                         </div>
                                         <div class="card-body content p-4 border-top">
-                                            <a href="product-detail.html" class="text-dark product-name h6">${product.name}</a>
-                                            <div class="d-flex justify-content-between mt-1">
-                                                <h6 class="text-muted small font-italic mb-0 mt-1"><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></h6>
-                                                <ul class="list-unstyled text-warning mb-0">
-                                                    <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                                    <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                                    <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                                    <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                                    <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                                </ul>
-                                            </div>
+                                            <table class="table table-borderless">
+
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <a href="editproductbymarketing?id=${product.productId}" class="text-dark product-name h6">${product.name}</a>
+
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="text-muted small font-italic mb-0 mt-1"><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></h6>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <h6 class="text-muted small font-italic mb-0 mt-1">ID: ${product.productId}</h6>
+
+                                                        </td>
+                                                        <td>
+                                                            <a href="editproductbymarketing?id=${product.productId}" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                            
                                         </div>
                                     </div>
                                 </div><!--end col-->

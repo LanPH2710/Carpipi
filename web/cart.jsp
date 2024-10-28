@@ -309,7 +309,7 @@
                                         </table>
                                     </div>
                                     <div class="mt-4 pt-2 text-end">
-                                        <a href="#" class="btn btn-primary">Proceed to checkout</a>
+                                         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkoutModal">Proceed to checkout</a>
                                     </div>
                                 </div><!--end col-->
                             </div><!--end row-->
@@ -318,10 +318,44 @@
                 </div><!--end container-->
 
             </main>
+                                    
             <!--End page-content" -->
         </div>
         <!-- page-wrapper -->
-
+        <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="process-checkout" method="post">
+                            <div class="mb-3">
+                                <label for="Name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="Name" name="Name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">email</label>
+                                <input type="text" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="Adress" class="form-label">Adress</label>
+                                <input type="text" class="form-control" id="Adress" name="Adress" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mobie" class="form-label">Số điện Thoại</label>
+                                <input type="text" class="form-control" id="mobie" name="mobie" required>
+                            </div>
+                            <div class="form-label-group"><label>Chọn ngày muốn nhận hàng</label>
+                                                        <input type="date" id="dateShip" id="address" class="form-control" value="${sessionScope.dateShip!=null?sessionScope.dateShip:''}" name="dateShip">
+                                                    </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Offcanvas Start -->
         <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header p-4 border-bottom">
@@ -368,6 +402,7 @@
         <!-- Offcanvas End -->
 
         <!-- javascript -->
+         <script src="js/cart.js"></script>
         <script src="assets1/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->
         <script src="assets1/js/simplebar.min.js"></script>

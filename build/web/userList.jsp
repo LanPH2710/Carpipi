@@ -170,12 +170,17 @@
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
                             <h5 class="mb-0">User List</h5>
-
+                             <c:if test="${not empty sessionScope.msg_suc}">
+                                                <div class="alert alert-success">
+                                                    ${sessionScope.msg_suc}
+                                                </div>
+                                                <c:remove var="msg_suc" scope="session" />
+                                            </c:if>
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                                     <li class="breadcrumb-item"><a href="home">Home</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">User List</li>
-                                    <li class="breadcrumb-item active" aria-current="page"><a href="addUser">Add User</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page"><a href="addUserList.jsp">Add User</a></li>
 
                                 </ul>
                             </nav>

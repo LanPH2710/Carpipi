@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-<filter>
+    <filter>
         <filter-name>FilterRole</filter-name>
         <filter-class>filter.FilterRole</filter-class>
     </filter>
@@ -25,6 +25,7 @@
         <url-pattern>/SliderList</url-pattern>
         <url-pattern>/settingsList</url-pattern>
         <url-pattern>/editproductbymarketing</url-pattern>
+        <url-pattern>/image</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
@@ -126,6 +127,20 @@
         <servlet-name>EditBlogMarketingServlet</servlet-name>
         <servlet-class>controller.marketing.EditBlogMarketingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>controller.ChangePasswordServlet</servlet-class>
+    </servlet>
+    <servlet>
+
+        <servlet-name>EditProductImageServlet</servlet-name>
+        <servlet-class>controller.marketing.EditProductImageServlet</servlet-class>
+        </servlet>
+        <servlet>
+        <servlet-name>SliderDetailServlet</servlet-name>
+        <servlet-class>controller.marketing.SliderDetailServlet</servlet-class>
+
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -225,5 +240,18 @@
     <servlet-mapping>
         <servlet-name>EditBlogMarketingServlet</servlet-name>
         <url-pattern>/editblogbymarketing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/changepassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+
+        <servlet-name>EditProductImageServlet</servlet-name>
+        <url-pattern>/image</url-pattern>
+</servlet-mapping><servlet-mapping>
+        <servlet-name>SliderDetailServlet</servlet-name>
+        <url-pattern>/sliderdetail</url-pattern>
+
     </servlet-mapping>
 </web-app>

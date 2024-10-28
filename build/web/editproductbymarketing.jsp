@@ -105,14 +105,9 @@
                 gap: 15px; /* Khoảng cách giữa các ảnh */
             }
 
-            .image-item {
-                flex: 1 1 calc(33.333% - 30px); /* Chia đều 3 phần tử trên 1 dòng, trừ khoảng cách */
-                box-sizing: border-box;
-            }
-
             .image {
-                width: 100%; /* Đảm bảo ảnh chiếm toàn bộ chiều rộng của container */
-                height: auto;
+                width: 400px; /* Đảm bảo ảnh chiếm toàn bộ chiều rộng của container */
+                height: 226px;
             }
 
         </style>
@@ -137,8 +132,9 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label>Giá</label>
-        <!--                    <input type="number" name="price" class="form-control" value="${car.price}" required min="0">-->
-                            <input type="number" name="price" class="form-control" value="${car.price}" required min="0" step="1">
+                            <input type="text" name="price" class="form-control" value="<fmt:formatNumber value='${car.price}' type='number' groupingUsed='false'/>" required>
+<!--                            <input type="text" name="price" class="form-control" value="<fmt:formatNumber value='${car.price}' type='number' groupingUsed='true'/>" required>-->
+
                         </div> 
                         <div class="form-group col-md-6">
                             <label>Nhiên liệu</label>
@@ -154,10 +150,11 @@
                         <div class="form-group col-md-6">
                             <label>Trạng thái</label>
                             <select name="status" class="form-control">
-                                <option value="active">Hiển thị</option>
-                                <option value="inactive">Ẩn</option>
+                                <option value="active" ${car.status == 1 ? 'selected' : ''}>Hiển thị</option>
+                                <option value="inactive" ${car.status == 0 ? 'selected' : ''}>Ẩn</option>
                             </select>
                         </div>
+
                     </div>
 
 
@@ -204,25 +201,25 @@
                         <label>Mô tả</label>
                         <textarea name="des" rows="4" class="form-control" required>${car.description}</textarea>
                     </div>
-                    <!--            <h3>Hình ảnh sản phẩm</h3>
-                                <div class="image-container">
+
+                    <h3>Thêm ảnh sản phẩm mới</h3>
+                    <div class="form-group">
+                        <label>Nhập đường dẫn ảnh mới</label>
+                        <input type="text" name="newImageUrl" class="form-control" placeholder="Nhập URL ảnh mới">
+                    </div><!--
+                                        <h3>Hình ảnh sản phẩm</h3>
+                                        <div class="image-container">
                     <c:forEach items="${imageList}" var="image">
-                        <div class="mb-3">
-                            <img class="image"src="${image.imageUrl}" alt="Image">
+                        <div class="image-item mb-3">
+                            <img class="image" src="${image.imageUrl}" alt="Image">
                             <input type="text" name="imageUrls" value="${image.imageUrl}" class="form-control">
                         </div>
                     </c:forEach>
                 </div>-->
 
-                    <h3>Hình ảnh sản phẩm</h3>
-                    <div class="image-container">
-                        <c:forEach items="${imageList}" var="image">
-                            <div class="image-item mb-3">
-                                <img class="image" src="${image.imageUrl}" alt="Image">
-<!--                                <input type="text" name="imageUrls" value="${image.imageUrl}" class="form-control">-->
-                            </div>
-                        </c:forEach>
-                    </div>
+                    
+
+
 
 
                     <div class="modal-footer">
@@ -230,6 +227,27 @@
                         <input type="submit" class="btn btn-info" value="Lưu">
                     </div>
                 </form>
+                <h3>Hình ảnh sản phẩm</h3>
+                    <div class="image-container">
+                        <c:forEach items="${imageList}" var="image">
+                            <div class="image-item mb-3">
+                                <img class="image" src="${image.imageUrl}" alt="Image" style="width: 400px; height: 226px;">  Kích thước hình ảnh 
+                                <div class="button-group mt-2">
+                                    <form action="image" method="post" style="display: inline;">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="imageUrl" value="${image.imageUrl}">
+                                        <input type="submit" class="btn btn-danger btn-sm" value="Xóa">
+                                    </form>
+                                    <form action="image" method="post" style="display: inline;">
+                                        <input type="hidden" name="action" value="update">
+                                        <input type="hidden" name="oldImageUrl" value="${image.imageUrl}">
+                                        <input type="text" name="newImageUrl" class="form-control form-control-sm" placeholder="Nhập URL mới" required style="width: 200px; display: inline-block;">
+                                        <input type="submit" class="btn btn-primary btn-sm" value="Cập nhật">
+                                    </form>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>    
             </div>
         </div>
         <jsp:include page="footerDemo.jsp"/>

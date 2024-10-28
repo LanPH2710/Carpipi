@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Cart;
 import java.sql.SQLException;
+import model.Account;
 /**
  *
  * @author hiule
@@ -32,7 +33,7 @@ public class BrandCartController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+      protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -40,9 +41,10 @@ public class BrandCartController extends HttpServlet {
             HttpSession session = request.getSession();
             int supplyId = Integer.parseInt(request.getParameter("supplyId")); // Nhận supplyId từ yêu cầu
         CartDAO cartDAO = new CartDAO();
-        
+             Account account =(Account) session.getAttribute("account");
+            
         try {
-            List<Cart> carts = cartDAO.getCartsBySupplyId(supplyId); // Lấy giỏ hàng theo supplyId
+            List<Cart> carts = cartDAO.getCartsBySupplyId(supplyId,account.getUserId()); // Lấy giỏ hàng theo supplyId
             session.setAttribute("carts", carts); // Truyền danh sách giỏ hàng vào request
             request.getSession().setAttribute("urlHistory", "brandCart?supplyId="+supplyId);
             request.getRequestDispatcher("cart.jsp").forward(request, response); // Chuyển tiếp đến trang giỏ hàng

@@ -15,7 +15,7 @@
         <meta name="website" content="../../../index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-      <link rel="shortcut icon" href="img/logo3.png">
+        <link rel="shortcut icon" href="img/logo3.png">
         <!-- Bootstrap -->
         <link href="assets1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
@@ -48,50 +48,26 @@
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
                         <a href="home">
-                            <img src="assets1/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                            <img src="assets1/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                            <img src="img/logoBlack.png" height="120" class="logo-light-mode" alt="">
+
                         </a>
                     </div>
 
                     <ul class="sidebar-menu pt-3">
                         <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                        <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a></li>
+
 
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Doctors</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="doctors.html">Doctors</a></li>
-                                    <li><a href="add-doctor.html">Add Doctor</a></li>
-                                    <li><a href="dr-profile.html">Profile</a></li>
-                                </ul>
-                            </div>
+                            <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
+
                         </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Patients</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="patients.html">All Patients</a></li>
-                                    <li><a href="add-patient.html">Add Patients</a></li>
-                                    <li><a href="patient-profile.html">Profile</a></li>
-                                </ul>
-                            </div>
-                        </li>
+
+
+
 
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Apps</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="chat.html">Chat</a></li>
-                                    <li><a href="email.html">Email</a></li>
-                                    <li><a href="calendar.html">Calendar</a></li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Pharmacy</a>
+                            <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Shopping Cart</a>
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li><a href="shop.html">Shop</a></li>
@@ -112,38 +88,11 @@
                             </div>
                         </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Pages</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="faqs.html">FAQs</a></li>
-                                    <li><a href="review.html">Reviews</a></li>
-                                    <li><a href="invoice-list.html">Invoice List</a></li>
-                                    <li><a href="invoice.html">Invoice</a></li>
-                                    <li><a href="terms.html">Terms & Policy</a></li>
-                                    <li><a href="privacy.html">Privacy Policy</a></li>
-                                    <li><a href="error.html">404 !</a></li>
-                                    <li><a href="blank-page.html">Blank Page</a></li>
-                                </ul>
-                            </div>
-                        </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="signup.html">Signup</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password</a></li>
-                                    <li><a href="lock-screen.html">Lock Screen</a></li>
-                                    <li><a href="thankyou.html">Thank you...!</a></li>
-                                </ul>
-                            </div>
-                        </li>
 
-                        <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
 
-                        <li><a href="../landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
+
+
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -185,138 +134,20 @@
                             </div>
                         </div>
 
-                        <ul class="list-unstyled mb-0">
-                            <li class="list-inline-item mb-0">
-                                <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets1/images/language/american.png" class="avatar avatar-ex-small rounded-circle p-2" alt=""></button>
-                                    <div class="dropdown-menu dd-menu drop-ups dropdown-menu-end bg-white shadow border-0 mt-3 p-2" data-simplebar style="height: 175px;">
-                                        <a href="javascript:void(0)" class="d-flex align-items-center">
-                                            <img src="assets1/images/language/chinese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Chinese</small>
-                                            </div>
-                                        </a>
 
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets1/images/language/european.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">European</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets1/images/language/indian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Indian</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets1/images/language/japanese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Japanese</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets1/images/language/russian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Russian</small>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="list-inline-item mb-0 ms-1">
-                                <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="settings" class="fea icon-sm"></i></div>
-                                </a>
-                            </li>
-
-                            <li class="list-inline-item mb-0 ms-1">
-                                <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-icon btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="mail" class="fea icon-sm"></i></button>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">4 <span class="visually-hidden">unread mail</span></span>
-
-                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 px-2 py-2" data-simplebar style="height: 320px; width: 300px;">
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets1/images/client/02.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Janalia</b> <small class="text-muted fw-normal d-inline-block">1 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets1/images/client/Codepen.svg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>codepen</b>  <small class="text-muted fw-normal d-inline-block">4 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets1/images/client/03.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Cristina</b> <small class="text-muted fw-normal d-inline-block">5 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets1/images/client/dribbble.svg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Dribbble</b> <small class="text-muted fw-normal d-inline-block">24 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets1/images/client/06.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Donald Aghori</b> <small class="text-muted fw-normal d-inline-block">1 day ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets1/images/client/07.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Calvin</b> <small class="text-muted fw-normal d-inline-block">2 day ago</small></small>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="list-inline-item mb-0 ms-1">
-                                <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets1/images/doctors/01.jpg" class="avatar avatar-ex-small rounded-circle" alt=""></button>
-                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                                        <a class="dropdown-item d-flex align-items-center text-dark" href="https://shreethemes.in/doctris/layouts/admin/profile.html">
-                                            <img src="assets1/images/doctors/01.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
-                                            <div class="flex-1 ms-2">
-                                                <span class="d-block mb-1">Calvin Carlo</span>
-                                                <small class="text-muted">Orthopedic</small>
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item text-dark" href="index.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
-                                        <a class="dropdown-item text-dark" href="dr-profile.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
-                                        <div class="dropdown-divider border-top"></div>
-                                        <a class="dropdown-item text-dark" href="lock-screen.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
                     </div>
                 </div>
 
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Add New Doctor</h5>
+                            <h5 class="mb-0">Add User</h5>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
-                                    <li class="breadcrumb-item"><a href="doctors.html">Doctors</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Add Doctor</li>
+                                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="userlist">Danh Sách Người Dùng</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Thêm Người Dùng</li>
                                 </ul>
                             </nav>
                         </div>
@@ -326,99 +157,262 @@
                                 <div class="card border-0 p-4 rounded shadow">
                                     <div class="row align-items-center">
                                         <div class="col-lg-2 col-md-4">
-                                            <img src="img/${accountProfile.avatar}" class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
-                                        </div>
+                                            <img src="img/avatar-trang-4.jpg"  class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
+                                        </div><!--end col-->
 
                                         <div class="col-lg-5 col-md-8 text-center text-md-start mt-4 mt-sm-0">
-                                            <h5 class="">Upload your picture</h5>
-                                            <p class="text-muted mb-0">For best results, use an image at least 600px by 600px in either .jpg or .png format</p>
-                                        </div>
 
-                                        <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
-                                            <a href="#" class="btn btn-primary">Upload</a>
-                                            <a href="#" class="btn btn-soft-primary ms-2">Remove</a>
-                                        </div>
-                                    </div>
+                                           
 
-                                    <form action="userProfileAdmin?userId=${accountProfile.userId}" method="post" enctype="multipart/form-data">
-                                        <div class="container rounded mt-5 mb-5 p-4">
-                                            <c:if test="${not empty errorMessage}">
-                                                <div class="error-message">${errorMessage}</div>
-                                            </c:if>
-                                            <c:if test="${not empty successMessage}">
-                                                <div class="success-message">${successMessage}</div>
-                                            </c:if>
-                                            <div class="row">
-                                                <!-- Avatar and User Info -->
-                                                <div class="col-md-4 border-right">
-                                                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                                                        <img class="avatar mt-5" width="200px" height="200px" src="img/${accountProfile.avatar}">
-                                                        <h3 class="font-weight-bold mt-3">${accountProfile.firstName} ${accountProfile.lastName}</h3>
-                                                        <span class="text-black-50">${accountProfile.email}</span>
-                                                    </div>
+                                            <!-- Display Error Message -->
+                                            <c:if test="${not empty sessionScope.msg_err}">
+                                                <div class="alert alert-danger">
+                                                    ${sessionScope.msg_err}
                                                 </div>
+                                                <c:remove var="msg_err" scope="session" />
+                                            </c:if>
 
-                                                <!-- Profile Form -->
-                                                <div class="col-md-8 border-right">
-                                                    <div class="p-3 py-5">
-                                                        <div class="d-flex justify-content-between align-items-center mb-4">
-                                                            <h4 class="header-title">Thông tin cá nhân</h4>
-                                                        </div>
-                                                        <div class="row mt-3">
-                                                            <div class="col-md-6">
-                                                                <label class="labels">Họ</label>
-                                                                <input name="firstName" type="text" class="form-control" value="${accountProfile.firstName}" required>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label class="labels">Tên</label>
-                                                                <input name="lastName" type="text" class="form-control" value="${accountProfile.lastName}" required>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label class="labels">Giới tính</label>
-                                                                <select name="gender" class="form-control" required>
-                                                                    <option value="0" <c:if test="${accountProfile.gender == 0}">selected</c:if>>Nam</option>
-                                                                    <option value="1" <c:if test="${accountProfile.gender == 1}">selected</c:if>>Nữ</option>
-                                                                    <option value="2" <c:if test="${accountProfile.gender == 2}">selected</c:if>>Khác</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <label class="labels">Số điện thoại</label>
-                                                                    <input name="mobile" type="text" class="form-control" value="${accountProfile.mobile}" required>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <label class="labels">Địa chỉ</label>
-                                                                <input name="address" type="text" class="form-control" value="${accountProfile.address}" required>
-                                                            </div>
-                                                            <!-- Role (Read-Only) -->
-                                                            <div class="col-md-12">
-                                                                <label class="labels">Vai trò</label>
-                                                                <input name="role" type="text" class="form-control" value="${roleHieu}" >
-                                                            </div>
-                                                            <!-- Email (Read-Only) -->
-                                                            <div class="col-md-12">
-                                                                <label class="labels">Email</label>
-                                                                <input name="email" type="text" class="form-control" value="${accountProfile.email}" >
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <label class="labels">Thay đổi ảnh đại diện</label>
-                                                                <input name="avatar" type="file" class="form-control" accept="image/*">
-                                                                <small class="form-text text-muted mb-2">Chỉ cần chọn ảnh mới nếu bạn muốn thay đổi ảnh đại diện.</small>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Save Button -->
-                                                        <span class="mt-5 text-center">
-                                                            <button class="btn btn-primary profile-button" type="submit">Lưu Thông Tin</button>
-                                                        </span>
+
+
+
+
+
+
+
+                                            <!-- Display Specific Error Messages -->
+
+
+
+
+
+
+
+                                        </div><!--end col-->
+
+                                        
+                                    </div><!--end row-->
+
+                                    <form action="addUser" method="post" enctype="multipart/form-data">
+                                        <div class="row">
+                                            <!-- First Name -->
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Họ</label>
+                                                    <input name="firstName" type="text" class="form-control" placeholder="First Name :"
+                                                           value="${sessionScope.input_firstName}" required>
+                                                </div>
+                                                <c:if test="${not empty sessionScope.msg_firstname}">
+                                                    <div class="text-danger" style="font-size: 0.875em;">
+                                                        ${sessionScope.msg_firstname}
                                                     </div>
+                                                    <c:remove var="msg_firstname" scope="session" />
+                                                </c:if>
+                                            </div>
+
+                                            <!-- Last Name -->
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tên</label>
+                                                    <input name="lastName" type="text" class="form-control" placeholder="Last Name :"
+                                                           value="${sessionScope.input_lastName}" required>
+                                                </div>
+                                                <c:if test="${not empty sessionScope.msg_lastname}">
+                                                    <div class="text-danger" style="font-size: 0.875em;">
+                                                        ${sessionScope.msg_lastname}
+                                                    </div>
+                                                    <c:remove var="msg_lastname" scope="session" />
+                                                </c:if>
+                                            </div>
+
+                                            <!-- User Name -->
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tên Người Dùng</label>
+                                                    <input name="userName" type="text" class="form-control" placeholder="Tên Người Dùng :"
+                                                           value="${sessionScope.input_userName}" required>
+                                                </div>
+                                                <c:if test="${not empty sessionScope.msg_username}">
+                                                    <div class="text-danger" style="font-size: 0.875em;">
+                                                        ${sessionScope.msg_username}
+                                                    </div>
+                                                    <c:remove var="msg_username" scope="session" />
+                                                </c:if>
+                                                <c:if test="${not empty sessionScope.msg_username_ex}">
+                                                    <div class="text-danger" style="font-size: 0.875em;">
+                                                        ${sessionScope.msg_username_ex}
+                                                    </div>
+                                                    <c:remove var="msg_username_ex" scope="session" />
+                                                </c:if>
+                                            </div>
+
+                                            <!-- Email -->
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Email</label>
+                                                    <input name="email" type="email" class="form-control" placeholder="Your email :"
+                                                           value="${sessionScope.input_email}" required>
+                                                </div>
+                                                <c:if test="${not empty sessionScope.msg_gmail}">
+                                                    <div class="text-danger" style="font-size: 0.875em;">
+                                                        ${sessionScope.msg_gmail}
+                                                    </div>
+                                                    <c:remove var="msg_gmail" scope="session" />
+                                                </c:if>
+                                                <c:if test="${not empty sessionScope.msg_gmail_ex}">
+                                                    <div class="text-danger" style="font-size: 0.875em;">
+                                                        ${sessionScope.msg_gmail_ex}
+                                                    </div>
+                                                    <c:remove var="msg_gmail_ex" scope="session" />
+                                                </c:if>
+                                            </div>
+
+                                            <!-- Phone Number -->
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Số điện thoại</label>
+                                                    <input name="mobile" type="text" class="form-control" placeholder="Phone number :"
+                                                           value="${sessionScope.input_mobile}" required>
+                                                </div>
+                                                <c:if test="${not empty sessionScope.msg_phone}">
+                                                    <div class="text-danger" style="font-size: 0.875em;">
+                                                        ${sessionScope.msg_phone}
+                                                    </div>
+                                                    <c:remove var="msg_phone" scope="session" />
+                                                </c:if>
+                                                <c:if test="${not empty sessionScope.msg_phone_ex}">
+                                                    <div class="text-danger" style="font-size: 0.875em;">
+                                                        ${sessionScope.msg_phone_ex}
+                                                    </div>
+                                                    <c:remove var="msg_phone_ex" scope="session" />
+                                                </c:if>
+                                            </div>
+
+                                            <!-- Address -->
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Địa chỉ</label>
+                                                    <input name="address" type="text" class="form-control" placeholder="Address :"
+                                                           value="${sessionScope.input_address}" required>                                                </div>
+                                            </div>
+
+                                            <!-- Gender -->
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Giới tính</label>
+                                                    <select name="gender" class="form-control" required>
+                                                        <option value="0" ${sessionScope.input_gender == 0 ? 'selected' : ''}>Nam</option>
+                                                        <option value="1" ${sessionScope.input_gender == 1 ? 'selected' : ''}>Nữ</option>
+                                                        <option value="2" ${sessionScope.input_gender == 2 ? 'selected' : ''}>Khác</option>
+                                                    </select>
                                                 </div>
                                             </div>
-                                        </div>
+
+                                            <!-- Role -->
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Vai trò</label>
+                                                    <select name="role" class="form-control" required>
+                                                        <option value="1" ${sessionScope.input_role == 1 ? 'selected' : ''}>Admin</option>
+                                                        <option value="2" ${sessionScope.input_role == 2 ? 'selected' : ''}>Marketing</option>
+                                                        <option value="3" ${sessionScope.input_role == 3 ? 'selected' : ''}>Sale</option>
+                                                        <option value="4" ${sessionScope.input_role == 4 ? 'selected' : ''}>Customer</option>
+                                                        <option value="5" ${sessionScope.input_role == 5 ? 'selected' : ''}>Shipper</option>
+                                                    </select>
+                                                </div>
+                                                <c:if test="${not empty sessionScope.msg_role}">
+                                                    <div class="text-danger" style="font-size: 0.875em;">
+                                                        ${sessionScope.msg_role}
+                                                    </div>
+                                                    <c:remove var="msg_role" scope="session" />
+                                                </c:if>
+                                            </div>
+
+                                            <!-- Avatar -->
+                                            <div class="col-md-12">
+                                                <label class="labels">Chọn ảnh đại diện</label>
+                                                <input name="avatar" type="file" class="form-control" accept="image/*">
+                                                <small class="form-text text-muted mb-2">chọn ảnh</small>
+                                            </div>
+                                        </div><!--end row-->
+<c:remove var="input_firstName" scope="session"/>
+<c:remove var="input_lastName" scope="session"/>
+<c:remove var="input_userName" scope="session"/>
+<c:remove var="input_email" scope="session"/>
+<c:remove var="input_mobile" scope="session"/>
+<c:remove var="input_address" scope="session"/>
+<c:remove var="input_gender" scope="session"/>
+<c:remove var="input_role" scope="session"/>
+
+                                        <button type="submit" class="btn btn-primary">Add User</button>
+                                        
                                     </form>
 
+                                </div>
+                            </div><!--end col-->
 
+                            <div class="col-lg-4 mt-4">
+                                <div class="card rounded border-0 shadow">
+                                    <div class="p-4 border-bottom">
+                                        <h5 class="mb-0">Danh Sách Người Dùng</h5>
+                                    </div>
+
+                                    <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
+                                        <c:forEach var="account" items="${sessionScope.accountListAdmin}">
+                                            <li class="d-md-flex align-items-center text-center text-md-start">
+                                                <img src="img/${account.avatar}" class="avatar avatar-medium rounded-md shadow" alt="avatar">
+
+                                                <div class="ms-md-3 mt-4 mt-sm-0">
+                                                    <a href="#" class="text-dark h6">${account.firstName} ${account.lastName}</a>
+                                                    <p class="text-muted my-1">
+                                                        <c:choose>
+                                                            <c:when test="${account.gender == 0}">
+                                                                Male
+                                                            </c:when>
+                                                            <c:when test="${account.gender == 1}">
+                                                                Female
+                                                            </c:when>
+                                                            <c:when test="${account.gender == 3}">
+                                                                Other
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                Not Specified
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </p>
+                                                    <p class="text-muted mb-0">
+                                                        <c:choose>
+                                                            <c:when test="${account.roleId == 1}">
+                                                                Admin
+                                                            </c:when>
+                                                            <c:when test="${account.roleId == 2}">
+                                                                Marketing
+                                                            </c:when>
+                                                            <c:when test="${account.roleId == 3}">
+                                                                Sale
+                                                            </c:when>
+                                                            <c:when test="${account.roleId == 4}">
+                                                                Customer
+                                                            </c:when>
+                                                            <c:when test="${account.roleId == 5}">
+                                                                Shipper
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                Unknown Role
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        </c:forEach>
+
+
+                                        <li class="mt-4">
+                                            <a href="userlist" class="btn btn-primary">Tất Cả Người Dùng</a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div><!--end row-->
 
                     </div>
                 </div><!--end container-->
@@ -429,7 +423,7 @@
                         <div class="row align-items-center">
                             <div class="col">
                                 <div class="text-sm-start text-center">
-                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
+                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script>  Design with  <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">hieu</a>.</p>
                                 </div>
                             </div><!--end col-->
                         </div><!--end row-->

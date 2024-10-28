@@ -4,24 +4,32 @@
  */
 package controller.admin;
 
-
 import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.Base64;
-import model.Account;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.nio.file.Paths;
 
+import model.Account;
 
 /**
  *
  * @author 84777
  */
+@MultipartConfig(
+        maxFileSize = 1024 * 1024 * 5, // 5 MB
+        maxRequestSize = 1024 * 1024 * 10 // 10 MB
+)
 @WebServlet(name = "AddUser", urlPatterns = {"/addUser"})
 public class AddUser extends HttpServlet {
 
@@ -34,149 +42,133 @@ public class AddUser extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-        protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddUser</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddUser at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("addUserList.jsp").forward(request, response);
+        response.sendRedirect("addUserList.jsp");
+    }
+
+    private static boolean isValidUsername(String input) {
+        return input != null && input.matches("^(?=.*[a-zA-Z])[a-zA-Z0-9]{3,30}$");
+    }
+
+    public static boolean isGmail(String input) {
+        return input != null && input.matches("^[a-zA-Z][a-zA-Z0-9._%+-]*[a-zA-Z0-9]@[a-zA-Z0-9]{2,}(\\.[a-zA-Z0-9]{2,})+$");
+    }
+
+    public static boolean isPhoneNum(String input) {
+        return input != null && input.matches("\\d{10,11}");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Lấy session của người dùng hiện tại
         HttpSession session = request.getSession();
-
         AccountDAO accountDAO = new AccountDAO();
 
-        // Lấy dữ liệu từ form
-        String avatar = request.getParameter("avatar").trim();
-        String firstname = request.getParameter("firstName").trim();
-        String lastname = request.getParameter("lastName").trim();
-        String password = request.getParameter("password");
+        // Retrieve form data
+//        String avatar = request.getParameter("avatar");
+        String firstname = request.getParameter("firstName");
+        String lastname = request.getParameter("lastName");
         String address = request.getParameter("address");
         String role_raw = request.getParameter("role");
         String gender_raw = request.getParameter("gender");
-        String userName = request.getParameter("userName").trim();
-        String email = request.getParameter("email").trim();
-        String mobile = request.getParameter("mobile").trim();
+        String userName = request.getParameter("userName");
+        String email = request.getParameter("email");
+        String mobile = request.getParameter("mobile");
 
-        // Chuyển đổi role và gender sang kiểu int
         int role = Integer.parseInt(role_raw);
         int gender = Integer.parseInt(gender_raw);
-
-        // Biến cờ để kiểm tra hợp lệ
+        session.setAttribute("input_firstName", firstname);
+        session.setAttribute("input_lastName", lastname);
+        session.setAttribute("input_userName", userName);
+        session.setAttribute("input_email", email);
+        session.setAttribute("input_mobile", mobile);
+        session.setAttribute("input_address", address);
+        session.setAttribute("input_gender", gender_raw);
+        session.setAttribute("input_role", role_raw);
         boolean flag = true;
 
-        // Kiểm tra các giá trị đầu vào
-        if (avatar == null || avatar.isBlank() || avatar.isEmpty()) {
-            avatar = "avatar-trang-4.jpg";
-            session.setAttribute("avatar", "avatar-trang-4.jpg");
-        }
+        String avatar = "avatar-trang-4.jpg";
+        Part file = request.getPart("avatar");
+        if (file != null && file.getSize() > 0) {
+            String fileName = Paths.get(file.getSubmittedFileName()).getFileName().toString();
+            String uploadPath = getServletContext().getRealPath("/img") + File.separator + fileName;
 
-        if (password.isEmpty()) {
-            session.setAttribute("msg_password", "Nhập mật khẩu");
-            flag = false;
-        }
+            // Tạo thư mục nếu chưa tồn tại
+            File uploadDir = new File(getServletContext().getRealPath("/img"));
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs(); // Tạo thư mục
+            }
 
-        if (!accountDAO.isValidPassword(password)) {
-            session.setAttribute("msg_password_ex", "Mật khẩu phải từ 8-30 ký tự, gồm ít nhất 1 chữ hoa, 1 chữ thường, 1 ký tự đặc biệt và 1 số");
-            flag = false;
+            // Lưu file
+            try (InputStream is = file.getInputStream(); FileOutputStream fos = new FileOutputStream(uploadPath)) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = is.read(buffer)) != -1) {
+                    fos.write(buffer, 0, bytesRead);
+                }
+                avatar = fileName; // Cập nhật đường dẫn avatar mới
+            } catch (Exception e) {
+                return;
+            }
         }
-
         if (role == -1) {
             session.setAttribute("msg_role", "Chọn vai trò");
             flag = false;
         }
 
-        if (!isValidUsername(userName)) {
+        if (userName == null || !isValidUsername(userName)) {
             session.setAttribute("msg_username", "Username phải từ 3-30 ký tự");
             flag = false;
         }
 
-        if (!isGmail(email)) {
+        if (email == null || !isGmail(email)) {
             session.setAttribute("msg_gmail", "Gmail không hợp lệ");
             flag = false;
         }
 
-        if (!accountDAO.isValidMobile(mobile)) {
+        if (mobile == null || !isPhoneNum(mobile)) {
             session.setAttribute("msg_phone", "Số điện thoại không hợp lệ");
             flag = false;
         }
 
-        if (accountDAO.getAccountByEmail(email) != null) {
+        if (email != null && accountDAO.getAccountByEmail(email) != null) {
             session.setAttribute("msg_gmail_ex", "Gmail đã tồn tại");
             flag = false;
         }
 
-        if (accountDAO.getAccountByUserName(userName) != null) {
+        if (userName != null && accountDAO.getAccountByUserName(userName) != null) {
             session.setAttribute("msg_username_ex", "Tài khoản đã tồn tại");
             flag = false;
         }
 
-        if (accountDAO.getAccountByPhone(mobile) != null) {
+        if (mobile != null && accountDAO.getAccountByPhone(mobile) != null) {
             session.setAttribute("msg_phone_ex", "Số điện thoại đã tồn tại");
             flag = false;
         }
 
-        if (firstname.isBlank()) {
+        if (firstname == null || firstname.isBlank()) {
             session.setAttribute("msg_firstname", "Tên đầu không được để trống");
             flag = false;
         }
 
-        if (lastname.isBlank()) {
+        if (lastname == null || lastname.isBlank()) {
             session.setAttribute("msg_lastname", "Tên sau không được để trống");
             flag = false;
         }
 
-        // Nếu các thông tin hợp lệ
         if (flag) {
-            session.setAttribute("msg_suc", "Thêm người dùng thành công");
-           
-            // Tạo đối tượng Account
-            Account account = new Account(userName, password, firstname, lastname, gender, email, mobile, address, role, avatar);
-            
-            // Thêm người dùng vào cơ sở dữ liệu
-            accountDAO.insertAccount(account);
 
-            // Đặt thông tin người dùng mới trong session và điều hướng đến trang danh sách người dùng
-            
-            request.getRequestDispatcher("userlist").forward(request, response);
+            session.setAttribute("msg_suc", "Thêm người dùng thành công");
+            Account account = new Account(userName, "UserPassword@123", firstname, lastname, gender, email, mobile, address, role, avatar);
+            accountDAO.insertAccount(account);
+            response.sendRedirect("userlist");
             return;
         }
 
-        // Nếu có lỗi, quay lại trang thêm người dùng với thông báo lỗi
         session.setAttribute("msg_err", "Thêm người dùng thất bại");
         request.getRequestDispatcher("addUserList.jsp").forward(request, response);
-    }
-
-
-    private static boolean isValidUsername(String input) {
-        String regex = "^(?=.*[a-zA-Z])[a-zA-Z0-9]{3,30}$";
-        return input.matches(regex);
-    }
-
-    public static boolean isGmail(String input) {
-        return input.matches("^[a-zA-Z][a-zA-Z0-9._%+-]*[a-zA-Z0-9]@[a-zA-Z0-9]{2,}(\\.[a-zA-Z0-9]{2,})+$");
-    }
-
-    public static boolean isPhoneNum(String input) {
-        return input.matches("\\d{10,11}");
     }
 
     /**

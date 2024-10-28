@@ -233,7 +233,7 @@ public class AccountDAO extends DBContext {
         try {
 
             String sql = "INSERT INTO account "
-                    + "(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar) "
+                    + "(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar,status) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, acc.getUserName());
@@ -245,8 +245,9 @@ public class AccountDAO extends DBContext {
             stm.setString(6, acc.getEmail());
             stm.setString(7, acc.getMobile());
             stm.setString(8, acc.getAddress());
-            stm.setInt(9, 4); //role mac dinh - customer
-            stm.setString(10, "avatar-trang-4.jpg"); //ava mac dinh
+            stm.setInt(9, acc.getRoleId()); //role mac dinh - customer
+            stm.setString(10, acc.getAvatar()); //ava mac dinh
+            stm.setInt(11, 1);
             stm.executeUpdate();
             System.out.println("Account đã được thêm thành công!");
         } catch (SQLException e) {

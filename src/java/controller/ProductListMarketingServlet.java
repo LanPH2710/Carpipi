@@ -8,12 +8,14 @@ import dal.BrandDAO;
 import dal.ProductDAO;
 import dal.SegmentDAO;
 import dal.StyleDAO;
+import dal.SupplyDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import model.Brand;
@@ -21,6 +23,7 @@ import model.Product;
 import model.ProductImage;
 import model.Segment;
 import model.Style;
+import model.Supply;
 
 /**
  *
@@ -53,8 +56,7 @@ public class ProductListMarketingServlet extends HttpServlet {
             out.println("</html>");
         }
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -71,12 +73,34 @@ public class ProductListMarketingServlet extends HttpServlet {
         BrandDAO bDao = new BrandDAO();
         SegmentDAO sDao = new SegmentDAO();
         StyleDAO styleDao = new StyleDAO();
+        SupplyDAO supplyDao = new SupplyDAO();
 
         ProductImage pImage = new ProductImage();
 
         String brandId = request.getParameter("brandId");
+        
         String indexPage = request.getParameter("index");
         String search = request.getParameter("searchse");
+        String[] styleIds = request.getParameterValues("styleId");
+        // Xử lý submit từ Form 1
+        HttpSession session = request.getSession();
+       
+
+        if (styleIds != null) {
+            for (String styleId : styleIds) {
+                System.out.println(styleId); // In ra từng giá trị của styleId
+            }
+        } else {
+            System.out.println("Không có kiểu dáng nào được chọn.");
+        }
+         session.setAttribute("styleIdList", styleIds);
+        
+        String[] segmentIds = request.getParameterValues("segmentId");
+        session.setAttribute("segmentIdList", segmentIds);
+        
+        String[] supplyIds = request.getParameterValues("supplyId");
+        session.setAttribute("supplyIdList", supplyIds);
+
 
         String orderId = request.getParameter("orderId");
         String orderName = request.getParameter("orderName");
@@ -92,13 +116,15 @@ public class ProductListMarketingServlet extends HttpServlet {
         request.setAttribute("styleList", styleList);
 
         List<Product> productList = pDao.getAllProducts();
-        request.setAttribute("productList", productList);
 
         List<Brand> brandList = bDao.getAllBrand();
         request.setAttribute("brandList", brandList);
 
         List<Segment> segmentList = sDao.getAllSegment();
         request.setAttribute("segmentList", segmentList);
+
+        List<Supply> supplyList = supplyDao.getAllSupplyCar();
+        request.setAttribute("supplyList", supplyList);
 
         List<Product> productListGetBrand = new ArrayList<>();
         List<Product> listProduct = pDao.pagingProduct(index);
@@ -118,47 +144,54 @@ public class ProductListMarketingServlet extends HttpServlet {
         int count = pDao.getTotalAccount();
 
         if (brandId != null && !brandId.isEmpty()) {
-            productListGetBrand = pDao.getPagingAllProductsById(brandId, index);
+            productList = pDao.getProductByBrandId(brandId);
             request.setAttribute("productListGetBrand", productListGetBrand);
             count = pDao.getTotalProductWithBrandId(brandId);
             request.setAttribute("chooseBrand", brandId);
 
-        } else {
-
-            request.setAttribute("listProduct", listProduct);
-
         }
-        
-        
-
-        if (search != null && !search.isEmpty()) {
-            listProduct = pDao.getPagingProductBySearch(search, index);
-            if (listProduct != null && !listProduct.isEmpty()) {
-
-                request.setAttribute("listProduct", listProduct);
-                count = pDao.getToTalPagingProductBySearch(search);
-            }
-        }
-
-        System.out.println(search);
 
         int endPage = count / 5;
         if (count % 5 != 0) {
             endPage++;
         }
 
-        System.out.println(search);
+        styleList = styleDao.getStyleFilter(styleIds);
+        System.out.println(styleList);
+
+        productList = styleDao.getListFilter(brandId, styleIds, segmentIds, supplyIds);
+        
+        request.setAttribute("styleIds", styleIds);
+
+        request.setAttribute("brandId", brandId);
+        request.setAttribute("productList", productList);
+
         request.setAttribute("imageList", pImageList);
         request.setAttribute("searchch", search);
         request.setAttribute("endP", endPage);
         request.setAttribute("tag", index);
         request.getRequestDispatcher("product_list_maketing.jsp").forward(request, response);
+
+        System.out.println("---------------------------");
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String orderName = request.getParameter("orderName");
+        System.out.println(orderName);
+
+        String[] styleIds = request.getParameterValues("styleId");
+
+        if (styleIds != null) {
+            for (String styleId : styleIds) {
+                System.out.println(styleId); // In ra từng giá trị của styleId
+            }
+        } else {
+            System.out.println("Không có kiểu dáng nào được chọn.");
+        }
+        System.out.println("---------------------------");
     }
 
     /**

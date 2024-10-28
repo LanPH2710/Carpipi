@@ -189,10 +189,7 @@
 
                                         </div><!--end col-->
 
-                                        <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
-                                            <a href="#" class="btn btn-primary">Upload</a>
-                                            <a href="#" class="btn btn-soft-primary ms-2">Remove</a>
-                                        </div><!--end col-->
+                                        
                                     </div><!--end row-->
 
                                     <form action="addUser" method="post" enctype="multipart/form-data">
@@ -332,7 +329,7 @@
 
                                             <!-- Avatar -->
                                             <div class="col-md-12">
-                                                <label class="labels">Thay đổi ảnh đại diện</label>
+                                                <label class="labels">Chọn ảnh đại diện</label>
                                                 <input name="avatar" type="file" class="form-control" accept="image/*">
                                                 <small class="form-text text-muted mb-2">chọn ảnh</small>
                                             </div>

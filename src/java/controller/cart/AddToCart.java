@@ -41,16 +41,19 @@ public class AddToCart extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         CartDAO cartDAO = new CartDAO();
-
+        ProductDAO productDAO = new ProductDAO();
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-
+        
         if (account == null) {
             // Nếu chưa đăng nhập
             response.sendRedirect("login.jsp");
             return;
         }
-
+        String urlHistory = (String) session.getAttribute("urlHistory");
+                    if (urlHistory == null) {
+                        urlHistory = "home";
+                    }
         int userId = account.getUserId(); // Lấy userId từ session
         String productId = request.getParameter("productId");
         String quantityStr = request.getParameter("quantity");
@@ -60,7 +63,7 @@ public class AddToCart extends HttpServlet {
             response.getWriter().write("Quantity is required.");
             return;
         }
-
+        Product product = productDAO.getProductById(productId);
         int quantity;
         try {
             quantity = Integer.parseInt(quantityStr);
@@ -71,15 +74,12 @@ public class AddToCart extends HttpServlet {
 
         try {
             int cartId = cartDAO.getCartIdByUserIdAndProductId(userId, productId);
-
+            
             if (cartId == -1) {
                 // Nếu sản phẩm chưa tồn tại trong giỏ hàng -> Thêm sản phẩm mới
                 if (cartDAO.addToCart(userId, productId, quantity)) {
                     // Thêm sản phẩm mới thành công
-                    String urlHistory = (String) session.getAttribute("urlHistory");
-                    if (urlHistory == null) {
-                        urlHistory = "home";
-                    }
+                   
                     int sizeCart = cartDAO.countCartsByUserId(userId);
                     session.setAttribute("sizeCart", sizeCart);
                     response.sendRedirect(urlHistory);
@@ -87,15 +87,16 @@ public class AddToCart extends HttpServlet {
                     // Lỗi khi thêm sản phẩm mới
                     response.getWriter().write("Failed to add product to cart.");
                 }
+            } else if (quantity  > product.getStock()) {
+                request.setAttribute("mesOfCart", "Quá số lượng");
+                   request.getRequestDispatcher(urlHistory).forward(request, response);
             } else {
                 // Nếu sản phẩm đã tồn tại -> Cập nhật số lượng
                 if (cartDAO.updateQuantityByCartId(cartId, quantity)) {
                     // Cập nhật số lượng thành công
-                    String urlHistory = (String) session.getAttribute("urlHistory");
-                    if (urlHistory == null) {
-                        urlHistory = "home";
-                    }
-                    response.sendRedirect(urlHistory);
+                    
+                    request.setAttribute("mesOfCart", "Sản đã được thêm vào giỏ");
+                   request.getRequestDispatcher(urlHistory).forward(request, response);
                 } else {
                     // Lỗi khi cập nhật số lượng
                     response.getWriter().write("Failed to update cart quantity.");

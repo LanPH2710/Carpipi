@@ -80,6 +80,8 @@ public class AddToCart extends HttpServlet {
                     if (urlHistory == null) {
                         urlHistory = "home";
                     }
+                    int sizeCart = cartDAO.countCartsByUserId(userId);
+                    session.setAttribute("sizeCart", sizeCart);
                     response.sendRedirect(urlHistory);
                 } else {
                     // Lỗi khi thêm sản phẩm mới

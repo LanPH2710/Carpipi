@@ -181,7 +181,10 @@
                     </div>
                 </main>
             </div>
-
+ <div id="notification" class="notification">
+            Sản phẩm đã được thêm vào giỏ hàng !
+            <div class="timeline" id="timeline"></div>
+        </div>
             <section class="bg-light border-top py-4 mt-5">
                 <div class="row">
                     <div class="col-lg-8">

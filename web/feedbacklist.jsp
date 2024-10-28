@@ -1,11 +1,11 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Slider List</title>
+        <meta charset="utf-8" />
+        <title>Doctris - Doctor Appointment Booking System</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -14,20 +14,24 @@
         <meta name="website" content="../../../index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="img/logo3.png">
+        <link rel="shortcut icon" href="assets1_1/images/favicon.ico.png">
         <!-- Bootstrap -->
-        <link href="assetsSlider/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets1_1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
-        <link href="assetsSlider/css/simplebar.css" rel="stylesheet" type="text/css" />
+        <link href="assets1_1/css/simplebar.css" rel="stylesheet" type="text/css" />
+        <!-- Select2 -->
+        <link href="assets1_1/css/select2.min.css" rel="stylesheet" />
         <!-- Icons -->
-        <link href="assetsSlider/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
-        <link href="assetsSlider/css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link href="assets1_1/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets1_1/css/remixicon.css" rel="stylesheet" type="text/css" />
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
+        <!-- SLIDER -->
+        <link href="assets1_1/css/tiny-slider.css" rel="stylesheet" />
         <!-- Css -->
-        <link href="assetsSlider/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-        <%--<jsp:include page="header.jsp"/>--%>
-        <%--<jsp:include page="footerDemo.jsp"/>--%>
+        <link href="assets1_1/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+
     </head>
+
     <body>
         <!-- Loader -->
         <div id="preloader">
@@ -90,9 +94,9 @@
                             <!------------search----------------->
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form action="SliderList" role="search" method="get" id="searchform" class="searchform">
+<!--                                    <form action="SliderList" role="search" method="get" id="searchform" class="searchform">
                                         <div class="search-container">
-                                            <!-- Filter by status -->
+                                             Filter by status 
                                             <span>
                                                 <label for="status">Trạng thái:</label>
                                             </span>
@@ -103,16 +107,16 @@
                                                     <option value="0" ${param.status == '0' ? 'selected' : ''}>Ngừng kích hoạt</option>
                                                 </select>
                                             </span>
-                                            <!-- Search by title or backlink -->
+                                             Search by title or backlink 
                                             <span>
                                                 <input type="text" class="form-control border rounded-pill" id="s" name="search" placeholder="Tìm kiếm theo tên/ backlink" value="${param.search}" />
                                             </span>
-                                            <!-- Search button -->
+                                             Search button 
                                             <span>
                                                 <input type="submit" id="searchsubmit" value="Search">
                                             </span>
                                         </div>
-                                    </form>
+                                    </form>-->
                                 </div>
                             </div>
                             <!------------------end search--------------------->
@@ -125,7 +129,7 @@
                         <div class="d-md-flex justify-content-between">
                             <h5 class="mb-0">Slider</h5>
 
-                            <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
+<!--                            <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                                     <c:choose>
                                         <c:when test="${sessionScope.account.roleId == 1}">
@@ -140,7 +144,7 @@
                                     
                                     <li class="breadcrumb-item active" aria-current="page">danh sách Slide</li>
                                 </ul>
-                            </nav>
+                            </nav>-->
                         </div>
                         <div class="row">
                             <div class="col-12 mt-4">
@@ -162,37 +166,6 @@
                                                 <tr>
                                                     <td class="p-3">${slider.sliderId}</td>
                                                     <td class="p-3">${slider.title}</td>
-                                                    <td class="p-3">${slider.description}</td>
-                                                    <td class="py-3">
-                                                        <a href="sliderdetail?id=${slider.sliderId}" class="text-dark">
-                                                            <div class="d-flex align-items-center">
-                                                                <img src="${slider.imageUrl}" class="avatar avatar-md-sm shadow" alt="${slider.title}"  style="height: 90px; width: fit-content; width: 150px;"
-                                                                     />
-                                                            </div>
-                                                        </a>
-                                                    </td>
-                                                    <td class="p-3">
-
-                                                        <a href="${slider.backlink}">${slider.backlink}</a>
-
-                                                    </td>
-                                                    <td class="p-3">
-                                                        <span class="badge ${slider.status == 1 ? 'bg-soft-success' : 'bg-soft-warning'}">
-                                                            ${slider.status == 1 ? 'Kích hoạt' : 'Ngừng kích hoạt'}
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <form action="SliderList" method="POST" style="display: inline;">
-                                                            <input type="hidden" name="sliderId" value="${slider.sliderId}" />
-                                                            <input type="hidden" name="status" value="${slider.status == 1 ? 0 : 1}">
-                                                            <button type="submit" name="action" value="updateSliderStatus" class="btn btn-icon btn-pills ${slider.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
-                                                                <span class="${slider.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
-                                                            </button>
-                                                        </form>
-                                                        <a href="editSlider?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile">
-                                                            <i class="uil uil-pen"></i>
-                                                        </a>
-                                                    </td>
 
                                                 </tr>
                                             </c:forEach>
@@ -203,25 +176,25 @@
                         </div><!--end row-->
                         <div class="row text-center">
                             <!-- Pagination -->
-                            <div class="col-12 mt-4">
+<!--                            <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
                                     <span class="text-muted me-3">Hiển thị ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + sliders.size()} ${totalItems}</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                        <!-- Previous Button -->
+                                         Previous Button 
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
                                                 <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage - 1}&search=${param.search}&status=${param.status}" aria-label="Previous">Prev</a>
                                             </li>
                                         </c:if>
 
-                                        <!-- Page Numbers -->
+                                         Page Numbers 
                                         <c:forEach begin="1" end="${totalPages}" var="page">
                                             <li class="page-item ${currentPage == page ? 'active' : ''}">
                                                 <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${page}&search=${param.search}&status=${param.status}">${page}</a>
                                             </li>
                                         </c:forEach>
 
-                                        <!-- Next Button -->
+                                         Next Button 
                                         <c:if test="${sliders.size() == 15}">
                                             <li class="page-item">
                                                 <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage + 1}&search=${param.search}&status=${param.status}" aria-label="Next">Next</a>
@@ -229,7 +202,7 @@
                                         </c:if>
                                     </ul>
                                 </div>
-                            </div>
+                            </div>-->
                             <!--                                                         PAGINATION END -->
                         </div><!--end row-->
                     </div>

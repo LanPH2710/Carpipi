@@ -122,7 +122,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
     int styleId = Integer.parseInt(request.getParameter("styleId"));
     int status = request.getParameter("status").equals("active") ? 1 : 0;
     String newImageUrl = request.getParameter("newImageUrl"); // Lấy URL ảnh mới
-
+    
     // Kiểm tra nếu người dùng đã nhập URL mới
     if (newImageUrl != null && !newImageUrl.trim().isEmpty()) {
         // Giả sử bạn đã có phương thức thêm ảnh sản phẩm mới trong DAO (ProductDAO)
@@ -138,7 +138,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
     }
     // Tạo đối tượng ProductDAO
     ProductDAO productDao = new ProductDAO();
-
+    
+    
     try {
         // Cập nhật sản phẩm
         productDao.updateProduct1(id, name, seatNumber, price, fuel, stock, description, 10, 

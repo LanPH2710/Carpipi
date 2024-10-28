@@ -235,12 +235,12 @@
                                 <div class="button-group mt-2">
                                     <form action="image" method="post" style="display: inline;">
                                         <input type="hidden" name="action" value="delete">
-                                        <input type="hidden" name="imageUrl" value="${image.imageUrl}">
+                                        <input type="hidden" name="imageId" value="${image.imageId}">
                                         <input type="submit" class="btn btn-danger btn-sm" value="Xóa">
                                     </form>
                                     <form action="image" method="post" style="display: inline;">
                                         <input type="hidden" name="action" value="update">
-                                        <input type="hidden" name="oldImageUrl" value="${image.imageUrl}">
+                                        <input type="hidden" name="imageId" value="${image.imageId}">
                                         <input type="text" name="newImageUrl" class="form-control form-control-sm" placeholder="Nhập URL mới" required style="width: 200px; display: inline-block;">
                                         <input type="submit" class="btn btn-primary btn-sm" value="Cập nhật">
                                     </form>

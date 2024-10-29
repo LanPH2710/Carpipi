@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
  */
 public class AdminDao extends DBContext {
 
+    
     // Method to update roleId for a specific user
 // Method to search accounts by keyword
     public List<Account> searchAccounts(String keyword) {
@@ -78,8 +79,8 @@ public class AdminDao extends DBContext {
             stm.setString(6, acc.getEmail());
             stm.setString(7, acc.getMobile());
             stm.setString(8, acc.getAddress());
-            stm.setInt(9, 4); // Role mặc định - customer
-            stm.setString(10, "avatar-trang-4.jpg"); // Avatar mặc định
+            stm.setInt(9, acc.getRoleId()); // Role mặc định - customer
+            stm.setString(10, acc.getAvatar()); // Avatar mặc định
             stm.setInt(11, 1); // Trạng thái 'pending'
 
             stm.executeUpdate();

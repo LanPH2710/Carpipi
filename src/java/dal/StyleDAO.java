@@ -523,7 +523,7 @@ public class StyleDAO extends DBContext {
         return sql;
     }
 
-    public List<Product> getListFilter(String brandId, String[] styleId, String[] segmentId, String[] supplyId) {
+    public List<Product> getListFilter(String brandId, String[] styleId, String[] segmentId, String[] supplyId, int index) {
 
         List<Product> list = new ArrayList<>();
 
@@ -543,14 +543,16 @@ public class StyleDAO extends DBContext {
                 + "And sty.status = 1\n"
                 + "AND seg.status = 1 \n"
                 + "And sup.status = 1\n"
-                + "ORDER BY pro.productId ASC";
+                + "ORDER BY pro.productId ASC limit 16 offset ?";
+        
+        
 
         System.out.println("sql: " + sql);
 
         try {
 
             PreparedStatement st = connection.prepareStatement(sql);
-
+            st.setInt(1, ((index - 1) * 16));
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Product product = new Product();

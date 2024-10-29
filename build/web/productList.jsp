@@ -1,8 +1,3 @@
-<%-- 
-    Document   : productList
-    Created on : Oct 11, 2024, 2:35:37 PM
-    Author     : nguye
---%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -147,6 +142,17 @@
 
         <div class="container">
             <div class="row">
+
+
+                <!-- Advertisement Section -->
+                <div class="col-sm-12">
+                    <section id="advertisement">
+                        <div class="container">
+                            <img src="assets/images/welcome-hero/welcome-banner.jpg" alt="" class="img-responsive" />
+                        </div>
+                    </section>
+                </div>
+
                 <!-- Header Section -->
                 <div class="col-sm-4">
                     <header id="header">
@@ -165,20 +171,53 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+
                                 </div>
                             </div>
                         </div>
                     </header>
                 </div>
 
-                <!-- Advertisement Section -->
-                <div class="col-sm-12">
-                    <section id="advertisement">
-                        <div class="container">
-                            <img src="assets/images/welcome-hero/welcome-banner.jpg" alt="" class="img-responsive" />
+                <div class="col-sm-2">
+                    <header id="header">
+                        <div class="header-bottom">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="sort_box">
+                                            <form action="productlist" method="get">
+                                                <!-- Trường ẩn để giữ các giá trị khác như brandId, styleId, và keyword -->
+                                                <input type="hidden" name="brandId" value="${selectedBrandId}">
+                                                <input type="hidden" name="styleId" value="${selectedStyleId}">
+                                                <input type="hidden" name="keyword" value="${keyword}">
+                                                <input type="hidden" name="page" value="${currentPage}">
+
+                                                <!-- Trường sắp xếp -->
+                                                <select name="sort" onchange="this.form.submit()">
+                                                    <option value="default" ${param.sort == 'default' ? 'selected' : ''}>Sắp xếp theo</option>
+                                                    <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Tăng dần</option>
+                                                    <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Giảm dần</option>
+                                                </select>
+                                            </form>
+
+
+
+                                            <div id="message" class="message-popup" style="display: none;">
+                                                ${mesOfCart}
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
                         </div>
-                    </section>
-                </div>
+                    </header>
+                </div>                            
+
             </div>
         </div>
 
@@ -193,7 +232,8 @@
                                 <c:forEach var="brand" items="${brandList}">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4 class="panel-title"><a href="productlist?brandId=${brand.brandId}&page=1">${brand.brandName}</a></h4>
+                                            <h4 class="panel-title">                    <a href="productlist?brandId=${brand.brandId}&page=1&sort=${param.sort}">${brand.brandName}</a>
+                                            </h4>
                                         </div>
                                     </div>
                                 </c:forEach>
@@ -203,8 +243,9 @@
                                 <div class="brands-name">
                                     <ul class="nav nav-pills nav-stacked">
                                         <c:forEach var="style" items="${styleList}">
-                                            <li><a href="productlist?styleId=${style.styleId}&page=1"> <span class="pull-right"></span>${style.styleName}</a></li>
-                                                </c:forEach>
+                                            <li>                    <a href="productlist?styleId=${style.styleId}&page=1&sort=${param.sort}">${style.styleName}</a>
+                                            </li>
+                                        </c:forEach>
                                     </ul>
                                 </div>
                             </div><!--/brands_products-->
@@ -267,43 +308,43 @@
                                     <!-- Điều hướng về trang trước -->
                                     <c:if test="${currentPage > 1}">
                                         <li class="page-item">
-                                            <a class="page-link" href="productlist?page=${currentPage - 1}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}">
+                                            <a class="page-link" href="productlist?page=${currentPage - 1}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}&sort=${sort}">
                                                 <i class="fa fa-angle-double-left"></i>
                                             </a>
                                         </li>
                                     </c:if>
 
-                                    <!-- Vòng lặp phân trang -->
+                                    <!-- Pagination loop -->
                                     <c:forEach begin="${(currentPage - 1) <= 1 ? 1 : (currentPage - 1)}" end="${currentPage + 1 > totalPages ? totalPages : currentPage + 1}" var="i">
                                         <c:choose>
                                             <c:when test="${i == currentPage}">
-                                                <!-- Trang hiện tại -->
+                                                <!-- Current page -->
                                                 <li class="page-item active">
                                                     <a class="page-link">${i}</a>
                                                 </li>
                                             </c:when>
                                             <c:otherwise>
-                                                <!-- Các trang khác -->
+                                                <!-- Other pages -->
                                                 <li class="page-item">
-                                                    <a href="productlist?page=${i}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}" class="page-link">${i}</a>
+                                                    <a class="page-link" href="productlist?page=${i}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}&sort=${sort}">
+                                                        ${i}
+                                                    </a>
                                                 </li>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>
 
-                                    <!-- Điều hướng về trang sau -->
+                                    <!-- Navigate to the next page -->
                                     <c:if test="${currentPage < totalPages}">
                                         <li class="page-item">
-                                            <a class="page-link" href="productlist?page=${currentPage + 1}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}">
+                                            <a class="page-link" href="productlist?page=${currentPage + 1}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}&sort=${sort}">
                                                 <i class="fa fa-angle-double-right"></i>
                                             </a>
                                         </li>
                                     </c:if>
+
                                 </ul>
                             </div>
-
-
-
 
                         </div><!--features_items-->
                     </div>
@@ -361,10 +402,10 @@
 
 <!-- Code HTML đã sửa -->
                                                            <a href="addtocart?productId=${pro.productId}&quantity=1" 
-            class="btn btn-default add-to-cart" 
-            onclick="showCartAlert(event)">
-            <i class="fa fa-shopping-cart"></i> Add to cart
-            </a>
+        class="btn btn-default add-to-cart" 
+        onclick="showCartAlert(event)">
+        <i class="fa fa-shopping-cart"></i> Add to cart
+        </a>
 
                                                            <div class="product-overlay">
         <div class="overlay-content">

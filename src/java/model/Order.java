@@ -14,24 +14,41 @@ public class Order {
 //totalPrice decimal(15,2) 
 //note varchar(255) 
 //saleId int 
+//shipperId int 
 //createDate datetime 
-//orderStatus int
-//        
-    
+//orderStatus int    
+
     private int orderId;
     private int userId;
     private double totalPrice;
     private String note;
+    private int saleId;
+    private int shipperId;
     private String createDate;
     private int orderStatus;
 
-    public Order(int orderId, int userId, double totalPrice, String note, String createDate, int orderStatus) {
+    private String firstName;
+    private String lastName;
+    private int gender;
+    private String email;
+    private String mobile;
+    private String address;
+
+    public Order(int orderId, int userId, double totalPrice, String note, int saleId, int shipperId, String createDate, int orderStatus, String firstName, String lastName, int gender, String email, String mobile, String address) {
         this.orderId = orderId;
         this.userId = userId;
         this.totalPrice = totalPrice;
         this.note = note;
+        this.saleId = saleId;
+        this.shipperId = shipperId;
         this.createDate = createDate;
         this.orderStatus = orderStatus;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+        this.mobile = mobile;
+        this.address = address;
     }
 
     public Order() {
@@ -69,6 +86,22 @@ public class Order {
         this.note = note;
     }
 
+    public int getSaleId() {
+        return saleId;
+    }
+
+    public void setSaleId(int saleId) {
+        this.saleId = saleId;
+    }
+
+    public int getShipperId() {
+        return shipperId;
+    }
+
+    public void setShipperId(int shipperId) {
+        this.shipperId = shipperId;
+    }
+
     public String getCreateDate() {
         return createDate;
     }
@@ -85,8 +118,52 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    
-    
-    
-        
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 }

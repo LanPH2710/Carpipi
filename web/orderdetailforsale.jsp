@@ -22,37 +22,37 @@
         <link href="cssProList/animate.css" rel="stylesheet">
         <link href="cssProList/main.css" rel="stylesheet">
         <link href="cssProList/responsive.css" rel="stylesheet">
-        
+
         <style>
-		.infor-customer {
-  		display: grid; /* Sử dụng grid để chia cột */
-  		grid-template-columns: repeat(2, 1fr); /* Chia thành 2 cột */
-  		grid-auto-rows: minmax(0, 1fr); /* Giữ chiều cao mỗi dòng bằng nhau */
-  		height: 200px; /* Điều chỉnh chiều cao tổng thể để cắt phần còn lại */
-  		overflow: hidden; /* Ẩn phần còn lại */
-  		width: 600px;
-		}
+            .infor-customer {
+                display: grid; /* Sử dụng grid để chia cột */
+                grid-template-columns: repeat(2, 1fr); /* Chia thành 2 cột */
+                grid-auto-rows: minmax(0, 1fr); /* Giữ chiều cao mỗi dòng bằng nhau */
+                height: 200px; /* Điều chỉnh chiều cao tổng thể để cắt phần còn lại */
+                overflow: hidden; /* Ẩn phần còn lại */
+                width: 600px;
+            }
 
-		.infor-customer-order {
-  		display: grid; /* Sử dụng grid để chia cột */
-  		grid-template-columns: repeat(2, 1fr); /* Chia thành 2 cột */
-  		grid-auto-rows: minmax(0, 1fr); /* Giữ chiều cao mỗi dòng bằng nhau */
-  		height: 290px; /* Điều chỉnh chiều cao tổng thể để cắt phần còn lại */
-  		overflow: hidden; /* Ẩn phần còn lại */
-  		width: 500px;
-		}
+            .infor-customer-order {
+                display: grid; /* Sử dụng grid để chia cột */
+                grid-template-columns: repeat(2, 1fr); /* Chia thành 2 cột */
+                grid-auto-rows: minmax(0, 1fr); /* Giữ chiều cao mỗi dòng bằng nhau */
+                height: 290px; /* Điều chỉnh chiều cao tổng thể để cắt phần còn lại */
+                overflow: hidden; /* Ẩn phần còn lại */
+                width: 500px;
+            }
 
-		.infor-customer {
-			margin-bottom: 2px;
-		}
-		.infor-customer h5{
-		margin-bottom: 3px;
-		}
+            .infor-customer {
+                margin-bottom: 2px;
+            }
+            .infor-customer h5{
+                margin-bottom: 3px;
+            }
 
-		.cart_menu td{
-			text-align: center;
-		}
-	</style>
+            .cart_menu td{
+                text-align: center;
+            }
+        </style>
     </head>
     <body>
         <header id="header"><!--header-->
@@ -61,10 +61,10 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="contactinfo">
-                                
+
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div><!--/header_top-->
@@ -75,22 +75,22 @@
                     <div class="row">
                         <div class="col-sm-9">
                             <div class="navbar-header">
-                             
+
                             </div>
                             <div class="mainmenu pull-left">
                                 <ul class="nav navbar-nav collapse navbar-collapse">
-                                    <li><a href="index.html">Home</a></li>
-                                   
+                                    <li><a href="home">Home</a></li>
+
+                            </div>
+
                         </div>
-                        
                     </div>
-                </div>
-            </div><!--/header-bottom-->
+                </div><!--/header-bottom-->
         </header><!--/header-->
 
         <section id="cart_items">
             <div class="container">
-               
+
                 <div class="shopper-informations">
                     <div class="row">
                         <div class="col-sm-3">
@@ -98,7 +98,7 @@
                                 <p>Thông tin người mua</p>
 
                                 <ul class="infor-customer-order">
-                                    
+
                                     <li>
                                         <h5>Họ tên</h5>
                                         <p>${accountOrder.firstName} ${accountOrder.lastName}</p>
@@ -120,12 +120,19 @@
                                         <p><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></p>
                                     </li>
                                     <li>
-<!--                                        <h5>Tên nhân viên sale</h5>
-                                        <p></p>-->
+                                        <h5>Tên nhân viên sale</h5>
+                                        <p>${saleInfo.firstName} ${saleInfo.lastName}</p>
                                     </li>
                                     <li>
                                         <h5>Trạng thái</h5>
-                                        <p>aaaaaa</p>
+
+                                        <c:if test="${orderDetail.orderStatus == 1}">
+                                            <p>Đã xác nhận </p>
+                                        </c:if>
+                                        <c:if test="${orderDetail.orderStatus == 0}">
+                                            <p>Đang xử lý </p>
+                                        </c:if>
+
                                     </li>
 
                                 </ul>
@@ -135,7 +142,7 @@
                     </div>
                 </div>
                 <div class="review-payment">
-                    <h2>Review & Payment</h2>
+                    <h2>Thông tin sản phẩm</h2>
                 </div>
 
                 <div class="table-responsive cart_info">
@@ -162,7 +169,7 @@
                             </td>
 
                             <td class="cart_price">
-                                
+
                             </td>
                             <td class="cart_price">
                                 <p><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></p>
@@ -173,19 +180,19 @@
                             <td class="cart_total">
                                 <p class="cart_total_price"><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></p>
                             </td>
-                           
+
                         </trcart_menu>
                         <tr>
                             <td colspan="4">&nbsp;</td>
                             <td colspan="2">
                                 <table class="table table-condensed total-result">
-                                    
+
                                     <tr class="shipping-cost">
-                                        <td>Shipping Cost</td>
-                                        <td>Free</td>										
+                                        <td>Giá vận chuyển</td>
+                                        <td>Miễn phí</td>										
                                     </tr>
                                     <tr>
-                                        <td>Total</td>
+                                        <td>Tổng</td>
                                         <td><span><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></span></td>
                                     </tr>
                                 </table>
@@ -198,7 +205,7 @@
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="shopper-info">
-                                <p>Shopper Information</p>
+                                <p>Thông tin người nhận</p>
 
                                 <ul class="infor-customer">
                                     <li>
@@ -221,10 +228,26 @@
 
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
 
+
+<!--                <div>
+                    <form action="proformarketing" method="get" style="display: inline;">
+
+                        <select name="choosesale" onchange="this.form.submit()">
+
+                            <c:forEach var="all" items="${sessionScope.allSaleName}">
+                                <option value="${all.userId}">${all.firsName} ${all.lastName}</option>
+                            </c:forEach>
+                            
+                            
+                        </select>
+
+
+                    </form>
+                </div>-->
             </div>
         </section> <!--/#cart_items-->
 

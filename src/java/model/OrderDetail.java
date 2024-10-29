@@ -9,138 +9,40 @@ package model;
  * @author Sonvu
  */
 public class OrderDetail extends Order {
-//    orderDetailId int AI PK 
 //orderId int 
 //productId varchar(6) 
-//shippingaddress 
-//shipperId int
+//shippingAddress varchar(200) 
+//quantity int 
+//discountId int
 
-    private int userId;
-    private String firstName;
-    private String lastName;
-    private int gender;
-    private String email;
-    private String mobile;
-    private String address;
-    private int orderDetailId;
-    private String productId;
+    private int orderId;
     private String shippingAddress;
-    private int shipperId;
+    private int quantity;
+    private int discountId;
+    
+    private String productId;
 
-    public OrderDetail(int orderId, int userId, double totalPrice, String note, String dateTime, int orderStatus) {
-        super(orderId, userId, totalPrice, note, dateTime, orderStatus);
+    public OrderDetail(int orderId, int userId, double totalPrice, String note, int saleId, int shipperId, String createDate, int orderStatus, String firstName, String lastName, int gender, String email, String mobile, String address) {
+        super(orderId, userId, totalPrice, note, saleId, shipperId, createDate, orderStatus, firstName, lastName, gender, email, mobile, address);
     }
 
     public OrderDetail() {
     }
 
-    public OrderDetail(int userId, String firstName, String lastName, int gender, String email, String mobile, String address, int orderDetailId, String productId, String shippingAddress, int shipperId) {
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.email = email;
-        this.mobile = mobile;
-        this.address = address;
-        this.orderDetailId = orderDetailId;
-        this.productId = productId;
+    public OrderDetail(int orderId, String shippingAddress, int quantity, int discountId, String productId) {
+        this.orderId = orderId;
         this.shippingAddress = shippingAddress;
-        this.shipperId = shipperId;
-    }
-
-    
-    public OrderDetail(int userId, String firstName, String lastName, int gender, String email, String mobile, String address) {
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.email = email;
-        this.mobile = mobile;
-        this.address = address;
-    }
-    
-    
-    
-    public OrderDetail(int orderDetailId, String productId, String shippingAddress, int shipperId) {
-        this.orderDetailId = orderDetailId;
+        this.quantity = quantity;
+        this.discountId = discountId;
         this.productId = productId;
-        this.shippingAddress = shippingAddress;
-        this.shipperId = shipperId;
     }
 
-    @Override
-    public int getUserId() {
-        return userId;
+    public int getOrderId() {
+        return orderId;
     }
 
-    @Override
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getGender() {
-        return gender;
-    }
-
-    public void setGender(int gender) {
-        this.gender = gender;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-    
-
-    public int getOrderDetailId() {
-        return orderDetailId;
-    }
-
-    public void setOrderDetailId(int orderDetailId) {
-        this.orderDetailId = orderDetailId;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public String getShippingAddress() {
@@ -151,12 +53,28 @@ public class OrderDetail extends Order {
         this.shippingAddress = shippingAddress;
     }
 
-    public int getShipperId() {
-        return shipperId;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setShipperId(int shipperId) {
-        this.shipperId = shipperId;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getDiscountId() {
+        return discountId;
+    }
+
+    public void setDiscountId(int discountId) {
+        this.discountId = discountId;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
 }

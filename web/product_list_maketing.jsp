@@ -157,7 +157,8 @@
                             </div>
 
                             <div class="mt-4 mt-sm-0">
-                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-product">Add Product</a>
+                                
+                                <a href="addbymarketing" class="btn btn-primary">Add Product</a>
                             </div>
                         </div>
 
@@ -363,7 +364,7 @@
                                                 </tbody>
                                             </table>
 
-                                            
+
                                         </div>
                                     </div>
                                 </div><!--end col-->
@@ -445,12 +446,13 @@
         <!-- Offcanvas End -->
 
         <!-- Start Modal -->
-        <div class="modal fade" id="add-product" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header border-bottom p-3">
                         <h5 class="modal-title" id="exampleModalLabel">Add Shop Product</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                        <a href="addbymarketing"></a>
                     </div>
 
                     <div class="modal-body p-3 pt-4">

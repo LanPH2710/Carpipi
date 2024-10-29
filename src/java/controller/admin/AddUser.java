@@ -162,7 +162,7 @@ public class AddUser extends HttpServlet {
 
             session.setAttribute("msg_suc", "Thêm người dùng thành công");
             Account account = new Account(userName, "UserPassword@123", firstname, lastname, gender, email, mobile, address, role, avatar);
-            accountDAO.insertAccount(account);
+            accountDAO.insertAccountAdmin(account);
             response.sendRedirect("userlist");
             return;
         }

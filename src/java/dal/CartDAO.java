@@ -47,6 +47,25 @@ public class CartDAO extends DBContext {
 //        }
 //    }
 
+   public int getQuantityByUserIdAndProductId(int userId, String productId) {
+    String sql = "SELECT quantity FROM cart WHERE userId = ? AND productId = ? AND isDeleted = 0";
+    int quantity = -1; // Default to -1 if no cart item is found
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, userId);
+        ps.setString(2, productId);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                quantity = rs.getInt("quantity");
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); // You could also log the exception instead of printing it
+    }
+
+    return quantity;
+}
     public int getCartIdByUserIdAndProductId(int userId, String productId) throws SQLException {
         String sql = "SELECT cartId FROM cart WHERE userId = ? AND productId = ? AND isDeleted = 0";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {

@@ -205,6 +205,7 @@
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
+
             <!-- Main Content Section -->
             <div class="container1">
                 <!-- Blog Content -->
@@ -248,136 +249,21 @@
                 <div class="blog-conclusion">
                     <h5>${blog.endBlog}</h5>
                 </div>
-
-                <!-- Comment Section -->
-                <div class="comment-section">
-                    <h3>Bình luận và Đánh giá</h3>
-
-                    <!-- Sorting Comments by Rating -->
-                    <form action="blogdetail" method="get" class="comment-sort-form">
-                        <label for="rating">Sắp xếp theo đánh giá:</label>
-                        <select name="rating" class="form-control mb-3" required>
-                            <option value="5" <c:if test="${rating == 5}">selected</c:if>>&#9733;&#9733;&#9733;&#9733;&#9733;</option>
-                            <option value="4" <c:if test="${rating == 4}">selected</c:if>>&#9733;&#9733;&#9733;&#9733;</option>
-                            <option value="3" <c:if test="${rating == 3}">selected</c:if>>&#9733;&#9733;&#9733;</option>
-                            <option value="2" <c:if test="${rating == 2}">selected</c:if>>&#9733;&#9733;</option>
-                            <option value="1" <c:if test="${rating == 1}">selected</c:if>>&#9733;</option>
-                            </select>
-                            <input type="hidden" name="blogId" value="${blog.blogId}">
-                        <button type="submit" class="btn btn-primary">Sắp xếp</button>
-                    </form>
-
-                    <!-- Comment List -->
-                    <div class="comments-list mb-5">
-                        <c:forEach items="${comment}" var="comment">
-                            <div class="comment-item">
-                                <!-- Display Comment Author -->
-                                <c:set var="userDisplayed" value="false" />
-                                <c:forEach items="${listacc}" var="acc"> 
-                                    <c:if test="${acc.userId == comment.userId && !userDisplayed}">
-                                        <div class="user-info mt-3 d-flex align-items-center">
-                                            <img class="avatar rounded-circle mr-3" width="40px" height="40px" src="img/${acc.avatar}" alt="${acc.firstName} ${acc.lastName}">&nbsp&nbsp 
-                                            <div>
-                                                <strong class="user-name">${acc.firstName} ${acc.lastName}</strong>
-                                            </div>
-                                        </div>
-                                        <c:set var="userDisplayed" value="true" />
-                                    </c:if>
-                                </c:forEach>
-
-                                <!-- Comment Info and Rating -->
-                                <div class="comment-info">
-                                    <small>${comment.commentDate}</small>
+            </div>
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <div class="categories">
+                        <h3>Bài Viết Mới Nhất</h3>
+                        <c:forEach items="${requestScope.top5}" var="top5">
+                            <div class="latest-post-item">
+                                <img src="img/${top5.images[0].imageUrl}" alt="Blog Image" class="latest-post-image">
+                                <div class="latest-post-info">
+                                    <h4><a href="blogdetail?blogId=${top5.blogId}" class="text-decoration-none">${top5.blogTitle}</a></h4>
+                                    <p class="post-date">Ngày: ${top5.blogTime}</p>
                                 </div>
-                                <div class="rating-stars">
-                                    <c:forEach begin="1" end="${comment.commentRating}">
-                                        &#9733;
-                                    </c:forEach>
-                                </div>
-
-                                <!-- Comment Content -->
-                                <p>${comment.commentInfor}</p>
                             </div>
                         </c:forEach>
                     </div>
-                    <div class="clearfix">
-                        <div class="hint-text text-muted">Showing <b>${page}</b> out of <b>${num}</b> pages comments</div>
-                        <ul class="pagination justify-content-center">
-                            <!-- Điều hướng về trang trước -->
-                            <c:if test="${page > 1}">
-                                <li class="page-item">
-                                    <a class="page-link" href="blogdetail?blogId=${blog.blogId}&page=${page - 1}&rating=${commentRating}">
-                                        <i class="fa fa-angle-double-left"></i>
-                                    </a>
-                                </li>
-                            </c:if>
-
-                            <!-- Vòng lặp phân trang -->
-                            <c:forEach begin="${(page - 1) <= 1 ? 1 : (page - 1)}" end="${page + 1 > num ? num : page + 1}" var="i">
-                                <c:choose>
-                                    <c:when test="${i == page}">
-                                        <!-- Trang hiện tại -->
-                                        <li class="page-item active">
-                                            <a class="page-link">${i}</a>
-                                        </li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <!-- Các trang khác -->
-                                        <li class="page-item">
-                                            <a href="blogdetail?blogId=${blog.blogId}&page=${i}&rating=${commentRating}" class="page-link">${i}</a>
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-
-                            <!-- Điều hướng về trang sau -->
-                            <c:if test="${page < num}">
-                                <li class="page-item">
-                                    <a class="page-link" href="blogdetail?blogId=${blog.blogId}&page=${page + 1}&rating=${commentRating}">
-                                        <i class="fa fa-angle-double-right"></i>
-                                    </a>
-                                </li>
-                            </c:if>
-                        </ul>
-                    </div>
-
-                    <!-- Post a Comment Section -->
-                    <c:choose>
-                        <c:when test="${sessionScope.account != null}">
-                            <form action="blogdetail?blogId=${blog.blogId}" method="post" class="comment-form">
-                                <textarea name="commentInfor" rows="4" class="form-control mb-3" placeholder="Nhập bình luận của bạn" required></textarea>
-                                <label for="rating">Đánh giá:</label>
-                                <select name="rating" class="form-control mb-3" required>
-                                    <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
-                                    <option value="4">&#9733;&#9733;&#9733;&#9733;</option>
-                                    <option value="3">&#9733;&#9733;&#9733;</option>
-                                    <option value="2">&#9733;&#9733;</option>
-                                    <option value="1">&#9733;</option>
-                                </select>
-                                <input type="hidden" name="commentDate" value="<%= LocalDateTime.now() %>">
-                                <input type="submit" value="Gửi bình luận" class="btn btn-primary">
-                            </form>
-                        </c:when>
-                        <c:otherwise>
-                            <p>Bạn cần <a href="login.jsp">đăng nhập</a> để bình luận.</p>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-            </div>
-
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <div class="categories">
-                    <h3>Bài Viết Mới Nhất</h3>
-                    <c:forEach items="${requestScope.top5}" var="top5">
-                        <div class="latest-post-item">
-                            <img src="img/${top5.images[0].imageUrl}" alt="Blog Image" class="latest-post-image">
-                            <div class="latest-post-info">
-                                <h4><a href="blogdetail?blogId=${top5.blogId}" class="text-decoration-none">${top5.blogTitle}</a></h4>
-                                <p class="post-date">Ngày: ${top5.blogTime}</p>
-                            </div>
-                        </div>
-                    </c:forEach>
                 </div>
             </div>
         </div>

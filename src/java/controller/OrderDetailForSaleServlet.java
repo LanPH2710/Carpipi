@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.awt.Image;
+import java.util.List;
 import model.Account;
 import model.OrderDetail;
 import model.Product;
@@ -67,7 +68,7 @@ public class OrderDetailForSaleServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        int orderDetailId = Integer.parseInt(request.getParameter("orderDetailId"));
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
 
         AccountDAO accountDao = new AccountDAO();
         OrderDAO orderDao = new OrderDAO();
@@ -75,19 +76,25 @@ public class OrderDetailForSaleServlet extends HttpServlet {
         Product product = new Product();
         ProductImage image = new ProductImage();
 
-        Account accountOrder = accountDao.getAccountById(6);
+        OrderDetail orderDetail = orderDao.getOrderDetail(orderId);
 
-        OrderDetail orderDetail = orderDao.getOrderDetail(orderDetailId);
+        Account accountOrder = accountDao.getAccountById(6);
+        
+       List<Account> allSaleName = accountDao.getAccountByRole();
+
+        Account saleInfo = accountDao.getAccountById(orderDetail.getSaleId());
 
         product = p.getProductById(orderDetail.getProductId());
 
         image = p.getOneImagesByProductId(orderDetail.getProductId());
 
         System.out.println(image.getImageUrl());
-        System.out.println(orderDetailId);
-        
+        System.out.println(orderId);
+
         session.setAttribute("image", image);
 
+        session.setAttribute("saleInfo", saleInfo);
+        request.setAttribute("allSaleName", allSaleName);
         session.setAttribute("product", product);
         session.setAttribute("orderDetail", orderDetail);
         session.setAttribute("accountOrder", accountOrder);

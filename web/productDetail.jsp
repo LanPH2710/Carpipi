@@ -218,7 +218,7 @@
                                 </form> &nbsp;&nbsp;
                                 <form action="addtocart" method="get" >
                                     <input type="hidden" name="productId" value="${pro.productId}">
-                                    <input type="hidden" name="quantity" id="quantityFieldCart" value="1">
+                                    <input type="hidden" name="quantity"  value="1">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fas fa-shopping-basket"></i> Add to cart
                                     </button>

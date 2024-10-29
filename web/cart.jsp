@@ -239,7 +239,7 @@
 
                                                     <td>
                                                         <div class="d-flex align-items-center">
-                                                            <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height: 150px; width: auto;">
+                                                            <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height: 150px; width: 250px;">
                                                             <a href="product-detail?productId=${C.product.productId}" class="mb-0 ms-3">${C.product.name}</a>
                                                         </div>
                                                     </td>

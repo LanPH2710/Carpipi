@@ -253,7 +253,7 @@
                                                     </div>
                                                     <a href="addtocart?productId=${pro.productId}&quantity=1" 
                                                        class="btn btn-default add-to-cart"
-                                                       onclick="showNotification()">
+                                                      >
                                                         <i class="fa fa-shopping-cart"></i>Add to cart
                                                     </a>
                                                 </div>                                            </div>

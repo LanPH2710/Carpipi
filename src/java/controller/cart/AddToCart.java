@@ -87,8 +87,9 @@ public class AddToCart extends HttpServlet {
                     // Thêm sản phẩm mới thành công
                    
                     int sizeCart = cartDAO.countCartsByUserId(userId);
+                    request.setAttribute("mesOfCart", "Sản đã được thêm vào giỏ");
                     session.setAttribute("sizeCart", sizeCart);
-                    response.sendRedirect(urlHistory);
+                     request.getRequestDispatcher(urlHistory).forward(request, response);
                 } else {
                     // Lỗi khi thêm sản phẩm mới
                     response.getWriter().write("Failed to add product to cart.");

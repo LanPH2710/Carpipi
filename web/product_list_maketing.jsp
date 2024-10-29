@@ -127,9 +127,9 @@
                             </a>
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form role="search" method="get" id="searchform" class="searchform">
+                                    <form action="proformarketing" method="get" id="searchform" class="searchform">
                                         <div>
-                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Search Keywords...">
+                                            <input type="text" class="form-control border rounded-pill" name="searchse" id="s" placeholder="Search Keywords...">
                                             <input type="submit" id="searchsubmit" value="Search">
                                         </div>
                                     </form>
@@ -144,7 +144,7 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <div>
+<!--                            <div>
                                 <h5 class="mb-0">Shop</h5>
 
                                 <nav aria-label="breadcrumb" class="d-inline-block mt-1">
@@ -154,7 +154,7 @@
                                     </ul>
                                 </nav>
 
-                            </div>
+                            </div>-->
 
                             <div class="mt-4 mt-sm-0">
                                 
@@ -373,11 +373,18 @@
                         </div><!--end row-->
 
 
-                        <h6 class="mt-4 mb-0">Categories</h6>
+                        <div class="clearfix">
 
+                        <ul class="pagination">
 
+                             
+                                <c:forEach begin="1" end="${endP}" var="i">
+                                    <li style="flex: 1 0 2% " class="${tag == i?"page-item active":"page-item"}"><a class="page-link" href="proformarketing?index=${i}&brandId=${chooseBrand}">${i}</a></li>
+                                </c:forEach>
 
-                        <h6 class="mt-4 mb-0">Popular Products</h6>
+                          
+                        </ul>
+                    </div> 
 
                     </div>
                 </div><!--end container-->

@@ -17,6 +17,8 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import java.util.Properties;
 import util.HashPassword;
+import jakarta.mail.internet.MimeUtility;
+import java.io.UnsupportedEncodingException;
 
 @WebServlet(name = "RegisterController", urlPatterns = {"/register"})
 public class RegisterController extends HttpServlet {
@@ -48,7 +50,7 @@ public class RegisterController extends HttpServlet {
         Account existingUser = dao.checkUserNameExists(userName);
         Account existingEmail = dao.checkEmailExists(email);
         Account existingMobile = dao.checkMobileExists(mobile);
-        
+
         // Check for errors
         if (!isEmailValid) {
             request.setAttribute("errorMessage", "Email không hợp lệ.");
@@ -116,22 +118,27 @@ public class RegisterController extends HttpServlet {
             message.setFrom(new InternetAddress("carpipi1904@gmail.com"));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
 
-            message.setSubject("Xác nhận đăng ký tài khoản");
-            String confirmationLink = "http://localhost:8015/Iter1_Test/confirm?email=" + toEmail; // Đảm bảo thay đổi 'yourapp' thành tên ứng dụng của bạn
-            message.setText("Vui lòng nhấp vào liên kết sau để xác nhận tài khoản của bạn: " + confirmationLink);
+//            message.setSubject("Xác nhận đăng ký tài khoản");
+                message.setSubject(MimeUtility.encodeText("Xác nhận đăng ký tài khoản", "UTF-8", "B"));
+            //String confirmationLink = "http://localhost:9999/Iter1_Test/confirm?email=" + toEmail; // Đảm bảo thay đổi 'yourapp' thành tên ứng dụng của bạn
+//            message.setText("Vui lòng nhấp vào liên kết sau để xác nhận tài khoản của bạn: " + confirmationLink);
+           // message.setContent("Vui lòng nhấp vào liên kết sau để xác nhận tài khoản của bạn: " + confirmationLink, "text/plain; charset=UTF-8");
+            String confirmationLink = "http://localhost:9999/Iter1_Test/confirm?email=" + toEmail;
+        String emailContent = "Vui lòng click vào link: " + confirmationLink;
+        message.setContent(emailContent, "text/plain; charset=UTF-8");
 
             // Gửi email
             Transport.send(message);
             System.out.println("Email xác nhận đã được gửi thành công.");
-        } catch (MessagingException e) {
+        } catch (MessagingException| UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
 
     private void forwardToRegisterPage(HttpServletRequest request, HttpServletResponse response,
-                                        String userName, String password, String firstName,
-                                        String lastName, int gender, String email,
-                                        String mobile, String address)
+            String userName, String password, String firstName,
+            String lastName, int gender, String email,
+            String mobile, String address)
             throws ServletException, IOException {
         // Set attributes for each field
         request.setAttribute("userName", userName);

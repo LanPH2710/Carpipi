@@ -59,6 +59,49 @@
             .text-danger {
                 color: red;
             }
+            .form-group {
+                margin-bottom: 15px;
+            }
+            .form-group label {
+                font-weight: bold;
+                display: block;
+                margin-bottom: 5px;
+            }
+            .form-group input, .form-group select {
+                width: 100%;
+                padding: 10px;
+                border-radius: 1px;
+                border: 1px #888f9d; /* Input border color */
+                height: 60px;
+                box-sizing: border-box;
+                background-color: #f8f8f8; /* Background color of input fields */
+                color: #888f9d; /* Text color inside inputs */
+                font-size: 16px;
+            }
+            .form-group-half {
+                width: 48%;
+                display: inline-block;
+            }
+            .form-group-full {
+                width: 100%;
+            }
+            .form-group input[type="submit"] {
+                background-color: #007bff;
+                color: white;
+                cursor: pointer;
+                border: none;
+                height: 60px;
+                width: 160px; /* Set button width to 160px */
+                display: block; /* Display block to make it a block-level element */
+                margin: 0 auto;
+            }
+            .form-group input[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+            .form-group-inline {
+                display: flex;
+                justify-content: space-between;
+            }
         </style>
     </head>
     <body>
@@ -75,14 +118,14 @@
                 <!-- Form -->
                 <form class="form-horizontal" action="newPassword" method="POST">
                     <!-- New Password Input -->
-                    <div class="form-group">
-                        <input type="password" name="password" placeholder="&#xf084; &nbsp; Mật Khẩu Mới"
-                               class="form-control border-info placeicon" required>
+                    <div class="form-group form-group-full">
+                        <label for="password">Mật Khẩu*</label>
+                        <input type="password" id="password" name="password" required>
                     </div>
                     <!-- Confirm Password Input -->
-                    <div class="form-group">
-                        <input type="password" name="confPassword" placeholder="&#xf084; &nbsp; Nhập Lại Mật Khẩu Mới"
-                               class="form-control border-info placeicon" required>
+                    <div class="form-group form-group-full">
+                        <label for="confPassword">Nhập Lại Mật Khẩu*</label>
+                        <input type="password" id="confPassword" name="confPassword" required>
                     </div>
                     <!-- Submit Button -->
                     <div class="form-group resetBtn">

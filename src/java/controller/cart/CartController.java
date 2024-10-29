@@ -61,7 +61,15 @@ public class CartController extends HttpServlet {
         double totalMoney = 0;
 
         // Calculate total money
+                // Update total money after the change
         
+        for (Cart cartItem : carts) {
+            totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+        }
+        session.setAttribute("messCart", "");
+        // Save the updated carts and total money back to session
+        
+        session.setAttribute("totalMoney", totalMoney);
 
         // Save carts and total money to session
         session.setAttribute("carts", carts);

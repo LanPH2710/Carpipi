@@ -229,6 +229,32 @@ public class AccountDAO extends DBContext {
 
     }
 
+//    public void insertAccount(Account acc) {
+//        try {
+//
+//            String sql = "INSERT INTO account "
+//                    + "(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar,status) "
+//                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//            PreparedStatement stm = connection.prepareStatement(sql);
+//            stm.setString(1, acc.getUserName());
+//            //stm.setString(2, hashedPassword);
+//            stm.setString(2, acc.getPassword());
+//            stm.setString(3, acc.getFirstName());
+//            stm.setString(4, acc.getLastName());
+//            stm.setInt(5, acc.getGender());
+//            stm.setString(6, acc.getEmail());
+//            stm.setString(7, acc.getMobile());
+//            stm.setString(8, acc.getAddress());
+//            stm.setInt(9, acc.getRoleId()); //role mac dinh - customer
+//            stm.setString(10, acc.getAvatar()); //ava mac dinh
+//            stm.setInt(11, 1);
+//            stm.executeUpdate();
+//            System.out.println("Account đã được thêm thành công!");
+//        } catch (SQLException e) {
+//            System.err.println("Lỗi khi thêm account: " + e.getMessage());
+//        }
+//    }
+    
     public void insertAccount(Account acc) {
         try {
 
@@ -338,9 +364,9 @@ public class AccountDAO extends DBContext {
 
     // Kiểm tra email có đúng định dạng không
     public boolean isValidEmail(String email) {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
-        return email != null && Pattern.compile(emailRegex).matcher(email).matches();
-    }
+    String emailRegex = "^[A-Za-z0-9+_.-]+@gmail\\.com$";
+    return email != null && Pattern.compile(emailRegex).matcher(email).matches();
+}
 
     // Kiểm tra số điện thoại có đúng định dạng không (10 số)
     public boolean isValidMobile(String mobile) {

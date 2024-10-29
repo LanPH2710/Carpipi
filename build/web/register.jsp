@@ -32,12 +32,16 @@
                 width: 600px;
                 position: relative;
             }
-            .h2 {
+            .strong {
                 text-align: center !important;
                 font-size: 35px !important; /* Increased font size */
-                margin-bottom: 20px !important;
+/*                margin-bottom: 20px !important;*/
+                display: block; /* Chuyển thành block */
                 position: relative !important;
                 top: -20px !important; /* Positioned higher */
+            }
+            h1 {
+                text-align: center;
             }
             .form-group {
                 margin-bottom: 15px;
@@ -89,7 +93,7 @@
         
         <div class="body">
             <div class="register-container">
-                <h2 class="h2">Đăng Ký</h2>
+                <strong class="strong">Đăng Ký</strong>
                 <c:if test="${not empty errorMessage}">
                     <div style="color:red;">${errorMessage}</div>
                 </c:if>

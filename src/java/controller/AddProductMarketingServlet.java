@@ -103,14 +103,38 @@ public class AddProductMarketingServlet extends HttpServlet {
         Product product = new Product();
         ProductDAO pDao = new ProductDAO();
 
-        String name = request.getParameter("name");
+        String id = request.getParameter("id").trim();
+        String name = request.getParameter("name").trim();
+        String priceStr = request.getParameter("price").trim();
+        String seatNumberStr = request.getParameter("seatNumber").trim();
+        String stockStr = request.getParameter("stock").trim();
+        String imageUrl = request.getParameter("imageUrl").trim();
+        String des = request.getParameter("des").trim();
 
-        String seatNumber = request.getParameter("seatNumber");
-        int seat = Integer.parseInt(seatNumber);
+// Kiểm tra các trường không được để trống
+        if (name.isEmpty() || priceStr.isEmpty() || seatNumberStr.isEmpty() || stockStr.isEmpty() || des.isEmpty()) {
+            request.setAttribute("errorMessage", "Vui lòng điền đầy đủ thông tin.");
+            request.getRequestDispatcher("addproductbymarketing.jsp").forward(request, response);
+            return;
+        }
 
-        String priceCar = request.getParameter("price");
-        double price = Double.parseDouble(priceCar);
+// Chuyển đổi chuỗi sang số và xử lý ngoại lệ
+        int price;
+        int seatNumber;
+        int stock;
+        try {
+            price = Integer.parseInt(priceStr);
+            seatNumber = Integer.parseInt(seatNumberStr);
+            stock = Integer.parseInt(stockStr);
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "Giá, số chỗ ngồi và số lượng phải là số hợp lệ.");
+            request.getRequestDispatcher("addproductbymarketing.jsp").forward(request, response);
+            return;
+        }
 
+// Tiếp tục xử lý lưu dữ liệu vào cơ sở dữ liệu
+
+      
         String brandCar = request.getParameter("brand");
         int brandId = Integer.parseInt(brandCar);
 
@@ -125,31 +149,19 @@ public class AddProductMarketingServlet extends HttpServlet {
 
         String fuel = request.getParameter("fuel");
 
-        String des = request.getParameter("des");
-
-        String stockCar = request.getParameter("stock");
-        int stock = Integer.parseInt(stockCar);
-
-        String tId = pDao.checkBrand(brandId);
-        String id = pDao.getProductToScanId(tId);
-
-        pDao.insertProduct(id, name, seat, price, fuel,
-                stock, des, 10, supplyId, 
-                brandId, segmentId, styleId);
-
-        System.out.println(tId);
-        System.out.println(id);
+        
+        pDao.insertProduct(des, name, seatNumber, price, fuel, stock, des, stock, supplyId, brandId, segmentId, styleId);
         System.out.println("name: " + name);
-        System.out.println("name: " + seat);
-        System.out.println("name: " +price);
-        System.out.println("name: " + brandId);
-        System.out.println("name: " + styleCar);
-        System.out.println("name: " + segmentCar);
-        System.out.println("name: " + suppliCar);
-        System.out.println("name: " + fuel);
-        System.out.println("name: " + des);
-        System.out.println("name: " + stockCar);
-       
+        System.out.println("seat: " + seatNumber);
+        System.out.println("price: " + price);
+        System.out.println("brand: " + brandId);
+        System.out.println("style: " + styleCar);
+        System.out.println("segment: " + segmentCar);
+        System.out.println("supply: " + suppliCar);
+        System.out.println("fuel: " + fuel);
+        System.out.println("des: " + des);
+        System.out.println("-------------------------------------");
+     
 
         response.sendRedirect("proformarketing");
     }

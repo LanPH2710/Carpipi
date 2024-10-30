@@ -20,10 +20,10 @@ import model.Role;
  */
 public class OrderDAO extends DBContext {
 
-    public OrderDetail getOrderDetail(int orderDetailId) {
+    public OrderDetail getOrderDetail(int orderId) {
         OrderDetail o = new OrderDetail();
         String sql = "SELECT acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
-                + "orr.*, od.orderDetailId, od.productId, od.shipperId, od.shippingAddress,\n"
+                + "orr.*, od.productId, orr.shipperId, od.shippingAddress,\n"
                 + "p.name\n"
                 + "FROM carpipi.order orr\n"
                 + "Join carpipi.account acc\n"
@@ -32,11 +32,11 @@ public class OrderDAO extends DBContext {
                 + "ON orr.orderId = od.orderId\n"
                 + "Join carpipi.product p\n"
                 + "ON od.productId = p.productId\n"
-                + "Where od.orderDetailId = ?";
+                + "Where od.orderId = ?";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, orderDetailId);
+            st.setInt(1, orderId);
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
@@ -47,13 +47,12 @@ public class OrderDAO extends DBContext {
                 o.setEmail(rs.getString("email"));
                 o.setGender(rs.getInt("gender"));
                 o.setOrderId(rs.getInt("orderId"));
-                o.setOrderDetailId(rs.getInt("orderDetailId"));
                 o.setProductId(rs.getString("productId"));
                 o.setCreateDate(rs.getString("createDate"));
                 o.setOrderStatus(rs.getInt("orderStatus"));
+                o.setSaleId(rs.getInt("saleId"));
                 o.setShipperId(rs.getInt("shipperId"));
                 o.setShippingAddress(rs.getString("shippingAddress"));
-                o.setProductId(rs.getString("productId"));
             }
 
         } catch (Exception e) {

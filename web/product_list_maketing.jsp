@@ -127,9 +127,9 @@
                             </a>
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form role="search" method="get" id="searchform" class="searchform">
+                                    <form action="proformarketing" method="get" id="searchform" class="searchform">
                                         <div>
-                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Search Keywords...">
+                                            <input type="text" class="form-control border rounded-pill" name="searchse" id="s" placeholder="Search Keywords...">
                                             <input type="submit" id="searchsubmit" value="Search">
                                         </div>
                                     </form>
@@ -144,7 +144,7 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <div>
+<!--                            <div>
                                 <h5 class="mb-0">Shop</h5>
 
                                 <nav aria-label="breadcrumb" class="d-inline-block mt-1">
@@ -154,10 +154,11 @@
                                     </ul>
                                 </nav>
 
-                            </div>
+                            </div>-->
 
                             <div class="mt-4 mt-sm-0">
-                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-product">Add Product</a>
+                                
+                                <a href="addbymarketing" class="btn btn-primary">Add Product</a>
                             </div>
                         </div>
 
@@ -363,7 +364,7 @@
                                                 </tbody>
                                             </table>
 
-                                            
+
                                         </div>
                                     </div>
                                 </div><!--end col-->
@@ -372,11 +373,18 @@
                         </div><!--end row-->
 
 
-                        <h6 class="mt-4 mb-0">Categories</h6>
+                        <div class="clearfix">
 
+                        <ul class="pagination">
 
+                             
+                                <c:forEach begin="1" end="${endP}" var="i">
+                                    <li style="flex: 1 0 2% " class="${tag == i?"page-item active":"page-item"}"><a class="page-link" href="proformarketing?index=${i}&brandId=${chooseBrand}">${i}</a></li>
+                                </c:forEach>
 
-                        <h6 class="mt-4 mb-0">Popular Products</h6>
+                          
+                        </ul>
+                    </div> 
 
                     </div>
                 </div><!--end container-->
@@ -445,12 +453,13 @@
         <!-- Offcanvas End -->
 
         <!-- Start Modal -->
-        <div class="modal fade" id="add-product" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header border-bottom p-3">
                         <h5 class="modal-title" id="exampleModalLabel">Add Shop Product</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                        <a href="addbymarketing"></a>
                     </div>
 
                     <div class="modal-body p-3 pt-4">

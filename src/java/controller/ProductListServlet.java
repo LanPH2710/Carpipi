@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Comparator;
 import java.util.List;
 import model.Brand;
 import model.Product;
@@ -47,7 +48,9 @@ public class ProductListServlet extends HttpServlet {
         String brandId = request.getParameter("brandId");
         String styleId = request.getParameter("styleId");
         String keyword = request.getParameter("keyword");
+            String sort = request.getParameter("sort");
 
+        
         if (pageParam != null) {
             page = Integer.parseInt(pageParam);
         }
@@ -65,11 +68,17 @@ public class ProductListServlet extends HttpServlet {
         } else if (styleId != null && !styleId.isEmpty()) {
             allPro = productDao.getAllProductByStyleId(styleId); 
             prefix = "au"; // Có thể thay đổi nếu bạn muốn
-        } else {
+        }
+        else {
             // Nếu không có brandId, lấy tất cả sản phẩm
             allPro = productDao.getAllProductsCommon();
             prefix = "Me";
         }
+        if ("asc".equals(sort)) {
+        allPro.sort(Comparator.comparing(Product::getPrice));  // Sắp xếp tăng dần theo giá
+    } else if ("desc".equals(sort)) {
+        allPro.sort(Comparator.comparing(Product::getPrice).reversed());  // Sắp xếp giảm dần theo giá
+    }
 
         int totalPro = allPro.size();
         // Tính toán chỉ số sản phẩm bắt đầu và kết thúc cho trang hiện tại
@@ -92,6 +101,7 @@ public class ProductListServlet extends HttpServlet {
         request.setAttribute("selectedBrandId", brandId);
         request.setAttribute("selectedStyleId", styleId);
         request.setAttribute("keyword", keyword);
+        request.setAttribute("sort", sort);
         session.setAttribute("urlHistory", "productlist");
         RequestDispatcher dispatcher = request.getRequestDispatcher("productList.jsp");
         dispatcher.forward(request, response);

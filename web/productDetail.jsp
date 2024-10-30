@@ -95,7 +95,11 @@
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-            <div class="container py-5">
+            <div class="container py-4">
+                <button onclick="window.history.back()" class="btn btn-primary" style="margin-bottom: 10px;">
+                    <span>X</span>
+                </button>
+
                 <div class="row">
                     <aside class="col-lg-7">
                         <div class="mb-3">
@@ -232,10 +236,10 @@
                     </div>
                 </main>
             </div>
-            <div id="notification" class="notification">
+<!--            <div id="notification" class="notification">
                 Sản phẩm đã được thêm vào giỏ hàng !
                 <div class="timeline" id="timeline"></div>
-            </div>
+            </div>-->
             <section class="bg-light border-top py-4 mt-5">
                 <div class="row">
                     <div class="col-lg-8">

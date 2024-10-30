@@ -43,11 +43,68 @@
             .col-6{
                 font-size: 1.25rem;
             }
+            #colorSelect {
+                border: 1px solid #007bff;
+                border-radius: 0.25rem;
+                padding: 0.375rem 0.75rem;
+                font-size: 1rem;
+            }
         </style>
+        <style>
+            .message-popup {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: #4CAF50;
+                color: white;
+                padding: 15px;
+                border-radius: 5px;
+                z-index: 1000;
+                display: none;
+                animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                }
+                to {
+                    opacity: 0;
+                }
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Kiểm tra nếu có thông báo
+                var message = "${mesOfCart}";
+                if (message && message.trim() !== "") {
+                    var messageDiv = document.getElementById("message");
+                    messageDiv.style.display = "block";
+
+                    // Tự động ẩn sau 3 giây
+                    setTimeout(function () {
+                        messageDiv.style.display = "none";
+                    }, 3000);
+                }
+            });
+        </script>
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-            <div class="container py-5">
+            <div class="container py-4">
+                <button onclick="window.history.back()" class="btn btn-primary" style="margin-bottom: 10px;">
+                    <span>X</span>
+                </button>
+
                 <div class="row">
                     <aside class="col-lg-7">
                         <div class="mb-3">
@@ -64,6 +121,9 @@
                                 <img src="${photo.imageUrl}" class="rounded-2" width="80" height="60" alt="Thumbnail">
                             </a>
                         </c:forEach>
+                    </div>
+                    <div id="message" class="message-popup" style="display: none;">
+                        ${mesOfCart}
                     </div>
                 </aside>
 
@@ -119,6 +179,25 @@
                     </div>
                     <hr>
                     <div class="mb-4">
+                        <label class="mb-2 h6">Màu sắc</label>
+                        <select class="form-control w-auto" name="colorId" id="colorSelect" onchange="updateColorValue()">
+                            <option value="" disabled selected>Chọn màu sắc</option>
+                            <c:forEach items="${color}" var="color">
+                                <option value="${color.colorId}">${color.colorName}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <script>
+                        function updateColorValue() {
+                            // Lấy giá trị của select
+                            var colorSelect = document.getElementById('colorSelect');
+                            var selectedColor = colorSelect.options[colorSelect.selectedIndex].value;
+
+                            // Cập nhật giá trị vào input ẩn
+                            document.getElementById('colorInput').value = selectedColor;
+                        }
+                    </script>
+                    <div class="mb-4">
                         <label class="mb-2 h6">Số lượng</label>
                         <div class="input-group mb-3">
                             <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity('quantity1')">
@@ -165,8 +244,9 @@
                                     <input type="hidden" name="quantity" id="quantityFieldPayment" value="1">
                                     <button type="submit" class="btn btn-warning">Buy now</button>
                                 </form> &nbsp;&nbsp;
-                                <form action="addtocart" method="get" onsubmit="alert('Item has been added to your cart!')">
+                                <form action="addtocart" method="get">
                                     <input type="hidden" name="productId" value="${pro.productId}">
+                                    <input type="hidden" name="color" id="colorInput" value="">
                                     <input type="hidden" name="quantity" id="quantityFieldCart" value="1">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fas fa-shopping-basket"></i> Add to cart
@@ -181,10 +261,10 @@
                     </div>
                 </main>
             </div>
- <div id="notification" class="notification">
-            Sản phẩm đã được thêm vào giỏ hàng !
-            <div class="timeline" id="timeline"></div>
-        </div>
+            <!--            <div id="notification" class="notification">
+                            Sản phẩm đã được thêm vào giỏ hàng !
+                            <div class="timeline" id="timeline"></div>
+                        </div>-->
             <section class="bg-light border-top py-4 mt-5">
                 <div class="row">
                     <div class="col-lg-8">

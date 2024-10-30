@@ -24,12 +24,12 @@ public class FilterRole implements Filter {
 
     // Method to return URLs for different role-based requests
     private List<String> getAdminUrls() {
-        return Arrays.asList("/userdetails", "/admin", "/settingsList","/userlist");
+        return Arrays.asList("/userdetails", "/admin", "/settingsList","/userlist","addUser");
     }
 
     private List<String> getAdminMarketingUrls() {
-        return Arrays.asList("/sliderDetails", "/addcustomer", "/customerlist", "/postList", 
-                             "/postDetails", "/productDetails", "/feedbacksList", "/dash", "/proformarketing","/SliderList","/editproductbymarketing");
+        return Arrays.asList("/sliderDetails", "/addcustomer", "/customerlist", "/postlist", 
+                             "/postdetail", "/productDetails", "/feedbacksList", "/dash", "/proformarketing","/SliderList","/editproductbymarketing");
     }
 
     private List<String> getSaleAdminUrls() {

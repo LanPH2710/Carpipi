@@ -160,7 +160,7 @@
                                                 </ul>
                                                 <a href="blogdetail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogTitle}</a>
                                                 <div class="post-meta d-flex justify-content-between mt-3">
-                                                    <a href="blogdetail?blogId=${blog.blogId}" class="section-btn btn btn-primary btn-block">Đọc thêm</a>
+                                                    <a href="postdetail?blogId=${blog.blogId}" class="section-btn btn btn-primary btn-block">Đọc thêm</a>
                                                     <a href="editblogbymarketing?blogId=${blog.blogId}" class="section-btn btn btn-primary">Chỉnh sửa</a>
 
                                                     <c:choose>

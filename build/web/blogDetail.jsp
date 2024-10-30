@@ -205,11 +205,13 @@
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-
             <!-- Main Content Section -->
             <div class="container1">
                 <!-- Blog Content -->
                 <div class="blog-content">
+                    <button onclick="window.history.back()" class="btn btn-primary" style="margin-bottom: 10px;">
+                        <span>X</span>
+                    </button>
                     <h1 class="blog-title">${blog.blogTitle}</h1>
                 <div class="blog-meta"><b>Tác giả: </b>${author} | <b>Ngày: </b>${blog.blogTime} | <b>Thể loại: </b>${topic}</div>
 

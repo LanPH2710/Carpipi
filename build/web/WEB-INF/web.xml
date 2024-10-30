@@ -11,8 +11,8 @@
         <url-pattern>/userdetails</url-pattern>
         <url-pattern>/orderlist</url-pattern>
         <url-pattern>/sliderDetails</url-pattern>
-        <url-pattern>/postList</url-pattern>
-        <url-pattern>/postDetails</url-pattern>
+        <url-pattern>/postlist</url-pattern>
+        <url-pattern>/postdetail</url-pattern>
         <url-pattern>/productDetails</url-pattern>
         <url-pattern>/feedbacksList</url-pattern>
         <url-pattern>/setting</url-pattern>
@@ -26,6 +26,7 @@
         <url-pattern>/settingsList</url-pattern>
         <url-pattern>/editproductbymarketing</url-pattern>
         <url-pattern>/image</url-pattern>
+        <url-pattern>/addUser</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
@@ -132,14 +133,16 @@
         <servlet-class>controller.ChangePasswordServlet</servlet-class>
     </servlet>
     <servlet>
-
         <servlet-name>EditProductImageServlet</servlet-name>
         <servlet-class>controller.marketing.EditProductImageServlet</servlet-class>
-        </servlet>
-        <servlet>
+    </servlet>
+    <servlet>
         <servlet-name>SliderDetailServlet</servlet-name>
         <servlet-class>controller.marketing.SliderDetailServlet</servlet-class>
-
+    </servlet>
+    <servlet>
+        <servlet-name>PostDetail</servlet-name>
+        <servlet-class>controller.marketing.PostDetail</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
@@ -246,12 +249,15 @@
         <url-pattern>/changepassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>EditProductImageServlet</servlet-name>
         <url-pattern>/image</url-pattern>
-</servlet-mapping><servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>SliderDetailServlet</servlet-name>
         <url-pattern>/sliderdetail</url-pattern>
-
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostDetail</servlet-name>
+        <url-pattern>/postdetail</url-pattern>
     </servlet-mapping>
 </web-app>

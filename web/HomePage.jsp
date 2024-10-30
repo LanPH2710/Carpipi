@@ -187,16 +187,7 @@
                                             <a href="carts">CART</a>
                                         </li>
                                     </c:if>
- <c:set var="sizeCart" value="${sessionScope.sizeCart}"/>
-                <span class="headerN">
-                    <a href="carts" style="text-decoration:none; color: white; position: relative;">
-                        <i class="fa fa-shopping-cart"></i>
-                        <span style="margin-left: 5px;">Giỏ Hàng</span>
-                        <c:if test="${sizeCart > 0}">
-                            <span class="cart-amount">${sizeCart}</span>
-                        </c:if>
-                    </a>
-                </span>
+ 
                                     <c:choose>
                                         <c:when test="${sessionScope.account == null}">
                                             <li></li>
@@ -272,7 +263,7 @@
                 </div><!--/.new-cars-content-->
             </div><!--/.container-->
         </section><!--/.new-cars-->
-        <!--new-cars end -->-->
+        <!--new-cars end -->
         <!--new-cars end -->
 
 

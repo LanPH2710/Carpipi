@@ -47,6 +47,25 @@ public class CartDAO extends DBContext {
 //        }
 //    }
 
+   public int getQuantityByUserIdAndProductId(int userId, String productId) {
+    String sql = "SELECT quantity FROM cart WHERE userId = ? AND productId = ? AND isDeleted = 0";
+    int quantity = -1; // Default to -1 if no cart item is found
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, userId);
+        ps.setString(2, productId);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                quantity = rs.getInt("quantity");
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); // You could also log the exception instead of printing it
+    }
+
+    return quantity;
+}
     public int getCartIdByUserIdAndProductId(int userId, String productId) throws SQLException {
         String sql = "SELECT cartId FROM cart WHERE userId = ? AND productId = ? AND isDeleted = 0";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -165,19 +184,21 @@ public class CartDAO extends DBContext {
     }
 
     // Phương thức cập nhật số lượng sản phẩm trong giỏ hàng
-    public void updateCart2(int cartId, int userId, String productId, int quantity) {
-        String sql = "UPDATE cart SET quantity = ? WHERE cartId = ? AND userId = ? AND productId = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, quantity); // Set the quantity directly
-            ps.setInt(2, cartId);   // Include cartId in the update condition
-            ps.setInt(3, userId);
-            ps.setString(4, productId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Error updating cart: " + e.getMessage());
-            e.printStackTrace();
-        }
+   public void updateCart2(int cartId, int userId, String productId, int quantity, int isSelect) {
+    String sql = "UPDATE cart SET quantity = ?, isSelect = ? WHERE cartId = ? AND userId = ? AND productId = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, quantity); // Set the quantity directly
+        ps.setInt(2, isSelect); // Set isSelect in the SET clause
+        ps.setInt(3, cartId);   // Include cartId in the update condition
+        ps.setInt(4, userId);
+        ps.setString(5, productId);
+        ps.executeUpdate();
+    } catch (SQLException e) {
+        System.err.println("Error updating cart: " + e.getMessage());
+        e.printStackTrace();
     }
+}
+
 
     public void updateCart3(int userId, String productId, int quantity) {
         String sql = "UPDATE cart SET quantity = ? WHERE cartId = ? AND userId = ? AND productId = ? AND isDeleted = 0";

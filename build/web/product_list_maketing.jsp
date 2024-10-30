@@ -1,693 +1,563 @@
+
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="java.util.List" %>
-
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Marketing</title>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="css/styleoze.css">
+        <title>Doctris - Doctor Appointment Booking System</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
+        <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
+        <meta name="author" content="Shreethemes" />
+        <meta name="email" content="support@shreethemes.in" />
+        <meta name="website" content="../../../index.html" />
+        <meta name="Version" content="v1.2.0" />
+        <!-- favicon -->
+        <link rel="shortcut icon" href="assets1/images/favicon.ico.png">
+        <!-- Bootstrap -->
+        <link href="assets1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- simplebar -->
+        <link href="assets1/css/simplebar.css" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="assets1/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets1/css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
+        <!-- Css -->
+        <link href="assets1/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
 
         <style>
-            .table-responsive {
-                margin: 3px 100px;
-            }
-            .table-wrapper {
-                background: #fff;
-                padding: 20px 25px;
-                border-radius: 3px;
-                min-width: 1000px;
-                box-shadow: 0 1px 1px rgba(0,0,0,.05);
-            }
-            .table-title {
-                padding-bottom: 15px;
-                background: #435d7d;
-                color: #fff;
-                padding: 16px 30px;
-                min-width: 100%;
-                margin: -20px -25px 10px;
-                border-radius: 3px 3px 0 0;
-            }
-            .table-title h2 {
-                margin: 5px 0 0;
-                font-size: 24px;
-            }
-            .table-title .btn-group {
-                float: right;
-            }
-            .table-title .btn {
-                color: #fff;
-                float: right;
-                font-size: 13px;
-                border: none;
-                min-width: 50px;
-                border-radius: 2px;
-                border: none;
-                outline: none !important;
-                margin-left: 10px;
-            }
-            .table-title .btn i {
-                float: left;
-                font-size: 21px;
-                margin-right: 5px;
-            }
-            .table-title .btn span {
-                float: left;
-                margin-top: 2px;
-            }
-            table.table tr th, table.table tr td {
-                border-color: #e9e9e9;
-                padding: 12px 15px;
-                vertical-align: middle;
-            }
-            table.table tr th:first-child {
-                width: 60px;
-            }
-            table.table tr th:last-child {
-                width: 100px;
-            }
-            table.table-striped tbody tr:nth-of-type(odd) {
-                background-color: #fcfcfc;
-            }
-            table.table-striped.table-hover tbody tr:hover {
-                background: #f5f5f5;
-            }
-            table.table th i {
-                font-size: 13px;
-                margin: 0 5px;
-                cursor: pointer;
-            }
-            table.table td:last-child i {
-                opacity: 0.9;
-                font-size: 22px;
-                margin: 0 5px;
-            }
-            table.table td a {
-                font-weight: bold;
-                color: #566787;
-                display: inline-block;
-                text-decoration: none;
-                outline: none !important;
-            }
-            table.table td a:hover {
-                color: #2196F3;
-            }
-            table.table td a.edit {
-                color: #FFC107;
-            }
-            table.table td a.delete {
-                color: #F44336;
-            }
-            table.table td i {
-                font-size: 19px;
-            }
-            table.table .avatar {
-                border-radius: 50%;
-                vertical-align: middle;
-                margin-right: 10px;
-            }
-            .pagination {
-                float: right;
-                margin: 0 0 2px;
-            }
-            .pagination li a {
-                border: none;
-                font-size: 13px;
-                min-width: 20px;
-                min-height: 30px;
-                color: #000;
-                margin: 0 2px;
-                line-height: 30px;
-                border-radius: 2px !important;
-                text-align: center;
-                padding: 0 6px;
-            }
-            .pagination li a:hover {
-                color: #666;
-            }
-            .pagination li.active a, .pagination li.active a.page-link {
-                background: #03A9F4;
-            }
-            .pagination li.active a:hover {
-                background: #0397d6;
-            }
-            .pagination li.disabled i {
-                color: #ccc;
-            }
-            .pagination li i {
-                font-size: 16px;
-                padding-top: 6px
-            }
-            .hint-text {
-                float: left;
-                margin-top: 10px;
-                font-size: 13px;
-            }
-            /* Custom checkbox */
-            .custom-checkbox {
-                position: relative;
-            }
-            .custom-checkbox input[type="checkbox"] {
-                opacity: 0;
-                position: absolute;
-                margin: 5px 0 0 3px;
-                z-index: 9;
-            }
-            .custom-checkbox label:before{
-                width: 18px;
-                height: 18px;
-            }
-            .custom-checkbox label:before {
-                content: '';
-                margin-right: 10px;
-                display: inline-block;
-                vertical-align: text-top;
-                background: white;
-                border: 1px solid #bbb;
-                border-radius: 2px;
-                box-sizing: border-box;
-                z-index: 2;
-            }
-            .custom-checkbox input[type="checkbox"]:checked + label:after {
-                content: '';
-                position: absolute;
-                left: 6px;
-                top: 3px;
-                width: 6px;
-                height: 11px;
-                border: solid #000;
-                border-width: 0 3px 3px 0;
-                transform: inherit;
-                z-index: 3;
-                transform: rotateZ(45deg);
-            }
-            .custom-checkbox input[type="checkbox"]:checked + label:before {
-                border-color: #03A9F4;
-                background: #03A9F4;
-            }
-            .custom-checkbox input[type="checkbox"]:checked + label:after {
-                border-color: #fff;
-            }
-            .custom-checkbox input[type="checkbox"]:disabled + label:before {
-                color: #b8b8b8;
-                cursor: auto;
-                box-shadow: none;
-                background: #ddd;
-            }
-            /* Modal styles */
-            .modal .modal-dialog {
-                max-width: 400px;
-            }
-            .modal .modal-header, .modal .modal-body, .modal .modal-footer {
-                padding: 20px 30px;
-            }
-            .modal .modal-content {
-                border-radius: 3px;
-                font-size: 14px;
-            }
-            .modal .modal-footer {
-                background: #ecf0f1;
-                border-radius: 0 0 3px 3px;
-            }
-            .modal .modal-title {
-                display: inline-block;
-            }
-            .modal .form-control {
-                border-radius: 2px;
-                box-shadow: none;
-                border-color: #dddddd;
-            }
-            .modal textarea.form-control {
-                resize: vertical;
-            }
-            .modal .btn {
-                border-radius: 2px;
-                min-width: 100px;
-            }
-            .modal form label {
-                font-weight: normal;
-            }
-
-
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: "Poppins", sans-serif;
-            }
-
-            body {
-                min-height: 100vh;
-                background: #F0F4FF;
-            }
-
-            .sidebarr{
-                margin-top: 50px;
-            }
-
-            .sidebar{
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100%;
-                width: 260px;
+            .col {
                 display: flex;
-                overflow-x: hidden;
+                align-items: stretch;
+            }
+
+            .card {
+                flex-grow: 1;
+                display: flex;
                 flex-direction: column;
-                background: none;
-                padding: 2px 10px;
-                margin-top: 140px;
-                transition: all 0.4s ease;
             }
 
-            .sidebar:hover {
-
-
-
+            .shop-image {
+                height: 200px; /* Chiều cao cố định cho khung chứa ảnh */
+                overflow: hidden;
+                border-radius: 8px; /* Thêm nếu muốn ảnh bo góc */
             }
 
-            .sidebar .sidebar-header {
-                display: flex;
-                align-items: center;
+            .shop-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover; /* Ảnh sẽ căn chỉnh và giữ tỷ lệ */
             }
 
-            .sidebar .logo {
-                width: 40px;
-
-                border-radius: 50%;
-            }
-
-            .sidebar .sidebar-header h2 {
-                color: #fff;
-                font-size: 1.25rem;
-                font-weight: 600;
-                white-space: nowrap;
-                margin-left: 23px;
-            }
-
-            .sidebar-links h4 {
-                color: #161a2d;
-                font-weight: 500;
-                white-space: nowrap;
-                margin: 10px 10px;
-                position: relative;
-            }
-
-            .sidebar-links h4 span {
-
-            }
-
-            .sidebar:hover .sidebar-links h4 span {
-                opacity: 1;
+            li {
+                flex: 1 0 30%; /* Chia mỗi phần tử chiếm 30% chiều rộng, đảm bảo 3 phần tử trong mỗi hàng */
+                margin: 5px; /* Thêm khoảng cách giữa các phần tử */
+                text-align: start;
             }
 
 
-
-            .sidebar:hover .sidebar-links .menu-separator {
-                transition-delay: 0s;
-                transform: scaleX(0);
-            }
-
-            .sidebar-links {
-                list-style: none;
-                margin-top: 10px;
-
-                height: 80%;
-                overflow-y: auto;
-                scrollbar-width: none;
-            }
-
-            .sidebar-links::-webkit-scrollbar {
-                display: none;
-            }
-
-            .sidebar-links li a {
-                display: flex;
-                align-items: center;
-                gap: 0 20px;
-                color: 161a2d;
-                font-weight: 500;
-                white-space: nowrap;
-                padding: 15px 1px;
-
-                text-decoration: none;
-                transition: 0.2s ease;
-            }
-
-            .sidebar-links li a:hover {
-                color: #161a2d;
-                background: #fff;
-                border-radius: 4px;
-            }
-
-            .user-account {
-                margin-top: auto;
-                padding: 12px 10px;
-                margin-left: -10px;
-            }
-
-            .user-profile {
-                display: flex;
-                align-items: center;
-                color: #161a2d;
-                cursor: pointer;
-            }
-
-            .user-profile img {
-                width: 40px;
-
-                border-radius: 50%;
-
-                border: 1px solid #fff;
-            }
-
-
-            .user-profile a{
-                text-decoration: none;
-
-            }
-
-            .user-profile h3 {
-                font-size: 1rem;
-                font-weight: 600;
-            }
-
-            .user-profile span {
-                font-size: 0.775rem;
-                font-weight: 600;
-            }
-
-            .user-detail {
-                margin-left: 23px;
-                white-space: nowrap;
-            }
-
-            .sidebar:hover .user-account {
-                background: #fff;
-                border-radius: 4px;
-            }
         </style>
-        <script>
-            $(document).ready(function () {
-                // Activate tooltip
-                $('[data-toggle="tooltip"]').tooltip();
 
-                // Select/Deselect checkboxes
-                var checkbox = $('table tbody input[type="checkbox"]');
-                $("#selectAll").click(function () {
-                    if (this.checked) {
-                        checkbox.each(function () {
-                            this.checked = true;
-                        });
-                    } else {
-                        checkbox.each(function () {
-                            this.checked = false;
-                        });
-                    }
-                });
-                checkbox.click(function () {
-                    if (!this.checked) {
-                        $("#selectAll").prop("checked", false);
-                    }
-                });
-            });
-        </script>
     </head>
+
     <body>
-        <div class="container-xl">
-            <div class="table-responsive">
-                <div class="table-wrapper">
-                    <div class="table-title">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <a href="home"><b style="background-color:  #DA0835; color: white;">Back to Home</b></a><h2>Manage <b>Products</b></h2>
-                            </div>
-                            <div class="col-sm-6">
-                                <a href="addbymarketing" class="btn btn-success"><i class="material-icons"></i><span>Add New Product</span></a>
-                            </div>
-                            <div class="col-sm-2">
-                                <form action="proformarketing" method="get"  style="margin: 2px 2px">
-                                    <input type="text" placeholder="Tìm kiếm sản phẩm" name="searchse">
-                                    </br>
-                                    <input type="submit" value="Tìm">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                            <tr class="heading">
-                        <form action="proformarketing" method="get">  
-                                <th>
-                                    ID
-                                    <select name="orderId">
-                                        <option value="1">
-                                        <p>Bé nhất</p>
-                                        </option>
-                                        <option value="2">
-                                        <p>Lớn nhất</p>
-                                        </option>
-                                    </select>
-                                </th>
-                                <th>
-                                    Ảnh
-                                    
-                                </th>
-                                <th>
-                                    Tên xe     
-                                    <select name="orderName">
-                                        <option value="1">
-                                        <p>Bé nhất</p>
-                                        </option>
-                                        <option value="2">
-                                        <p>Lớn nhất</p>
-                                        </option>
-                                    </select>
-                                </th>
-                                <th>Số chỗ</th>
-                                <th>
-                                    Giá
-                                    <select name="orderPrice">
-                                        <option value="1">
-                                        <p>Bé nhất</p>
-                                        </option>
-                                        <option value="2">
-                                        <p>Lớn nhất</p>
-                                        </option>
-                                    </select>
-                                </th>
-                                <th>Thương hiệu</th>              
-                                <!--                                <th>Kiểu dáng</th>-->
-                                <!--                                <th>Nhà cung cấp</th>-->
-                                <th>Phân khúc</th>
-
-                                <th>Số lượng</th>
-                                <th>Chi tiết</th>
-                                <th><input type="submit" value="Lọc"></th>
-                            </tr>
-                            </form>
-                        </thead>
-
-                        <tbody>
-
-
-                            <c:if test="${chooseBrand == null}">
-                                <c:forEach items="${listProduct}" var="product">
-                                    <tr>
-                                        <td>${product.productId}</td>
-                                        <td>
-                                            <c:forEach items="${imageList}" var="image">
-                                                <c:if test="${image.productId == product.productId}">
-                                                    <img style="width: 80px" src="${image.imageUrl}" alt="Xe">
-                                                </c:if>
-
-                                            </c:forEach>
-                                        </td>
-                                        <td>${product.name}</td>
-                                        <td>${product.seatNumber}</td>
-                                        <td><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></td>
-                                        <td>
-                                            <c:forEach items="${requestScope.brandList}" var="brandList">
-                                                <c:if test="${brandList.brandId == product.brandId}">
-                                                    ${brandList.brandName}
-                                                </c:if>
-                                            </c:forEach>
-                                        </td>
-                                        <td>
-                                            <c:forEach items="${requestScope.segmentList}" var="segmentList">
-                                                <c:if test="${segmentList.segmentId == product.segmentId}">
-                                                    ${segmentList.segmentName}
-                                                </c:if>
-                                            </c:forEach>
-                                        </td>
-                                        <td>${product.stock}</td>
-                                        <td>
-                                            <a href="editproductbymarketing?id=${product.productId}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </c:if>
-
-                            <c:if test="${chooseBrand != null}">
-                                <c:forEach items="${productListGetBrand}" var="productBrand">
-                                    <tr>
-                                        <td>${productBrand.productId}</td>
-                                        <td>
-                                            <c:forEach items="${imageList}" var="image">
-                                                <c:if test="${image.productId == productBrand.productId}">
-                                                    <img style="width: 80px" src="${image.imageUrl}" alt="Xe">                                                </c:if>
-
-                                            </c:forEach>
-                                        </td>
-                                        <td>${productBrand.name}</td>
-                                        <td>${productBrand.seatNumber}</td>
-                                        <td><fmt:formatNumber value="${productBrand.getPrice()}" type="number" pattern="#,###"/></td>
-                                        <td>
-                                            <c:forEach items="${requestScope.brandList}" var="brandList">
-                                                <c:if test="${brandList.brandId == productBrand.brandId}">
-                                                    ${brandList.brandName}
-                                                </c:if>
-                                            </c:forEach>
-                                        </td>
-                                        <td>
-                                            <c:forEach items="${requestScope.segmentList}" var="segmentList">
-                                                <c:if test="${segmentList.segmentId == productBrand.segmentId}">
-                                                    ${segmentList.segmentName}
-                                                </c:if>
-                                            </c:forEach>
-                                        </td>
-                                        <td>${productBrand.stock}</td>
-                                        <td>
-                                            <a href="editbymarketing?id=${productBrand.productId}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                            <a href="delete?id=${o.id}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-
-                            </c:if>
-
-                        </tbody>
-
-                    </table>
-                    <div class="clearfix">
-
-                        <ul class="pagination">
-
-                            <li class="page-item disabled"><a href="#">Previous</a></li>
-                                <c:forEach begin="1" end="${endP}" var="i">
-                                <li class="${tag == i?"page-item active":"page-item"}"><a class="page-link" href="proformarketing?index=${i}&brandId=${chooseBrand}">${i}</a></li>
-                                </c:forEach>
-
-                            <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                        </ul>
-                    </div> 
-
-                </div>
-            </div>        
-        </div>
-        <div class="sidebarr">
-            <aside class="sidebar">
-
-                <ul class="sidebar-links">
-
-                    <a href="proformarketing">
-                        <h4>
-                            <span>Brand</span>
-                            <div class="menu-separator"></div>
-                        </h4>
-                    </a>
-                    <li>
-                        <a href="proformarketing?brandId=ME"><span class="logo"><img class="logo" src="https://clipground.com/images/benz-logo-png-17.png" alt="profile-img"></span>Mercedes</a>
-                    </li>
-                    <li>
-                        <a href="proformarketing?brandId=PO"><span class="logo"><img class="logo" src="https://logos-world.net/wp-content/uploads/2021/04/Porsche-Logo.png" alt="profile-img"></span>Posche</a>
-                    </li>
-                    <li>
-                        <a href="proformarketing?brandId=AU"><span class="logo"><img class="logo" src="https://clipground.com/images/audi-logo-png-4.png" alt="profile-img"></span>Audi</a>
-                    </li>
-                    <li>
-                        <a href="proformarketing?brandId=BM"><span class="logo"><img style="width: 35px" class="logo" src="assets/images/brand/BMW.png"></span>BMW</a>
-                    </li>
-                    <li>
-                        <a href="proformarketing?brandId=VO"><span class="logo"><img style="width: 35px" class="logo" src="https://i.pinimg.com/736x/6f/f0/51/6ff0512fd6d6ccff695ba4bfcee36816.jpg" alt="profile-img"></span>Volkswagen</a>
-                    </li>
-
-                </ul>
-
-            </aside>
-        </div>
-        <!-- Edit Modal HTML -->
-        <div id="addEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="add" method="Post">
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Add Product</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" name="name" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Image</label>
-                                <input type="text" name="image" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Brand</label>
-                                <select name="brand">
-                                    <c:forEach var="o" items="${brand}">
-                                        <option value="${o.id}">${o.name}</option>
-
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Category</label>
-                                <select name="category">
-                                    <c:forEach var="o" items="${category}">
-                                        <option value="${o.id}">${o.name}</option>
-
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input type="text" name="price" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Stock</label>
-                                <input type="number" name="stock" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea name="description" class="form-control" required></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Add">
-                        </div>
-                    </form>
+        <!-- Loader -->
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
                 </div>
             </div>
         </div>
-        <!-- Edit Modal HTML -->
+        <!-- Loader -->
+
+        <div class="page-wrapper doctris-theme toggled">
+            <nav id="sidebar" class="sidebar-wrapper">
+                <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
+                    <div class="sidebar-brand">
+                        <a href="index.html">
+                            <img src="assetsSlider/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
+                            <img src="assetsSlider/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                        </a>
+                    </div>
+                    <ul class="sidebar-menu pt-3">
+                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                        <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
+                        <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
+                        <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
+                        <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
+                        <li><a href="postlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>Post List</a></li>
+                    </ul>
+                    <!-- sidebar-menu  -->
+                </div>
+                <!-- sidebar-content  -->
+                <ul class="sidebar-footer list-unstyled mb-0">
+                    <li class="list-inline-item mb-0 ms-1">
+                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary">
+                            <i class="uil uil-comment icons"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- sidebar-wrapper  -->
+
+            <!-- Start Page Content -->
+            <main class="page-content bg-light">
+                <div class="top-header">
+                    <div class="header-bar d-flex justify-content-between border-bottom">
+                        <div class="d-flex align-items-center">
+                            <a href="#" class="logo-icon">
+                                <img src="assets1/images/logo-icon.png" height="30" class="small" alt="">
+                                <span class="big">
+                                    <img src="assets1/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
+                                    <img src="assets1/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                                </span>
+                            </a>
+                            <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
+                                <i class="uil uil-bars"></i>
+                            </a>
+                            <div class="search-bar p-0 d-none d-lg-block ms-2">
+                                <div id="search" class="menu-search mb-0">
+                                    <form action="proformarketing" method="get" id="searchform" class="searchform">
+                                        <div>
+                                            <input type="text" class="form-control border rounded-pill" name="searchse" id="s" placeholder="Search Keywords...">
+                                            <input type="submit" id="searchsubmit" value="Search">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
 
 
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="layout-specing">
+                        <div class="d-md-flex justify-content-between">
+<!--                            <div>
+                                <h5 class="mb-0">Shop</h5>
+
+                                <nav aria-label="breadcrumb" class="d-inline-block mt-1">
+                                    <ul class="breadcrumb breadcrumb-muted bg-transparent rounded mb-0 p-0">
+                                        <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Shop</li>
+                                    </ul>
+                                </nav>
+
+                            </div>-->
+
+                            <div class="mt-4 mt-sm-0">
+                                
+                                <a href="addbymarketing" class="btn btn-primary">Add Product</a>
+                            </div>
+                        </div>
+
+                        <h6 class="mt-4 mb-0">Most Viewed Products</h6>
+
+                        <div class="container">
+                            <div class="row row-cols-auto">
+                                <div class="col">
+                                    <a href="product?brandId=ME&page=1"><button class="btn btn-outline-primary">Tất cả</button></a>
+                                </div>
+                                <c:forEach var="brand" items="${brandList}">
+                                    <div class="col">
+                                        <a href="proformarketing?brandId=${brand.brandId}"><button class="btn btn-outline-primary">${brand.brandName}</button></a>
+                                    </div>
+                                </c:forEach>
+
+                            </div>
+                        </div>
+
+                        <form action="proformarketing" method="get">
+                            <div class="card-group">
+
+                                <div class="card" style="width: 50%; border-radius: 3px">
+
+                                    <div class="card-body">
+
+                                        <span class="bg-danger"><h5>Kiểu dáng:</h5></span>
+                                        <div class="form-check">
+
+                                            <ul class="nav nav-stacked">
+                                                <c:forEach var="style" items="${styleList}">
+                                                    <li>
+                                                        <input class="form-check-input" type="checkbox" id="check${style.styleId}" name="styleId" value="${style.styleId}">
+                                                        <label class="form-check-label" for="check${style.styleId}">${style.styleName}</label><br>
+
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>                                      
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card" style="width: 50%;">
+
+                                    <div class="card-body">
+
+                                        <span class="bg-danger"><h5>Phân khúc:</h5></span>
+                                        <div class="form-check">
+
+                                            <ul class="nav nav-stacked">
+                                                <c:forEach var="segment" items="${segmentList}">
+                                                    <li>
+                                                        <input class="form-check-input" type="checkbox" id="check${segment.segmentId}" name="segmentId" value="${segment.segmentId}">
+                                                        <label class="form-check-label" for="check${segment.segmentId}">${segment.segmentName}</label><br>
+
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+
+                                        </div>
+                                        <div class="form-check">
+                                            <span class="bg-danger"><h5>Nhà cung cấp: </h5></span>  
+                                            <ul class="nav nav-stacked">
+                                                <c:forEach var="supply" items="${supplyList}">
+                                                    <li>
+                                                        <input class="form-check-input" type="checkbox" id="check${supply.supplyId}" name="supplyId" value="${supply.supplyId}">
+                                                        <label class="form-check-label" for="check${supply.supplyId}">${supply.supplyName}</label><br>
+
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+
+                                        </div>
+                                    </div>                  
+                                </div>
+
+
+                            </div>
+                            <input type="hidden" name="brandId" value="${requestScope.brandId}">
+                            <input class="btn btn-primary mt-3" type="submit" value="Tìm kiếm">
+                        </form>
+                        <div class="order" style="display: flex" >
+                            <div class="col-2">
+                                Sắp xếp theo tên 
+                                <form action="proformarketing" method="get" style="display: inline;">
+
+                                    <select class="form-select" name="orderName" onchange="this.form.submit()">
+                                        <option value="1" ${requestScope.orderName == 1 ? 'selected' : ''}>Từ bé đến lớn</option>
+                                        <option value="0" ${requestScope.orderName == 0 ? 'selected' : ''}>Từ lớn đến bé</option>
+                                    </select>
+
+                                    <input type="hidden" name="brandId" value="${requestScope.brandId}">
+
+                                    <!-- Vòng lặp thêm input ẩn cho từng styleId đã chọn -->
+                                    <c:forEach var="styleId" items="${sessionScope.styleIdList}">
+                                        <input type="hidden" name="styleId" value="${styleId}">
+                                    </c:forEach>
+                                    <c:forEach var="segmentId" items="${sessionScope.segmentIdList}">
+                                        <input type="hidden" name="segmentId" value="${segmentId}">
+                                    </c:forEach>
+                                    <c:forEach var="supplyId" items="${sessionScope.supplyIdList}">
+                                        <input type="hidden" name="supplyId" value="${supplyId}">
+                                    </c:forEach>
+
+                                </form>
+                            </div>
+
+
+                            <div class="col-2">
+                                <div>
+                                    Sắp xếp theo giá 
+                                    <form action="proformarketing" method="get" style="display: inline;">
+
+                                        <select class="form-select" name="orderName" onchange="this.form.submit()">
+                                            <option value="1" ${requestScope.orderName == 1 ? 'selected' : ''}>Từ bé đến lớn</option>
+                                            <option value="0" ${requestScope.orderName == 0 ? 'selected' : ''}>Từ lớn đến bé</option>
+                                        </select>
+
+                                        <input type="hidden" name="brandId" value="${requestScope.brandId}">
+
+                                        <!-- Vòng lặp thêm input ẩn cho từng styleId đã chọn -->
+                                        <c:forEach var="styleId" items="${sessionScope.styleIdList}">
+                                            <input type="hidden" name="styleId" value="${styleId}">
+                                        </c:forEach>
+                                        <c:forEach var="segmentId" items="${sessionScope.segmentIdList}">
+                                            <input type="hidden" name="segmentId" value="${segmentId}">
+                                        </c:forEach>
+                                        <c:forEach var="supplyId" items="${sessionScope.supplyIdList}">
+                                            <input type="hidden" name="supplyId" value="${supplyId}">
+                                        </c:forEach>
+
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    Sắp xếp theo nhiên liệu 
+                                    <form action="proformarketing" method="post" style="display: inline;">
+                                        <input type="hidden" name="sliderId" value="${slider.sliderId}" />
+                                        <select class="form-select" name="orderPrice" onchange="this.form.submit()">
+                                            <option value="1" ${requestScope.orderName == 1 ? 'selected' : ''}>Từ bé đến lớn</option>
+                                            <option value="0" ${requestScope.orderName == 0 ? 'selected' : ''}>Từ lớn đến bé</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row row-cols-md-2 row-cols-lg-5">
+                            <c:forEach items="${productList}" var="product">
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 mt-4">
+                                    <div class="card shop-list border-0 overflow-hidden rounded shadow">
+                                        <ul class="label list-unstyled mb-0">
+                                            <li><a href="javascript:void(0)" class="badge badge-pill badge-success">Featured</a></li>
+                                        </ul>
+                                        <div class="shop-image position-relative overflow-hidden">
+                                            <a href="editproductbymarketing?id=${product.productId}">
+                                                <c:forEach items="${imageList}" var="image">
+                                                    <c:if test="${image.productId == product.productId}">
+                                                        <div class="shop-image position-relative overflow-hidden">
+                                                            <a href="editproductbymarketing?id=${product.productId}">
+                                                                <img src="${image.imageUrl}" alt="Xe">
+                                                            </a>
+                                                        </div>
+
+                                                    </c:if>
+
+                                                </c:forEach>
+                                            </a>
+                                            <ul class="list-unstyled shop-icons">
+
+                                                <li class="mt-2"><a href="editproductbymarketing?id=${product.productId}" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
+                                            </ul>                                
+
+
+                                        </div>
+                                        <div class="card-body content p-4 border-top">
+                                            <table class="table table-borderless">
+
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <a href="editproductbymarketing?id=${product.productId}" class="text-dark product-name h6">${product.name}</a>
+
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="text-muted small font-italic mb-0 mt-1"><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></h6>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <h6 class="text-muted small font-italic mb-0 mt-1">ID: ${product.productId}</h6>
+
+                                                        </td>
+                                                        <td>
+                                                            <a href="editproductbymarketing?id=${product.productId}" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+
+                                        </div>
+                                    </div>
+                                </div><!--end col-->
+                            </c:forEach>
+
+                        </div><!--end row-->
+
+
+                        <div class="clearfix">
+
+                        <ul class="pagination">
+
+                             
+                                <c:forEach begin="1" end="${endP}" var="i">
+                                    <li style="flex: 1 0 2% " class="${tag == i?"page-item active":"page-item"}"><a class="page-link" href="proformarketing?index=${i}&brandId=${chooseBrand}">${i}</a></li>
+                                </c:forEach>
+
+                          
+                        </ul>
+                    </div> 
+
+                    </div>
+                </div><!--end container-->
+
+                <!-- Footer Start -->
+                <footer class="bg-white shadow py-3">
+                    <div class="container-fluid">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="text-sm-start text-center">
+                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div><!--end container-->
+                </footer><!--end footer-->
+                <!-- End -->
+            </main>
+            <!--End page-content" -->
+        </div>
+        <!-- page-wrapper -->
+
+        <!-- Offcanvas Start -->
+        <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header p-4 border-bottom">
+                <h5 id="offcanvasRightLabel" class="mb-0">
+                    <img src="assets1/images/logo-dark.png" height="24" class="light-version" alt="">
+                    <img src="assets1/images/logo-light.png" height="24" class="dark-version" alt="">
+                </h5>
+                <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
+            </div>
+            <div class="offcanvas-body p-4 px-md-5">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Style switcher -->
+                        <div id="style-switcher">
+                            <div>
+                                <ul class="text-center list-unstyled mb-0">
+                                    <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets1/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets1/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets1/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets1/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets1/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets1/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
+                                    <li class="d-grid"><a href="../landing/index.html" target="_blank" class="mt-4"><img src="assets1/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- end Style switcher -->
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div>
+
+            <div class="offcanvas-footer p-4 border-top text-center">
+                <ul class="list-unstyled social-icon mb-0">
+                    <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="../../../index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
+                </ul><!--end icon-->
+            </div>
+        </div>
+        <!-- Offcanvas End -->
+
+        <!-- Start Modal -->
+        <div class="modal fade"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom p-3">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Shop Product</h5>
+                        <!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                        <a href="addbymarketing"></a>
+                    </div>
+
+                    <div class="modal-body p-3 pt-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="d-grid me-md-4">
+                                    <p class="text-muted">Upload your shop image here, Please click "Upload Image" Button.</p>
+                                    <div class="preview-box d-block justify-content-center rounded shadow overflow-hidden bg-light p-1"></div>
+                                    <input type="file" id="input-file" name="input-file" accept="image/*" onchange={
+                                           handleChange()} hidden />
+                                    <label class="btn-upload btn btn-primary mt-4" for="input-file">Upload Image</label>
+                                </div>
+                            </div><!--end col-->
+
+                            <div class="col-md-6 mt-4 mt-sm-0">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Shop Title <span class="text-danger">*</span></label>
+                                                <input name="name" id="name" type="text" class="form-control" placeholder="Title :">
+                                            </div>
+                                        </div><!--end col-->
+
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label"> Price: </label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text border bg-transparent" id="basic-addon1">$</span>
+                                                    <input type="number" min="0" class="form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon1">
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Label:</label>
+                                                <select class="form-control">
+                                                    <option value="FE">Featured</option>
+                                                    <option value="NE">New</option>
+                                                    <option value="PO">Popular</option>
+                                                    <option value="RE">Recent</option>
+                                                    <option value="FR">Free</option>
+                                                </select>
+                                            </div>
+                                        </div><!--end col-->
+
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label"> Rating : </label>
+                                                <input name="time" type="text" class="form-control" id="time" value="0">
+                                            </div>
+                                        </div><!--end col-->
+
+                                        <div class="col-lg-12 text-end">
+                                            <button type="submit" class="btn btn-primary">Add Product</button>
+                                        </div><!--end col-->
+                                    </div>
+                                </form>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End modal -->
+
+        <!-- javascript -->
+        <script src="assets1/js/bootstrap.bundle.min.js"></script>
+        <!-- simplebar -->
+        <script src="assets1/js/simplebar.min.js"></script>
+        <!-- Icons -->
+        <script src="assets1/js/feather.min.js"></script>
+        <!-- Main Js -->
+        <script src="assets1/js/app.js"></script>
+
+        <script>
+                                        const handleChange = () => {
+                                            const fileUploader = document.querySelector('#input-file');
+                                            const getFile = fileUploader.files
+                                            if (getFile.length !== 0) {
+                                                const uploadedFile = getFile[0];
+                                                readFile(uploadedFile);
+                                            }
+                                        }
+
+                                        const readFile = (uploadedFile) => {
+                                            if (uploadedFile) {
+                                                const reader = new FileReader();
+                                                reader.onload = () => {
+                                                    const parent = document.querySelector('.preview-box');
+                                                    parent.innerHTML = `<img class="preview-content" src=${reader.result} />`;
+                                                };
+
+                                                reader.readAsDataURL(uploadedFile);
+                                            }
+                                        };
+        </script>
     </body>
+
 </html>

@@ -1,8 +1,3 @@
-<%-- 
-    Document   : productList
-    Created on : Oct 11, 2024, 2:35:37 PM
-    Author     : nguye
---%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -93,6 +88,53 @@
             }
 
         </style>
+        <style>
+            .message-popup {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: #4CAF50;
+                color: white;
+                padding: 15px;
+                border-radius: 5px;
+                z-index: 1000;
+                display: none;
+                animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                }
+                to {
+                    opacity: 0;
+                }
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Kiểm tra nếu có thông báo
+                var message = "${mesOfCart}";
+                if (message && message.trim() !== "") {
+                    var messageDiv = document.getElementById("message");
+                    messageDiv.style.display = "block";
+
+                    // Tự động ẩn sau 3 giây
+                    setTimeout(function () {
+                        messageDiv.style.display = "none";
+                    }, 3000);
+                }
+            });
+        </script>
     </head><!--/head-->
 
     <body>
@@ -100,6 +142,17 @@
 
         <div class="container">
             <div class="row">
+
+
+                <!-- Advertisement Section -->
+                <div class="col-sm-12">
+                    <section id="advertisement">
+                        <div class="container">
+                            <img src="assets/images/welcome-hero/welcome-banner.jpg" alt="" class="img-responsive" />
+                        </div>
+                    </section>
+                </div>
+
                 <!-- Header Section -->
                 <div class="col-sm-4">
                     <header id="header">
@@ -112,25 +165,59 @@
                                                 <input type="text"  name="keyword" placeholder="Search...."/><input type="submit" value="Search">
 
                                             </form>
-                                            <div id="cartNotification" style="display:none; background-color: #dff0d8; color: #3c763d; padding: 10px; margin-top: 10px;">
-                                                    Item has been added to your cart!
-                                                </div>
+
+                                            <div id="message" class="message-popup" style="display: none;">
+                                                ${mesOfCart}
+                                            </div>
                                         </div>
                                     </div>
+
+
+
                                 </div>
                             </div>
                         </div>
                     </header>
                 </div>
 
-                <!-- Advertisement Section -->
-                <div class="col-sm-12">
-                    <section id="advertisement">
-                        <div class="container">
-                            <img src="assets/images/welcome-hero/welcome-banner.jpg" alt="" class="img-responsive" />
+                <div class="col-sm-2">
+                    <header id="header">
+                        <div class="header-bottom">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="sort_box">
+                                            <form action="productlist" method="get">
+                                                <!-- Trường ẩn để giữ các giá trị khác như brandId, styleId, và keyword -->
+                                                <input type="hidden" name="brandId" value="${selectedBrandId}">
+                                                <input type="hidden" name="styleId" value="${selectedStyleId}">
+                                                <input type="hidden" name="keyword" value="${keyword}">
+                                                <input type="hidden" name="page" value="${currentPage}">
+
+                                                <!-- Trường sắp xếp -->
+                                                <select name="sort" onchange="this.form.submit()">
+                                                    <option value="default" ${param.sort == 'default' ? 'selected' : ''}>Sắp xếp theo</option>
+                                                    <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Tăng dần</option>
+                                                    <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Giảm dần</option>
+                                                </select>
+                                            </form>
+
+
+
+                                            <div id="message" class="message-popup" style="display: none;">
+                                                ${mesOfCart}
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
                         </div>
-                    </section>
-                </div>
+                    </header>
+                </div>                            
+
             </div>
         </div>
 
@@ -145,7 +232,8 @@
                                 <c:forEach var="brand" items="${brandList}">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4 class="panel-title"><a href="productlist?brandId=${brand.brandId}&page=1">${brand.brandName}</a></h4>
+                                            <h4 class="panel-title">                    <a href="productlist?brandId=${brand.brandId}&page=1&sort=${param.sort}">${brand.brandName}</a>
+                                            </h4>
                                         </div>
                                     </div>
                                 </c:forEach>
@@ -155,13 +243,14 @@
                                 <div class="brands-name">
                                     <ul class="nav nav-pills nav-stacked">
                                         <c:forEach var="style" items="${styleList}">
-                                            <li><a href="productlist?styleId=${style.styleId}&page=1"> <span class="pull-right"></span>${style.styleName}</a></li>
-                                                </c:forEach>
+                                            <li>                    <a href="productlist?styleId=${style.styleId}&page=1&sort=${param.sort}">${style.styleName}</a>
+                                            </li>
+                                        </c:forEach>
                                     </ul>
                                 </div>
                             </div><!--/brands_products-->
 
-                           
+
 
                             <div class="shipping text-center"><!--shipping-->
                                 <h2>Mẫu mới nhất</h2>
@@ -192,22 +281,23 @@
                                                 </c:choose>
                                                 <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
                                                 <p>${pro.name}</p>
-                                                
-                                                <a href="addtocart?productId=${pro.productId}&quantity=1" class="btn btn-default add-to-cart" onclick="showCartNotification(event, this.href)">
+
+                                                <a href="addtocart?productId=${pro.productId}&quantity=1" class="btn btn-default add-to-cart" onclick="showNotification()">
                                                     <i class="fa fa-shopping-cart"></i> Add to cart
                                                 </a>
                                             </div>
                                             <div class="product-overlay">
-    <div class="overlay-content">
-        <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
-        <div><a href="productdetail?productId=${pro.productId}" class="product-detail-link">${pro.name}</a></div>
-        <a href="addtocart?productId=${pro.productId}&quantity=1" 
-           class="btn btn-default add-to-cart"
-           onclick="return confirm('Item has been added to your cart!')">
-            <i class="fa fa-shopping-cart"></i>Add to cart
-        </a>
-    </div>
-</div>
+                                                <div class="overlay-content">
+                                                    <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
+                                                    <div>
+                                                        <a href="productdetail?productId=${pro.productId}" class="product-detail-link">${pro.name}</a>
+                                                    </div>
+                                                    <a href="addtocart?productId=${pro.productId}&quantity=1" 
+                                                       class="btn btn-default add-to-cart"
+                                                      >
+                                                        <i class="fa fa-shopping-cart"></i>Add to cart
+                                                    </a>
+                                                </div>                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -218,43 +308,43 @@
                                     <!-- Điều hướng về trang trước -->
                                     <c:if test="${currentPage > 1}">
                                         <li class="page-item">
-                                            <a class="page-link" href="productlist?page=${currentPage - 1}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}">
+                                            <a class="page-link" href="productlist?page=${currentPage - 1}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}&sort=${sort}">
                                                 <i class="fa fa-angle-double-left"></i>
                                             </a>
                                         </li>
                                     </c:if>
 
-                                    <!-- Vòng lặp phân trang -->
+                                    <!-- Pagination loop -->
                                     <c:forEach begin="${(currentPage - 1) <= 1 ? 1 : (currentPage - 1)}" end="${currentPage + 1 > totalPages ? totalPages : currentPage + 1}" var="i">
                                         <c:choose>
                                             <c:when test="${i == currentPage}">
-                                                <!-- Trang hiện tại -->
+                                                <!-- Current page -->
                                                 <li class="page-item active">
                                                     <a class="page-link">${i}</a>
                                                 </li>
                                             </c:when>
                                             <c:otherwise>
-                                                <!-- Các trang khác -->
+                                                <!-- Other pages -->
                                                 <li class="page-item">
-                                                    <a href="productlist?page=${i}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}" class="page-link">${i}</a>
+                                                    <a class="page-link" href="productlist?page=${i}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}&sort=${sort}">
+                                                        ${i}
+                                                    </a>
                                                 </li>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>
 
-                                    <!-- Điều hướng về trang sau -->
+                                    <!-- Navigate to the next page -->
                                     <c:if test="${currentPage < totalPages}">
                                         <li class="page-item">
-                                            <a class="page-link" href="productlist?page=${currentPage + 1}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}">
+                                            <a class="page-link" href="productlist?page=${currentPage + 1}&brandId=${selectedBrandId}&styleId=${selectedStyleId}&keyword=${keyword}&sort=${sort}">
                                                 <i class="fa fa-angle-double-right"></i>
                                             </a>
                                         </li>
                                     </c:if>
+
                                 </ul>
                             </div>
-
-
-
 
                         </div><!--features_items-->
                     </div>
@@ -263,67 +353,72 @@
         </section>
 
         <jsp:include page="footerDemo.jsp"></jsp:include>
-        <script src="jsProList/jquery.js"></script>
-        <script src="jsProList/price-range.js"></script>
-        <script src="jsProList/jquery.scrollUp.min.js"></script>
-        <script src="jsProList/bootstrap.min.js"></script>
-        <script src="jsProList/jquery.prettyPhoto.js"></script>
-        <script src="jsProList/main.js"></script>
-    </body><!-- Thêm style cho alert -->
-<style>
-.custom-alert {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px;
-    border-radius: 5px;
-    z-index: 1000;
-    animation: fadeout 2s linear forwards;
-}
+            <script src="jsProList/jquery.js"></script>
+            <script src="jsProList/price-range.js"></script>
+            <script src="jsProList/jquery.scrollUp.min.js"></script>
+            <script src="jsProList/bootstrap.min.js"></script>
+            <script src="jsProList/jquery.prettyPhoto.js"></script>
+            <script src="jsProList/main.js"></script>
+        </body><!-- Thêm style cho alert -->
+        <style>
+            .custom-alert {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: #4CAF50;
+                color: white;
+                padding: 15px;
+                border-radius: 5px;
+                z-index: 1000;
+                animation: fadeout 2s linear forwards;
+            }
 
-@keyframes fadeout {
-    0% { opacity: 1; }
-    70% { opacity: 1; }
-    100% { opacity: 0; visibility: hidden; }
-}
-</style>
+            @keyframes fadeout {
+                0% {
+                    opacity: 1;
+                }
+                70% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+            }
+            .notification {
+                background-color: #4CAF50; /* Green */
+                color: white;
+                padding: 15px;
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1000;
+                opacity: 0; /* Initially hidden */
+                transition: opacity 1s ease; /* Fade in/out effect */
+            }
+        </style>
+        <script>
+
 
 <!-- Code HTML đã sửa -->
-<a href="addtocart?productId=${pro.productId}&quantity=1" 
-   class="btn btn-default add-to-cart" 
-   onclick="showCartAlert(event)">
-    <i class="fa fa-shopping-cart"></i> Add to cart
-</a>
+                                                           <a href="addtocart?productId=${pro.productId}&quantity=1" 
+        class="btn btn-default add-to-cart" 
+        onclick="showCartAlert(event)">
+        <i class="fa fa-shopping-cart"></i> Add to cart
+        </a>
 
-<div class="product-overlay">
-    <div class="overlay-content">
+                                                           <div class="product-overlay">
+        <div class="overlay-content">
         <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
         <div><a href="productdetail?productId=${pro.productId}" class="product-detail-link">${pro.name}</a></div>
         <a href="addtocart?productId=${pro.productId}&quantity=1" 
-           class="btn btn-default add-to-cart"
-           onclick="showCartAlert(event)">
-            <i class="fa fa-shopping-cart"></i>Add to cart
+        class="btn btn-default add-to-cart"
+        onclick="showCartAlert(event)">
+        <i class="fa fa-shopping-cart"></i>Add to cart
         </a>
-    </div>
-</div>
+        </div>
+        </div>
+    </script>
+    <!-- Thêm script -->
 
-<!-- Thêm script -->
-<script>
-function showCartAlert(event) {
-    event.preventDefault(); // Ngăn chặn chuyển trang ngay lập tức
-    
-    // Tạo và hiển thị alert
-    var alertDiv = document.createElement('div');
-    alertDiv.className = 'custom-alert';
-    alertDiv.textContent = 'Item has been added to your cart!';
-    document.body.appendChild(alertDiv);
-    
-    // Chuyển trang sau khi hiển thị alert
-    setTimeout(function() {
-        window.location.href = event.target.href;
-    }, 1000); // Đợi 1 giây trước khi chuyển trang
-}
-</script>
 </html>

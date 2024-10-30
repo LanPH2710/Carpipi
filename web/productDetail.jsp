@@ -43,7 +43,12 @@
             .col-6{
                 font-size: 1.25rem;
             }
-
+            #colorSelect {
+                border: 1px solid #007bff;
+                border-radius: 0.25rem;
+                padding: 0.375rem 0.75rem;
+                font-size: 1rem;
+            }
         </style>
         <style>
             .message-popup {
@@ -174,6 +179,25 @@
                     </div>
                     <hr>
                     <div class="mb-4">
+                        <label class="mb-2 h6">Màu sắc</label>
+                        <select class="form-control w-auto" name="color" id="colorSelect" onchange="updateColorValue()">
+                            <option value="" disabled selected>Chọn màu sắc</option>
+                            <c:forEach items="${color}" var="color">
+                                <option value="${color.colorId}">${color.colorName}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <script>
+                        function updateColorValue() {
+                            // Lấy giá trị của select
+                            var colorSelect = document.getElementById('colorSelect');
+                            var selectedColor = colorSelect.options[colorSelect.selectedIndex].value;
+
+                            // Cập nhật giá trị vào input ẩn
+                            document.getElementById('colorInput').value = selectedColor;
+                        }
+                    </script>
+                    <div class="mb-4">
                         <label class="mb-2 h6">Số lượng</label>
                         <div class="input-group mb-3">
                             <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity('quantity1')">
@@ -220,8 +244,9 @@
                                     <input type="hidden" name="quantity" id="quantityFieldPayment" value="1">
                                     <button type="submit" class="btn btn-warning">Buy now</button>
                                 </form> &nbsp;&nbsp;
-                                <form action="addtocart" method="get" >
+                                <form action="addtocart" method="get">
                                     <input type="hidden" name="productId" value="${pro.productId}">
+                                    <input type="hidden" name="color" id="colorInput" value="">
                                     <input type="hidden" name="quantity" id="quantityFieldCart" value="1">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fas fa-shopping-basket"></i> Add to cart
@@ -236,10 +261,10 @@
                     </div>
                 </main>
             </div>
-<!--            <div id="notification" class="notification">
-                Sản phẩm đã được thêm vào giỏ hàng !
-                <div class="timeline" id="timeline"></div>
-            </div>-->
+            <!--            <div id="notification" class="notification">
+                            Sản phẩm đã được thêm vào giỏ hàng !
+                            <div class="timeline" id="timeline"></div>
+                        </div>-->
             <section class="bg-light border-top py-4 mt-5">
                 <div class="row">
                     <div class="col-lg-8">

@@ -125,13 +125,24 @@
                                     </li>
                                     <li>
                                         <h5>Trạng thái</h5>
+                                        <% //   ${status.statusId == orderDetail.orderStatus ? 'selected' : ''}" %>
 
-                                        <c:if test="${orderDetail.orderStatus == 1}">
-                                            <p>Đã xác nhận </p>
-                                        </c:if>
-                                        <c:if test="${orderDetail.orderStatus == 0}">
-                                            <p>Đang xử lý </p>
-                                        </c:if>
+                                        
+                                        <form action="orderdetailforsale" method="get" style="display: inline;">
+                                            <select class="form-select" name="statusId" onchange="this.form.submit()">
+                                                <c:forEach var="status" items="${requestScope.listStatusOrder}">
+                                                    <option value="${status.statusId}">${status.statusName}</option>
+
+                                                </c:forEach>
+                                                <option value="0">aa</option>
+                                            </select>
+                                            <input type="hidden" name="orderId" value="${orderDetail.orderId}">
+
+
+                                            <!-- Vòng lặp thêm input ẩn cho từng styleId đã chọn -->
+
+
+                                        </form>
 
                                     </li>
 
@@ -233,21 +244,21 @@
                 </div>
 
 
-<!--                <div>
-                    <form action="proformarketing" method="get" style="display: inline;">
+                <!--                <div>
+                                    <form action="proformarketing" method="get" style="display: inline;">
+                
+                                        <select name="choosesale" onchange="this.form.submit()">
+                
+                <c:forEach var="all" items="${sessionScope.allSaleName}">
+                    <option value="${all.userId}">${all.firsName} ${all.lastName}</option>
+                </c:forEach>
+                
+                
+            </select>
 
-                        <select name="choosesale" onchange="this.form.submit()">
 
-                            <c:forEach var="all" items="${sessionScope.allSaleName}">
-                                <option value="${all.userId}">${all.firsName} ${all.lastName}</option>
-                            </c:forEach>
-                            
-                            
-                        </select>
-
-
-                    </form>
-                </div>-->
+        </form>
+    </div>-->
             </div>
         </section> <!--/#cart_items-->
 

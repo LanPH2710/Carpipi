@@ -45,11 +45,12 @@ public class UpdateCartQuantityController extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+         int isSelect = request.getParameter("selectCart") != null ? 1 : 0;
         int userId = account.getUserId();
         String productId = request.getParameter("productId");
         String qua = request.getParameter("quantity");
         int quantity = Integer.parseInt(qua);
-
+        
         // Create an instance of CartDAO
         CartDAO cartDAO = new CartDAO();
          ProductDAO productDAO = new ProductDAO();
@@ -85,15 +86,18 @@ public class UpdateCartQuantityController extends HttpServlet {
          
         if (cartToUpdate != null) {
             // Update the quantity in the database
-            cartDAO.updateCart2(cartToUpdate.getCartId(), userId, productId, quantity);
-            
+            cartDAO.updateCart2(cartToUpdate.getCartId(), userId, productId, quantity,isSelect);
+                cartToUpdate.setIsSelect(isSelect);
             // Update the cart quantity in the list
             cartToUpdate.setQuantity(quantity);
         }
         // Update total money after the change
         double totalMoney = 0;
         for (Cart cartItem : carts) {
-            totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+            if (cartItem.getIsSelect()==1) {
+                totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+            }
+            
         }
         session.setAttribute("messCart", "");
         // Save the updated carts and total money back to session

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import model.OrderDetail;
+import model.OrderStatus;
 import model.Role;
 
 /**
@@ -55,21 +56,52 @@ public class OrderDAO extends DBContext {
                 o.setShippingAddress(rs.getString("shippingAddress"));
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace(); // In lỗi ra console
         }
 
         return o;
     }
 
-//    public Account getAccountByCar(){
-//        
-//    }
+    
+    public List<OrderStatus> getListOrderStatus (){
+        
+        List<OrderStatus> listStatus = new ArrayList<>();
+        
+        String sql = "SELECT * FROM carpipi.orderstatus";
+        
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+           
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                OrderStatus os = new OrderStatus();
+                
+                os.setStatusId(rs.getInt("statusId"));
+                os.setStatusName(rs.getString("statusName"));
+                os.setDescription(rs.getString("description"));
+                
+                listStatus.add(os);
+                
+            }
+        } catch (Exception e) {
+        }
+        
+        
+        
+        return listStatus;
+    }
+    
+    
+    
+    
+   
     public static void main(String[] args) {
         OrderDAO o = new OrderDAO();
-        o.getOrderDetail(1);
-        System.out.println(o.getOrderDetail(1));
-        OrderDetail oo = o.getOrderDetail(1);
-        System.out.println(oo.getProductId());
+        
+        System.out.println(o.getListOrderStatus());
+      
+        
+        
     }
 }

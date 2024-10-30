@@ -69,9 +69,15 @@
         </style>
     </head>
     <body>
+
         <jsp:include page="header.jsp"></jsp:include>
             <form action="userprofile" method="post" enctype="multipart/form-data">
+
                 <div class="container rounded mt-5 mb-5 p-4">
+                    <a href="javascript:window.history.back()" class="btn btn-primary" style="margin-bottom: 10px;">
+                        <span>X</span>
+                    </a>
+
                 <c:if test="${not empty errorMessage}">
                     <div class="error-message">${errorMessage}</div>
                 </c:if>

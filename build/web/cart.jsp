@@ -95,21 +95,17 @@
 
 
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
+                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="login">Login</a></li>
-                                    <li><a href="signup.html">Signup</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password</a></li>
-                                    <li><a href="lock-screen.html">Lock Screen</a></li>
-                                    <li><a href="thankyou.html">Thank you...!</a></li>
+                                    <li><a href="BlogListServlet">Blogs</a></li>
+                                  
                                 </ul>
                             </div>
                         </li>
 
-                        <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
+                        <li><a href="productlist"><i class="uil uil-car me-2 d-inline-block"></i>Product List</a></li>
 
-                        <li><a href="../landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -239,7 +235,7 @@
 
                                                     <td>
                                                         <div class="d-flex align-items-center">
-                                                            <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height: 150px; width: auto;">
+                                                            <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height: 200px; width: 300px;">
                                                             <a href="product-detail?productId=${C.product.productId}" class="mb-0 ms-3">${C.product.name}</a>
                                                         </div>
                                                     </td>

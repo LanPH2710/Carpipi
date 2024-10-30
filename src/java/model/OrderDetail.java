@@ -11,16 +11,17 @@ package model;
 public class OrderDetail extends Order {
 //orderId int 
 //productId varchar(6) 
-//shippingAddress varchar(200) 
 //quantity int 
-//discountId int
-
-    private int orderId;
-    private String shippingAddress;
-    private int quantity;
-    private int discountId;
+//shippingAddress varchar(200) 
+//discountId int 
+//colorId int
+    
     
     private String productId;
+    private int quantity;
+    private String shippingAddress;
+    private int discountId;
+    private int colorId;
 
     public OrderDetail(int orderId, int userId, double totalPrice, String note, int saleId, int shipperId, String createDate, int orderStatus, String firstName, String lastName, int gender, String email, String mobile, String address) {
         super(orderId, userId, totalPrice, note, saleId, shipperId, createDate, orderStatus, firstName, lastName, gender, email, mobile, address);
@@ -29,44 +30,12 @@ public class OrderDetail extends Order {
     public OrderDetail() {
     }
 
-    public OrderDetail(int orderId, String shippingAddress, int quantity, int discountId, String productId) {
-        this.orderId = orderId;
-        this.shippingAddress = shippingAddress;
-        this.quantity = quantity;
-        this.discountId = discountId;
+    public OrderDetail(String productId, int quantity, String shippingAddress, int discountId, int colorId) {
         this.productId = productId;
-    }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
-    public String getShippingAddress() {
-        return shippingAddress;
-    }
-
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public int getDiscountId() {
-        return discountId;
-    }
-
-    public void setDiscountId(int discountId) {
+        this.shippingAddress = shippingAddress;
         this.discountId = discountId;
+        this.colorId = colorId;
     }
 
     public String getProductId() {
@@ -77,4 +46,37 @@ public class OrderDetail extends Order {
         this.productId = productId;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public int getDiscountId() {
+        return discountId;
+    }
+
+    public void setDiscountId(int discountId) {
+        this.discountId = discountId;
+    }
+
+    public int getColorId() {
+        return colorId;
+    }
+
+    public void setColorId(int colorId) {
+        this.colorId = colorId;
+    }
+    
+    
 }

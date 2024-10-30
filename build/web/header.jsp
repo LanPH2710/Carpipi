@@ -97,11 +97,9 @@
                     </c:when>
                 </c:choose>
 
-                <span class="headerN"><a href="home#new-cars" style="text-decoration:none; color: white">Mẫu mới</a></span>
+                <span class="headerN"><a href="productlist" style="text-decoration:none; color: white">Danh sách mẫu</a></span>
 
                 <span class="headerN"><a href="BlogListServlet" style="text-decoration:none; color: white">Tin xe</a></span>
-                <span class="headerN"><a href="home#contact" style="text-decoration:none; color: white">Liên lạc</a></span>
-
                 <c:choose>
                     <c:when test="${sessionScope.account == null}">
                         <!-- Không có tài khoản, hiện menu Đăng Nhập -->

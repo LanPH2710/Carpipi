@@ -5,6 +5,7 @@
 package controller.admin;
 
 import dal.AccountDAO;
+import dal.AdminDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -65,7 +66,7 @@ public class AddUser extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         AccountDAO accountDAO = new AccountDAO();
-
+        AdminDao adminDao = new AdminDao();
         // Retrieve form data
 //        String avatar = request.getParameter("avatar");
         String firstname = request.getParameter("firstName");
@@ -162,7 +163,7 @@ public class AddUser extends HttpServlet {
 
             session.setAttribute("msg_suc", "Thêm người dùng thành công");
             Account account = new Account(userName, "UserPassword@123", firstname, lastname, gender, email, mobile, address, role, avatar);
-            accountDAO.insertAccount(account);
+            adminDao.insertAccountAdmin(account);
             response.sendRedirect("userlist");
             return;
         }

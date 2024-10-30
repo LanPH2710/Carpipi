@@ -263,7 +263,7 @@
                 </div><!--/.new-cars-content-->
             </div><!--/.container-->
         </section><!--/.new-cars-->
-        <!--new-cars end -->-->
+        <!--new-cars end -->
         <!--new-cars end -->
 
 

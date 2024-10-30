@@ -57,6 +57,7 @@ public class ProductListMarketingServlet extends HttpServlet {
         }
     }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -78,13 +79,12 @@ public class ProductListMarketingServlet extends HttpServlet {
         ProductImage pImage = new ProductImage();
 
         String brandId = request.getParameter("brandId");
-        
+
         String indexPage = request.getParameter("index");
         String search = request.getParameter("searchse");
         String[] styleIds = request.getParameterValues("styleId");
         // Xử lý submit từ Form 1
         HttpSession session = request.getSession();
-       
 
         if (styleIds != null) {
             for (String styleId : styleIds) {
@@ -93,14 +93,13 @@ public class ProductListMarketingServlet extends HttpServlet {
         } else {
             System.out.println("Không có kiểu dáng nào được chọn.");
         }
-         session.setAttribute("styleIdList", styleIds);
-        
+        session.setAttribute("styleIdList", styleIds);
+
         String[] segmentIds = request.getParameterValues("segmentId");
         session.setAttribute("segmentIdList", segmentIds);
-        
+
         String[] supplyIds = request.getParameterValues("supplyId");
         session.setAttribute("supplyIdList", supplyIds);
-
 
         String orderId = request.getParameter("orderId");
         String orderName = request.getParameter("orderName");
@@ -150,17 +149,26 @@ public class ProductListMarketingServlet extends HttpServlet {
             request.setAttribute("chooseBrand", brandId);
 
         }
+        
+        if (search != null && !search.isEmpty()) {
+            listProduct = pDao.getPagingProductBySearch(search, index);
+            if (listProduct != null && !listProduct.isEmpty()) {
 
-        int endPage = count / 5;
-        if (count % 5 != 0) {
+                request.setAttribute("listProduct", listProduct);
+                count = pDao.getToTalPagingProductBySearch(search);
+            }
+        }
+
+        productList = styleDao.getListFilter(brandId, styleIds, segmentIds, supplyIds, index);
+
+        int endPage = count / 16;
+        if (count % 16 != 0) {
             endPage++;
         }
 
         styleList = styleDao.getStyleFilter(styleIds);
         System.out.println(styleList);
 
-        productList = styleDao.getListFilter(brandId, styleIds, segmentIds, supplyIds);
-        
         request.setAttribute("styleIds", styleIds);
 
         request.setAttribute("brandId", brandId);

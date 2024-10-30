@@ -50,10 +50,7 @@ public class AddToCart extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
-        String urlHistory = (String) session.getAttribute("urlHistory");
-                    if (urlHistory == null) {
-                        urlHistory = "home";
-                    }
+       
         int userId = account.getUserId(); // Lấy userId từ session
         String productId = request.getParameter("productId");
         String quantityStr = request.getParameter("quantity");
@@ -64,14 +61,23 @@ public class AddToCart extends HttpServlet {
             return;
         }
         Product product = productDAO.getProductById(productId);
+        int quantityCurrent = cartDAO.getQuantityByUserIdAndProductId(userId, productId);
         int quantity;
+         String urlHistory = (String) session.getAttribute("urlHistory");
+                    if (urlHistory == null) {
+                        urlHistory = "home";
+                    }
         try {
             quantity = Integer.parseInt(quantityStr);
         } catch (NumberFormatException e) {
             response.getWriter().write("Invalid quantity format.");
             return;
         }
-
+        if ((quantity+quantityCurrent) > product.getStock()) {
+            request.setAttribute("mesOfCart", "Quá số lượng");
+             request.getRequestDispatcher(urlHistory).forward(request, response);
+             return;
+        }
         try {
             int cartId = cartDAO.getCartIdByUserIdAndProductId(userId, productId);
             
@@ -82,14 +88,13 @@ public class AddToCart extends HttpServlet {
                    
                     int sizeCart = cartDAO.countCartsByUserId(userId);
                     session.setAttribute("sizeCart", sizeCart);
-                    response.sendRedirect(urlHistory);
+                     
+                    request.setAttribute("mesOfCart", "Sản đã được thêm vào giỏ");
+                   request.getRequestDispatcher(urlHistory).forward(request, response);
                 } else {
                     // Lỗi khi thêm sản phẩm mới
                     response.getWriter().write("Failed to add product to cart.");
                 }
-            } else if (quantity  > product.getStock()) {
-                request.setAttribute("mesOfCart", "Quá số lượng");
-                   request.getRequestDispatcher(urlHistory).forward(request, response);
             } else {
                 // Nếu sản phẩm đã tồn tại -> Cập nhật số lượng
                 if (cartDAO.updateQuantityByCartId(cartId, quantity)) {

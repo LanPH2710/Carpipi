@@ -18,6 +18,7 @@ import java.awt.Image;
 import java.util.List;
 import model.Account;
 import model.OrderDetail;
+import model.OrderStatus;
 import model.Product;
 import model.ProductImage;
 
@@ -79,8 +80,10 @@ public class OrderDetailForSaleServlet extends HttpServlet {
         OrderDetail orderDetail = orderDao.getOrderDetail(orderId);
 
         Account accountOrder = accountDao.getAccountById(6);
-        
-       List<Account> allSaleName = accountDao.getAccountByRole();
+
+        List<Account> allSaleName = accountDao.getAccountByRole();
+
+        List<OrderStatus> listStatusOrder = orderDao.getListOrderStatus();
 
         Account saleInfo = accountDao.getAccountById(orderDetail.getSaleId());
 
@@ -94,6 +97,8 @@ public class OrderDetailForSaleServlet extends HttpServlet {
         session.setAttribute("image", image);
 
         session.setAttribute("saleInfo", saleInfo);
+        request.setAttribute("listStatusOrder", listStatusOrder);
+
         request.setAttribute("allSaleName", allSaleName);
         session.setAttribute("product", product);
         session.setAttribute("orderDetail", orderDetail);

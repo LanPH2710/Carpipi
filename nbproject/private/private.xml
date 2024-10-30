@@ -3,16 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/D:/Carpipi/web/cart.jsp</file>
-            <file>file:/D:/Carpipi/src/java/controller/cart/CartController.java</file>
-            <file>file:/D:/Carpipi/web/checkout.jsp</file>
-            <file>file:/D:/Carpipi/web/checkout_1.jsp</file>
-=======
-            <file>file:/C:/Users/tuana/OneDrive/Desktop/Carpipi/src/java/controller/ProductListServlet.java</file>
-            <file>file:/C:/Users/tuana/OneDrive/Desktop/Carpipi/web/productList.jsp</file>
-            <file>file:/C:/Users/tuana/OneDrive/Desktop/Carpipi/web/productDetail.jsp</file>
->>>>>>> e0c7416ce96f3e39d32d6dfacfe2eb4f348e1ae1
+            <file>file:/D:/FPT-Uni/Ki%205/SWP391/Project/Carpipi/src/java/dal/OrderDAO.java</file>
+            <file>file:/D:/FPT-Uni/Ki%205/SWP391/Project/Carpipi/src/java/dal/ProductDAO.java</file>
+            <file>file:/D:/FPT-Uni/Ki%205/SWP391/Project/Carpipi/web/orderdetailforsale.jsp</file>
+            <file>file:/D:/FPT-Uni/Ki%205/SWP391/Project/Carpipi/src/java/model/OrderStatus.java</file>
+            <file>file:/D:/FPT-Uni/Ki%205/SWP391/Project/Carpipi/src/java/context/DBContext.java</file>
+            <file>file:/D:/FPT-Uni/Ki%205/SWP391/Project/Carpipi/web/product_list_maketing.jsp</file>
         </group>
     </open-files>
 </project-private>

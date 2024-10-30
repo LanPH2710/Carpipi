@@ -5,6 +5,7 @@
 package controller.common;
 
 import dal.BrandDAO;
+import dal.ColorDAO;
 import dal.FeedbackDAO;
 import dal.ProductDAO;
 import dal.SegmentDAO;
@@ -18,6 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
+import model.Color;
 import model.Product;
 import model.Feedback;
 
@@ -73,7 +75,7 @@ public class ProductDetailServlet extends HttpServlet {
             rate = Integer.parseInt(rateParam);
         } catch (Exception e) {
         }
-
+        ColorDAO cdao = new ColorDAO();
         ProductDAO pdao = new ProductDAO();
         BrandDAO bdao = new BrandDAO();
         StyleDAO sdao = new StyleDAO();
@@ -83,9 +85,10 @@ public class ProductDetailServlet extends HttpServlet {
         List<Feedback> feedback;
         if (rate == 0) {
             feedback = fdao.getFeedbackByProductId(productId);
-        }else{
+        } else {
             feedback = fdao.getFeedbackByRate(productId, rate);
         }
+        List<Color> color = cdao.getColorOfCar(productId);
         Product pro = (Product) pdao.getProductById(productId);
         List<Product> pro2 = pdao.getProductByPrice(pro.getPrice());
         String segmentName = sedao.getSegmentNameBySegmentId(pro.getSegmentId());
@@ -94,7 +97,7 @@ public class ProductDetailServlet extends HttpServlet {
         String supply = pdao.getSupplyNameById(pro.getSupplyId());
         List<Account> listAcc = fdao.getUserNameByProductId(productId);
         int rateCar = fdao.getRateProduct(productId);
-        
+
         // Phân trang
         int page, numperpage = 2;
         int size = feedback.size();
@@ -110,6 +113,7 @@ public class ProductDetailServlet extends HttpServlet {
         feedback = fdao.getFeedbackListByPage(feedback, start, end);
 
         request.setAttribute("pro", pro);
+        request.setAttribute("color", color);
         request.setAttribute("brand", brand);
         request.setAttribute("pro2", pro2);
         request.setAttribute("style", style);
@@ -122,7 +126,7 @@ public class ProductDetailServlet extends HttpServlet {
         request.setAttribute("num", num);
         request.setAttribute("size", size);
         request.setAttribute("rateCar", rateCar);
-        session.setAttribute("urlHistory", "productdetail?productId=" +productId);
+        session.setAttribute("urlHistory", "productdetail?productId=" + productId);
         request.getRequestDispatcher("productDetail.jsp").forward(request, response);
     }
 

@@ -232,7 +232,7 @@
                             <div class="col-md-7 col-lg-8 mt-4">
                                 <div class="card rounded shadow p-4 border-0">
                                     <h5 class="mb-3">Thông tin nhận hàng</h5>
-                                    <form class="needs-validation" novalidate>
+                                    <form class="checkout" method="post" novalidate>
                                         <div class="row g-3">
                                             <div class="col-sm-6">
                                                 <label for="firstName" class="form-label">First name</label>
@@ -256,7 +256,7 @@
                                                 <label for="username" class="form-label">Username</label>
                                                 <div class="input-group has-validation">
                                                     <span class="input-group-text bg-light text-muted border">@</span>
-                                                    <input type="text" class="form-control" id="username" placeholder="Username" required>
+                                                    <input type="text" class="form-control" id="username" placeholder="Username" value="${sessionScope.account.username}" required>
                                                     <div class="invalid-feedback"> Your username is required. </div>
                                                 </div>
                                             </div>

@@ -95,17 +95,21 @@
 
 
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
+                            <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="BlogListServlet">Blogs</a></li>
-                                  
+                                    <li><a href="login">Login</a></li>
+                                    <li><a href="signup.html">Signup</a></li>
+                                    <li><a href="forgot-password.html">Forgot Password</a></li>
+                                    <li><a href="lock-screen.html">Lock Screen</a></li>
+                                    <li><a href="thankyou.html">Thank you...!</a></li>
                                 </ul>
                             </div>
                         </li>
 
-                        <li><a href="productlist"><i class="uil uil-car me-2 d-inline-block"></i>Product List</a></li>
+                        <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
 
+                        <li><a href="../landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -216,7 +220,7 @@
                                     <table class="table table-center table-padding mb-0">
                                         <thead>
                                             <tr>
-
+                                                <th type class="border-bottom text-center p-3" style="min-width: 50px;">Chọn</th>
                                                 <th class="border-bottom text-center p-3" style="min-width: 300px;">Sản phẩm</th>
                                                 <th class="border-bottom text-center p-3" style="min-width: 160px;">Giá</th>
                                                 <th class="border-bottom text-center p-3" style="min-width: 190px;">Số Lượng</th>
@@ -232,11 +236,16 @@
                                         <c:forEach items="${sessionScope.carts}" var="C">
                                             <form action="update-quantity">
                                                 <tr>
-
+                                                    <td class="text-center p-3">
+                                                        <!-- Checkbox based on C.cart value -->
+                                                        <input type="checkbox" name="selectCart" <c:if test="${C.isSelect == 1}">checked</c:if> onchange="this.form.submit()">
+                                                            <!-- Hidden field to pass isSelect as 1 if checked, 0 if unchecked -->
+                                                            <input type="hidden" name="isSelect" value="${C.isSelect}">
+                                                    </td>
                                                     <td>
                                                         <div class="d-flex align-items-center">
-                                                            <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height: 200px; width: 300px;">
-                                                            <a href="product-detail?productId=${C.product.productId}" class="mb-0 ms-3">${C.product.name}</a>
+                                                            <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height: 150px; width: 250px;">
+                                                            <a href="productdetail?productId=${C.product.productId}" class="mb-0 ms-3">${C.product.name}</a>
                                                         </div>
                                                     </td>
                                                     <td class="text-center p-3">
@@ -284,28 +293,18 @@
                                             <tbody>
 
                                                 <tr>
-                                                    <td class="h6 p-3">Subtotal</td>
+                                                    <td class="h6 p-3">Giá (chưa thuế)</td>
                                                     <td class="text-end font-weight-bold p-3">
                                                         <fmt:formatNumber value="${sessionScope.totalMoney}" type="number" minFractionDigits="0"/> đ
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="h6 p-3">Taxes (10%)</td>
-                                                    <td class="text-end font-weight-bold p-3">
-                                                        <fmt:formatNumber value="${sessionScope.totalMoney * 0.1}" type="number" minFractionDigits="0"/> đ
-                                                    </td>
-                                                </tr>
-                                                <tr class="bg-light">
-                                                    <td class="h6 p-3">Total</td>
-                                                    <td class="text-end font-weight-bold p-3">
-                                                        <fmt:formatNumber value="${sessionScope.totalMoney * 1.1}" type="number" minFractionDigits="0"/> đ
-                                                    </td>
-                                                </tr>
+                                               
+                                              
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="mt-4 pt-2 text-end">
-                                         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkoutModal">Proceed to checkout</a>
+                                        <a href="tax" class="btn btn-primary" >Proceed to checkout</a>
                                     </div>
                                 </div><!--end col-->
                             </div><!--end row-->
@@ -314,7 +313,7 @@
                 </div><!--end container-->
 
             </main>
-                                    
+
             <!--End page-content" -->
         </div>
         <!-- page-wrapper -->
@@ -344,8 +343,8 @@
                                 <input type="text" class="form-control" id="mobie" name="mobie" required>
                             </div>
                             <div class="form-label-group"><label>Chọn ngày muốn nhận hàng</label>
-                                                        <input type="date" id="dateShip" id="address" class="form-control" value="${sessionScope.dateShip!=null?sessionScope.dateShip:''}" name="dateShip">
-                                                    </div>
+                                <input type="date" id="dateShip" id="address" class="form-control" value="${sessionScope.dateShip!=null?sessionScope.dateShip:''}" name="dateShip">
+                            </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
@@ -398,7 +397,7 @@
         <!-- Offcanvas End -->
 
         <!-- javascript -->
-         <script src="js/cart.js"></script>
+        <script src="js/cart.js"></script>
         <script src="assets1/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->
         <script src="assets1/js/simplebar.min.js"></script>

@@ -1,16 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package controller.cart;
 
 import dal.CartDAO;
-import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,14 +16,13 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
 import model.Cart;
-import model.Product;
 
 /**
  *
- * @author Admin
+ * @author hiule
  */
-@WebServlet(name = "CartController", urlPatterns = {"/carts"})
-public class CartController extends HttpServlet {
+@WebServlet(name = "TaxController", urlPatterns = {"/tax"})
+public class TaxController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,46 +36,11 @@ public class CartController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        if (account == null) {
-            // Nếu chưa đăng nhập
-            response.sendRedirect("login.jsp");
-            return;
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+          
+            
         }
-        int userId = account.getUserId();
-
-        // Create an instance of CartDAO
-        CartDAO cartDAO = new CartDAO();
-
-        // Get cart items from database
-        List<Cart> carts = cartDAO.getCartsByUserId(userId);
-
-        // Initialize total money
-        double totalMoney = 0;
-
-        // Calculate total money
-                // Update total money after the change
-        
-        for (Cart cartItem : carts) {
-            if (cartItem.getIsSelect() ==1) {
-                 totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
-            }
-           
-        }
-
-        session.setAttribute("messCart", "");
-        // Save the updated carts and total money back to session
-        
-        session.setAttribute("totalMoney", totalMoney);
-
-        // Save carts and total money to session
-        session.setAttribute("carts", carts);
-       
-
-        // Forward to cart.jsp
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -95,7 +55,17 @@ public class CartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        int userId = account.getUserId();
+        CartDAO cartDAO = new CartDAO();
+       List<Cart> carts = cartDAO.getCartsByUserId(userId);
+        double totalFinal= 0;
+         for (Cart cartItem : carts) {
+            totalFinal += cartItem.getQuantity() * cartItem.getProduct().getPrice()* (1 + 0.4) * 1.10;
+        }
+         session.setAttribute("totalFinal", totalFinal);
+        request.getRequestDispatcher("checkout_1.jsp").forward(request, response);
     }
 
     /**

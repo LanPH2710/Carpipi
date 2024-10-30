@@ -169,6 +169,7 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
+
                             <h5 class="mb-0">Checkout</h5>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
@@ -178,6 +179,9 @@
                                     <li class="breadcrumb-item active" aria-current="page">Checkout</li>
                                 </ul>
                             </nav>
+                            <div class="mt-4 pt-2 text-end">
+                                <a href="checkout" class="btn btn-primary" >Proceed to checkout</a>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -189,21 +193,21 @@
                                     </div>
                                     <ul class="list-group mb-3 border">
                                         <c:forEach items="${sessionScope.carts}" var="C">
-                                        <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
-                                            <div>
-                                                <h6 class="my-0">Product name</h6>
-                                                <small class="text-muted">${C.product.name}</small>
-                                            </div>
-                                            <span class="text-muted">${C.product.price}</span>
-                                        </li>
-                                       </c:forEach>
+                                            <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
+                                                <div>
+                                                    <h6 class="my-0">Product name</h6>
+                                                    <small class="text-muted">${C.product.name}</small>
+                                                </div>
+                                                <span class="text-muted">${C.product.price}</span>
+                                            </li>
+                                        </c:forEach>
                                         <li class="d-flex justify-content-between p-3">
                                             <span>Total (USD)</span>
-                                            <strong>$20</strong>
+                                            <strong><fmt:formatNumber value="${sessionScope.totalFinal}" type="number" minFractionDigits="0"/> đ</strong>
                                         </li>
                                     </ul>
 
-                                    
+
                                 </div>
                             </div><!--end col-->
 
@@ -215,52 +219,52 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th class="border-bottom text-center p-3" style="min-width: 300px;">Sản phẩm</th>
-                                                    <th class="border-bottom text-center p-3" style="min-width: 90px;">Số Lượng</th>
-                                                    <th class="border-bottom text-center p-3" style="min-width: 160px;">Giá</th>
-                                                    <th class="border-bottom text-center p-3" style="min-width: 50px;">Tổng</th>
-                                                    <th class="border-bottom text-center p-3" style="min-width: 50px;">Thuế Nhập Khẩu</th>
-                                                    <th class="border-bottom text-center p-3" style="min-width: 50px;">Thuế TTĐB</th>
-                                                    <th class="border-bottom text-center p-3" style="min-width: 50px;">VAT</th>
+                                                    <th class="border-bottom text-center p-3" style="min-width: 250px;">Sản phẩm</th>
+                                                    <th class="border-bottom text-center p-3" style="min-width: 50px;">Số Lượng</th>
+                                                    <th class="border-bottom text-center p-3" style="min-width: 180px;">Giá</th>
 
+                                                    <th class="border-bottom text-center p-3" style="min-width: 70px;">Thuế Nhập Khẩu</th>
+                                                    <th class="border-bottom text-center p-3" style="min-width: 70px;">Thuế TTĐB</th>
+                                                    <th class="border-bottom text-center p-3" style="min-width: 70px;">VAT</th>
+                                                    <th class="border-bottom text-center p-3" style="min-width: 70px;">Tổng</th>
 
                                                 </tr>
                                             </thead>
 
                                             <tbody>
 
-                                            <c:forEach items="${sessionScope.carts}" var="C">
-                                                <tr>
+                                                <c:forEach items="${sessionScope.carts}" var="C">
+                                                    <tr>
 
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height: 170px; width: 250px;">
-                                                            <a href="product-detail?productId=${C.product.productId}" class="mb-0 ms-3">${C.product.name}</a>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center shop-list p-3">
-                                                        <div class="qty-icons">
-                                                            <input  type="number" name="quantity" value="${C.quantity}" min="0" step="1" title="Please enter a non-negative integer!" class="btn btn-icon btn-primary qty-btn1 quantity" >
-                                                        </div>
-                                                    <td class="text-center p-3">
-                                                <fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ
-                                                </td>
-                                                <td class="text-end font-weight-bold p-3">
-                                                <fmt:formatNumber value="${C.product.price * C.quantity}" type="number" minFractionDigits="0"/> đ
-                                                </td>
-                                                <td class="text-end font-weight-bold p-3">
-                                                <fmt:formatNumber value="${(C.product.price * C.quantity)*0.7}" type="number" minFractionDigits="0"/> đ
-                                                </td>
-                                                <td class="text-end font-weight-bold p-3">
-                                                <fmt:formatNumber value="${(C.product.price * C.quantity)*0.4}" type="number" minFractionDigits="0"/> đ
-                                                </td>
-                                                <td class="text-end font-weight-bold p-3">
-                                                <fmt:formatNumber value="${(C.product.price * C.quantity)*0.1}" type="number" minFractionDigits="0"/> đ
-                                                </td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <img src="${C.product.images[0].imageUrl}" alt="${C.product.name}" class="img-fluid avatar avatar-small rounded shadow" style="height: 170px; width: 250px;">
+                                                                <a href="product-detail?productId=${C.product.productId}" class="mb-0 ms-3">${C.product.name}</a>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center shop-list p-3">
+                                                            <div class="qty-icons">
+                                                                <input  type="number" name="quantity" value="${C.quantity}" min="0" step="1" title="Please enter a non-negative integer!" class="btn btn-icon btn-primary qty-btn1 quantity" >
+                                                            </div>
+                                                        <td class="text-center p-3">
+                                                            <fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ
+                                                        </td>
+                                                       
+                                                        <td class="text-end font-weight-bold p-3">
+                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.7}" type="number" minFractionDigits="0"/> đ
+                                                        </td>
+                                                        <td class="text-end font-weight-bold p-3">
+                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.4}" type="number" minFractionDigits="0"/> đ
+                                                        </td>
+                                                        <td class="text-end font-weight-bold p-3">
+                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.1}" type="number" minFractionDigits="0"/> đ
+                                                        </td>
+                                                         <td class="text-end font-weight-bold p-3">
+                                                           <fmt:formatNumber value="${(C.product.price * C.quantity) * (1 + 0.4) * 1.10}" type="number" minFractionDigits="0"/> đ
+                                                        </td>
+                                                    </tr>
 
-                                                </tr>
-
-                                            </c:forEach>
+                                                </c:forEach>
 
 
 

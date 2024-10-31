@@ -50,7 +50,7 @@ public class CartController extends HttpServlet {
             return;
         }
         int userId = account.getUserId();
-
+        
         // Create an instance of CartDAO
         CartDAO cartDAO = new CartDAO();
 

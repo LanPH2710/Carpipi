@@ -61,7 +61,7 @@
         <h1>Oops! Something went wrong.</h1>
         <p>We apologize for the inconvenience. Please try again later.</p>
          <p><a href="home">Back to home</a></p>
-        <p><a href="login.jsp">Back to Login</a></p>
+        <p><a href="byaccount">Back to Login</a></p>
         
     </div>
     

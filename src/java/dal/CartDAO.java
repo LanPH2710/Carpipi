@@ -15,6 +15,7 @@ import model.Product;
 import dal.*;
 import java.util.HashMap;
 import java.util.Map;
+import model.Color;
 
 /**
  *
@@ -47,6 +48,40 @@ public class CartDAO extends DBContext {
 //        }
 //    }
 
+    public List<Integer> getColorIdsOfCar(String productId) {
+        List<Integer> colorIds = new ArrayList<>();
+        String sql = "SELECT c.colorId "
+                + "FROM color c "
+                + "JOIN colorofcar coc ON c.colorId = coc.colorId "
+                + "WHERE coc.productId = ?";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, productId);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                int colorId = rs.getInt("colorId");
+                colorIds.add(colorId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return colorIds;
+    }
+public Color getColorById(int colorId) {
+    String sql = "SELECT colorId, colorName FROM color WHERE colorId = ?";
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setInt(1, colorId);
+        ResultSet rs = st.executeQuery();
+        if (rs.next()) {
+            return new Color(rs.getInt("colorId"), rs.getString("colorName"));
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
     public int getQuantityByUserIdAndProductId(int userId, String productId) {
         String sql = "SELECT quantity FROM cart WHERE userId = ? AND productId = ? AND isDeleted = 0";
         int quantity = -1; // Default to -1 if no cart item is found
@@ -203,17 +238,17 @@ public class CartDAO extends DBContext {
         }
     }
 
-    public void updateCart3(int userId, String productId, int quantity) {
-        String sql = "UPDATE cart SET quantity = ? WHERE cartId = ? AND userId = ? AND productId = ? AND isDeleted = 0";
+    public void updateCartColor(int cartId, int userId, String productId, int colorId) throws SQLException {
+        String sql = "UPDATE cart SET colorId = ? WHERE cartId = ? AND userId = ? AND productId = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, userId);
-            ps.setString(2, productId);
-            ps.setInt(3, quantity); // Set the quantity directly
-
+            ps.setInt(1, colorId);
+            ps.setInt(2, cartId);
+            ps.setInt(3, userId);
+            ps.setString(4, productId);
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error updating cart: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Error updating color: " + e.getMessage());
+            throw e; // Rethrow to handle in the servlet if needed
         }
     }
 // Phương thức xóa sản phẩm khỏi giỏ hàng

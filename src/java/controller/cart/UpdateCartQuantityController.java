@@ -73,31 +73,7 @@ public class UpdateCartQuantityController extends HttpServlet {
         }
 
         // Check if the selected color is available for the product
-        boolean colorExists = false;
-        for (Color colorOption : colorList) {
-            if (colorOption.getColorId() == color) {
-                colorExists = true;
-                break;
-            }
-        }
-
-        if (!colorExists) {
-            StringBuilder availableColors = new StringBuilder("Chỉ còn màu: ");
-            for (Color colorOption : colorList) {
-                availableColors.append(colorOption.getColorName()).append(", ");
-            }
-
-            // Remove the trailing comma and space
-            if (availableColors.length() > 0) {
-                availableColors.setLength(availableColors.length() - 2);
-            }
-
-            // Set the message with available colors in the session attribute
-            session.setAttribute("messUpdateCart", availableColors.toString());
-            response.sendRedirect("carts");
-            return;
-        }
-
+      
         // Proceed to update the cart
         CartDAO cartDAO = new CartDAO();
         List<Cart> carts = cartDAO.getCartsByUserId(userId);
@@ -105,7 +81,7 @@ public class UpdateCartQuantityController extends HttpServlet {
 
         // Find the cart item that matches the productId
         for (Cart cartItem : carts) {
-            if (cartItem.getProduct().getProductId().equals(productId) && cartItem.getColorId() == color) {
+            if (cartItem.getProduct().getProductId().equals(productId) ) {
                 cartToUpdate = cartItem;
                 break;
             }

@@ -9,10 +9,8 @@
 <html lang="en">
 
     <head>
-        <meta charset="utf-8">
-        <title>Doctris - Doctor Appointment Booking System</title>
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Product List</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -21,7 +19,7 @@
         <meta name="website" content="../../../index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets_son/images/favicon.ico.png">
+        <link rel="shortcut icon" href="img/logo3.png">
         <!-- Bootstrap -->
         <link href="assets_son/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
@@ -85,8 +83,8 @@
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
                         <a href="index.html">
-                            <img src="assetsSlider/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                            <img src="assetsSlider/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                            <img src="img/logoBnoBG.png" height="120px" class="logo-light-mode" alt="">
+                           
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">

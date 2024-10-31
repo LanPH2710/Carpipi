@@ -149,4 +149,10 @@ public class FeedbackDAO extends DBContext{
         }
         return arr;
     }
+    
+    public static void main(String[] args) {
+        FeedbackDAO f = new FeedbackDAO();
+        
+        System.out.println(f.getAllFeedback());
+    }
 }

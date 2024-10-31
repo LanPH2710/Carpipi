@@ -14,10 +14,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Account;
 import model.Cart;
 import model.Product;
@@ -38,79 +41,88 @@ public class AddToCart extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    try {
         CartDAO cartDAO = new CartDAO();
         ProductDAO productDAO = new ProductDAO();
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-        
+
         if (account == null) {
-            // Nếu chưa đăng nhập
             response.sendRedirect("login.jsp");
             return;
         }
-       
-        int userId = account.getUserId(); // Lấy userId từ session
+
+        int userId = account.getUserId();
         String productId = request.getParameter("productId");
         String quantityStr = request.getParameter("quantity");
+        int colorId = (request.getParameter("color") == null) ? 1 : Integer.parseInt(request.getParameter("color"));
 
-        // Kiểm tra quantity
+        // Quantity check
         if (quantityStr == null || quantityStr.isEmpty()) {
             response.getWriter().write("Quantity is required.");
             return;
         }
+
         Product product = productDAO.getProductById(productId);
         int quantityCurrent = cartDAO.getQuantityByUserIdAndProductId(userId, productId);
         int quantity;
-         String urlHistory = (String) session.getAttribute("urlHistory");
-                    if (urlHistory == null) {
-                        urlHistory = "home";
-                    }
+        String urlHistory = (String) session.getAttribute("urlHistory");
+        urlHistory = (urlHistory == null) ? "home" : urlHistory;
+
         try {
             quantity = Integer.parseInt(quantityStr);
         } catch (NumberFormatException e) {
             response.getWriter().write("Invalid quantity format.");
             return;
         }
-        if ((quantity+quantityCurrent) > product.getStock()) {
+
+        if ((quantity + quantityCurrent) > product.getStock()) {
             request.setAttribute("mesOfCart", "Quá số lượng");
-             request.getRequestDispatcher(urlHistory).forward(request, response);
-             return;
+            request.getRequestDispatcher(urlHistory).forward(request, response);
+            return;
         }
-        try {
-            int cartId = cartDAO.getCartIdByUserIdAndProductId(userId, productId);
-            
-            if (cartId == -1) {
-                // Nếu sản phẩm chưa tồn tại trong giỏ hàng -> Thêm sản phẩm mới
-                if (cartDAO.addToCart(userId, productId, quantity)) {
-                    // Thêm sản phẩm mới thành công
-                   
-                    int sizeCart = cartDAO.countCartsByUserId(userId);
-                    request.setAttribute("mesOfCart", "Sản đã được thêm vào giỏ");
-                    session.setAttribute("sizeCart", sizeCart);
-                     request.getRequestDispatcher(urlHistory).forward(request, response);
-                } else {
-                    // Lỗi khi thêm sản phẩm mới
-                    response.getWriter().write("Failed to add product to cart.");
-                }
-            } else {
-                // Nếu sản phẩm đã tồn tại -> Cập nhật số lượng
-                if (cartDAO.updateQuantityByCartId(cartId, quantity)) {
-                    // Cập nhật số lượng thành công
-                    
-                    request.setAttribute("mesOfCart", "Sản đã được thêm vào giỏ");
-                   request.getRequestDispatcher(urlHistory).forward(request, response);
-                } else {
-                    // Lỗi khi cập nhật số lượng
-                    response.getWriter().write("Failed to update cart quantity.");
+
+        // Get cart ID based on productId and userId
+        int cartId = cartDAO.getCartIdByUserIdAndProductId(userId, productId);
+
+        if (cartId == -1) {
+            // Item not in cart: add it directly and skip further checks
+            cartDAO.addToCart(userId, productId, quantity, colorId);
+        } else {
+            // Item exists, check for color match
+            List<Cart> carts = cartDAO.getCartsByUserId(userId);
+            boolean itemExistsWithSameColor = false;
+
+            for (Cart cartItem : carts) {
+                if (cartItem.getProduct().getProductId().equals(productId)) {
+                    if (cartItem.getColorId() == colorId) {
+                        // Item with same productId and colorId exists, update quantity
+                        cartDAO.updateQuantityByCartId(cartItem.getCartId(), quantity);
+                        itemExistsWithSameColor = true;
+                        break;
+                    }
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.getWriter().write("Error adding product to cart: " + e.getMessage());
+
+            // If no item with the same productId and colorId was found, add as a new cart item
+            if (!itemExistsWithSameColor) {
+                cartDAO.addToCart(userId, productId, quantity, colorId);
+            }
         }
+
+        // Update cart size and set success message
+        int sizeCart = cartDAO.countCartsByUserId(userId);
+        session.setAttribute("sizeCart", sizeCart);
+        request.setAttribute("mesOfCart", "Sản phẩm đã được thêm vào giỏ");
+        request.getRequestDispatcher(urlHistory).forward(request, response);
+
+    } catch (SQLException ex) {
+        Logger.getLogger(AddToCart.class.getName()).log(Level.SEVERE, null, ex);
     }
+}
+
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

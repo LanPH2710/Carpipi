@@ -181,7 +181,7 @@
                     <div class="mb-4">
                         <label class="mb-2 h6">Màu sắc</label>
                         <select class="form-control w-auto" name="color" id="colorSelect" onchange="updateColorValue()">
-                            <option value="" disabled selected>Chọn màu sắc</option>
+                            
                             <c:forEach items="${color}" var="color">
                                 <option value="${color.colorId}">${color.colorName}</option>
                             </c:forEach>
@@ -247,6 +247,7 @@
                                 <form action="addtocart" method="get">
                                     <input type="hidden" name="productId" value="${pro.productId}">
                                     <input type="hidden" name="color" id="colorInput" value="">
+                                    
                                     <input type="hidden" name="quantity" id="quantityFieldCart" value="1">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fas fa-shopping-basket"></i> Add to cart

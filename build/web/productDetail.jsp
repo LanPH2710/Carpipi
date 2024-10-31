@@ -180,8 +180,7 @@
                     <hr>
                     <div class="mb-4">
                         <label class="mb-2 h6">Màu sắc</label>
-                        <select class="form-control w-auto" name="colorId" id="colorSelect" onchange="updateColorValue()">
-                            <option value="" disabled selected>Chọn màu sắc</option>
+                        <select class="form-control w-auto" name="color" id="colorSelect" onchange="updateColorValue()">
                             <c:forEach items="${color}" var="color">
                                 <option value="${color.colorId}">${color.colorName}</option>
                             </c:forEach>
@@ -195,6 +194,17 @@
 
                             // Cập nhật giá trị vào input ẩn
                             document.getElementById('colorInput').value = selectedColor;
+                        }
+                        function validateForm() {
+                            // Lấy giá trị của input màu sắc
+                            var colorValue = document.getElementById('colorInput').value;
+
+                            // Kiểm tra xem người dùng đã chọn màu chưa
+                            if (!colorValue) {
+                                alert("Vui lòng chọn màu sắc trước khi thêm vào giỏ hàng.");
+                                return false; // Ngăn không cho gửi form
+                            }
+                            return true; // Cho phép gửi form nếu đã chọn màu
                         }
                     </script>
                     <div class="mb-4">
@@ -244,7 +254,7 @@
                                     <input type="hidden" name="quantity" id="quantityFieldPayment" value="1">
                                     <button type="submit" class="btn btn-warning">Buy now</button>
                                 </form> &nbsp;&nbsp;
-                                <form action="addtocart" method="get">
+                                <form action="addtocart" method="get" onsubmit="return validateForm()">
                                     <input type="hidden" name="productId" value="${pro.productId}">
                                     <input type="hidden" name="color" id="colorInput" value="">
                                     <input type="hidden" name="quantity" id="quantityFieldCart" value="1">

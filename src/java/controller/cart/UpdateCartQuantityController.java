@@ -7,6 +7,7 @@ package controller.cart;
 
 import java.sql.SQLException;
 import dal.CartDAO;
+import dal.ColorDAO;
 import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +22,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
 import model.Cart;
+import model.Color;
 import model.Product;
 
 @WebServlet(name = "UpdateCartQuantityController", urlPatterns = {"/update-quantity"})
@@ -35,81 +37,81 @@ public class UpdateCartQuantityController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-         if (account == null) {
-            // Nếu chưa đăng nhập
+        if (account == null) {
             response.sendRedirect("login.jsp");
             return;
         }
-         int isSelect = request.getParameter("selectCart") != null ? 1 : 0;
+
+        int isSelect = request.getParameter("selectCart") != null ? 1 : 0;
         int userId = account.getUserId();
         String productId = request.getParameter("productId");
         String qua = request.getParameter("quantity");
         int quantity = Integer.parseInt(qua);
-        
-        // Create an instance of CartDAO
+        int color = Integer.parseInt(request.getParameter("color"));
+
+        ColorDAO cdao = new ColorDAO();
+        List<Color> colorList = cdao.getColorOfCar(productId);
+
+        // Validate quantity and input
+        ProductDAO productDAO = new ProductDAO();
+        Product product = productDAO.getProductById(productId);
+        if (quantity > product.getStock()) {
+            session.setAttribute("messCart", "Mua quá số lượng");
+            session.setAttribute("flashTime", System.currentTimeMillis());
+            response.sendRedirect("carts");
+            return;
+        } else if (qua.isEmpty()) {
+            session.setAttribute("messCart", "Vui lòng nhập số nguyên");
+            session.setAttribute("flashTime", System.currentTimeMillis());
+            response.sendRedirect("carts");
+            return;
+        }
+
+        // Check if the selected color is available for the product
+      
+        // Proceed to update the cart
         CartDAO cartDAO = new CartDAO();
-         ProductDAO productDAO = new ProductDAO();
-         Product product = productDAO.getProductById(productId);
-         if (quantity > product.getStock()) {
-             session.setAttribute("messCart", "Mua quá số lượng");
-             session.setAttribute("flashTime", System.currentTimeMillis());
-             response.sendRedirect("carts");
-              return;
-         }else if (qua.isEmpty() || qua == null) {
-             session.setAttribute("messCart", "Vui lòng nhập số nguyên");
-             session.setAttribute("flashTime", System.currentTimeMillis());
-             response.sendRedirect("carts");
-              return;
-         }
-         
-       
         List<Cart> carts = cartDAO.getCartsByUserId(userId);
         Cart cartToUpdate = null;
-        // Check if the quantity exceeds the limit
-        
+
         // Find the cart item that matches the productId
         for (Cart cartItem : carts) {
-            if (cartItem.getProduct().getProductId().equals(productId)) {
+            if (cartItem.getProduct().getProductId().equals(productId) ) {
                 cartToUpdate = cartItem;
-                
-               break;
+                break;
             }
         }
-         
-        
-             
-         
+
         if (cartToUpdate != null) {
-            // Update the quantity in the database
-            cartDAO.updateCart2(cartToUpdate.getCartId(), userId, productId, quantity,isSelect);
-                cartToUpdate.setIsSelect(isSelect);
-            // Update the cart quantity in the list
+            cartDAO.updateCart2(cartToUpdate.getCartId(), userId, productId, quantity, isSelect, color);
+            cartToUpdate.setColorId(color);
+            cartToUpdate.setIsSelect(isSelect);
             cartToUpdate.setQuantity(quantity);
+        } else {
+            // Handle the case where the cart item doesn't exist
+            session.setAttribute("messUpdateCart", "Không tìm thấy sản phẩm trong giỏ hàng");
+            response.sendRedirect("carts");
+            return;
         }
+
         // Update total money after the change
         double totalMoney = 0;
         for (Cart cartItem : carts) {
-            if (cartItem.getIsSelect()==1) {
+            if (cartItem.getIsSelect() == 1) {
                 totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
             }
-            
         }
         session.setAttribute("messCart", "");
-        // Save the updated carts and total money back to session
         session.setAttribute("carts", carts);
         session.setAttribute("totalMoney", totalMoney);
-        String urlHistory = (String) session.getAttribute("urlHistory");
-        if (urlHistory == null) {
-            urlHistory = "carts";
-        }
-        // Redirect to the cart page or forward to the appropriate view
-        response.sendRedirect("carts"); // Redirect to the CartController
+        response.sendRedirect("carts");
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

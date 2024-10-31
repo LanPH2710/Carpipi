@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
 import model.Cart;
-
+import java.sql.SQLException; 
 /**
  *
  * @author hiule
@@ -59,12 +59,18 @@ public class TaxController extends HttpServlet {
         Account account = (Account) session.getAttribute("account");
         int userId = account.getUserId();
         CartDAO cartDAO = new CartDAO();
-       List<Cart> carts = cartDAO.getCartsByUserId(userId);
+       List<Cart> carts = cartDAO.getSelectedCarts(userId);
+       
         double totalFinal= 0;
          for (Cart cartItem : carts) {
-            totalFinal += cartItem.getQuantity() * cartItem.getProduct().getPrice()* (1 + 0.4) * 1.10;
+            
+                 
+                  totalFinal += cartItem.getQuantity() * cartItem.getProduct().getPrice()* (1 + 0.4) * 1.10;
+             
         }
+         
          session.setAttribute("totalFinal", totalFinal);
+         session.setAttribute("cartsSelect", carts);
         request.getRequestDispatcher("checkout_1.jsp").forward(request, response);
     }
 

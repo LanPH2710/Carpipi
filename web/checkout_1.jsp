@@ -71,10 +71,10 @@
                             <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Shopping Cart</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="shop.html">Shop</a></li>
-                                    <li><a href="product-detail.html">Shop Detail</a></li>
-                                    <li><a href="shopcart.html">Shopcart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
+                                    <li><a href="home">Home</a></li>
+                                    <li><a href="carts">Giỏ Hàng</a></li>
+                                    <li><a href="tax">Thuế</a></li>
+                                    <li><a href="checkout">Checkout</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -174,9 +174,10 @@
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
-                                    <li class="breadcrumb-item"><a href="shop.html">Shop</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                                    <li class="breadcrumb-item"><a href="home">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="carts">Giỏ Hàng</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Thuế</li>
+                                    <li class="breadcrumb-item"><a href="checkout">Checkout</a></li>
                                 </ul>
                             </nav>
                             <div class="mt-4 pt-2 text-end">
@@ -192,18 +193,18 @@
                                         <span class="badge bg-primary rounded-pill">3</span>
                                     </div>
                                     <ul class="list-group mb-3 border">
-                                        <c:forEach items="${sessionScope.carts}" var="C">
+                                        <c:forEach items="${sessionScope.cartsSelect}" var="C">
                                             <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
                                                 <div>
-                                                    <h6 class="my-0">Product name</h6>
+                                                   
                                                     <small class="text-muted">${C.product.name}</small>
                                                 </div>
                                                 <span class="text-muted">${C.product.price}</span>
                                             </li>
                                         </c:forEach>
                                         <li class="d-flex justify-content-between p-3">
-                                            <span>Total (USD)</span>
-                                            <strong><fmt:formatNumber value="${sessionScope.totalFinal}" type="number" minFractionDigits="0"/> đ</strong>
+                                            <span>Total (VND)</span>
+                                            <strong><fmt:formatNumber value="${sessionScope.totalFinal}" type="number" minFractionDigits="0"/> </strong>
                                         </li>
                                     </ul>
 
@@ -233,7 +234,7 @@
 
                                             <tbody>
 
-                                                <c:forEach items="${sessionScope.carts}" var="C">
+                                                <c:forEach items="${sessionScope.cartsSelect}" var="C">
                                                     <tr>
 
                                                         <td>
@@ -247,20 +248,20 @@
                                                                 <input  type="number" name="quantity" value="${C.quantity}" min="0" step="1" title="Please enter a non-negative integer!" class="btn btn-icon btn-primary qty-btn1 quantity" >
                                                             </div>
                                                         <td class="text-center p-3">
-                                                            <fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ
+                                                            <fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> 
                                                         </td>
-                                                       
+
                                                         <td class="text-end font-weight-bold p-3">
-                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.7}" type="number" minFractionDigits="0"/> đ
-                                                        </td>
-                                                        <td class="text-end font-weight-bold p-3">
-                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.4}" type="number" minFractionDigits="0"/> đ
+                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.7}" type="number" minFractionDigits="0"/> 
                                                         </td>
                                                         <td class="text-end font-weight-bold p-3">
-                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.1}" type="number" minFractionDigits="0"/> đ
+                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.4}" type="number" minFractionDigits="0"/> 
                                                         </td>
-                                                         <td class="text-end font-weight-bold p-3">
-                                                           <fmt:formatNumber value="${(C.product.price * C.quantity) * (1 + 0.4) * 1.10}" type="number" minFractionDigits="0"/> đ
+                                                        <td class="text-end font-weight-bold p-3">
+                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.1}" type="number" minFractionDigits="0"/> 
+                                                        </td>
+                                                        <td class="text-end font-weight-bold p-3">
+                                                            <fmt:formatNumber value="${(C.product.price * C.quantity) * (1 + 0.4) * 1.10}" type="number" minFractionDigits="0"/> 
                                                         </td>
                                                     </tr>
 

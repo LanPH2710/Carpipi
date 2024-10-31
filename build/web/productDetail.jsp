@@ -180,7 +180,7 @@
                     <hr>
                     <div class="mb-4">
                         <label class="mb-2 h6">Màu sắc</label>
-                        <select class="form-control w-auto" name="color" id="colorSelect" onchange="updateColorValue()">
+                        <select class="form-control w-auto" name="colorId" id="colorSelect" onchange="updateColorValue()">
                             <option value="" disabled selected>Chọn màu sắc</option>
                             <c:forEach items="${color}" var="color">
                                 <option value="${color.colorId}">${color.colorName}</option>

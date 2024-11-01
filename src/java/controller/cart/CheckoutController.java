@@ -120,11 +120,14 @@ public class CheckoutController extends HttpServlet {
             }
 
             if (flag) {
+                  session.setAttribute("name", (lastName +firstName));
+            session.setAttribute("phone", mobile);
+            session.setAttribute("email", email);
+            session.setAttribute("address", shippingAddress);
                 request.getRequestDispatcher("vnpay_pay.jsp").forward(request, response);
             } else {
                 // Set form field values and error messages in the request scope
-                request.setAttribute("firstName", firstName);
-                // Set other form fields and error messages...
+             
 
                 // Forward back to the checkout page
                 request.getRequestDispatcher("checkout.jsp").forward(request, response);

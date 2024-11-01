@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
+import model.Order;
 import model.OrderDetail;
 import model.OrderStatus;
 import model.Role;
@@ -94,12 +95,98 @@ public class OrderDAO extends DBContext {
         return listStatus;
     }
 
+    public Order getOrderById(String orderId) {
+        Order o = new Order();
+
+        String sql = "SELECT * FROM carpipi.order WHERE orderId = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, orderId);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                o.setUserId(rs.getInt("userId"));
+                o.setFirstName(rs.getString("firstName"));
+                o.setLastName(rs.getString("lastName"));
+                o.setMobile(rs.getString("mobile"));
+                o.setEmail(rs.getString("email"));
+                o.setGender(rs.getInt("gender"));
+                o.setOrderId(rs.getInt("orderId"));
+                o.setCreateDate(rs.getString("createDate"));
+                o.setNote(rs.getString("note"));
+                o.setOrderStatus(rs.getInt("orderStatus"));
+                o.setSaleId(rs.getInt("saleId"));
+                o.setShipperId(rs.getInt("shipperId"));
+
+            }
+        } catch (Exception e) {
+        }
+
+        return o;
+    }
+
+    public List<OrderDetail> getListOrderdetailById(String orderId) {
+        List<OrderDetail> list = new ArrayList<>();
+
+        String sql = "SELECT acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
+                + "orr.*, od.productId, od.quantity, od.shippingAddress, od.discountId, od.colorId,\n"
+                + "p.name, p.price\n"
+                + "FROM carpipi.order orr\n"
+                + "Join carpipi.account acc\n"
+                + "ON orr.userId = acc.userId\n"
+                + "JOIN carpipi.orderdetail od\n"
+                + "ON orr.orderId = od.orderId\n"
+                + "Join carpipi.product p\n"
+                + "ON od.productId = p.productId\n"
+                + "Where od.orderId = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, orderId);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                OrderDetail o = new OrderDetail();
+
+                o.setUserId(rs.getInt("userId"));
+                o.setFirstName(rs.getString("firstName"));
+                o.setLastName(rs.getString("lastName"));
+                o.setMobile(rs.getString("mobile"));
+                o.setEmail(rs.getString("email"));
+                o.setGender(rs.getInt("gender"));
+                o.setOrderId(rs.getInt("orderId"));
+                o.setProductId(rs.getString("productId"));
+                o.setProductName(rs.getString("name"));
+                o.setPrice(rs.getDouble("p.price"));
+                o.setCreateDate(rs.getString("createDate"));
+                o.setNote(rs.getString("note"));
+                o.setOrderStatus(rs.getInt("orderStatus"));
+                o.setSaleId(rs.getInt("saleId"));
+                o.setShipperId(rs.getInt("shipperId"));
+                o.setShippingAddress(rs.getString("shippingAddress"));
+                o.setQuantity(rs.getInt("quantity"));
+                o.setDiscountId(rs.getInt("discountId"));
+                o.setColorId(rs.getInt("colorId"));
+
+                list.add(o);
+
+            }
+
+        } catch (Exception e) {
+        }
+
+        return list;
+    }
+
     public static void main(String[] args) {
         OrderDAO o = new OrderDAO();
 
-        OrderDetail oo = o.getOrderDetail(1);
-
-        System.out.println(oo.getUserId());
+        
+        List<OrderDetail> l = o.getListOrderdetailById("1");
+        for (OrderDetail orderDetail : l) {
+            System.out.println(orderDetail.getPrice());
+        }
 
     }
 }

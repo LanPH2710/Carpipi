@@ -9,10 +9,8 @@
 <html lang="en">
 
     <head>
-        <meta charset="utf-8">
-        <title>Doctris - Doctor Appointment Booking System</title>
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Product List</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -21,17 +19,17 @@
         <meta name="website" content="../../../index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets1/images/favicon.ico.png">
+        <link rel="shortcut icon" href="img/logo3.png">
         <!-- Bootstrap -->
-        <link href="assets1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets_son/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
-        <link href="assets1/css/simplebar.css" rel="stylesheet" type="text/css" />
+        <link href="assets_son/css/simplebar.css" rel="stylesheet" type="text/css" />
         <!-- Icons -->
-        <link href="assets1/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets1/css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link href="assets_son/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets_son/css/remixicon.css" rel="stylesheet" type="text/css" />
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
-        <link href="assets1/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="assets_son/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
 
         <style>
             .col {
@@ -85,8 +83,8 @@
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
                         <a href="index.html">
-                            <img src="assetsSlider/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                            <img src="assetsSlider/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                            <img src="img/logoBnoBG.png" height="120px" class="logo-light-mode" alt="">
+                           
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
@@ -116,10 +114,10 @@
                     <div class="header-bar d-flex justify-content-between border-bottom">
                         <div class="d-flex align-items-center">
                             <a href="#" class="logo-icon">
-                                <img src="assets1/images/logo-icon.png" height="30" class="small" alt="">
+                                <img src="assets_son/images/logo-icon.png" height="30" class="small" alt="">
                                 <span class="big">
-                                    <img src="assets1/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                                    <img src="assets1/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                                    <img src="assets_son/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
+                                    <img src="assets_son/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
                                 </span>
                             </a>
                             <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
@@ -411,8 +409,8 @@
         <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header p-4 border-bottom">
                 <h5 id="offcanvasRightLabel" class="mb-0">
-                    <img src="assets1/images/logo-dark.png" height="24" class="light-version" alt="">
-                    <img src="assets1/images/logo-light.png" height="24" class="dark-version" alt="">
+                    <img src="assets_son/images/logo-dark.png" height="24" class="light-version" alt="">
+                    <img src="assets_son/images/logo-light.png" height="24" class="dark-version" alt="">
                 </h5>
                 <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
             </div>
@@ -423,13 +421,13 @@
                         <div id="style-switcher">
                             <div>
                                 <ul class="text-center list-unstyled mb-0">
-                                    <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets1/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets1/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets1/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets1/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets1/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets1/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
-                                    <li class="d-grid"><a href="../landing/index.html" target="_blank" class="mt-4"><img src="assets1/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets_son/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets_son/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets_son/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets_son/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets_son/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets_son/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
+                                    <li class="d-grid"><a href="../landing/index.html" target="_blank" class="mt-4"><img src="assets_son/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -528,13 +526,13 @@
         <!-- End modal -->
 
         <!-- javascript -->
-        <script src="assets1/js/bootstrap.bundle.min.js"></script>
+        <script src="assets_son/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->
-        <script src="assets1/js/simplebar.min.js"></script>
+        <script src="assets_son/js/simplebar.min.js"></script>
         <!-- Icons -->
-        <script src="assets1/js/feather.min.js"></script>
+        <script src="assets_son/js/feather.min.js"></script>
         <!-- Main Js -->
-        <script src="assets1/js/app.js"></script>
+        <script src="assets_son/js/app.js"></script>
 
         <script>
                                         const handleChange = () => {

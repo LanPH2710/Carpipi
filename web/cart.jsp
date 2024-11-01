@@ -48,6 +48,21 @@
         }
 
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Kiểm tra nếu có thông báo
+            var message = "${messUpdateCart}";
+            if (message && message.trim() !== "") {
+                var messageDiv = document.getElementById("message");
+                messageDiv.style.display = "block";
+
+                // Tự động ẩn sau 3 giây
+                setTimeout(function () {
+                    messageDiv.style.display = "none";
+                }, 3000);
+            }
+        });
+    </script>
     <script> $(document).ready(function () {
             $('.breadcrumb-item a').click(function () {
                 $('.breadcrumb-item').removeClass('active'); // Xóa lớp active của tất cả
@@ -193,23 +208,14 @@
                                 <li class="breadcrumb-item"><a href="home">Home</a></li>
 
                                 <li class="breadcrumb-item active" aria-current="page">Cart</li>
-                                <li class="breadcrumb-item active" style="color: red"><%
-    Long flashTime = (Long)session.getAttribute("flashTime");
-    if (flashTime != null && System.currentTimeMillis() - flashTime < 2000) { // 2 giây
-                                    %>
-                                    <c:if test="${not empty messCart}">
-                                        ${messCart}
-                                    </c:if>
-                                    <%
-                                        } else {
-                                            session.removeAttribute("messCart");
-                                            session.removeAttribute("flashTime");
-                                        }
-                                    %></li>
+
 
                             </ul>
 
                         </nav>
+                        <div id="message" class="message-popup" style="display: none; color: red;">
+                            ${messUpdateCart}
+                        </div>
 
 
 
@@ -222,6 +228,8 @@
                                             <tr>
                                                 <th type class="border-bottom text-center p-3" style="min-width: 50px;">Chọn</th>
                                                 <th class="border-bottom text-center p-3" style="min-width: 300px;">Sản phẩm</th>
+                                                <th class="border-bottom text-center p-3" style="min-width: 160px;">Màu</th>
+
                                                 <th class="border-bottom text-center p-3" style="min-width: 160px;">Giá</th>
                                                 <th class="border-bottom text-center p-3" style="min-width: 190px;">Số Lượng</th>
                                                 <th class="border-bottom text-center p-3" style="min-width: 50px;">Tổng</th>
@@ -229,18 +237,14 @@
                                         </thead>
 
                                         <tbody>
-                                            <c:if test="${ empty sessionScope.carts}"> 
-                                            <div class="alert alert-primary" role="alert"> Giỏ hàng trống</div>
-                                        </c:if>
 
-                                        <c:forEach items="${sessionScope.carts}" var="C">
+
+                                            <c:forEach items="${sessionScope.carts}" var="C">
                                             <form action="update-quantity">
                                                 <tr>
                                                     <td class="text-center p-3">
-                                                        <!-- Checkbox based on C.cart value -->
                                                         <input type="checkbox" name="selectCart" <c:if test="${C.isSelect == 1}">checked</c:if> onchange="this.form.submit()">
-                                                            <!-- Hidden field to pass isSelect as 1 if checked, 0 if unchecked -->
-                                                            <input type="hidden" name="isSelect" value="${C.isSelect}">
+                                                        <input type="hidden" name="isSelect" value="${C.isSelect}">
                                                     </td>
                                                     <td>
                                                         <div class="d-flex align-items-center">
@@ -248,6 +252,14 @@
                                                             <a href="productdetail?productId=${C.product.productId}" class="mb-0 ms-3">${C.product.name}</a>
                                                         </div>
                                                     </td>
+                                                    <td class="text-center p-3">
+                                                        <select name="color" id="colorSelect" class="form-select" onchange="this.form.submit()">
+                                                            <c:forEach items="${C.product.colorList}" var="color">
+                                                                <option value="${color.colorId}" ${C.colorId == color.colorId ? "selected" : ""}>${color.colorName}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </td>
+
                                                     <td class="text-center p-3">
                                                         <fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ
                                                     </td>
@@ -276,8 +288,12 @@
 
 
                                         </tbody>
-                                    </table>
-                                </div>
+
+                                    </table>  
+
+                                </div>  <c:if test="${ empty sessionScope.carts}"> 
+                                    <div class="alert alert-primary " role="alert"> Giỏ hàng trống</div>
+                                </c:if>
                             </div><!--end col-->
                         </div><!--end row-->
 
@@ -298,13 +314,13 @@
                                                         <fmt:formatNumber value="${sessionScope.totalMoney}" type="number" minFractionDigits="0"/> đ
                                                     </td>
                                                 </tr>
-                                               
-                                              
+
+
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="mt-4 pt-2 text-end">
-                                        <a href="tax" class="btn btn-primary" >Proceed to checkout</a>
+                                        <a href="tax" class="btn btn-primary" >Tính Thuế</a>
                                     </div>
                                 </div><!--end col-->
                             </div><!--end row-->

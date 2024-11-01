@@ -15,6 +15,7 @@ import model.Product;
 import dal.*;
 import java.util.HashMap;
 import java.util.Map;
+import model.Color;
 
 /**
  *
@@ -47,25 +48,60 @@ public class CartDAO extends DBContext {
 //        }
 //    }
 
-   public int getQuantityByUserIdAndProductId(int userId, String productId) {
-    String sql = "SELECT quantity FROM cart WHERE userId = ? AND productId = ? AND isDeleted = 0";
-    int quantity = -1; // Default to -1 if no cart item is found
+    public List<Integer> getColorIdsOfCar(String productId) {
+        List<Integer> colorIds = new ArrayList<>();
+        String sql = "SELECT c.colorId "
+                + "FROM color c "
+                + "JOIN colorofcar coc ON c.colorId = coc.colorId "
+                + "WHERE coc.productId = ?";
 
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, userId);
-        ps.setString(2, productId);
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, productId);
+            ResultSet rs = st.executeQuery();
 
-        try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                quantity = rs.getInt("quantity");
+            while (rs.next()) {
+                int colorId = rs.getInt("colorId");
+                colorIds.add(colorId);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return colorIds;
+    }
+public Color getColorById(int colorId) {
+    String sql = "SELECT colorId, colorName FROM color WHERE colorId = ?";
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setInt(1, colorId);
+        ResultSet rs = st.executeQuery();
+        if (rs.next()) {
+            return new Color(rs.getInt("colorId"), rs.getString("colorName"));
         }
     } catch (SQLException e) {
-        e.printStackTrace(); // You could also log the exception instead of printing it
+        e.printStackTrace();
+    }
+    return null;
+}
+    public int getQuantityByUserIdAndProductId(int userId, String productId) {
+        String sql = "SELECT quantity FROM cart WHERE userId = ? AND productId = ? AND isDeleted = 0";
+        int quantity = -1; // Default to -1 if no cart item is found
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setString(2, productId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    quantity = rs.getInt("quantity");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // You could also log the exception instead of printing it
+        }
+
+        return quantity;
     }
 
-    return quantity;
-}
     public int getCartIdByUserIdAndProductId(int userId, String productId) throws SQLException {
         String sql = "SELECT cartId FROM cart WHERE userId = ? AND productId = ? AND isDeleted = 0";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -88,14 +124,15 @@ public class CartDAO extends DBContext {
         }
     }
 
-    public boolean addToCart(int userId, String productId, int quantity) throws SQLException {
+    public boolean addToCart(int userId, String productId, int quantity, int colorId) throws SQLException {
 
         // Nếu cart không tồn tại, thực hiện insert mới
-        String sql = "INSERT INTO cart (userId, productId, quantity) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO cart (userId, productId, quantity,colorId) VALUES (?, ?, ?,?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, userId);
             ps.setString(2, productId);
             ps.setInt(3, quantity);
+            ps.setInt(4, colorId);
             return ps.executeUpdate() > 0; // Trả về true nếu insert thành công
 
         }
@@ -140,10 +177,11 @@ public class CartDAO extends DBContext {
                 String productId = rs.getString("productId");
                 int quantity = rs.getInt("quantity");
                 int isSelect = rs.getInt("isSelect");
+                int colorId = rs.getInt("colorId");
                 // You may need to fetch product details based on productId
                 Product product = new ProductDAO().getProductById(productId);  // Implement this method as needed
 
-                Cart cart = new Cart(cartId, userId, product, quantity, isSelect);
+                Cart cart = new Cart(cartId, userId, product, quantity, isSelect, colorId);
                 cartList.add(cart);
             }
         } catch (SQLException e) {
@@ -153,24 +191,24 @@ public class CartDAO extends DBContext {
         return cartList;
     }
 
-   public Integer getStockByCartId(int cartId) {
-    String sql = "SELECT quantity FROM cart WHERE cartId = ? AND isDeleted = 0";
-    Integer quantity = null; // Use Integer to allow null if no record is found
+    public Integer getStockByCartId(int cartId) {
+        String sql = "SELECT quantity FROM cart WHERE cartId = ? AND isDeleted = 0";
+        Integer quantity = null; // Use Integer to allow null if no record is found
 
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, cartId);
-        ResultSet rs = ps.executeQuery();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, cartId);
+            ResultSet rs = ps.executeQuery();
 
-        if (rs.next()) {
-            // Retrieve the stock quantity
-            quantity = rs.getInt("quantity");
+            if (rs.next()) {
+                // Retrieve the stock quantity
+                quantity = rs.getInt("quantity");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle exceptions appropriately
         }
-    } catch (SQLException e) {
-        e.printStackTrace(); // Handle exceptions appropriately
-    }
 
-    return quantity; // Will be null if no stock is found
-}
+        return quantity; // Will be null if no stock is found
+    }
 
     public void updateCart1(int cartId, int userId, String productId, int quantity) throws SQLException {
         String sql = "UPDATE cart SET quantity = quantity + ? WHERE cartId = ? AND userId = ? AND productId = ?";
@@ -184,33 +222,33 @@ public class CartDAO extends DBContext {
     }
 
     // Phương thức cập nhật số lượng sản phẩm trong giỏ hàng
-   public void updateCart2(int cartId, int userId, String productId, int quantity, int isSelect) {
-    String sql = "UPDATE cart SET quantity = ?, isSelect = ? WHERE cartId = ? AND userId = ? AND productId = ?";
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, quantity); // Set the quantity directly
-        ps.setInt(2, isSelect); // Set isSelect in the SET clause
-        ps.setInt(3, cartId);   // Include cartId in the update condition
-        ps.setInt(4, userId);
-        ps.setString(5, productId);
-        ps.executeUpdate();
-    } catch (SQLException e) {
-        System.err.println("Error updating cart: " + e.getMessage());
-        e.printStackTrace();
-    }
-}
-
-
-    public void updateCart3(int userId, String productId, int quantity) {
-        String sql = "UPDATE cart SET quantity = ? WHERE cartId = ? AND userId = ? AND productId = ? AND isDeleted = 0";
+    public void updateCart2(int cartId, int userId, String productId, int quantity, int isSelect, int colorId) {
+        String sql = "UPDATE cart SET quantity = ?, isSelect = ?, colorId = ? WHERE cartId = ? AND userId = ? AND productId = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, userId);
-            ps.setString(2, productId);
-            ps.setInt(3, quantity); // Set the quantity directly
-
+            ps.setInt(1, quantity);   // Set the quantity directly
+            ps.setInt(2, isSelect);   // Set isSelect in the SET clause
+            ps.setInt(3, colorId);    // Set colorId
+            ps.setInt(4, cartId);     // Include cartId in the update condition
+            ps.setInt(5, userId);
+            ps.setString(6, productId);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error updating cart: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    public void updateCartColor(int cartId, int userId, String productId, int colorId) throws SQLException {
+        String sql = "UPDATE cart SET colorId = ? WHERE cartId = ? AND userId = ? AND productId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, colorId);
+            ps.setInt(2, cartId);
+            ps.setInt(3, userId);
+            ps.setString(4, productId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error updating color: " + e.getMessage());
+            throw e; // Rethrow to handle in the servlet if needed
         }
     }
 // Phương thức xóa sản phẩm khỏi giỏ hàng
@@ -278,50 +316,54 @@ public class CartDAO extends DBContext {
         return cartList;
     }
 
-   public int countCartsByUserId(int userId) {
-    int totalCarts = 0;  // Variable to hold the count
-    String sql = "SELECT COUNT(*) AS totalCarts "
-               + "FROM carpipi.cart "
-               + "WHERE userId = ? AND isDeleted = 0";  // Ensure only active carts are counted
+    public int countCartsByUserId(int userId) {
+        int totalCarts = 0;  // Variable to hold the count
+        String sql = "SELECT COUNT(*) AS totalCarts "
+                + "FROM carpipi.cart "
+                + "WHERE userId = ? AND isDeleted = 0";  // Ensure only active carts are counted
 
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, userId);  // Set the userId parameter
-        ResultSet rs = ps.executeQuery();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId);  // Set the userId parameter
+            ResultSet rs = ps.executeQuery();
 
-        if (rs.next()) {
-            totalCarts = rs.getInt("totalCarts");  // Retrieve the count
+            if (rs.next()) {
+                totalCarts = rs.getInt("totalCarts");  // Retrieve the count
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();  // Print the stack trace to help debug any SQL errors
         }
-    } catch (SQLException e) {
-        e.printStackTrace();  // Print the stack trace to help debug any SQL errors
+
+        return totalCarts;  // Return the total count
     }
 
-    return totalCarts;  // Return the total count
-}
-
-
-    public List<Cart> getSelectedCarts() throws SQLException {
+    public List<Cart> getSelectedCarts(int userId) {
         List<Cart> selectedCarts = new ArrayList<>();
         String sql = "SELECT c.cartId, c.userId, c.productId, c.quantity, p.name AS productName, s.supplyName "
                 + "FROM cart c "
                 + "JOIN product p ON c.productId = p.productId "
                 + "JOIN supply s ON p.supplyId = s.supplyId "
-                + "WHERE c.isSelect = 1 ";
+                + "WHERE c.isSelect = 1 AND c.userId = ? AND c.isDeleted = 0";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId); // Set userId parameter in the query
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 int cartId = rs.getInt("cartId");
-                int userId = rs.getInt("userId");
                 String productId = rs.getString("productId");
                 int quantity = rs.getInt("quantity");
 
-                // Fetch product details based on productId if needed
-                Product product = new ProductDAO().getProductById(productId); // Implement getProductById
-
+                // Fetch product details based on productId
+                Product product = new ProductDAO().getProductById(productId);
+                // Create a Cart object and add it to the list
                 Cart cart = new Cart(cartId, userId, product, quantity, 1);
                 selectedCarts.add(cart);
             }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving selected carts for userId: " + userId);
+            e.printStackTrace(); // Log or handle exceptions as necessary
         }
+
         return selectedCarts;
     }
 

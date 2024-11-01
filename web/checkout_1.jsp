@@ -196,7 +196,7 @@
                                         <c:forEach items="${sessionScope.cartsSelect}" var="C">
                                             <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
                                                 <div>
-                                                    <h6 class="my-0">Product name</h6>
+                                                   
                                                     <small class="text-muted">${C.product.name}</small>
                                                 </div>
                                                 <span class="text-muted">${C.product.price}</span>

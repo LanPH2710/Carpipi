@@ -124,6 +124,10 @@ public class ChangePasswordServlet extends HttpServlet {
                 int rowCount = pst.executeUpdate();
                 if (rowCount > 0) {
                     request.setAttribute("message", "Đổi mật khẩu thành công.");
+                    HttpSession session = request.getSession();
+                    session.invalidate();
+                    response.sendRedirect("login.jsp");
+                    return;
                 } else {
                     request.setAttribute("mess", "Đổi mật khẩu thất bại, vui lòng thử lại.");
                 }

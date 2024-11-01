@@ -130,16 +130,21 @@ public class OrderDAO extends DBContext {
         List<OrderDetail> list = new ArrayList<>();
 
         String sql = "SELECT acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
-                + "orr.*, od.productId, od.quantity, od.shippingAddress, od.discountId, od.colorId,\n"
-                + "p.name, p.price\n"
+                + "       orr.*, od.productId, od.quantity, od.shippingAddress, od.discountId, od.colorId,\n"
+                + "       p.name, p.price, MIN(pri.imageUrl) AS imageUrl\n"
                 + "FROM carpipi.order orr\n"
-                + "Join carpipi.account acc\n"
+                + "JOIN carpipi.account acc\n"
                 + "ON orr.userId = acc.userId\n"
                 + "JOIN carpipi.orderdetail od\n"
                 + "ON orr.orderId = od.orderId\n"
-                + "Join carpipi.product p\n"
+                + "JOIN carpipi.product p\n"
                 + "ON od.productId = p.productId\n"
-                + "Where od.orderId = ?";
+                + "JOIN carpipi.productImage pri\n"
+                + "ON pri.productId = p.productId\n"
+                + "WHERE od.orderId = ?\n"
+                + "GROUP BY acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
+                + "         orr.orderId, od.productId, od.quantity, od.shippingAddress, od.discountId, od.colorId,\n"
+                + "         p.name, p.price;";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -167,6 +172,7 @@ public class OrderDAO extends DBContext {
                 o.setShippingAddress(rs.getString("shippingAddress"));
                 o.setQuantity(rs.getInt("quantity"));
                 o.setDiscountId(rs.getInt("discountId"));
+                o.setImageUrl(rs.getString("imageUrl"));
                 o.setColorId(rs.getInt("colorId"));
 
                 list.add(o);
@@ -182,10 +188,9 @@ public class OrderDAO extends DBContext {
     public static void main(String[] args) {
         OrderDAO o = new OrderDAO();
 
-        
         List<OrderDetail> l = o.getListOrderdetailById("1");
         for (OrderDetail orderDetail : l) {
-            System.out.println(orderDetail.getPrice());
+            System.out.println(orderDetail.getImageUrl());
         }
 
     }

@@ -342,7 +342,7 @@ public Color getColorById(int colorId) {
                 + "FROM cart c "
                 + "JOIN product p ON c.productId = p.productId "
                 + "JOIN supply s ON p.supplyId = s.supplyId "
-                + "WHERE c.isSelect = 1 AND c.userId = ?";
+                + "WHERE c.isSelect = 1 AND c.userId = ? AND c.isDeleted = 0";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, userId); // Set userId parameter in the query

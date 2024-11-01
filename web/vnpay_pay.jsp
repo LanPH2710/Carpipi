@@ -35,8 +35,8 @@
                 <form action="vnpay" id="frmCreateOrder" method="post">        
                     <div class="form-group">
                         <label for="amount" style="font-size: 20px">Số tiền:  <fmt:formatNumber value="${totalFinal}"/> vnđ</label>
-                        <fmt:formatNumber value="${totalFinal}" type="number" groupingUsed="false" maxFractionDigits="0" var="formattedTotalMoney" />
-                        <input value="${formattedTotalMoney}" type="hidden" class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" name="amount" />
+                        <fmt:formatNumber value="${totalFinal}" type="number" groupingUsed="false" maxFractionDigits="0" var="formattedtotalFinal" />
+                        <input value="${formattedtotalFinal}" type="hidden" class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" name="amount" />
                     </div>
                     <h4>Chọn phương thức thanh toán</h4>
                     <div class="form-group">

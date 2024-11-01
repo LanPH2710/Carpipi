@@ -3,15 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-
-            <file>file:/D:/Git/Carpipi/src/java/dal/ColorDAO.java</file>
-            <file>file:/D:/Git/Carpipi/src/java/dal/CartDAO.java</file>
-            <file>file:/D:/Git/Carpipi/src/java/controller/cart/AddToCart.java</file>
-            <file>file:/D:/Git/Carpipi/web/productDetail.jsp</file>
-            <file>file:/D:/Git/Carpipi/src/java/model/Cart.java</file>
-            <file>file:/D:/Git/Carpipi/src/java/controller/cart/CartController.java</file>
-            <file>file:/D:/Git/Carpipi/web/cart.jsp</file>
-
+            <file>file:/D:/Net_bean_apache_project/Carpipi/src/java/context/DBContext.java</file>
+            <file>file:/D:/Net_bean_apache_project/Carpipi/src/java/util/HashPassword.java</file>
+            <file>file:/D:/Net_bean_apache_project/Carpipi/src/java/controller/ChangePasswordServlet.java</file>
+            <file>file:/D:/Net_bean_apache_project/Carpipi/web/changePassWord.jsp</file>
         </group>
     </open-files>
 </project-private>

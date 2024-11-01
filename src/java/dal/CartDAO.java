@@ -162,6 +162,16 @@ public Color getColorById(int colorId) {
             return ps.executeUpdate() > 0; // Trả về true nếu cập nhật thành công
         }
     }
+     public boolean deleteCar(int cartId) {
+        String sql = "UPDATE cart SET isDeleted = 1 WHERE cartId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, cartId);
+            return ps.executeUpdate() > 0; // Return true if update is successful
+        } catch (SQLException e) {
+            System.err.println("Error deleting cart with ID " + cartId + ": " + e.getMessage());
+            return false;
+        }
+    }
 
     // Lấy danh sách sản phẩm từ giỏ hàng của người dùng
     public List<Cart> getCartsByUserId(int userId) {
@@ -342,7 +352,7 @@ public Color getColorById(int colorId) {
                 + "FROM cart c "
                 + "JOIN product p ON c.productId = p.productId "
                 + "JOIN supply s ON p.supplyId = s.supplyId "
-                + "WHERE c.isSelect = 1 AND c.userId = ?";
+                + "WHERE c.isSelect = 1 AND c.userId = ? AND c.isDeleted = 0";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, userId); // Set userId parameter in the query
@@ -384,34 +394,46 @@ public Color getColorById(int colorId) {
             throw new SQLException("Error updating cart selection for userId: " + userId + " and productId: " + productId, e);
         }
     }
-
-    public static void main(String[] args) {
-        // Thay đổi thông tin kết nối database và supplyId nếu cần
-        int supplyId = 1; // Giả sử đây là supplyId mà bạn muốn tìm kiếm
-
-        CartDAO cartDAO = new CartDAO();
-
-        try {
-            // Gọi phương thức để lấy các giỏ hàng theo supplyId
-            List<Cart> cartList = cartDAO.getCartsBySupplyId(supplyId, 1);
-
-            // In kết quả ra console
-            if (cartList.isEmpty()) {
-                System.out.println("Không tìm thấy sản phẩm nào cho supplyId: " + supplyId);
-            } else {
-                System.out.println("Kết quả tìm kiếm:");
-                for (Cart cart : cartList) {
-                    Product product = cart.getProduct();
-                    System.out.println("Giỏ hàng ID: " + cart.getCartId()
-                            + ", Sản phẩm ID: " + product.getProductId()
-                            + ", Tên: " + product.getName()
-                            + ", Số lượng: " + cart.getQuantity());
+ public boolean updateStockByCartId(int cartId) {
+        String getProductSql = "SELECT productId FROM cart WHERE cartId = ?";
+        String updateStockSql = "UPDATE product SET stock = stock - 1 WHERE productId = ? AND stock > 0"; // Ensures stock does not go negative
+        
+        try (PreparedStatement getProductStmt = connection.prepareStatement(getProductSql)) {
+            getProductStmt.setInt(1, cartId);
+            ResultSet rs = getProductStmt.executeQuery();
+            
+            if (rs.next()) {
+                String productId = rs.getString("productId");
+                try (PreparedStatement updateStockStmt = connection.prepareStatement(updateStockSql)) {
+                    updateStockStmt.setString(1, productId);
+                    int rowsAffected = updateStockStmt.executeUpdate();
+                    
+                    if (rowsAffected > 0) {
+                        System.out.println("Stock for product ID " + productId + " has been decremented by 1.");
+                        return true;
+                    } else {
+                        System.out.println("Failed to update stock. Product might be out of stock or does not exist.");
+                    }
                 }
+            } else {
+                System.out.println("No product found for the given cart ID.");
             }
         } catch (SQLException e) {
+            System.err.println("Error updating stock for cart ID " + cartId + ": " + e.getMessage());
             e.printStackTrace();
-            System.out.println("Lỗi khi tìm kiếm sản phẩm: " + e.getMessage());
         }
+        return false;
     }
 
+    // Main method for testing
+    public static void main(String[] args) {
+        CartDAO productDAO = new CartDAO();
+        int testCartId = 1; // Replace with a valid cart ID for testing
+        
+        if (productDAO.updateStockByCartId(testCartId)) {
+            System.out.println("Stock updated successfully.");
+        } else {
+            System.out.println("Stock update failed.");
+        }
+    }
 }

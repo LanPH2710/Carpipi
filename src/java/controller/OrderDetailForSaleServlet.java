@@ -69,7 +69,7 @@ public class OrderDetailForSaleServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        int orderId = Integer.parseInt(request.getParameter("orderId"));
+        String orderId = request.getParameter("orderId");
 
         AccountDAO accountDao = new AccountDAO();
         OrderDAO orderDao = new OrderDAO();
@@ -77,32 +77,31 @@ public class OrderDetailForSaleServlet extends HttpServlet {
         Product product = new Product();
         ProductImage image = new ProductImage();
 
-        OrderDetail orderDetail = orderDao.getOrderDetail(orderId);
+        List<OrderDetail> orderList = orderDao.getListOrderdetailById(orderId);
 
+        for (OrderDetail o : orderList) {
+            
+        }
+        
         Account accountOrder = accountDao.getAccountById(6);
 
         List<Account> allSaleName = accountDao.getAccountByRole();
 
         List<OrderStatus> listStatusOrder = orderDao.getListOrderStatus();
 
-        Account saleInfo = accountDao.getAccountById(orderDetail.getSaleId());
-
-        product = p.getProductById(orderDetail.getProductId());
-
-        image = p.getOneImagesByProductId(orderDetail.getProductId());
-
+        //  Account saleInfo = accountDao.getAccountById(orderDetail.getSaleId());
         System.out.println(image.getImageUrl());
         System.out.println(orderId);
 
-        session.setAttribute("image", image);
+        request.setAttribute("image", image);
 
-        session.setAttribute("saleInfo", saleInfo);
+        //    request.setAttribute("saleInfo", saleInfo);
         request.setAttribute("listStatusOrder", listStatusOrder);
 
         request.setAttribute("allSaleName", allSaleName);
-        session.setAttribute("product", product);
-        session.setAttribute("orderDetail", orderDetail);
-        session.setAttribute("accountOrder", accountOrder);
+        request.setAttribute("product", product);
+        request.setAttribute("orderList", orderList);
+        request.setAttribute("accountOrder", accountOrder);
         request.getRequestDispatcher("orderdetailforsale.jsp").forward(request, response);
     }
 

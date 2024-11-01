@@ -36,9 +36,34 @@ public class ColorDAO extends DBContext {
 
         return colors;
     }
+    
+    public List<Color> getListColor(){
+        List<Color> list = new ArrayList<>();
+        
+        String sql = "SELECT * FROM carpipi.color";
+        
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                Color c = new Color();
+                
+                c.setColorId(rs.getInt("colorId"));
+                c.setColorName(rs.getString("colorName"));
+                list.add(c);
+            }
+                    
+        } catch (SQLException e) {
+        }
+        
+        return list;
+    }
+    
     public static void main(String[] args) {
         ColorDAO cdao = new ColorDAO();
         List<Color> c = cdao.getColorOfCar("ME01");
-        System.out.println(c.get(0).getColorName());
+        
+        
+        System.out.println(cdao.getListColor());
     }
 }

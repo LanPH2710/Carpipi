@@ -144,6 +144,14 @@
         <servlet-name>PostDetail</servlet-name>
         <servlet-class>controller.marketing.PostDetail</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FeedbackListMarketingServlet</servlet-name>
+        <servlet-class>controller.marketing.FeedbackListMarketingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MyOrderServlet</servlet-name>
+        <servlet-class>controller.common.MyOrderServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -259,5 +267,13 @@
     <servlet-mapping>
         <servlet-name>PostDetail</servlet-name>
         <url-pattern>/postdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackListMarketingServlet</servlet-name>
+        <url-pattern>/feedbacklistformarketing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyOrderServlet</servlet-name>
+        <url-pattern>/myorder</url-pattern>
     </servlet-mapping>
 </web-app>

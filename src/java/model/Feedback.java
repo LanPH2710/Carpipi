@@ -14,20 +14,22 @@ public class Feedback {
     private String productId;
     private String feedbackInfo;
     private String feedbackTime;
+    private String feedbackImg;
     private int feedbackRate;
     private int status;
 
-    public Feedback() {
-    }
-
-    public Feedback(int feedbackId, int userId, String productId, String feedbackInfo, String feedbackTime, int feedbackRate, int status) {
+    public Feedback(int feedbackId, int userId, String productId, String feedbackInfo, String feedbackTime, String feedbackImg, int feedbackRate, int status) {
         this.feedbackId = feedbackId;
         this.userId = userId;
         this.productId = productId;
         this.feedbackInfo = feedbackInfo;
         this.feedbackTime = feedbackTime;
+        this.feedbackImg = feedbackImg;
         this.feedbackRate = feedbackRate;
         this.status = status;
+    }
+
+    public Feedback() {
     }
 
     public int getFeedbackId() {
@@ -70,6 +72,14 @@ public class Feedback {
         this.feedbackTime = feedbackTime;
     }
 
+    public String getFeedbackImg() {
+        return feedbackImg;
+    }
+
+    public void setFeedbackImg(String feedbackImg) {
+        this.feedbackImg = feedbackImg;
+    }
+
     public int getFeedbackRate() {
         return feedbackRate;
     }
@@ -85,6 +95,8 @@ public class Feedback {
     public void setStatus(int status) {
         this.status = status;
     }
+
+   
     
     
 }

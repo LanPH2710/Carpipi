@@ -5,6 +5,7 @@
 package controller;
 
 import dal.AccountDAO;
+import dal.ColorDAO;
 import dal.OrderDAO;
 import dal.ProductDAO;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import java.awt.Image;
 import java.util.List;
 import model.Account;
+import model.Color;
 import model.OrderDetail;
 import model.OrderStatus;
 import model.Product;
@@ -73,6 +75,7 @@ public class OrderDetailForSaleServlet extends HttpServlet {
 
         AccountDAO accountDao = new AccountDAO();
         OrderDAO orderDao = new OrderDAO();
+        ColorDAO colorDao = new ColorDAO();
         ProductDAO p = new ProductDAO();
         Product product = new Product();
         ProductImage image = new ProductImage();
@@ -80,9 +83,11 @@ public class OrderDetailForSaleServlet extends HttpServlet {
         List<OrderDetail> orderList = orderDao.getListOrderdetailById(orderId);
 
         for (OrderDetail o : orderList) {
-            
+
         }
-        
+
+        List<Color> colorList = colorDao.getListColor();
+
         Account accountOrder = accountDao.getAccountById(6);
 
         List<Account> allSaleName = accountDao.getAccountByRole();
@@ -97,8 +102,8 @@ public class OrderDetailForSaleServlet extends HttpServlet {
 
         //    request.setAttribute("saleInfo", saleInfo);
         request.setAttribute("listStatusOrder", listStatusOrder);
-
         request.setAttribute("allSaleName", allSaleName);
+        request.setAttribute("colorList", colorList);
         request.setAttribute("product", product);
         request.setAttribute("orderList", orderList);
         request.setAttribute("accountOrder", accountOrder);

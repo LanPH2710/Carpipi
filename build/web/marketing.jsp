@@ -25,7 +25,7 @@
     <h1>Welcome to the marketing Page!</h1>
     
     <div class="navbar">
-        <a href="feedbacksList">Feedbacks List</a>
+        <a href="feedbacklistformarketing">Feedbacks List</a>
        
         <a href="customerlist">Customer List</a>
         <a href="dash">Dashboard</a>

@@ -74,7 +74,7 @@
                                     <li><a href="home">Home</a></li>
                                     <li><a href="carts">Giỏ Hàng</a></li>
                                     <li><a href="tax">Thuế</a></li>
-                                    <li><a href="checkout">Checkout</a></li>
+                                    <li><a href="checkout.jsp">Checkout</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -177,7 +177,7 @@
                                     <li class="breadcrumb-item"><a href="home">Home</a></li>
                                     <li class="breadcrumb-item"><a href="carts">Giỏ Hàng</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Thuế</li>
-                                    <li class="breadcrumb-item"><a href="checkout">Checkout</a></li>
+                                    <li class="breadcrumb-item"><a href="checkout.jsp">Checkout</a></li>
                                 </ul>
                             </nav>
                             <div class="mt-4 pt-2 text-end">

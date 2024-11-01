@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class Product {
+
     private String productId;
     private String name;
     private int seatNumber;
@@ -25,7 +26,16 @@ public class Product {
     private int segmentId;
     private int styleId;
     private int status;
-    private List<ProductImage> images; 
+    private List<ProductImage> images;
+    private List<Color> colorList;
+
+    public List<Color> getColorList() {
+        return colorList;
+    }
+
+    public void setColorList(List<Color> colorList) {
+        this.colorList = colorList;
+    }
 
     public Product() {
     }
@@ -46,7 +56,6 @@ public class Product {
         this.status = status;
     }
 
-    
     public Product(String productId, String name, int seatNumber, double price, String fuel, int stock, String description, double VAT, int supplyId, int brandId, int segmentId, int styleId) {
         this.productId = productId;
         this.name = name;
@@ -61,8 +70,6 @@ public class Product {
         this.segmentId = segmentId;
         this.styleId = styleId;
     }
-    
-    
 
     public Product(String productId, String name, int seatNumber, double price, String fuel, int stock, String description, double VAT, int supplyId, int brandId, int segmentId, int styleId, List<ProductImage> images) {
         this.productId = productId;
@@ -104,15 +111,15 @@ public class Product {
         this.seatNumber = seatNumber;
     }
 
-     public double getPrice() {
+    public double getPrice() {
         return price;
     }
-    
-    
+
     public String getPriceFormat() {
-    DecimalFormat df = new DecimalFormat("#,###"); // Định dạng với 2 số thập phân
-    return df.format(price);
-}
+        DecimalFormat df = new DecimalFormat("#,###"); // Định dạng với 2 số thập phân
+        return df.format(price);
+    }
+
     public void setPrice(double price) {
         this.price = price;
     }
@@ -197,5 +204,4 @@ public class Product {
         this.status = status;
     }
 
-    
 }

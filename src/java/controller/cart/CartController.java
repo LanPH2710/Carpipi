@@ -6,6 +6,7 @@
 package controller.cart;
 
 import dal.CartDAO;
+import dal.ColorDAO;
 import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
 import model.Cart;
+import model.Color;
 import model.Product;
 
 /**
@@ -39,49 +41,38 @@ public class CartController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        throws ServletException, IOException {
+    response.setContentType("text/html;charset=UTF-8");
 
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        if (account == null) {
-            // Nếu chưa đăng nhập
-            response.sendRedirect("login.jsp");
-            return;
-        }
-        int userId = account.getUserId();
-        
-        // Create an instance of CartDAO
-        CartDAO cartDAO = new CartDAO();
-
-        // Get cart items from database
-        List<Cart> carts = cartDAO.getCartsByUserId(userId);
-
-        // Initialize total money
-        double totalMoney = 0;
-
-        // Calculate total money
-                // Update total money after the change
-        
-        for (Cart cartItem : carts) {
-            if (cartItem.getIsSelect() ==1) {
-                 totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
-            }
-           
-        }
-
-        session.setAttribute("messCart", "");
-        // Save the updated carts and total money back to session
-        
-        session.setAttribute("totalMoney", totalMoney);
-
-        // Save carts and total money to session
-        session.setAttribute("carts", carts);
-       
-
-        // Forward to cart.jsp
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
+    HttpSession session = request.getSession();
+    Account account = (Account) session.getAttribute("account");
+    if (account == null) {
+        response.sendRedirect("login.jsp");
+        return;
     }
+    int userId = account.getUserId();
+    
+    CartDAO cartDAO = new CartDAO();
+    List<Cart> carts = cartDAO.getCartsByUserId(userId);
+    double totalMoney = 0;
+
+    for (Cart cartItem : carts) {
+        if (cartItem.getIsSelect() == 1) {
+            totalMoney += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+        }
+        
+        // Fetch color list for each product
+        ColorDAO colorDAO = new ColorDAO();
+        List<Color> colorList = colorDAO.getColorOfCar(cartItem.getProduct().getProductId());
+        cartItem.getProduct().setColorList(colorList); // Ensure Product class has a colorList property
+    }
+
+    session.setAttribute("totalMoney", totalMoney);
+    session.setAttribute("carts", carts);
+    
+    request.getRequestDispatcher("cart.jsp").forward(request, response);
+}
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -5,6 +5,7 @@
 package controller;
 
 import dal.AccountDAO;
+import dal.ColorDAO;
 import dal.OrderDAO;
 import dal.ProductDAO;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import java.awt.Image;
 import java.util.List;
 import model.Account;
+import model.Color;
 import model.OrderDetail;
 import model.OrderStatus;
 import model.Product;
@@ -69,15 +71,22 @@ public class OrderDetailForSaleServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        int orderId = Integer.parseInt(request.getParameter("orderId"));
+        String orderId = request.getParameter("orderId");
 
         AccountDAO accountDao = new AccountDAO();
         OrderDAO orderDao = new OrderDAO();
+        ColorDAO colorDao = new ColorDAO();
         ProductDAO p = new ProductDAO();
         Product product = new Product();
         ProductImage image = new ProductImage();
 
-        OrderDetail orderDetail = orderDao.getOrderDetail(orderId);
+        List<OrderDetail> orderList = orderDao.getListOrderdetailById(orderId);
+
+        for (OrderDetail o : orderList) {
+
+        }
+
+        List<Color> colorList = colorDao.getListColor();
 
         Account accountOrder = accountDao.getAccountById(6);
 
@@ -85,24 +94,19 @@ public class OrderDetailForSaleServlet extends HttpServlet {
 
         List<OrderStatus> listStatusOrder = orderDao.getListOrderStatus();
 
-        Account saleInfo = accountDao.getAccountById(orderDetail.getSaleId());
-
-        product = p.getProductById(orderDetail.getProductId());
-
-        image = p.getOneImagesByProductId(orderDetail.getProductId());
-
+        //  Account saleInfo = accountDao.getAccountById(orderDetail.getSaleId());
         System.out.println(image.getImageUrl());
         System.out.println(orderId);
 
-        session.setAttribute("image", image);
+        request.setAttribute("image", image);
 
-        session.setAttribute("saleInfo", saleInfo);
+        //    request.setAttribute("saleInfo", saleInfo);
         request.setAttribute("listStatusOrder", listStatusOrder);
-
         request.setAttribute("allSaleName", allSaleName);
-        session.setAttribute("product", product);
-        session.setAttribute("orderDetail", orderDetail);
-        session.setAttribute("accountOrder", accountOrder);
+        request.setAttribute("colorList", colorList);
+        request.setAttribute("product", product);
+        request.setAttribute("orderList", orderList);
+        request.setAttribute("accountOrder", accountOrder);
         request.getRequestDispatcher("orderdetailforsale.jsp").forward(request, response);
     }
 

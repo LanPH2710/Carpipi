@@ -17,7 +17,8 @@ import model.Feedback;
  *
  * @author tuana
  */
-public class FeedbackDAO extends DBContext{
+public class FeedbackDAO extends DBContext {
+
     public List<Feedback> getAllFeedback() {
         List<Feedback> list = new ArrayList<>();
         String sql = "SELECT * FROM feedback";
@@ -29,11 +30,16 @@ public class FeedbackDAO extends DBContext{
                 int userId = rs.getInt("userId");
                 String productId = rs.getString("productId");
                 String feedbackInfo = rs.getString("feedbackInfo");
+                String feedbackImg = rs.getString("feedbackImg");
                 String feedbackTime = rs.getString("feedbackTime");
                 int feedbackRate = rs.getInt("feedbackRate");
                 int status = rs.getInt("status");
 
-                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackRate, status);
+                if (feedbackImg == null) {
+                    feedbackImg = "";
+                }
+
+                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackImg, feedbackRate, status);
                 list.add(feedback);
             }
         } catch (SQLException e) {
@@ -56,10 +62,14 @@ public class FeedbackDAO extends DBContext{
                 String productId = rs.getString("productId");
                 String feedbackInfo = rs.getString("feedbackInfo");
                 String feedbackTime = rs.getString("feedbackTime");
+                String feedbackImg = rs.getString("feedbackImg");
                 int feedbackRate = rs.getInt("feedbackRate");
                 int status = rs.getInt("status");
 
-                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackRate, status);
+                if (feedbackImg == null) {
+                    feedbackImg = "";
+                }
+                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackImg, feedbackRate, status);
                 list.add(feedback);
             }
         } catch (SQLException e) {
@@ -112,10 +122,15 @@ public class FeedbackDAO extends DBContext{
                 String productId = rs.getString("productId");
                 String feedbackInfo = rs.getString("feedbackInfo");
                 String feedbackTime = rs.getString("feedbackTime");
+                String feedbackImg = rs.getString("feedbackImg");
                 int feedbackRate = rs.getInt("feedbackRate");
                 int status = rs.getInt("status");
+                
+                 if(feedbackImg == null){
+                    feedbackImg = "";
+                }
 
-                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackRate, status);
+                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackImg, feedbackRate, status);
                 list.add(feedback);
             }
         } catch (SQLException e) {
@@ -148,5 +163,11 @@ public class FeedbackDAO extends DBContext{
             arr.add(feedbacks.get(i));
         }
         return arr;
+    }
+
+    public static void main(String[] args) {
+        FeedbackDAO f = new FeedbackDAO();
+
+        System.out.println(f.getAllFeedback());
     }
 }

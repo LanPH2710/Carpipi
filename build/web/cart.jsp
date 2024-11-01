@@ -97,9 +97,8 @@
 
                         <li class="sidebar-dropdown">
                             <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
-
                         </li>
-
+                        <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
 
 
 
@@ -254,17 +253,9 @@
                                                     </td>
                                                     <td class="text-center p-3">
                                                         <select name="color" id="colorSelect" class="form-select" onchange="this.form.submit()">
-                                                            <option value="1" ${C.colorId == 1 ? "selected" : ""}>Đen</option>
-                                                            <option value="2" ${C.colorId == 2 ? "selected" : ""}>Trắng</option>
-                                                            <option value="3" ${C.colorId == 3 ? "selected" : ""}>Đỏ</option>
-                                                            <option value="4" ${C.colorId == 4 ? "selected" : ""}>Xám</option>
-                                                            <option value="5" ${C.colorId == 5 ? "selected" : ""}>Bạc</option>
-                                                            <option value="6" ${C.colorId == 6 ? "selected" : ""}>Xanh Dương</option>
-                                                            <option value="7" ${C.colorId == 7 ? "selected" : ""}>Xanh Đậm</option>
-                                                            <option value="8" ${C.colorId == 8 ? "selected" : ""}>Nâu</option>
-                                                            <option value="9" ${C.colorId == 9 ? "selected" : ""}>Xanh Lá</option>
-                                                            <option value="10" ${C.colorId == 10 ? "selected" : ""}>Vàng</option>
-                                                            <option value="11" ${C.colorId == 11 ? "selected" : ""}>Tím</option>
+                                                            <c:forEach items="${C.product.colorList}" var="color">
+                                                                <option value="${color.colorId}" ${C.colorId == color.colorId ? "selected" : ""}>${color.colorName}</option>
+                                                            </c:forEach>
                                                         </select>
                                                     </td>
 

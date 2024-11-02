@@ -2,30 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.cart;
+package controller.shipper;
 
-import dal.CartDAO;
-import dal.ColorDAO;
+import dal.OrderDetail1DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
-import model.Cart;
-import java.sql.SQLException;
-import model.Account;
-import model.Color;
+import model.OrderDetail1;
 
 /**
  *
- * @author hiule
+ * @author tuana
  */
-@WebServlet(name = "BrandCartController", urlPatterns = {"/brandCart"})
-public class BrandCartController extends HttpServlet {
+public class ShipperServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,29 +35,15 @@ public class BrandCartController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession();
-            int supplyId = Integer.parseInt(request.getParameter("supplyId")); // Nhận supplyId từ yêu cầu
-            CartDAO cartDAO = new CartDAO();
-            Account account = (Account) session.getAttribute("account");
-            
-            try {
-                List<Cart> carts = cartDAO.getCartsBySupplyId(supplyId, account.getUserId()); // Lấy giỏ hàng theo supplyId
-                for (Cart cartItem : carts) {
-                    
-
-                    // Fetch color list for each product
-                    ColorDAO colorDAO = new ColorDAO();
-                    List<Color> colorList = colorDAO.getColorOfCar(cartItem.getProduct().getProductId());
-                    cartItem.getProduct().setColorList(colorList); // Ensure Product class has a colorList property
-                }
-                
-                session.setAttribute("carts", carts); // Truyền danh sách giỏ hàng vào request
-                request.getSession().setAttribute("urlHistory", "brandCart?supplyId=" + supplyId);
-                request.getRequestDispatcher("cart.jsp").forward(request, response); // Chuyển tiếp đến trang giỏ hàng
-            } catch (SQLException e) {
-                e.printStackTrace();
-                response.sendRedirect("error.jsp"); // Xử lý lỗi
-            }
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ShipperServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ShipperServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -79,7 +59,46 @@ public class BrandCartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        OrderDetail1DAO od1dao = new OrderDetail1DAO();
+        List<OrderDetail1> order =  new ArrayList<>();
+        int statusId = 0;
+        String statusIdParam = request.getParameter("statusId");
+        String keyword = request.getParameter("keyword");
+        if (statusIdParam != null && !statusIdParam.isEmpty()) {
+            try {
+                statusId = Integer.parseInt(statusIdParam);
+            } catch (NumberFormatException e) {
+                // Xử lý ngoại lệ khi chuyển đổi statusId
+                e.printStackTrace(); // Log lỗi
+                request.setAttribute("error", "Status ID không hợp lệ.");
+            }
+        }
+        if (statusId > 0) {
+            order = od1dao.getShipOrderByStatus(statusId);
+        } else if (keyword != null) {
+            order = od1dao.getShipOrderBySearch(keyword);
+        } else {
+            order = od1dao.getShipOrder();
+        }
+        //phan trang
+        int page, numperpage = 2;
+        int size = order.size();
+        int num = (int) Math.ceil((double) size / numperpage); // Số trang, làm tròn lên
+        String xpage = request.getParameter("page");
+        if (xpage == null) {
+            page = 1;
+        } else {
+            page = Integer.parseInt(xpage);
+        }
+        int start = (page - 1) * numperpage;
+        int end = Math.min(page * numperpage, size);
+        order = od1dao.getMyOrderListByPage(order, start, end);
+        request.setAttribute("order", order);
+        request.setAttribute("page", page);
+        request.setAttribute("statusId", statusId);
+        request.setAttribute("keyword", keyword);
+        request.setAttribute("num", num);
+        request.getRequestDispatcher("shipper.jsp").forward(request, response);
     }
 
     /**

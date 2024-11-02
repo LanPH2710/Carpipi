@@ -5,7 +5,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Slider List</title>
+        <title>marketing Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -49,15 +49,23 @@
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+
+                        <c:choose>
+                            <c:when test="${sessionScope.account.roleId == 1}">
+                                <li><a href="admin"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                </c:when>
+                                <c:when test="${sessionScope.account.roleId == 2}">
+                                <li><a href="marketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                </c:when>
+                            </c:choose>
                         <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
                         <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
                         <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
-                        <c:choose>
-                            <c:when test="${sessionScope.account.roleId == 1}">
+                            <c:choose>
+                                <c:when test="${sessionScope.account.roleId == 1}">
                                 <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
                                 </c:when>
-                        </c:choose>
+                            </c:choose>
                         <li><a href="postlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>Post List</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
@@ -130,14 +138,14 @@
                                     <c:choose>
                                         <c:when test="${sessionScope.account.roleId == 1}">
                                             <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
-                                        </c:when>
-                                    </c:choose>
-                                    <c:choose>
-                                        <c:when test="${sessionScope.account.roleId == 2}">
+                                            </c:when>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.account.roleId == 2}">
                                             <li class="breadcrumb-item"><a href="index.html">Marketing</a></li>
-                                        </c:when>
-                                    </c:choose>
-                                    
+                                            </c:when>
+                                        </c:choose>
+
                                     <li class="breadcrumb-item active" aria-current="page">danh sách Slide</li>
                                 </ul>
                             </nav>

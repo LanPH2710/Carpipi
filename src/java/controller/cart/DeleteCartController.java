@@ -44,11 +44,11 @@ public class DeleteCartController extends HttpServlet {
             HttpSession session = request.getSession();
             Account account = (Account) session.getAttribute("account");
             int userId = account.getUserId(); // Lấy userId từ session
-
+            int cartId = Integer.parseInt(request.getParameter("cartId"));
             // Tạo instance của CartDAO
             CartDAO cartDAO = new CartDAO();
             // Gọi phương thức deleteCartItem để thực hiện xóa mềm
-            boolean isDeleted = cartDAO.deleteCartItem(userId, productId);
+            boolean isDeleted = cartDAO.deleteCartItem(cartId);
 
             // Ghi thông báo cho người dùng
             if (isDeleted) {

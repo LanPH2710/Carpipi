@@ -28,7 +28,7 @@ public class Product {
     private int status;
     private List<ProductImage> images;
     private List<Color> colorList;
-
+    private int totalQuantitySold;
     public List<Color> getColorList() {
         return colorList;
     }
@@ -204,4 +204,13 @@ public class Product {
         this.status = status;
     }
 
+    public int getTotalQuantitySold() {
+        return totalQuantitySold;
+    }
+
+    public void setTotalQuantitySold(int totalQuantitySold) {
+        this.totalQuantitySold = totalQuantitySold;
+    }
+    
+    
 }

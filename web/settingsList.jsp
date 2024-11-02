@@ -194,7 +194,7 @@
                                                                         <option value="0" ${entry.status == 0 ? 'selected' : ''}>Hide</option>
                                                                     </select>
                                                                 </form>
-                                                                <a href="editSetting?id=${slider.sliderId}">Edit</a>
+                                                                <a href="settingdetail?id=${slider.sliderId}">Edit</a>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
@@ -234,7 +234,7 @@
                                                                         <span class="dashicons ${brand.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
                                                                     </button>
                                                                 </form>
-                                                                <a href="editSetting?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
+                                                                <a href="settingdetail?brandId=${brand.brandId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>

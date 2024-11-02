@@ -27,6 +27,8 @@
         <url-pattern>/editproductbymarketing</url-pattern>
         <url-pattern>/image</url-pattern>
         <url-pattern>/addUser</url-pattern>
+        <url-pattern>/marketingdashboard</url-pattern>
+        <url-pattern>/settingdetail</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
@@ -164,6 +166,14 @@
         <servlet-name>CustomerFeedbackServlet</servlet-name>
         <servlet-class>controller.common.CustomerFeedbackServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MktDashboardServlet</servlet-name>
+        <servlet-class>controller.marketing.MktDashboardServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SettingDetailServlet</servlet-name>
+        <servlet-class>controller.admin.SettingDetailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -299,5 +309,13 @@
     <servlet-mapping>
         <servlet-name>CustomerFeedbackServlet</servlet-name>
         <url-pattern>/customerfeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MktDashboardServlet</servlet-name>
+        <url-pattern>/marketingdashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SettingDetailServlet</servlet-name>
+        <url-pattern>/settingdetail</url-pattern>
     </servlet-mapping>
 </web-app>

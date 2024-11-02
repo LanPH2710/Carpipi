@@ -73,6 +73,7 @@
                                 </c:when>
                             </c:choose>
                         <li><a href="postlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>Post List</a></li>
+                        <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -121,7 +122,7 @@
                                             <i class="uil uil-bed h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">558</h5>
+                                            <h5 class="mb-0"> ${blogCount}</h5>
                                             <p class="text-muted mb-0">post</p>
                                         </div>
                                     </div>

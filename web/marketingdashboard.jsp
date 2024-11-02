@@ -55,13 +55,13 @@
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
-                        
+
                         <c:choose>
                             <c:when test="${sessionScope.account.roleId == 1}">
                                 <li><a href="admin"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                                 </c:when>
                                 <c:when test="${sessionScope.account.roleId == 2}">
-                                <li><a href="marketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                <li><a href="marketingdashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                                 </c:when>
                             </c:choose>
                         <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
@@ -103,10 +103,10 @@
                             <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
                                 <i class="uil uil-bars"></i>
                             </a>
-                            
+
                         </div>
-        
-                        
+
+
                     </div>
                 </div>
 
@@ -116,7 +116,7 @@
 
                         <div class="row">
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
-                                <div class="card features feature-primary rounded border-0 shadow p-4">
+                                <a href="postlist" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
                                             <i class="uil uil-bed h3 mb-0"></i>
@@ -126,37 +126,38 @@
                                             <p class="text-muted mb-0">post</p>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div><!--end col-->
-                            
+
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
-                                <div class="card features feature-primary rounded border-0 shadow p-4">
+                                <a href="productlist" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
                                             <i class="uil uil-file-medical-alt h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">$2164</h5>
+                                            <h5 class="mb-0">${productCount}</h5>
                                             <p class="text-muted mb-0">product</p>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div><!--end col-->
-                            
+
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
-                                <div class="card features feature-primary rounded border-0 shadow p-4">
+                                <a href="customerlist" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
                                             <i class="uil uil-social-distancing h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">112</h5>
+                                            <h5 class="mb-0">${customerCount}</h5>
                                             <p class="text-muted mb-0">customer</p>
                                         </div>
                                     </div>
-                                </div>
+
+                                </a>
                             </div><!--end col-->
-                            
+
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
                                 <div class="card features feature-primary rounded border-0 shadow p-4">
                                     <div class="d-flex align-items-center">
@@ -164,66 +165,115 @@
                                             <i class="uil uil-ambulance h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">16</h5>
-                                            <p class="text-muted mb-0">shipper</p>
+                                            <h5 class="mb-0">${totalQuantitySold}</h5>
+                                            <p class="text-muted mb-0">total Sale Product</p>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div><!--end col-->
-                            
+
+                            <!--                            <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
+                                                            <div class="card features feature-primary rounded border-0 shadow p-4">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="icon text-center rounded-md">
+                                                                        <i class="uil uil-medkit h3 mb-0"></i>
+                                                                    </div>
+                                                                    <div class="flex-1 ms-2">
+                                                                        <h5 class="mb-0">${orderCount}</h5>
+                                                                        <p class="text-muted mb-0">order</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>end col-->
+
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
-                                <div class="card features feature-primary rounded border-0 shadow p-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon text-center rounded-md">
-                                            <i class="uil uil-medkit h3 mb-0"></i>
-                                        </div>
-                                        <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">220</h5>
-                                            <p class="text-muted mb-0">order</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                            
-                            <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
-                                <div class="card features feature-primary rounded border-0 shadow p-4">
+                                <a href="SliderList" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
                                             <i class="uil uil-medical-drip h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">10</h5>
-                                            <p class="text-muted mb-0">product</p>
+                                            <h5 class="mb-0">${sliderCount}</h5>
+                                            <p class="text-muted mb-0">slider Count</p>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div><!--end col-->
                         </div><!--end row-->
 
                         <div class="row">
-                            <div class="col-xl-8 col-lg-7 mt-4">
-                                <div class="card shadow border-0 p-4">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h6 class="align-items-center mb-0">Customer by Gender</h6>
-                                        
-                                        <div class="mb-0 position-relative">
-                                            <select class="form-select form-control" id="yearchart">
-                                                <option selected>2020</option>
-                                                <option value="2019">2019</option>
-                                                <option value="2018">2018</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div id="dashboard" class="apex-chart"></div>
-                                </div>
-                            </div><!--end col-->
+                            <!--                            <div class="col-xl-8 col-lg-7 mt-4">
+                                                            <div class="card shadow border-0 p-4">
+                                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                    <h6 class="align-items-center mb-0">Customer by Gender</h6>
+                                                                    
+                                                                    <div class="mb-0 position-relative">
+                                                                        <select class="form-select form-control" id="yearchart">
+                                                                            <option selected>2020</option>
+                                                                            <option value="2019">2019</option>
+                                                                            <option value="2018">2018</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div id="dashboard" class="apex-chart"></div>
+                                                            </div>
+                                                        </div>end col-->
 
+
+                            <div class="col-xl-8 col-lg-7 mt-4">
+                                <div>
+                                    <h2>Product Sales Chart</h2>
+                                    <div style="width: 700px; margin: auto;"> <!-- Set a specific width for the chart -->
+                                        <canvas id="productSalesChart" width="500" height="400"></canvas>
+                                    </div>
+                                </div>
+                                <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+
+
+                                <script>
+                                    // Prepare product data for the chart
+                                    const products = [];
+                                    <c:forEach var="product" items="${productSale}">
+                                    products.push({
+                                        name: '${product.name}',
+                                        totalQuantitySold: ${product.totalQuantitySold}
+                                    });
+                                    </c:forEach>
+
+                                    // Create arrays for labels and data
+                                    const labels = products.map(product => product.name); // Product names
+                                    const data = products.map(product => product.totalQuantitySold); // Total quantities sold
+
+                                    // Create the chart
+                                    const ctx = document.getElementById('productSalesChart').getContext('2d');
+                                    const myChart = new Chart(ctx, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: labels,
+                                            datasets: [{
+                                                    label: 'Total Quantity Sold',
+                                                    data: data,
+                                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                                    borderWidth: 1
+                                                }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                </script>
+                            </div>
                             <div class="col-xl-4 col-lg-5 mt-4">
                                 <div class="card shadow border-0 p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h6 class="align-items-center mb-0">Patients by Department</h6>
-                                        
+
                                         <div class="mb-0 position-relative">
                                             <select class="form-select form-control" id="dailychart">
                                                 <option selected>Today</option>
@@ -359,7 +409,7 @@
                                                         <img src="assetsSlider/images/doctors/02.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Hey Christopher</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>59 min ago</small>
@@ -375,7 +425,7 @@
                                                         <img src="assetsSlider/images/client/09.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Hello Cristino</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>45 min ago</small>
@@ -391,7 +441,7 @@
                                                         <img src="assetsSlider/images/client/09.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">How can i help you?</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>44 min ago</small>
@@ -407,7 +457,7 @@
                                                         <img src="assetsSlider/images/doctors/02.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Nice to meet you</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>42 min ago</small>
@@ -423,7 +473,7 @@
                                                         <img src="assetsSlider/images/doctors/02.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Hope you are doing fine?</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>40 min ago</small>
@@ -439,7 +489,7 @@
                                                         <img src="assetsSlider/images/client/09.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">I'm good thanks for asking</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>45 min ago</small>
@@ -455,7 +505,7 @@
                                                         <img src="assetsSlider/images/doctors/02.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">I am intrested to know more about your prices and services you offer</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>35 min ago</small>
@@ -471,7 +521,7 @@
                                                         <img src="assetsSlider/images/client/09.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Sure please check below link to find more useful information <a href="https://1.envato.market/landrick" target="_blank" class="text-primary">https://shreethemes.in/landrick/</a></p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>25 min ago</small>
@@ -487,7 +537,7 @@
                                                         <img src="assetsSlider/images/doctors/02.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Thank you 😊</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>20 min ago</small>
@@ -503,7 +553,7 @@
                                                         <img src="assetsSlider/images/client/09.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Welcome</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>18 min ago</small>
@@ -533,7 +583,7 @@
                                     <div class="p-4 border-bottom">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <h6 class="mb-0"><i class="uil uil-user text-primary me-1 h5"></i> Patients Reviews</h6>
-                                            
+
                                             <div class="mb-0 position-relative">
                                                 <select class="form-select form-control" id="dailypatient">
                                                     <option selected>New</option>
@@ -660,7 +710,7 @@
                     <div class="container-fluid">
                         <div class="row align-items-center">
                             <div class="col">
-                               
+
                             </div><!--end col-->
                         </div><!--end row-->
                     </div><!--end container-->
@@ -671,7 +721,7 @@
         </div>
         <!-- page-wrapper -->
 
-        
+
         <!-- javascript -->
         <script src="assetsSlider/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->
@@ -683,7 +733,7 @@
         <script src="assetsSlider/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assetsSlider/js/app.js"></script>
-        
+
     </body>
 
 </html>

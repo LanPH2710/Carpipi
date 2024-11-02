@@ -146,7 +146,13 @@ public class ReturnResult extends HttpServlet {
                 // Uncomment if needed
                 // executorService.submit(() -> handleEmail.sendEmail(sub, msg, email));
             } else {
-                
+                for (Cart cart : cartList) {
+                    // Example: Call addOrder method for each cart or handle cart processing logic
+                    // odao.addOrder(account, cart, email, phone, address, note, dateShip, timeShip, "0");
+                    // odao.updateBought(account, cart);
+                    cartDAO.deleteCar(cart.getCartId());
+                   
+                }
                 request.setAttribute("vnp_TxnRef", vnp_TxnRef);
                 request.setAttribute("vnp_Amount", vnp_Amount);
                 request.setAttribute("vnp_OrderInfo", vnp_OrderInfo);

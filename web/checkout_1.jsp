@@ -55,7 +55,10 @@
                     </div>
 
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                        <c:if test="${sessionScope.account == null||sessionScope.account.roleId == 1}">
+                            <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                            </c:if>
+
 
 
                         <li class="sidebar-dropdown">
@@ -89,56 +92,20 @@
                             </div>
                         </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Pages</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="faqs.html">FAQs</a></li>
-                                    <li><a href="review.html">Reviews</a></li>
-                                    <li><a href="invoice-list.html">Invoice List</a></li>
-                                    <li><a href="invoice.html">Invoice</a></li>
-                                    <li><a href="terms.html">Terms & Policy</a></li>
-                                    <li><a href="privacy.html">Privacy Policy</a></li>
-                                    <li><a href="error.html">404 !</a></li>
-                                    <li><a href="blank-page.html">Blank Page</a></li>
-                                </ul>
-                            </div>
-                        </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="signup.html">Signup</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password</a></li>
-                                    <li><a href="lock-screen.html">Lock Screen</a></li>
-                                    <li><a href="thankyou.html">Thank you...!</a></li>
-                                </ul>
-                            </div>
-                        </li>
 
-                        <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
-
-                        <li><a href="../landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
                 <!-- sidebar-content  -->
-                <ul class="sidebar-footer list-unstyled mb-0">
-                    <li class="list-inline-item mb-0 ms-1">
-                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary">
-                            <i class="uil uil-comment icons"></i>
-                        </a>
-                    </li>
-                </ul>
+
             </nav>
             <!-- sidebar-wrapper  -->
 
             <!-- Start Page Content -->
             <main class="page-content bg-light">
                 <div class="top-header">
-                    <div class="header-bar d-flex justify-content-between border-bottom">
+                    <div class="header-bar d-flex justify-content-between align-items-center border-bottom">
                         <div class="d-flex align-items-center">
                             <a href="#" class="logo-icon">
                                 <img src="assets1/images/logo-icon.png" height="30" class="small" alt="">
@@ -150,19 +117,48 @@
                             <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
                                 <i class="uil uil-bars"></i>
                             </a>
-                            <div class="search-bar p-0 d-none d-lg-block ms-2">
-                                <div id="search" class="menu-search mb-0">
-                                    <form role="search" method="get" id="searchform" class="searchform">
-                                        <div>
-                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Search Keywords...">
-                                            <input type="submit" id="searchsubmit" value="Search">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            <li class="list-inline-item mb-0 ms-1 d-flex align-items-center">
+                                <a href="home">
+                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="home" class="fea icon-sm"></i></div>
+                                </a>
+                                <a href="carts" class="ms-2" style="text-decoration: none; color: #3b5998; font-weight: bold;">Trở về giỏ hàng</a>
+                            </li>
                         </div>
 
+                        <!-- Thêm chữ "carpipi" vào giữa -->
+                        <div class="text-center flex-grow-1">
+                            <h2 class="mb-0" style="font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #3b5998;">carpipi</h2>
+                        </div>
 
+                        <ul class="list-unstyled mb-0 d-flex align-items-center">
+                            <li class="list-inline-item mb-0 ms-1">
+                                <a href="logout">
+                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="log-out" class="fea icon-sm"></i></div>
+                                </a>
+                            </li>
+
+                            <li class="list-inline-item mb-0 ms-1">
+                                <a href="userprofile">
+                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="user" class="fea icon-sm"></i></div>
+                                </a>
+                            </li>
+
+                            <li class="list-inline-item mb-0 ms-1">
+                                <div class="dropdown dropdown-primary">
+                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="img/avatar-trang-4.jpg" class="avatar avatar-ex-small rounded-circle" alt="">
+                                    </button>
+                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
+                                        <a class="dropdown-item d-flex align-items-center text-dark" href="https://shreethemes.in/doctris/layouts/admin/profile.html">
+                                            <img src="img/avatar-trang-4.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                        </a>
+                                        <a class="dropdown-item text-dark" href="userprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
+                                        <div class="dropdown-divider border-top"></div>
+                                        <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
@@ -170,7 +166,7 @@
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
 
-                            <h5 class="mb-0">Checkout</h5>
+                            <h5 class="mb-0">Giá Lăn Bánh</h5>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
@@ -180,30 +176,28 @@
                                     <li class="breadcrumb-item"><a href="checkout.jsp">Checkout</a></li>
                                 </ul>
                             </nav>
-                            <div class="mt-4 pt-2 text-end">
-                                <a href="checkout" class="btn btn-primary" >Proceed to checkout</a>
-                            </div>
+
                         </div>
 
                         <div class="row">
                             <div class="col-md-3 col-lg-2 order-last mt-4 pt-2 pt-sm-0">
                                 <div class="card rounded shadow p-4 border-0">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="h5 mb-0">Your cart</span>
-                                        <span class="badge bg-primary rounded-pill">3</span>
+                                        <span class="h5 mb-0">Giỏ hàng</span>
+                                        <span class="badge bg-primary rounded-pill">${sizeCart}</span>
                                     </div>
                                     <ul class="list-group mb-3 border">
                                         <c:forEach items="${sessionScope.cartsSelect}" var="C">
                                             <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
                                                 <div>
-                                                   
+
                                                     <small class="text-muted">${C.product.name}</small>
                                                 </div>
-                                                <span class="text-muted">${C.product.price}</span>
+                                                <span class="text-muted">${C.product.price * C.quantity}</span>
                                             </li>
                                         </c:forEach>
                                         <li class="d-flex justify-content-between p-3">
-                                            <span>Total (VND)</span>
+                                            <span>Total (USD)</span>
                                             <strong><fmt:formatNumber value="${sessionScope.totalFinal}" type="number" minFractionDigits="0"/> </strong>
                                         </li>
                                     </ul>
@@ -224,9 +218,9 @@
                                                     <th class="border-bottom text-center p-3" style="min-width: 50px;">Số Lượng</th>
                                                     <th class="border-bottom text-center p-3" style="min-width: 180px;">Giá</th>
 
-                                                    <th class="border-bottom text-center p-3" style="min-width: 70px;">Thuế Nhập Khẩu</th>
-                                                    <th class="border-bottom text-center p-3" style="min-width: 70px;">Thuế TTĐB</th>
-                                                    <th class="border-bottom text-center p-3" style="min-width: 70px;">VAT</th>
+                                                    <th class="border-bottom text-center p-3" style="min-width: 70px;">Thuế Nhập Khẩu(70%)</th>
+                                                    <th class="border-bottom text-center p-3" style="min-width: 70px;">Thuế TTĐB(40%)</th>
+                                                    <th class="border-bottom text-center p-3" style="min-width: 70px;">VAT(10%)</th>
                                                     <th class="border-bottom text-center p-3" style="min-width: 70px;">Tổng</th>
 
                                                 </tr>
@@ -248,20 +242,20 @@
                                                                 <input  type="number" name="quantity" value="${C.quantity}" min="0" step="1" title="Please enter a non-negative integer!" class="btn btn-icon btn-primary qty-btn1 quantity" >
                                                             </div>
                                                         <td class="text-center p-3">
-                                                            <fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> 
+                                                            <fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> $
                                                         </td>
 
-                                                        <td class="text-end font-weight-bold p-3">
-                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.7}" type="number" minFractionDigits="0"/> 
+                                                        <td class="text-center font-weight-bold p-3">
+                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.7}" type="number" minFractionDigits="0"/> $
                                                         </td>
-                                                        <td class="text-end font-weight-bold p-3">
-                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.4}" type="number" minFractionDigits="0"/> 
+                                                        <td class="text-center font-weight-bold p-3">
+                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.4}" type="number" minFractionDigits="0"/> $
                                                         </td>
-                                                        <td class="text-end font-weight-bold p-3">
-                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.1}" type="number" minFractionDigits="0"/> 
+                                                        <td class="text-center font-weight-bold p-3">
+                                                            <fmt:formatNumber value="${(C.product.price * C.quantity)*0.1}" type="number" minFractionDigits="0"/> $
                                                         </td>
-                                                        <td class="text-end font-weight-bold p-3">
-                                                            <fmt:formatNumber value="${(C.product.price * C.quantity) * (1 + 0.4) * 1.10}" type="number" minFractionDigits="0"/> 
+                                                        <td class="text-center font-weight-bold p-3">
+                                                            <fmt:formatNumber value="${(C.product.price * C.quantity) * (1 + 0.4) * 1.10}" type="number" minFractionDigits="0"/> $
                                                         </td>
                                                     </tr>
 
@@ -275,6 +269,9 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                </div>  
+                                <div class="mt-4 pt-2 text-end">
+                                    <a href="checkout" class="btn btn-primary" > Checkout</a>
                                 </div>
                             </div><!--end col-->
                         </div><!--end row-->
@@ -287,7 +284,7 @@
                         <div class="row align-items-center">
                             <div class="col">
                                 <div class="text-sm-start text-center">
-                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
+                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Carpipi. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">hieu</a>.</p>
                                 </div>
                             </div><!--end col-->
                         </div><!--end row-->

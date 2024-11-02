@@ -154,11 +154,11 @@ public Color getColorById(int colorId) {
         return null; // or throw an exception if no cart is found
     }
 
-    public boolean deleteCartItem(int userId, String productId) throws SQLException {
-        String sql = "UPDATE cart SET isDeleted = 1 WHERE userId = ? AND productId = ?";
+    public boolean deleteCartItem(int cartId) throws SQLException {
+        String sql = "UPDATE cart SET isDeleted = 1 WHERE cartId = ? ";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, userId);
-            ps.setString(2, productId);
+            ps.setInt(1, cartId);
+            
             return ps.executeUpdate() > 0; // Trả về true nếu cập nhật thành công
         }
     }

@@ -82,8 +82,8 @@ public class AddToCart extends HttpServlet {
                 response.getWriter().write("Invalid quantity format.");
                 return;
             }
-
-            if ((quantity + quantityCurrent) > product.getStock()) {
+            
+            if ((quantity + quantityCurrent) > product.getStock() ) {
                 request.setAttribute("mesOfCart", "Quá số lượng");
                 request.getRequestDispatcher(urlHistory).forward(request, response);
                 return;

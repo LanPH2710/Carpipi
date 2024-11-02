@@ -55,7 +55,10 @@
                     </div>
 
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                        <c:if test="${sessionScope.account == null||sessionScope.account.roleId == 1}">
+                            <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                            </c:if>
+
 
 
                         <li class="sidebar-dropdown">
@@ -89,56 +92,20 @@
                             </div>
                         </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Pages</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="faqs.html">FAQs</a></li>
-                                    <li><a href="review.html">Reviews</a></li>
-                                    <li><a href="invoice-list.html">Invoice List</a></li>
-                                    <li><a href="invoice.html">Invoice</a></li>
-                                    <li><a href="terms.html">Terms & Policy</a></li>
-                                    <li><a href="privacy.html">Privacy Policy</a></li>
-                                    <li><a href="error.html">404 !</a></li>
-                                    <li><a href="blank-page.html">Blank Page</a></li>
-                                </ul>
-                            </div>
-                        </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="signup.html">Signup</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password</a></li>
-                                    <li><a href="lock-screen.html">Lock Screen</a></li>
-                                    <li><a href="thankyou.html">Thank you...!</a></li>
-                                </ul>
-                            </div>
-                        </li>
 
-                        <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
-
-                        <li><a href="../landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
                 <!-- sidebar-content  -->
-                <ul class="sidebar-footer list-unstyled mb-0">
-                    <li class="list-inline-item mb-0 ms-1">
-                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary">
-                            <i class="uil uil-comment icons"></i>
-                        </a>
-                    </li>
-                </ul>
+
             </nav>
             <!-- sidebar-wrapper  -->
 
             <!-- Start Page Content -->
             <main class="page-content bg-light">
                 <div class="top-header">
-                    <div class="header-bar d-flex justify-content-between border-bottom">
+                    <div class="header-bar d-flex justify-content-between align-items-center border-bottom">
                         <div class="d-flex align-items-center">
                             <a href="#" class="logo-icon">
                                 <img src="assets1/images/logo-icon.png" height="30" class="small" alt="">
@@ -150,139 +117,53 @@
                             <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
                                 <i class="uil uil-bars"></i>
                             </a>
-                            <div class="search-bar p-0 d-none d-lg-block ms-2">
-                                <div id="search" class="menu-search mb-0">
-                                    <form role="search" method="get" id="searchform" class="searchform">
-                                        <div>
-                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Search Keywords...">
-                                            <input type="submit" id="searchsubmit" value="Search">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            <li class="list-inline-item mb-0 ms-1 d-flex align-items-center">
+                                <a href="home">
+                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="home" class="fea icon-sm"></i></div>
+                                </a>
+                                <a href="tax" class="ms-2" style="text-decoration: none; color: #3b5998; font-weight: bold;">Trở về thuế</a>
+                            </li>
                         </div>
 
-                        <ul class="list-unstyled mb-0">
-                            <li class="list-inline-item mb-0">
-                                <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets1/images/language/american.png" class="avatar avatar-ex-small rounded-circle p-2" alt=""></button>
-                                    <div class="dropdown-menu dd-menu drop-ups dropdown-menu-end bg-white shadow border-0 mt-3 p-2" data-simplebar style="height: 175px;">
-                                        <a href="javascript:void(0)" class="d-flex align-items-center">
-                                            <img src="assets1/images/language/chinese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Chinese</small>
-                                            </div>
-                                        </a>
+                        <!-- Thêm chữ "carpipi" vào giữa -->
+                        <div class="text-center flex-grow-1">
+                            <h2 class="mb-0" style="font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #3b5998;">carpipi</h2>
+                        </div>
 
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets1/images/language/european.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">European</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets1/images/language/indian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Indian</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets1/images/language/japanese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Japanese</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets1/images/language/russian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Russian</small>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
+                        <ul class="list-unstyled mb-0 d-flex align-items-center">
+                            <li class="list-inline-item mb-0 ms-1">
+                                <a href="logout">
+                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="log-out" class="fea icon-sm"></i></div>
+                                </a>
                             </li>
 
                             <li class="list-inline-item mb-0 ms-1">
-                                <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="settings" class="fea icon-sm"></i></div>
+                                <a href="userprofile">
+                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="user" class="fea icon-sm"></i></div>
                                 </a>
                             </li>
 
                             <li class="list-inline-item mb-0 ms-1">
                                 <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-icon btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="mail" class="fea icon-sm"></i></button>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">4 <span class="visually-hidden">unread mail</span></span>
-
-                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 px-2 py-2" data-simplebar style="height: 320px; width: 300px;">
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets1/images/client/02.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Janalia</b> <small class="text-muted fw-normal d-inline-block">1 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets1/images/client/Codepen.svg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>codepen</b>  <small class="text-muted fw-normal d-inline-block">4 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets1/images/client/03.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Cristina</b> <small class="text-muted fw-normal d-inline-block">5 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets1/images/client/dribbble.svg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Dribbble</b> <small class="text-muted fw-normal d-inline-block">24 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets1/images/client/06.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Donald Aghori</b> <small class="text-muted fw-normal d-inline-block">1 day ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets1/images/client/07.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Calvin</b> <small class="text-muted fw-normal d-inline-block">2 day ago</small></small>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="list-inline-item mb-0 ms-1">
-                                <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets1/images/doctors/01.jpg" class="avatar avatar-ex-small rounded-circle" alt=""></button>
+                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="img/avatar-trang-4.jpg" class="avatar avatar-ex-small rounded-circle" alt="">
+                                    </button>
                                     <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
                                         <a class="dropdown-item d-flex align-items-center text-dark" href="https://shreethemes.in/doctris/layouts/admin/profile.html">
-                                            <img src="assets1/images/doctors/01.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
-                                            <div class="flex-1 ms-2">
-                                                <span class="d-block mb-1">Calvin Carlo</span>
-                                                <small class="text-muted">Orthopedic</small>
-                                            </div>
+                                            <img src="img/avatar-trang-4.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                         </a>
-                                        <a class="dropdown-item text-dark" href="index.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
-                                        <a class="dropdown-item text-dark" href="dr-profile.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
+                                        <a class="dropdown-item text-dark" href="userprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
                                         <div class="dropdown-divider border-top"></div>
-                                        <a class="dropdown-item text-dark" href="lock-screen.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
+                                        <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
                                     </div>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
+
+
+
 
                 <div class="container-fluid">
                     <div class="layout-specing">
@@ -291,9 +172,11 @@
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
-                                    <li class="breadcrumb-item"><a href="shop.html">Shop</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                                     <li class="breadcrumb-item"><a href="home">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="carts">Giỏ Hàng</a></li>
+                                    <li class="breadcrumb-item"><a href="tax">Thuế</a></li>
+                                    
+                                    <li class="breadcrumb-item active" aria-current="page">Checkout</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -302,41 +185,22 @@
                             <div class="col-md-5 col-lg-4 order-last mt-4 pt-2 pt-sm-0">
                                 <div class="card rounded shadow p-4 border-0">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="h5 mb-0">Your cart</span>
-                                        <span class="badge bg-primary rounded-pill">3</span>
+                                        <span class="h5 mb-0">Giỏ hàng</span>
+                                        <span class="badge bg-primary rounded-pill">${sizeCart}</span>
                                     </div>
                                     <ul class="list-group mb-3 border">
-                                        <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
-                                            <div>
-                                                <h6 class="my-0">Product name</h6>
-                                                <small class="text-muted">Brief description</small>
-                                            </div>
-                                            <span class="text-muted">$12</span>
-                                        </li>
-                                        <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
-                                            <div>
-                                                <h6 class="my-0">Second product</h6>
-                                                <small class="text-muted">Brief description</small>
-                                            </div>
-                                            <span class="text-muted">$8</span>
-                                        </li>
-                                        <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
-                                            <div>
-                                                <h6 class="my-0">Third item</h6>
-                                                <small class="text-muted">Brief description</small>
-                                            </div>
-                                            <span class="text-muted">$5</span>
-                                        </li>
-                                        <li class="d-flex justify-content-between bg-light p-3 border-bottom">
-                                            <div class="text-success">
-                                                <h6 class="my-0">Promo code</h6>
-                                                <small>EXAMPLECODE</small>
-                                            </div>
-                                            <span class="text-success">−$5</span>
-                                        </li>
+                                        <c:forEach items="${sessionScope.cartsSelect}" var="C">
+                                            <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
+                                                <div>
+
+                                                    <small class="text-muted">${C.product.name}</small>
+                                                </div>
+                                                <span class="text-muted">${C.product.price * C.quantity}</span>
+                                            </li>
+                                        </c:forEach>
                                         <li class="d-flex justify-content-between p-3">
                                             <span>Total (USD)</span>
-                                            <strong>$20</strong>
+                                            <strong><fmt:formatNumber value="${sessionScope.totalFinal}" type="number" minFractionDigits="0"/> </strong>
                                         </li>
                                     </ul>
 
@@ -385,9 +249,9 @@
 
                                             <!-- Username -->
                                             <div class="col-12">
-                                                <label for="userName" class="form-label">Username</label>
+                                                <label for="userName" class="form-label" >Username</label>
                                                 <div class="input-group has-validation">
-                                                    <span class="input-group-text bg-light text-muted border">@</span>
+                                                   
                                                     <input
                                                         type="text"
                                                         class="form-control"
@@ -395,7 +259,7 @@
                                                         name="userName"
                                                         placeholder="Username"
                                                         value="${sessionScope.accCheckout.userName}"
-                                                        required
+                                                        readonly
                                                         >
                                                     <div class="invalid-feedback"> Your username is required. </div>
                                                 </div>
@@ -403,7 +267,10 @@
 
                                             <!-- Email -->
                                             <div class="col-12">
-                                                <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
+                                                <label for="email" class="form-label">Email </label>
+                                                 <div class="input-group has-validation">
+                                                    <span class="input-group-text bg-light text-muted border">@</span>
+
                                                 <input
                                                     type="email"
                                                     class="form-control"
@@ -421,6 +288,7 @@
                                                     </div>
                                                     <c:remove var="msg_gmailCart" scope="session" />
                                                 </c:if>
+                                                </div>
                                             </div>
 
                                             <!-- Phone Number -->
@@ -445,103 +313,65 @@
                                                     <c:remove var="msg_phoneCart" scope="session" />
                                                 </c:if>
                                             </div>
-
-                                            <!-- Address 1 -->
-                                            <div class="col-12">
-                                                <label for="address1" class="form-label">Address 1</label>
-                                                <div class="input-group">
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        id="address1"
-                                                        name="address1"
-                                                        placeholder="1234 Main St"
-                                                        value="${sessionScope.accCheckout.address}"
-                                                        required
-                                                        >
-                                                    <div class="input-group-text">
-                                                        <input
-                                                            type="radio"
-                                                            name="selectedAddress"
-                                                            value="address1"
-                                                            checked
-                                                            >
-                                                    </div>
-                                                </div>
+                                            <div class="col-md-4">
+                                                <label for="tinh" class="form-label">Tỉnh </label>
+                                                <select class="form-select form-control css_select" id="tinh" name="tinh" title="Chọn Tỉnh Thành" required>
+                                                    <option value="0">Tỉnh Thành</option>
+                                                </select>
                                                 <div class="invalid-feedback">
-                                                    Please enter your shipping address.
+                                                    Please select a valid province.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="quan" class="form-label">Huyện</label>
+                                                <select class="form-select form-control css_select" id="quan" name="quan" title="Chọn Quận Huyện" required>
+                                                    <option value="0">Quận Huyện</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid district.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="phuong" class="form-label">Phường Xã</label>
+                                                <select class="form-select form-control css_select" id="phuong" name="phuong" title="Chọn Phường Xã" required>
+                                                    <option value="0">Phường Xã</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid ward.
                                                 </div>
                                             </div>
 
                                             <!-- Address 2 -->
                                             <div class="col-12">
-                                                <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
+                                                <label for="address2" class="form-label">Số Nhà / Địa Chỉ Cụ Thể </label>
                                                 <div class="input-group">
                                                     <input
                                                         type="text"
                                                         class="form-control"
                                                         id="address2"
                                                         name="address2"
-                                                        placeholder="Apartment or suite"
+                                                        placeholder="  Vui lòng nhập địa chỉ chi tiết"
                                                         >
-                                                    <div class="input-group-text">
-                                                        <input
-                                                            type="radio"
-                                                            name="selectedAddress"
-                                                            value="address2"
-                                                            >
-                                                    </div>
+                                                  
                                                 </div>
                                                 <div class="invalid-feedback">
-                                                    Please enter your shipping address.
+                                                    Please enter your specific address.
                                                 </div>
                                             </div>
-                                            <!--                                            <div class="col-md-5">
-                                                                            <label for="address2" class="form-label">tỉnh <span
-                                                                                    class="text-muted">(Optional)</span></label>
-                                                                            <select class="form-select form-control" id="country" required>
-                                                                                <option value="">Choose...</option>
-                                                                                <option>United States</option>
-                                                                            </select>
-                                                                            <div class="invalid-feedback">
-                                                                                Please select a valid country.
-                                                                            </div>
-                                                                        </div>
-                            
-                                                                        <div class="col-md-4">
-                                                                            <label for="state" class="form-label">huyện</label>
-                                                                            <select class="form-select form-control" id="state" required>
-                                                                                <option value="">Choose...</option>
-                                                                                <option>California</option>
-                                                                            </select>
-                                                                            <div class="invalid-feedback">
-                                                                                Please provide a valid state.
-                                                                            </div>
-                                                                        </div>
-                            
-                                                                       <div class="col-md-4">
-                                                                            <label for="state" class="form-label">huyện</label>
-                                                                            <select class="form-select form-control" id="state" required>
-                                                                                <option value="">Choose...</option>
-                                                                                <option>California</option>
-                                                                            </select>
-                                                                            <div class="invalid-feedback">
-                                                                                Please provide a valid state.
-                                                                            </div>
-                                                                        </div>                                        </div>-->
 
-                                            <!--
-                                                                                    <div class="form-check mt-4 pt-4 border-top">
-                                                                                        <input type="checkbox" class="form-check-input" id="same-address">
-                                                                                        <label class="form-check-label" for="same-address">Shipping address is the same as my
-                                                                                            billing address</label>
-                                                                                    </div>
-                                            
-                                                                                    <div class="form-check">
-                                                                                        <input type="checkbox" class="form-check-input" id="save-info">
-                                                                                        <label class="form-check-label" for="save-info">Save this information for next
-                                                                                            time</label>
-                                                                                    </div>-->
+                                            <!--                                                                              <div class="form-check mt-4 pt-4 border-top">
+                                                                                                                                    <input type="checkbox" class="form-check-input" id="same-address">
+                                                                                                                                    <label class="form-check-label" for="same-address">Shipping address is the same as my
+                                                                                                                                        billing address</label>
+                                                                                                                                </div>
+                                                                                        
+                                                                                                                                <div class="form-check">
+                                                                                                                                    <input type="checkbox" class="form-check-input" id="save-info">
+                                                                                                                                    <label class="form-check-label" for="save-info">Save this information for next
+                                                                                                                                        time</label>
+                                                                                                                                </div>-->
 
                                             <h5 class="mb-3 mt-4 pt-4 border-top">Thanh Toán</h5>
 
@@ -581,7 +411,7 @@
                         <div class="row align-items-center">
                             <div class="col">
                                 <div class="text-sm-start text-center">
-                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
+                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Carpipi. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">hieu</a>.</p>
                                 </div>
                             </div><!--end col-->
                         </div><!--end row-->
@@ -646,6 +476,46 @@
         <script src="assets1/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets1/js/app.js"></script>
+        <script src="https://esgoo.net/scripts/jquery.js"></script>
+        <script>
+                                        $(document).ready(function () {
+                                            //Lấy tỉnh thành
+                                            $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
+                                                if (data_tinh.error == 0) {
+                                                    $.each(data_tinh.data, function (key_tinh, val_tinh) {
+                                                        $("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+                                                    });
+                                                    $("#tinh").change(function (e) {
+                                                        var idtinh = $(this).val();
+                                                        //Lấy quận huyện
+                                                        $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
+                                                            if (data_quan.error == 0) {
+                                                                $("#quan").html('<option value="0">Quận Huyện</option>');
+                                                                $("#phuong").html('<option value="0">Phường Xã</option>');
+                                                                $.each(data_quan.data, function (key_quan, val_quan) {
+                                                                    $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                                                                });
+                                                                //Lấy phường xã  
+                                                                $("#quan").change(function (e) {
+                                                                    var idquan = $(this).val();
+                                                                    $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
+                                                                        if (data_phuong.error == 0) {
+                                                                            $("#phuong").html('<option value="0">Phường Xã</option>');
+                                                                            $.each(data_phuong.data, function (key_phuong, val_phuong) {
+                                                                                $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                                                                            });
+                                                                        }
+                                                                    });
+                                                                });
+
+                                                            }
+                                                        });
+                                                    });
+
+                                                }
+                                            });
+                                        });
+        </script>
 
     </body>
 

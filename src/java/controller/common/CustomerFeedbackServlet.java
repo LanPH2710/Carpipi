@@ -1,6 +1,7 @@
 package controller.common;
 
 import dal.FeedbackDAO;
+import dal.OrderDetail1DAO;
 import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -71,9 +72,11 @@ public class CustomerFeedbackServlet extends HttpServlet {
         }
         int userId = acc.getUserId();
         String productId = request.getParameter("productId");
+        int orderDetailId = Integer.parseInt(request.getParameter("orderDetailId"));
         Product pro = pdao.getProductById(productId);
         request.setAttribute("acc", acc);
         request.setAttribute("pro", pro);
+        request.setAttribute("orderDetailId", orderDetailId);
         request.getRequestDispatcher("customerFeedback.jsp").forward(request, response);
     }
 
@@ -89,10 +92,12 @@ public class CustomerFeedbackServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         FeedbackDAO fdao = new FeedbackDAO();
+        OrderDetail1DAO od1dao = new OrderDetail1DAO();
         String feedbackInfor = request.getParameter("feedbackInfor"); // Đảm bảo đồng nhất tên biến
         int userId = Integer.parseInt(request.getParameter("userId"));
         String productId = request.getParameter("productId");
         int feedbackRate = Integer.parseInt(request.getParameter("feedbackRate"));
+        int orderDetailId = Integer.parseInt(request.getParameter("orderDetailId"));
         String feedbackImg = "";
 
         Part file = request.getPart("feedbackImg"); // Đảm bảo tên trùng với input trong form
@@ -123,6 +128,7 @@ public class CustomerFeedbackServlet extends HttpServlet {
 
         // Gọi hàm tạo phản hồi trong DAO
         fdao.createFeedback(userId, productId, feedbackInfor, feedbackImg, feedbackRate, 1);
+        od1dao.updateFeedbackOrder(orderDetailId);
         response.sendRedirect("myorder");
     }
 

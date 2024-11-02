@@ -164,6 +164,10 @@
         <servlet-name>CustomerFeedbackServlet</servlet-name>
         <servlet-class>controller.common.CustomerFeedbackServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShipperServlet</servlet-name>
+        <servlet-class>controller.shipper.ShipperServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -299,5 +303,9 @@
     <servlet-mapping>
         <servlet-name>CustomerFeedbackServlet</servlet-name>
         <url-pattern>/customerfeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShipperServlet</servlet-name>
+        <url-pattern>/shipper</url-pattern>
     </servlet-mapping>
 </web-app>

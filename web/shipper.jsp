@@ -210,7 +210,7 @@
                             </a>
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form method="get" id="searchform" class="searchform" action="myorder">
+                                    <form method="get" id="searchform" class="searchform" action="shipper">
                                         <div>
                                             <input type="text" class="form-control border rounded-pill" name="keyword" id="s" placeholder="Search Keywords..." value="${param.keyword}" >
                                             <input type="submit" id="searchsubmit" value="Search">
@@ -227,7 +227,7 @@
                         <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                             <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                                 <li class="breadcrumb-item"><a href="home">Trang chủ</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Đơn hàng</li>
+                                <li class="breadcrumb-item active" aria-current="page">Vận chuyển</li>
                             </ul>
                         </nav>
                         <div class="row mt-4">
@@ -236,18 +236,16 @@
                                     <div class="header">
                                         <c:set var="currentStatusId" value="${param.statusId != null ? param.statusId : 0}" />
                                         <ul class="tabs">
-                                            <li class="${currentStatusId == 0 ? 'active' : ''}"><a href="myorder">Tất cả</a></li>
-                                            <li class="${currentStatusId == 1 ? 'active' : ''}"><a href="myorder?statusId=1">Chờ xử lý</a></li>
-                                            <li class="${currentStatusId == 2 ? 'active' : ''}"><a href="myorder?statusId=2">Đã xác nhận</a></li>
-                                            <li class="${currentStatusId == 3 ? 'active' : ''}"><a href="myorder?statusId=3">Chờ giao hàng</a></li>
-                                            <li class="${currentStatusId == 4 ? 'active' : ''}"><a href="myorder?statusId=4">Hoàn thành</a></li>
-                                            <li class="${currentStatusId == 5 ? 'active' : ''}"><a href="myorder?statusId=5">Đã hủy</a></li>
+                                            <li class="${currentStatusId == 0 ? 'active' : ''}"><a href="shipper">Tất cả</a></li>
+                                            <li class="${currentStatusId == 2 ? 'active' : ''}"><a href="shipper?statusId=2">Đã xác nhận</a></li>
+                                            <li class="${currentStatusId == 3 ? 'active' : ''}"><a href="shipper?statusId=3">Chờ giao hàng</a></li>
+                                            <li class="${currentStatusId == 4 ? 'active' : ''}"><a href="shipper?statusId=4">Hoàn thành</a></li>
                                         </ul>
                                     </div>
                                     <div class="order-list">
                                         <c:choose>
 
-                                            <c:when test="${empty requestScope.myOrder}">
+                                            <c:when test="${empty requestScope.order}">
                                                 <p style="
                                                    text-align: center;
                                                    font-size: 18px;
@@ -257,20 +255,16 @@
                                                    border-radius: 8px;
                                                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
                                                    margin: 20px 0;
-                                                   ">Chưa có đơn nào, xin hãy quay lại mua sắm.</p>
+                                                   ">Chưa có đơn nào, xin hãy chờ khách mua hàng.</p>
                                             </c:when>
 
                                             <c:otherwise>
-                                                <c:forEach items="${requestScope.myOrder}" var="order">
+                                                <c:forEach items="${order}" var="order">
                                                     <div class="order-item">
                                                         <div class="order-shop">
-
                                                             <a href="cartCompletionDetail.jsp">
                                                                 <p class="delivery-status">${order.description}</p>
                                                             </a>&nbsp;&nbsp;
-                                                            <c:if test="${fn:contains(order.description, 'Đơn hàng đã được giao đến tay khách hàng') && order.isfeedback == 0}">
-                                                                <a class="buy-again-btn" href="customerfeedback?productId=${order.productId}&orderDetailId=${order.orderDetailId}">Đánh giá</a>
-                                                            </c:if>
                                                         </div>
                                                         <div class="order-details">
                                                             <div class="product-info">
@@ -279,38 +273,27 @@
                                                                     <h4><a href="cartCompletionDetail.jsp" style="color: inherit;">${order.productName}</a></h4>
                                                                     <p>Hãng xe: ${order.brandName}</p>
                                                                     <p>Số lượng: ${order.quantity}</p>
+                                                                    <p class="price">
+                                                                        <span>Giá: </span>
+                                                                        <fmt:formatNumber value="${order.price}" type="currency" currencySymbol="USD"/>
+                                                                    </p>
                                                                     <p>Màu sắc: ${order.colorName}</p>
                                                                     <p>Thời gian: ${order.createDate}</p>
                                                                 </div>
-
                                                                 <div class="order-actions">
                                                                     <p class="price">
                                                                         <span style="color: #2c3e50">Thành tiền:</span>&nbsp;&nbsp;
                                                                         <fmt:formatNumber value="${order.price * (1 - order.discount) * order.quantity}" type="currency" currencySymbol="USD"/>
                                                                     </p>
-                                                                    <button class="return-btn">Thông tin đơn hàng</button>
-                                                                    <c:if test="${fn:contains(order.description, 'Đơn hàng đã được giao đến tay khách hàng')}">
-                                                                        <a href="addToCart">
-                                                                            <button class="buy-again-btn">Mua Lại</button>
-                                                                        </a>
-                                                                    </c:if>
+                                                                    <button class="buy-again-btn">Thông tin đơn hàng</button>
                                                                 </div>
                                                             </div>
-
                                                         </div>
-                                                        <c:if test="${order.isfeedback == 0}">
-                                                            <small>Xin hãy đánh giá xe sau khi nhận được hàng!</small>
-                                                        </c:if>
-                                                        <c:if test="${order.isfeedback == 1}">
-                                                            <small>Cảm ơn bạn đã đánh giá sản phẩm!</small>
-                                                        </c:if>
-
                                                     </div>
                                                 </c:forEach>
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
-
                                 </div>
                             </div><!--end row--> 
                         </div>
@@ -321,7 +304,7 @@
                                     <span class="text-muted me-3">Showing <b>${page}</b> out of <b>${num}</b> pages customers</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${page > 1}">
-                                            <li class="page-item"><a class="page-link" href="myorder?page=${page - 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Previous">Prev</a></li>
+                                            <li class="page-item"><a class="page-link" href="shipper?page=${page - 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Previous">Prev</a></li>
                                             </c:if>
                                             <c:forEach begin="${(page - 1) <= 1 ? 1 : (page - 1)}" end="${page + 1 > num ? num : page + 1}" var="i">
                                                 <c:choose>
@@ -329,12 +312,12 @@
                                                     <li class="page-item active"><a class="page-link">${i}</a></li>
                                                     </c:when>
                                                     <c:otherwise>
-                                                    <li class="page-item"><a href="myorder?page=${i}&statusId=${statusId}&keyword=${keyword}" class="page-link">${i}</a></li>
+                                                    <li class="page-item"><a href="shipper?page=${i}&statusId=${statusId}&keyword=${keyword}" class="page-link">${i}</a></li>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </c:forEach>
                                             <c:if test="${page < num}">
-                                            <li class="page-item"><a class="page-link" href="myorder?page=${page + 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Next">Next</a></li>
+                                            <li class="page-item"><a class="page-link" href="shipper?page=${page + 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Next">Next</a></li>
                                             </c:if>
                                     </ul>
                                 </div>

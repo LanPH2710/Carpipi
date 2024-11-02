@@ -173,7 +173,7 @@
                         <span class="text-muted"></span>
                     </div>
 
-                    <p style="font-size: 1.5 rem;">${pro.description}</p>
+                    <p style="font-size: 1.5rem;">${pro.description}</p>
                     <div class="row">
                         <div class="col-6"><strong>Hãng:</strong> ${brand}</div>
                         <div class="col-6"><strong>Kiểu dáng:</strong> ${style}</div>
@@ -186,6 +186,7 @@
                     <div class="mb-4">
                         <label class="mb-2 h6">Màu sắc</label>
                         <select class="form-control w-auto" name="color" id="colorSelect" onchange="updateColorValue()">
+                            <option value="0">Chọn màu sắc</option>
                             <c:forEach items="${color}" var="color">
                                 <option value="${color.colorId}">${color.colorName}</option>
                             </c:forEach>

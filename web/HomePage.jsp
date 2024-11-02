@@ -1,13 +1,9 @@
-<%-- 
-    Document   : HomePage
-    Created on : Sep 17, 2024, 12:21:57 AM
-    Author     : nguye
---%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="java.util.List" %>
+<fmt:setLocale value="en_US"/>
 
 <!doctype html>
 <html class="no-js" lang="en">
@@ -117,10 +113,6 @@
     </head>
 
     <body>
-        <!--[if lte IE 9]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-<![endif]-->
-
         <!--welcome-hero start -->
         <section id="home" class="welcome-hero">
 
@@ -304,7 +296,7 @@
                                         <!-- Tên và đường dẫn chi tiết sản phẩm -->
                                         <h2><a href="productdetail?productId=${product.productId}">${product.name}</a></h2>
                                         <!-- Hiển thị giá sản phẩm với định dạng tiền tệ -->
-                                        <h3><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,###"/>đ</h3>
+                                        <h3><fmt:formatNumber value="${product.getPrice()}" type="number" pattern="#,##0.0"/> USD</h3>
                                         <!-- Hiển thị mô tả ngắn về sản phẩm -->
                                         <p class="car-desc">${product.description}</p>
                                     </div>

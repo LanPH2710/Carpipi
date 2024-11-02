@@ -1,6 +1,13 @@
-package controller.common;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
+package controller.sale;
 
-import dal.OrderDetail1DAO;
+import dal.AccountDAO;
+import dal.ColorDAO;
+import dal.OrderDAO;
+import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -8,16 +15,20 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
+import java.awt.Image;
 import java.util.List;
 import model.Account;
-import model.OrderDetail1;
+import model.Color;
+import model.OrderDetail;
+import model.OrderStatus;
+import model.Product;
+import model.ProductImage;
 
 /**
  *
- * @author tuana
+ * @author Sonvu
  */
-public class MyOrderServlet extends HttpServlet {
+public class OrderDetailForSaleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +47,10 @@ public class MyOrderServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MyOrderServlet</title>");
+            out.println("<title>Servlet OrderDetailForSaleServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet MyOrderServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet OrderDetailForSaleServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,55 +68,46 @@ public class MyOrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         HttpSession session = request.getSession();
-        OrderDetail1DAO oddao1 = new OrderDetail1DAO();
-        List<OrderDetail1> myOrder = new ArrayList<>();
-        Account acc = (Account) session.getAttribute("account");
-        if (acc == null) {
-            response.sendRedirect("login.jsp"); // Chuyển hướng về trang login nếu không có tài khoản
-            return;
-        }
-        int userId = acc.getUserId();
-        int statusId = 0;
-        String statusIdParam = request.getParameter("statusId");
-        String keyword = request.getParameter("keyword");
-        if (statusIdParam != null && !statusIdParam.isEmpty()) {
-            try {
-                statusId = Integer.parseInt(statusIdParam);
-            } catch (NumberFormatException e) {
-                // Xử lý ngoại lệ khi chuyển đổi statusId
-                e.printStackTrace(); // Log lỗi
-                request.setAttribute("error", "Status ID không hợp lệ.");
-            }
-        }
-        if (statusId > 0) {
-            myOrder = oddao1.getOrderDetailByStatus(userId, statusId);
-        } else if (keyword != null) {
-            myOrder = oddao1.getOrderDetailName(userId, keyword);
-        } else {
-            myOrder = oddao1.getAllOrderDetail(userId);
+
+        String orderId = request.getParameter("orderId");
+
+        AccountDAO accountDao = new AccountDAO();
+        OrderDAO orderDao = new OrderDAO();
+        ColorDAO colorDao = new ColorDAO();
+        ProductDAO p = new ProductDAO();
+        Product product = new Product();
+        ProductImage image = new ProductImage();
+
+        List<OrderDetail> orderList = orderDao.getListOrderdetailById(orderId);
+
+        for (OrderDetail o : orderList) {
+
         }
 
-        // Phân trang
-        int page, numperpage = 2;
-        int size = myOrder.size();
-        int num = (int) Math.ceil((double) size / numperpage); // Số trang, làm tròn lên
-        String xpage = request.getParameter("page");
-        if (xpage == null) {
-            page = 1;
-        } else {
-            page = Integer.parseInt(xpage);
-        }
-        int start = (page - 1) * numperpage;
-        int end = Math.min(page * numperpage, size);
-        myOrder = oddao1.getMyOrderListByPage(myOrder, start, end);
+        List<Color> colorList = colorDao.getListColor();
 
-        request.setAttribute("myOrder", myOrder);
-        request.setAttribute("page", page);
-        request.setAttribute("statusId", statusId);
-        request.setAttribute("keyword", keyword);
-        request.setAttribute("num", num);
-        request.getRequestDispatcher("myOrder.jsp").forward(request, response);
+        Account accountOrder = accountDao.getAccountById(6);
+
+        List<Account> allSaleName = accountDao.getAccountByRole();
+
+        List<OrderStatus> listStatusOrder = orderDao.getListOrderStatus();
+
+        //  Account saleInfo = accountDao.getAccountById(orderDetail.getSaleId());
+        System.out.println(image.getImageUrl());
+        System.out.println(orderId);
+
+        request.setAttribute("image", image);
+
+        //    request.setAttribute("saleInfo", saleInfo);
+        request.setAttribute("listStatusOrder", listStatusOrder);
+        request.setAttribute("allSaleName", allSaleName);
+        request.setAttribute("colorList", colorList);
+        request.setAttribute("product", product);
+        request.setAttribute("orderList", orderList);
+        request.setAttribute("accountOrder", accountOrder);
+        request.getRequestDispatcher("orderdetailforsale.jsp").forward(request, response);
     }
 
     /**

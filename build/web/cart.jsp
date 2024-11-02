@@ -97,9 +97,8 @@
 
                         <li class="sidebar-dropdown">
                             <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
-
                         </li>
-
+                        <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
 
 
 
@@ -213,9 +212,13 @@
                             </ul>
 
                         </nav>
-                        <div id="message" class="message-popup" style="display: none; color: red;">
-                            ${messUpdateCart}
-                        </div>
+                        <c:if test="${not empty sessionScope.messUpdateCart}">
+                            <div id="message" class="message-popup" style="display: none; color: red;">
+                                ${messUpdateCart}
+                            </div>
+                            <c:remove var="messUpdateCart" scope="session" />
+                        </c:if>
+                       
 
 
 
@@ -241,6 +244,7 @@
 
                                             <c:forEach items="${sessionScope.carts}" var="C">
                                             <form action="update-quantity">
+                                                <input type="hidden" name="cartId" value="${C.cartId}">
                                                 <tr>
                                                     <td class="text-center p-3">
                                                         <input type="checkbox" name="selectCart" <c:if test="${C.isSelect == 1}">checked</c:if> onchange="this.form.submit()">

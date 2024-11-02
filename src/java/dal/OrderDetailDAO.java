@@ -85,61 +85,10 @@ public class OrderDetailDAO extends DBContext {
         }
         return orderDetails; // Trả về danh sách OrderDetail
     }
-    
-      public List<OrderDetail> getAllOrderList() {
-        List<OrderDetail> list = new ArrayList<>();
-
-        String sql = "SELECT acc.firstName, \n"
-                + "       acc.lastName, \n"
-                + "       orr.orderId, \n"
-                + "       orr.createDate, \n"
-                + "       orr.totalPrice, \n"
-                + "       orr.orderStatus,\n"
-                + "       SUBSTRING_INDEX(GROUP_CONCAT(p.name ORDER BY od.orderId SEPARATOR ', '), ', ', 1) AS firstProductName,\n"
-                + "       COUNT(od.productId) - 1 AS additionalProductCount\n"
-                + "FROM carpipi.order orr\n"
-                + "JOIN carpipi.account acc ON orr.userId = acc.userId\n"
-                + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId\n"
-                + "JOIN carpipi.product p ON od.productId = p.productId\n"
-                + "GROUP BY orr.orderId";
-
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()) {
-
-                OrderDetail o = new OrderDetail();
-                o.setOrderId(rs.getInt("orderId"));
-                o.setUserId(rs.getInt("userId"));
-                o.setCreateDate(rs.getString("createDate"));
-                o.setFirstName(rs.getString("firstName"));
-                o.setLastName(rs.getString("lastName"));
-                o.setTotalPrice(rs.getDouble("totalPrice"));
-                o.setOrderStatus(rs.getInt("orderStatus"));
-                o.setProductId(rs.getString("productId"));
-                o.setProductName(rs.getString("firstProductName"));
-                o.setQuantity(rs.getInt("additionalProductCount"));
-               
-
-                list.add(o);
-
-            }
-
-        } catch (SQLException e) {
-        }
-        
-
-        return list;
-
-    }
 
     public static void main(String[] args) {
         OrderDetailDAO oddao = new OrderDetailDAO();
-        List<OrderDetail> o = oddao.getAllOrderList();
-        for (OrderDetail orderDetail : o) {
-            System.out.println(orderDetail.getFirstName());
-        }
+        List<OrderDetail> o = oddao.getAllOrderDetail(6);
+        System.out.println(o.get(0).getDescription());
     }
 }

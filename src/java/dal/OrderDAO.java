@@ -22,6 +22,53 @@ import model.Role;
  */
 public class OrderDAO extends DBContext {
 
+    public OrderDetail getOrderDetail(int orderId) {
+        OrderDetail o = new OrderDetail();
+        String sql = "SELECT acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
+                + "orr.*, od.productId, od.shippingAddress, od.discountId, od.colorId,\n"
+                + "p.name\n"
+                + "FROM carpipi.order orr\n"
+                + "Join carpipi.account acc\n"
+                + "ON orr.userId = acc.userId\n"
+                + "JOIN carpipi.orderdetail od\n"
+                + "ON orr.orderId = od.orderId\n"
+                + "Join carpipi.product p\n"
+                + "ON od.productId = p.productId\n"
+                + "Where od.orderId = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, orderId);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                o.setUserId(rs.getInt("userId"));
+                o.setFirstName(rs.getString("firstName"));
+                o.setLastName(rs.getString("lastName"));
+                o.setMobile(rs.getString("mobile"));
+                o.setEmail(rs.getString("email"));
+                o.setGender(rs.getInt("gender"));
+                o.setOrderId(rs.getInt("orderId"));
+                o.setProductId(rs.getString("productId"));
+                o.setCreateDate(rs.getString("createDate"));
+                o.setNote(rs.getString("note"));
+                o.setOrderStatus(rs.getInt("orderStatus"));
+                o.setSaleId(rs.getInt("saleId"));
+                o.setShipperId(rs.getInt("shipperId"));
+                o.setShippingAddress(rs.getString("shippingAddress"));
+                o.setQuantity(rs.getInt("quantity"));
+                o.setDiscountId(rs.getInt("discountId"));
+                o.setColorId(rs.getInt("colorId"));
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // In lỗi ra console
+        }
+
+        return o;
+    }
+
     public List<OrderStatus> getListOrderStatus() {
 
         List<OrderStatus> listStatus = new ArrayList<>();
@@ -132,50 +179,7 @@ public class OrderDAO extends DBContext {
 
             }
 
-        } catch (SQLException e) {
-        }
-
-        return list;
-    }
-
-    public List<OrderDetail> getAllOrderList() {
-        List<OrderDetail> list = new ArrayList<>();
-
-        String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, "
-                + "orr.orderStatus, SUBSTRING_INDEX(GROUP_CONCAT(p.name ORDER BY od.orderId SEPARATOR ', '), ', ', 1) AS firstProductName, "
-                + "COUNT(od.productId) - 1 AS additionalProductCount "
-                + "FROM carpipi.order orr "
-                + "JOIN carpipi.account acc ON orr.userId = acc.userId "
-                + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId "
-                + "JOIN carpipi.product p ON od.productId = p.productId "
-                + "GROUP BY orr.orderId";
-
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()) {
-                System.out.println("Record found: " + rs.getInt("orderId")); // Kiểm tra xem có bản ghi nào trả về
-
-                OrderDetail o = new OrderDetail();
-                o.setOrderId(rs.getInt("orderId"));
-                o.setUserId(rs.getInt("userId")); // Đảm bảo userId có trong truy vấn SQL nếu cần
-                o.setCreateDate(rs.getString("createDate"));
-                o.setFirstName(rs.getString("firstName"));
-                o.setLastName(rs.getString("lastName"));
-                o.setTotalPrice(rs.getDouble("totalPrice"));
-                o.setOrderStatus(rs.getInt("orderStatus"));
-                o.setProductName(rs.getString("firstProductName"));
-                o.setQuantity(rs.getInt("additionalProductCount"));
-
-                list.add(o);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); // Ghi lại lỗi để dễ dàng gỡ lỗi
-        }
-
-        if (list.isEmpty()) {
-            System.out.println("No records found.");
+        } catch (Exception e) {
         }
 
         return list;
@@ -184,9 +188,9 @@ public class OrderDAO extends DBContext {
     public static void main(String[] args) {
         OrderDAO o = new OrderDAO();
 
-        List<OrderDetail> l = o.getAllOrderList();
+        List<OrderDetail> l = o.getListOrderdetailById("1");
         for (OrderDetail orderDetail : l) {
-            System.out.println(orderDetail.getFirstName());
+            System.out.println(orderDetail.getImageUrl());
         }
 
     }

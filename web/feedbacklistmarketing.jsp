@@ -199,14 +199,14 @@
 
                                                     </td>
                                                     <td>
-                                                        <form action="" method="POST" style="display: inline;">
+                                                        <form action="SliderList" method="POST" style="display: inline;">
                                                             <input type="hidden" name="sliderId" value="${list.feedbackId}" />
                                                             <input type="hidden" name="status" value="${list.status == 1 ? 0 : 1}">
                                                             <button type="submit" name="action" value="updateSliderStatus" class="btn btn-icon btn-pills ${list.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
                                                                 <span class="${list.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
                                                             </button>
                                                         </form>
-                                                        <a href="feedbackdetail?id=${list.feedbackId}" class="btn btn-icon btn-pills btn-soft-success">
+                                                        <a href="editSlider?id=${list.feedbackId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile">
                                                             <i class="uil uil-pen"></i>
                                                         </a>
                                                     </td>

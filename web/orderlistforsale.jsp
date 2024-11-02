@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Product List</title>
+        <title>Feedback List</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -36,6 +36,37 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 
+        
+        <style>
+            .infor-customer {
+                display: grid; /* Sử dụng grid để chia cột */
+                grid-template-columns: repeat(2, 1fr); /* Chia thành 2 cột */
+                grid-auto-rows: minmax(0, 1fr); /* Giữ chiều cao mỗi dòng bằng nhau */
+                height: 200px; /* Điều chỉnh chiều cao tổng thể để cắt phần còn lại */
+                overflow: hidden; /* Ẩn phần còn lại */
+                width: 600px;
+            }
+
+            .infor-customer-order {
+                display: grid; /* Sử dụng grid để chia cột */
+                grid-template-columns: repeat(2, 1fr); /* Chia thành 2 cột */
+                grid-auto-rows: minmax(0, 1fr); /* Giữ chiều cao mỗi dòng bằng nhau */
+                height: 290px; /* Điều chỉnh chiều cao tổng thể để cắt phần còn lại */
+                overflow: hidden; /* Ẩn phần còn lại */
+                width: 500px;
+            }
+
+            .infor-customer {
+                margin-bottom: 2px;
+            }
+            .infor-customer h5{
+                margin-bottom: 3px;
+            }
+
+            .cart_menu td{
+                text-align: center;
+            }
+        </style>
     </head>
 
 
@@ -148,81 +179,210 @@
                                             </c:when>
                                         </c:choose>
 
-                                    <li class="breadcrumb-item active" aria-current="page">Feedback</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Order detail</li>
                                 </ul>
                             </nav>
                         </div>
                         <div class="row">
+                            <div class="shopper-informations">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="shopper-info">
+                                            <p>Thông tin người mua</p>
+
+                                            <ul class="infor-customer-order">
+
+                                                <li>
+                                                    <h5>Họ tên</h5>
+                                                    <p>${accountOrder.firstName} ${accountOrder.lastName}</p>
+                                                </li>
+                                                <li>
+                                                    <h5>Emai</h5>
+                                                    <p>${accountOrder.email}</p>
+                                                </li>
+                                                <li>
+                                                    <h5>Số điện thoại</h5>
+                                                    <p>${accountOrder.mobile}</p>
+                                                </li>
+                                                <li>
+                                                    <h5>Ngày đặt hàng</h5>
+                                                    <p>${orderDetail.createDate}</p>
+                                                </li>
+                                                <li>
+                                                    <h5>Tổng chi phí</h5>
+                                                    <p><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></p>
+                                                </li>
+                                                <li>
+                                                    <h5>Tên nhân viên sale</h5>
+                                                    <p>${saleInfo.firstName} ${saleInfo.lastName}</p>
+                                                </li>
+                                                <li>
+                                                    <h5>Trạng thái</h5>
+                                                    <% //   ${status.statusId == orderDetail.orderStatus ? 'selected' : ''}" %>
+
+
+                                                    <form action="orderdetailforsale" method="get" style="display: inline;">
+                                                        <select class="form-select" name="statusId" onchange="this.form.submit()">
+                                                            <c:forEach var="status" items="${requestScope.listStatusOrder}">
+                                                                <option value="${status.statusId}">${status.statusName}</option>
+
+                                                            </c:forEach>
+                                                            <option value="0">aa</option>
+                                                        </select>
+                                                        <input type="hidden" name="orderId" value="${orderDetail.orderId}">
+
+
+                                                        <!-- Vòng lặp thêm input ẩn cho từng styleId đã chọn -->
+
+
+                                                    </form>
+
+                                                </li>
+
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-payment">
+                                <h2>Thông tin sản phẩm</h2>
+                            </div>
                             <div class="col-12 mt-4">
                                 <div class="table-responsive shadow rounded">
                                     <table class="table table-center bg-white mb-0">
                                         <thead>
                                             <tr>
-                                                <th class="border-bottom p-3" style="min-width: 20px;">Id</th>
-                                                <th class="border-bottom p-3">Ngày đặt hàng</th>
-                                                <th class="border-bottom p-3" style="min-width: 140px;">Tên khách hàng</th>
-                                                <th class="border-bottom p-3">Tên sản phẩm</th>
-                                                <th class="border-bottom p-3" style="max-width: 330px">Tổng chi phí</th>
-                                                <th class="border-bottom p-3">Trạng thái</th>
-                                                <th class="border-bottom p-3" style="min-width: 100px;"></th>
+                                                <th class="border-bottom p-3" style="">Sản phẩm</th>
+                                                <th class="border-bottom p-3" style="min-width: 140px;">Mô tả</th>
+                                                <th class="border-bottom p-3">Màu sắc</th>                          
+                                                <th class="border-bottom p-3">Số lượng</th>
+                                                <th class="border-bottom p-3" style="max-width: 330px">Giá</th>
+
+                                                <th class="border-bottom p-3">Tổng</th>
+
                                             </tr>
+
+
                                         </thead>
                                         <tbody>
+                                            <c:forEach items="${requestScope.orderList}" var="od">
+                                                <tr>
+                                                    <td>
+                                                        <a href=""><img style="width: 300px; padding: 10px 10px;"  src="${od.imageUrl}" alt=""></a>
+                                                    </td>
+                                                    <td>
+                                                        <h5><a href="">${od.productName}</a></h5>
+                                                        <p>ID: ${od.productId}</p></td>
+                                                    <td>
+                                                        <c:forEach items="${requestScope.colorList}" var="color">
+                                                            <c:if test="${od.colorId == color.colorId}">
+                                                                ${color.colorName}
+                                                            </c:if>
+                                                        </c:forEach>
+
+                                                    </td>                                    
+                                                    <td>${od.quantity}</td>
+                                                    <td><fmt:formatNumber value="${od.price}" type="number" pattern="#,###"/></td>
+
+                                                    <td></td>
+
+                                                </tr>
+
+
+                                            </c:forEach>
                                             <tr>
-                                                <td class="p-3"></td>
-                                                <td class="p-3"></td>
-                                                <td class="p-3"></td>
-                                                <td class="p-3"></td>
-                                                <td class="p-3"></td>
-                                                <td class="p-3"></td>
-                                                <td class="p-3"></td>
+                                                <td colspan="4">&nbsp;</td>
+                                                <td colspan="2">
+                                                    <table class="table table-condensed total-result">
+
+                                                        <tr class="shipping-cost">
+                                                            <td>Giá vận chuyển</td>
+                                                            <td>Miễn phí</td>										
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Tổng</td>
+                                                            <td><span><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></span></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
                                             </tr>
-<!--                                                orderlistforsale-->
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                        </div>
-                        <!--end row-->
-                        <!--                        <div class="row text-center">
-                                                     Pagination 
-                                                    <div class="col-12 mt-4">
-                                                        <div class="d-md-flex align-items-center text-center justify-content-between">
-                                                            <span class="text-muted me-3">Hiển thị ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + sliders.size()} ${totalItems}</span>
-                                                            <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                                                 Previous Button 
-                        <c:if test="${currentPage > 1}">
-                            <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage - 1}&search=${param.search}&status=${param.status}" aria-label="Previous">Prev</a>
-                            </li>
-                        </c:if>
 
-                         Page Numbers 
-                        <c:forEach begin="1" end="${totalPages}" var="page">
-                            <li class="page-item ${currentPage == page ? 'active' : ''}">
-                                <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${page}&search=${param.search}&status=${param.status}">${page}</a>
-                            </li>
-                        </c:forEach>
+                            <div class="shopper-informations">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="shopper-info">
+                                            <p>Thông tin người nhận</p>
 
-                         Next Button 
-                        <c:if test="${sliders.size() == 15}">
-                            <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage + 1}&search=${param.search}&status=${param.status}" aria-label="Next">Next</a>
-                            </li>
-                        </c:if>
-                    </ul>
-                </div>
-            </div>
-                                                                     PAGINATION END 
-        </div>end row-->
+                                            <ul class="infor-customer">
+                                                <li>
+                                                    <h5>Họ tên</h5>
+                                                    <p>${accountOrder.firstName} ${accountOrder.lastName}</p>
+                                                </li>
+                                                <li>
+                                                    <h5>Emai</h5>
+                                                    <p>${accountOrder.email}</p>
+                                                </li>
+                                                <li>
+                                                    <h5>Số điện thoại</h5>
+                                                    <p>${accountOrder.mobile}</p>
+                                                </li>
+                                                <li>
+                                                    <h5>Địa chỉ người nhận</h5>
+                                                    <p>${orderDetail.shippingAddress}</p>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+
+                                </div>                   
+                            </div>
+                            <!--end row-->
+                            <!--                        <div class="row text-center">
+                                                         Pagination 
+                                                        <div class="col-12 mt-4">
+                                                            <div class="d-md-flex align-items-center text-center justify-content-between">
+                                                                <span class="text-muted me-3">Hiển thị ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + sliders.size()} ${totalItems}</span>
+                                                                <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                                                     Previous Button 
+                            <c:if test="${currentPage > 1}">
+                                <li class="page-item">
+                                    <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage - 1}&search=${param.search}&status=${param.status}" aria-label="Previous">Prev</a>
+                                </li>
+                            </c:if>
+    
+                             Page Numbers 
+                            <c:forEach begin="1" end="${totalPages}" var="page">
+                                <li class="page-item ${currentPage == page ? 'active' : ''}">
+                                    <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${page}&search=${param.search}&status=${param.status}">${page}</a>
+                                </li>
+                            </c:forEach>
+    
+                             Next Button 
+                            <c:if test="${sliders.size() == 15}">
+                                <li class="page-item">
+                                    <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage + 1}&search=${param.search}&status=${param.status}" aria-label="Next">Next</a>
+                                </li>
+                            </c:if>
+                        </ul>
                     </div>
-                </div><!--end container-->
+                </div>
+                                                                         PAGINATION END 
+            </div>end row-->
+                        </div>
+                    </div><!--end container-->
 
-                <!-- Footer Start -->
-                <footer class="bg-white shadow py-3">
+                    <!-- Footer Start -->
+                    <footer class="bg-white shadow py-3">
 
-                </footer><!--end footer-->
-                <!-- End -->
+                    </footer><!--end footer-->
+                    <!-- End -->
             </main>
             <!--End page-content" -->
         </div>

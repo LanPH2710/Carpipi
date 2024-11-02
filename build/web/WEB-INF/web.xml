@@ -74,7 +74,7 @@
     </servlet>
     <servlet>
         <servlet-name>ProductListMarketingServlet</servlet-name>
-        <servlet-class>controller.marketing.ProductListMarketingServlet</servlet-class>
+        <servlet-class>controller.ProductListMarketingServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>EditByMarketingServlet</servlet-name>
@@ -86,11 +86,11 @@
     </servlet>
     <servlet>
         <servlet-name>AddProductMarketingServlet</servlet-name>
-        <servlet-class>controller.marketing.AddProductMarketingServlet</servlet-class>
+        <servlet-class>controller.AddProductMarketingServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteProductMarketingServlet</servlet-name>
-        <servlet-class>controller.marketing.DeleteProductMarketingServlet</servlet-class>
+        <servlet-class>controller.DeleteProductMarketingServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ProductDetailServlet</servlet-name>
@@ -122,7 +122,7 @@
     </servlet>
     <servlet>
         <servlet-name>OrderDetailForSaleServlet</servlet-name>
-        <servlet-class>controller.sale.OrderDetailForSaleServlet</servlet-class>
+        <servlet-class>controller.OrderDetailForSaleServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>EditBlogMarketingServlet</servlet-name>
@@ -151,14 +151,6 @@
     <servlet>
         <servlet-name>MyOrderServlet</servlet-name>
         <servlet-class>controller.common.MyOrderServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>FeedbackDetailServlet</servlet-name>
-        <servlet-class>controller.marketing.FeedbackDetailServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>OrderListForSaleServlet</servlet-name>
-        <servlet-class>controller.sale.OrderListForSaleServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
@@ -283,13 +275,5 @@
     <servlet-mapping>
         <servlet-name>MyOrderServlet</servlet-name>
         <url-pattern>/myorder</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>FeedbackDetailServlet</servlet-name>
-        <url-pattern>/feedbackdetail</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>OrderListForSaleServlet</servlet-name>
-        <url-pattern>/orderlistforsale</url-pattern>
     </servlet-mapping>
 </web-app>

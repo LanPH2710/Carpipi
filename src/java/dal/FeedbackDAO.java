@@ -9,9 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import model.Account;
 import model.Feedback;
 
@@ -165,59 +163,6 @@ public class FeedbackDAO extends DBContext {
             arr.add(feedbacks.get(i));
         }
         return arr;
-    }
-    
-    
-    public Map<String, Object> getFeedbackDetailsById(int feedbackId) {
-    Map<String, Object> feedbackDetail = null;
-
-    String sql = "SELECT " +
-                 "f.feedbackId, " + // Added feedbackId to the SELECT statement
-                 "CONCAT(a.firstName, ' ', a.lastName) AS fullName, " +
-                 "a.email, " +
-                 "a.mobile, " +
-                 "p.name AS productName, " +
-                 "f.feedbackRate AS ratedStar, " +
-                 "f.feedbackInfo AS feedback, " +
-                 "f.status AS feedbackStatus " +
-                 "FROM feedback f " +
-                 "JOIN account a ON f.userId = a.userId " +
-                 "JOIN product p ON f.productId = p.productId " +
-                 "WHERE f.feedbackId = ?";
-
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, feedbackId);
-
-        try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                feedbackDetail = new HashMap<>();
-                feedbackDetail.put("feedbackId", rs.getInt("feedbackId")); // Added feedbackId to the map
-                feedbackDetail.put("fullName", rs.getString("fullName"));
-                feedbackDetail.put("email", rs.getString("email"));
-                feedbackDetail.put("mobile", rs.getString("mobile"));
-                feedbackDetail.put("productName", rs.getString("productName"));
-                feedbackDetail.put("ratedStar", rs.getInt("ratedStar"));
-                feedbackDetail.put("feedback", rs.getString("feedback"));
-                feedbackDetail.put("feedbackStatus", rs.getInt("feedbackStatus"));
-            }
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-
-    return feedbackDetail;
-}
-    
-    public void updateFeedbackStatus(int feedbackId, int status) {
-        String sql = "UPDATE feedback SET status = ? WHERE feedbackId = ?";
-        try (
-                PreparedStatement stm = connection.prepareStatement(sql)) {
-            stm.setInt(1, status);
-            stm.setInt(2, feedbackId);
-            stm.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void main(String[] args) {

@@ -152,6 +152,10 @@
         <servlet-name>MyOrderServlet</servlet-name>
         <servlet-class>controller.common.MyOrderServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FeedbackDetailServlet</servlet-name>
+        <servlet-class>controller.marketing.FeedbackDetailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -275,5 +279,9 @@
     <servlet-mapping>
         <servlet-name>MyOrderServlet</servlet-name>
         <url-pattern>/myorder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackDetailServlet</servlet-name>
+        <url-pattern>/feedbackdetail</url-pattern>
     </servlet-mapping>
 </web-app>

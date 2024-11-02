@@ -34,7 +34,7 @@
             <div class="table-responsive">
                 <form action="vnpay" id="frmCreateOrder" method="post">        
                     <div class="form-group">
-                        <label for="amount" style="font-size: 20px">Số tiền:  <fmt:formatNumber value="${totalFinal}"/> vnđ</label>
+                        <label for="amount" style="font-size: 20px">Số tiền:  <fmt:formatNumber value="${totalFinal}"/> USD</label>
                         <fmt:formatNumber value="${totalFinal}" type="number" groupingUsed="false" maxFractionDigits="0" var="formattedtotalFinal" />
                         <input value="${formattedtotalFinal}" type="hidden" class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" name="amount" />
                     </div>

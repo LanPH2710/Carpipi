@@ -32,95 +32,91 @@
                 color: #ffc700;
             }
         </style>
+        <script>
+            function previewImage(event) {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function () {
+                    const output = document.getElementById('imagePreview');
+                    output.src = reader.result;
+                    output.style.display = 'block'; // Hiển thị ảnh
+                };
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            }
+        </script>
     </head>
-    <jsp:include page="./common/common-homepage-header.jsp"></jsp:include>
+    <jsp:include page="header.jsp"></jsp:include>
         <body>
             <section class="container-fluid" style="width: 80%">
-                <div class="bread_crumb">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="home">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">My Reservation</a></li>
-<!--                            <li class="breadcrumb-item"><a href="customer-feedback">My Feedback</a></li>-->
-                            <li class="breadcrumb-item active" aria-current="page">Feedback</li>
-                        </ol>
-                    </nav>
-                </div>
-
-                <div class="" style="display: flex; justify-content: center; ">
-                    <form action="customer-feedback" method="post" style="width: 50%; text-align: left; margin: 30px 0px;" class="form-control">
-                        <h4 style="margin: 20px 0px;">Feedback</h4>
+                <div class="" style="display: flex; justify-content: center;">
+                    <form action="customerfeedback" method="post" style="width: 60%; text-align: left; margin: 30px 0px;" class="form-control" enctype="multipart/form-data">
+                        <h4 style="margin: 20px 0px;">Đánh giá sản phẩm</h4>
 
                         <div class="mb-3" style="display: flex; justify-content: space-between;">
                             <div style="flex: 1; margin-right: 10px;">
-                                <label for="exampleFormControlInput1" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" value="${sessionScope.account.getFullName()}" disabled>
+                                <label class="form-label">Họ và tên</label>
+                                <input type="text" class="form-control" value="${acc.firstName} ${acc.lastName}" disabled>
                         </div>
                         <div style="flex: 1; margin-left: 10px;">
-                            <label for="exampleFormControlInput2" class="form-label">Gender</label>
-                            <input type="text" class="form-control" id="exampleFormControlInput2" value="${sessionScope.account.isGender() ? "Male" : "Female"}" disabled>
+                            <label class="form-label">Giới tính</label>
+                            <input type="text" class="form-control" value="${acc.gender == 0 ? 'Nam' : acc.gender == 1 ? 'Nữ' : 'Khác'}" disabled>
                         </div>
                     </div>
 
                     <div class="mb-3" style="display: flex; justify-content: space-between;">
                         <div style="flex: 1; margin-right: 10px;">
-                            <label for="exampleFormControlInput3" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="exampleFormControlInput3" value="${sessionScope.account.getEmail()}" disabled>
+                            <label class="form-label">Email</label>
+                            <input type="text" class="form-control" value="${acc.email}" disabled>
                         </div>
                         <div style="flex: 1; margin-left: 10px;">
-                            <label for="exampleFormControlInput4" class="form-label">Mobile</label>
-                            <input type="text" class="form-control" id="exampleFormControlInput4" value="${sessionScope.account.getMobile()}" disabled>
+                            <label class="form-label">Số điện thoại</label>
+                            <input type="text" class="form-control" value="${acc.mobile}" disabled>
                         </div>
                     </div>
-                    <div class="mb-3" style="display: flex; justify-content: space-between;">
-                        <div style="flex: 1; margin-right: 10px;">
-                            <label for="exampleFormControlInput5" class="form-label">Reservation ID</label>
-                            <input type="text" class="form-control" id="exampleFormControlInput3" name="id" value="${reservation.getId()}" disabled>
+                    <div class="mb-3" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
+                        <h5>Phản hồi từ khách hàng</h5>
+                        <div class="mb-3">
+                            <label class="form-label">Nội dung phản hồi</label>
+                            <textarea class="form-control"  name="feedbackInfo" rows="2" required></textarea>
                         </div>
-                        <div style="flex: 1; margin-left: 10px;">
-                            <label for="exampleFormControlInput6" class="form-label">Checkup Time</label>
-                            <input type="text" class="form-control" id="exampleFormControlInput4" value="${reservation.getCheckup_time()}" disabled>
+
+                        <div class="mb-3" style="display: flex; align-items: center;">
+                            <label class="form-label" style="margin-right: 10px;">Đánh giá</label>
+                            <div class="star-rating">
+                                <input type="radio" id="star1" name="feedbackRate" value="5" required/>
+                                <label for="star1" class="fa fa-star"></label>
+
+                                <input type="radio" id="star2" name="feedbackRate" value="4" required/>
+                                <label for="star2" class="fa fa-star"></label>
+
+                                <input type="radio" id="star3" name="feedbackRate" value="3" required/>
+                                <label for="star3" class="fa fa-star"></label>
+
+                                <input type="radio" id="star4" name="feedbackRate" value="2" required/>
+                                <label for="star4" class="fa fa-star"></label>
+
+                                <input type="radio" id="star5" name="feedbackRate" value="1" required/>
+                                <label for="star5" class="fa fa-star"></label>
+                            </div>
                         </div>
+                        <input type="hidden" name="productId" value="${pro.productId}">
+                        <input type="hidden" name="userId" value="${acc.userId}">
+                        <div class="mb-3" style="display: flex; align-items: center;">
+                            <label>Hình ảnh phản hồi:</label>
+                            <input name="feedbackImg" type="file" class="form-control" accept="image/*" onchange="previewImage(event)">
+                        </div>
+                        <img id="imagePreview" src="" alt="Image Preview" style="display: none; width: 100%; margin-top: 10px; border: 1px solid #ccc; border-radius: 4px;">
                     </div>
-                    <c:forEach var="service" items="${reservation.getList_service()}">
-                        <div class="mb-3" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
-                            <h5>${service.getService_name()}</h5>
-                            <div class="mb-3">
-                                <label for="feedbackContent_${service.getService_id()}" class="form-label">Feedback Content</label>
-                                <textarea class="form-control" id="feedbackContent_${service.getService_id()}" name="feedbackContent_${service.getService_id()}" rows="2" required></textarea>
-                            </div>
-
-                            <div class="mb-3" style="display: flex; align-items: center;">
-                                <label class="form-label" style="margin-right: 10px;">Rate:</label>
-                                <div class="star-rating">
-                                    <input type="radio" id="star5_${service.getService_id()}" name="rating_${service.getService_id()}" value="5" required/>
-                                    <label for="star5_${service.getService_id()}" class="fa fa-star"></label>
-
-                                    <input type="radio" id="star4_${service.getService_id()}" name="rating_${service.getService_id()}" value="4" />
-                                    <label for="star4_${service.getService_id()}" class="fa fa-star"></label>
-
-                                    <input type="radio" id="star3_${service.getService_id()}" name="rating_${service.getService_id()}" value="3" />
-                                    <label for="star3_${service.getService_id()}" class="fa fa-star"></label>
-
-                                    <input type="radio" id="star2_${service.getService_id()}" name="rating_${service.getService_id()}" value="2" />
-                                    <label for="star2_${service.getService_id()}" class="fa fa-star"></label>
-
-                                    <input type="radio" id="star1_${service.getService_id()}" name="rating_${service.getService_id()}" value="1" />
-                                    <label for="star1_${service.getService_id()}" class="fa fa-star"></label>
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach>
-
                     <div class="mb-3">
-                        <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit Feedback</button>
+                        <button type="submit" class="btn btn-primary" name="submit" value="submit">Gửi</button>
                     </div>
-                    <input type="hidden" name="reservation_id" value="${reservation.getId()}">
-
                 </form>
             </div>
         </section>
     </body>
-    <jsp:include page="./common/common-homepage-footer.jsp"></jsp:include>
-
+    <jsp:include page="footerDemo.jsp"></jsp:include>
 </html>

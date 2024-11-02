@@ -154,16 +154,16 @@ public Color getColorById(int colorId) {
         return null; // or throw an exception if no cart is found
     }
 
-    public boolean deleteCartItem(int userId, String productId) throws SQLException {
-        String sql = "UPDATE cart SET isDeleted = 1 WHERE userId = ? AND productId = ?";
+    public boolean deleteCartItem(int cartId) throws SQLException {
+        String sql = "UPDATE cart SET isDeleted = 1 WHERE cartId = ? ";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, userId);
-            ps.setString(2, productId);
+            ps.setInt(1, cartId);
+            
             return ps.executeUpdate() > 0; // Trả về true nếu cập nhật thành công
         }
     }
      public boolean deleteCar(int cartId) {
-        String sql = "UPDATE cart SET isDeleted = 1 WHERE cartId = ?";
+        String sql = "UPDATE cart SET isDeleted = 1 WHERE cartId = ? and isSelect = 1";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, cartId);
             return ps.executeUpdate() > 0; // Return true if update is successful
@@ -395,7 +395,7 @@ public Color getColorById(int colorId) {
         }
     }
  public boolean updateStockByCartId(int cartId) {
-        String getProductSql = "SELECT productId FROM cart WHERE cartId = ?";
+        String getProductSql = "SELECT productId FROM cart WHERE cartId = ? and isSelect = 1";
         String updateStockSql = "UPDATE product SET stock = stock - 1 WHERE productId = ? AND stock > 0"; // Ensures stock does not go negative
         
         try (PreparedStatement getProductStmt = connection.prepareStatement(getProductSql)) {

@@ -169,86 +169,6 @@
                 font-size: 18px;
                 color: green;
             }
-            .modal {
-                display: none; /* Ẩn modal mặc định */
-                position: fixed;
-                z-index: 1000; /* Đặt z-index cao hơn để modal nổi bật hơn */
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                overflow: auto;
-                background-color: rgba(0, 0, 0, 0.7); /* Nền tối với độ trong suốt cao hơn */
-            }
-
-            .modal-content {
-                background-color: #fff; /* Đặt nền trắng cho nội dung modal */
-                margin: 5% auto; /* Căn giữa với khoảng cách từ trên */
-                padding: 30px; /* Tăng độ padding */
-                border-radius: 8px; /* Bo góc cho modal */
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Đổ bóng cho modal */
-                width: 90%; /* Độ rộng modal */
-                max-width: 500px; /* Độ rộng tối đa */
-            }
-
-            .close {
-                color: #888;
-                float: right;
-                font-size: 24px;
-                font-weight: bold;
-            }
-
-            .close:hover,
-            .close:focus {
-                color: #333;
-                text-decoration: none;
-                cursor: pointer;
-            }
-
-            .product-info {
-                display: flex;
-                align-items: center; /* Căn giữa hình ảnh và tên sản phẩm */
-                margin-bottom: 20px; /* Khoảng cách dưới hình ảnh sản phẩm */
-            }
-
-            h2 {
-                margin: 0; /* Bỏ khoảng cách mặc định */
-                font-size: 24px; /* Kích thước tiêu đề lớn hơn */
-                color: #333; /* Màu tiêu đề */
-            }
-
-            .rating label, .comment label {
-                font-weight: bold; /* Làm cho nhãn đậm hơn */
-                margin-top: 10px; /* Khoảng cách trên nhãn */
-            }
-
-            textarea {
-                width: 100%; /* Chiều rộng đầy đủ */
-                padding: 10px; /* Padding cho textarea */
-                border-radius: 4px; /* Bo góc cho textarea */
-                border: 1px solid #ccc; /* Đường viền cho textarea */
-                box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Đổ bóng cho textarea */
-            }
-
-            .modal-buttons {
-                display: flex;
-                justify-content: flex-end; /* Căn chỉnh nút ở bên phải */
-                margin-top: 20px;
-                gap: 5px;
-            }
-
-            .modal-buttons button {
-                padding: 10px 15px; /* Padding cho nút */
-                border: none; /* Bỏ đường viền */
-                border-radius: 4px; /* Bo góc cho nút */
-                cursor: pointer; /* Thay đổi con trỏ khi di chuột qua */
-                transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
-            }
-
-            .modal-buttons button:hover {
-                background-color: #007bff; /* Màu nền khi hover */
-                color: #fff; /* Màu chữ khi hover */
-            }
         </style>
     </head>
     <body>
@@ -264,7 +184,7 @@
                         <li>
                             <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
                         </li>
-                        <li><a href="#"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
+                        <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -290,7 +210,7 @@
                             </a>
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form method="get" id="searchform" class="searchform" action="searchCart">
+                                    <form method="get" id="searchform" class="searchform" action="myorder">
                                         <div>
                                             <input type="text" class="form-control border rounded-pill" name="keyword" id="s" placeholder="Search Keywords..." value="${param.keyword}" >
                                             <input type="submit" id="searchsubmit" value="Search">
@@ -314,15 +234,16 @@
                             <div class="col-12">
                                 <div class="table-responsive bg-white shadow rounded">
                                     <div class="header">
+                                        <c:set var="currentStatusId" value="${param.statusId != null ? param.statusId : 0}" />
                                         <ul class="tabs">
-                                            <li class="active"><a href="myorder">Tất cả</a></li>
-                                            <li><a href="myorder?statusId=1">Chờ xử lý</a></li>
-                                            <li><a href="myorder?statusId=2">Đã xác nhận</a></li>
-                                            <li><a href="myorder?statusId=3">Chờ giao hàng</a></li>
-                                            <li><a href="myorder?statusId=4">Hoàn thành</a></li>
-                                            <li><a href="myorder?statusId=5">Đã hủy</a></li>
-                                            <li><a href="myorder?statusId=6">Hoàn trả</a></li>
-                                            <li><a href="myorder?statusId=7">Tạm hoãn</a></li>
+                                            <li class="${currentStatusId == 0 ? 'active' : ''}"><a href="myorder">Tất cả</a></li>
+                                            <li class="${currentStatusId == 1 ? 'active' : ''}"><a href="myorder?statusId=1">Chờ xử lý</a></li>
+                                            <li class="${currentStatusId == 2 ? 'active' : ''}"><a href="myorder?statusId=2">Đã xác nhận</a></li>
+                                            <li class="${currentStatusId == 3 ? 'active' : ''}"><a href="myorder?statusId=3">Chờ giao hàng</a></li>
+                                            <li class="${currentStatusId == 4 ? 'active' : ''}"><a href="myorder?statusId=4">Hoàn thành</a></li>
+                                            <li class="${currentStatusId == 5 ? 'active' : ''}"><a href="myorder?statusId=5">Đã hủy</a></li>
+                                            <li class="${currentStatusId == 6 ? 'active' : ''}"><a href="myorder?statusId=6">Hoàn trả</a></li>
+                                            <li class="${currentStatusId == 7 ? 'active' : ''}"><a href="myorder?statusId=7">Tạm hoãn</a></li>
                                         </ul>
                                     </div>
                                     <div class="order-list">
@@ -350,7 +271,7 @@
                                                                 <p class="delivery-status">${order.description}</p>
                                                             </a>&nbsp;&nbsp;
                                                             <c:if test="${fn:contains(order.description, 'Đơn hàng đã được giao đến tay khách hàng')}">
-                                                                <a class="buy-again-btn" id="open-modal">Đánh giá</a>
+                                                                <a class="buy-again-btn" href="customerfeedback?productId=${order.productId}">Đánh giá</a>
                                                             </c:if>
                                                         </div>
                                                         <div class="order-details">
@@ -403,7 +324,7 @@
                                     <span class="text-muted me-3">Showing <b>${page}</b> out of <b>${num}</b> pages customers</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${page > 1}">
-                                            <li class="page-item"><a class="page-link" href="myorder?page=${page - 1}&statusId=${statusId}" aria-label="Previous">Prev</a></li>
+                                            <li class="page-item"><a class="page-link" href="myorder?page=${page - 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Previous">Prev</a></li>
                                             </c:if>
                                             <c:forEach begin="${(page - 1) <= 1 ? 1 : (page - 1)}" end="${page + 1 > num ? num : page + 1}" var="i">
                                                 <c:choose>
@@ -411,12 +332,12 @@
                                                     <li class="page-item active"><a class="page-link">${i}</a></li>
                                                     </c:when>
                                                     <c:otherwise>
-                                                    <li class="page-item"><a href="myorder?page=${i}&statusId=${statusId}" class="page-link">${i}</a></li>
+                                                    <li class="page-item"><a href="myorder?page=${i}&statusId=${statusId}&keyword=${keyword}" class="page-link">${i}</a></li>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </c:forEach>
                                             <c:if test="${page < num}">
-                                            <li class="page-item"><a class="page-link" href="myorder?page=${page + 1}&statusId=${statusId}" aria-label="Next">Next</a></li>
+                                            <li class="page-item"><a class="page-link" href="myorder?page=${page + 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Next">Next</a></li>
                                             </c:if>
                                     </ul>
                                 </div>

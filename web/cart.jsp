@@ -82,7 +82,7 @@
         <!-- Loader -->
 
         <div class="page-wrapper doctris-theme toggled">
-            <nav id="sidebar" class="sidebar-wrapper">
+             <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
                         <a href="home">
@@ -92,11 +92,15 @@
                     </div>
 
                     <ul class="sidebar-menu pt-3">
-
+                         <c:if test="${sessionScope.account == null||sessionScope.account.roleId == 1}">
+                                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                        </c:if>
+                       
 
 
                         <li class="sidebar-dropdown">
                             <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
+
                         </li>
                         <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
 
@@ -104,37 +108,35 @@
 
 
 
-
-
-
-
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
+                            <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Shopping Cart</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="login">Login</a></li>
-                                    <li><a href="signup.html">Signup</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password</a></li>
-                                    <li><a href="lock-screen.html">Lock Screen</a></li>
-                                    <li><a href="thankyou.html">Thank you...!</a></li>
+                                    <li><a href="home">Home</a></li>
+                                    <li><a href="carts">Giỏ Hàng</a></li>
+                                    <li><a href="tax">Thuế</a></li>
+                                    <li><a href="checkout.jsp">Checkout</a></li>
                                 </ul>
                             </div>
                         </li>
 
-                        <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="blogs.html">Blogs</a></li>
+                                    <li><a href="blog-detail.html">Blog Detail</a></li>
+                                </ul>
+                            </div>
+                        </li>
 
-                        <li><a href="../landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
+                       
+
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
                 <!-- sidebar-content  -->
-                <ul class="sidebar-footer list-unstyled mb-0">
-                    <li class="list-inline-item mb-0 ms-1">
-                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary">
-                            <i class="uil uil-comment icons"></i>
-                        </a>
-                    </li>
-                </ul>
+              
             </nav>
             <!-- sidebar-wrapper  -->
 
@@ -168,7 +170,39 @@
 
 
                         </div>
+                            <div class="text-center flex-grow-1">
+                            <h2 class="mb-0" style="font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #3b5998;">carpipi</h2>
+                        </div>
 
+                        <ul class="list-unstyled mb-0 d-flex align-items-center">
+                            <li class="list-inline-item mb-0 ms-1">
+                                <a href="logout">
+                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="log-out" class="fea icon-sm"></i></div>
+                                </a>
+                            </li>
+
+                            <li class="list-inline-item mb-0 ms-1">
+                                <a href="userprofile">
+                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="user" class="fea icon-sm"></i></div>
+                                </a>
+                            </li>
+
+                            <li class="list-inline-item mb-0 ms-1">
+                                <div class="dropdown dropdown-primary">
+                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="img/avatar-trang-4.jpg" class="avatar avatar-ex-small rounded-circle" alt="">
+                                    </button>
+                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
+                                        <a class="dropdown-item d-flex align-items-center text-dark" href="https://shreethemes.in/doctris/layouts/admin/profile.html">
+                                            <img src="img/avatar-trang-4.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                        </a>
+                                        <a class="dropdown-item text-dark" href="userprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
+                                        <div class="dropdown-divider border-top"></div>
+                                        <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>                 
 
                     </div>
                 </div>
@@ -205,16 +239,21 @@
                         <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                             <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                                 <li class="breadcrumb-item"><a href="home">Home</a></li>
-
-                                <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Giỏ Hàng</li>
+                                    <li class="breadcrumb-item "><a href="tax">Thuế</a></li>
+                                    <li class="breadcrumb-item"><a href="checkout.jsp">Checkout</a></li>
 
 
                             </ul>
 
                         </nav>
-                        <div id="message" class="message-popup" style="display: none; color: red;">
-                            ${messUpdateCart}
-                        </div>
+                        <c:if test="${not empty sessionScope.messUpdateCart}">
+                            <div id="message" class="message-popup" style="display: none; color: red;">
+                                ${messUpdateCart}
+                            </div>
+                            <c:remove var="messUpdateCart" scope="session" />
+                        </c:if>
+                       
 
 
 
@@ -240,6 +279,7 @@
 
                                             <c:forEach items="${sessionScope.carts}" var="C">
                                             <form action="update-quantity">
+                                                <input type="hidden" name="cartId" value="${C.cartId}">
                                                 <tr>
                                                     <td class="text-center p-3">
                                                         <input type="checkbox" name="selectCart" <c:if test="${C.isSelect == 1}">checked</c:if> onchange="this.form.submit()">
@@ -260,7 +300,7 @@
                                                     </td>
 
                                                     <td class="text-center p-3">
-                                                        <fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> đ
+                                                        <fmt:formatNumber value="${C.product.price}" type="number" minFractionDigits="0"/> $
                                                     </td>
                                                     <td class="text-center shop-list p-3">
                                                         <div class="qty-icons">
@@ -272,10 +312,10 @@
                                                         Còn lại: ${C.product.stock}
                                                     </td>
                                                     <td class="text-end font-weight-bold p-3">
-                                                        <fmt:formatNumber value="${C.product.price * C.quantity}" type="number" minFractionDigits="0"/> đ
+                                                        <fmt:formatNumber value="${C.product.price * C.quantity}" type="number" minFractionDigits="0"/> $
                                                     </td>
                                                     <td class="h5 p-3 text-center">
-                                                        <a href="delete-cart?productId=${C.product.productId}" class="text-danger"><i class="uil uil-times"></i></a>
+                                                        <a href="delete-cart?cartId=${C.cartId}" class="text-danger"><i class="uil uil-times"></i></a>
                                                     </td>
                                                 </tr>
                                             </form>

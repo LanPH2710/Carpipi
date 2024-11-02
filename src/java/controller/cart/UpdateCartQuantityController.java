@@ -46,12 +46,27 @@ public class UpdateCartQuantityController extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
-
+        int cartId = Integer.parseInt(request.getParameter("cartId"));
         int isSelect = request.getParameter("selectCart") != null ? 1 : 0;
         int userId = account.getUserId();
         String productId = request.getParameter("productId");
-        String qua = request.getParameter("quantity");
-        int quantity = Integer.parseInt(qua);
+        String qua = request.getParameter("quantity").trim();
+        int quantity = 0;
+        if (qua.isEmpty() || qua.isBlank()) {
+            session.setAttribute("messUpdateCart", "Vui lòng nhập số nguyên");
+
+            response.sendRedirect("carts");
+            return;
+        }
+        try {
+             quantity = Integer.parseInt(qua);
+            // Thực hiện các bước tiếp theo nếu `qua` là một số nguyên hợp lệ
+        } catch (NumberFormatException e) {
+            session.setAttribute("messUpdateCart", "Vui lòng nhập số nguyên hợp lệ");
+      
+            response.sendRedirect("carts");
+            return;
+        }
         int color = Integer.parseInt(request.getParameter("color"));
 
         ColorDAO cdao = new ColorDAO();
@@ -61,19 +76,13 @@ public class UpdateCartQuantityController extends HttpServlet {
         ProductDAO productDAO = new ProductDAO();
         Product product = productDAO.getProductById(productId);
         if (quantity > product.getStock()) {
-            session.setAttribute("messCart", "Mua quá số lượng");
-            session.setAttribute("flashTime", System.currentTimeMillis());
-            response.sendRedirect("carts");
-            return;
-        } else if (qua.isEmpty()) {
-            session.setAttribute("messCart", "Vui lòng nhập số nguyên");
-            session.setAttribute("flashTime", System.currentTimeMillis());
+            session.setAttribute("messUpdateCart", "Mua quá số lượng");
+
             response.sendRedirect("carts");
             return;
         }
 
         // Check if the selected color is available for the product
-      
         // Proceed to update the cart
         CartDAO cartDAO = new CartDAO();
         List<Cart> carts = cartDAO.getCartsByUserId(userId);
@@ -81,9 +90,16 @@ public class UpdateCartQuantityController extends HttpServlet {
 
         // Find the cart item that matches the productId
         for (Cart cartItem : carts) {
-            if (cartItem.getProduct().getProductId().equals(productId) ) {
+            // Bỏ qua cart item đang cập nhật
+            if (cartItem.getCartId() != cartId) {
+                if (cartItem.getProduct().getProductId().equals(productId) && cartItem.getColorId() == color) {
+                    session.setAttribute("messUpdateCart", "Đã có sản phẩm tương tự trong giỏ");
+                    
+                    response.sendRedirect("carts");
+                    return;
+                }
+            } else {
                 cartToUpdate = cartItem;
-                break;
             }
         }
 

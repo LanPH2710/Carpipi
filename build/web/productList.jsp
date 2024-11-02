@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="java.util.List" %>
+<fmt:setLocale value="en_US"/>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -279,7 +280,7 @@
                                                         <img src="assets/images/welcome-hero/welcome-banner.jpg" alt="${pro.name}">
                                                     </c:otherwise>
                                                 </c:choose>
-                                                <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
+                                                <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,##0.0"/> USD</h2>
                                                 <p>${pro.name}</p>
 
                                                 <a href="addtocart?productId=${pro.productId}&quantity=1" class="btn btn-default add-to-cart" onclick="showNotification()">
@@ -288,13 +289,13 @@
                                             </div>
                                             <div class="product-overlay">
                                                 <div class="overlay-content">
-                                                    <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
+                                                    <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,##0.0"/> USD</h2>
                                                     <div>
                                                         <a href="productdetail?productId=${pro.productId}" class="product-detail-link">${pro.name}</a>
                                                     </div>
                                                     <a href="addtocart?productId=${pro.productId}&quantity=1" 
                                                        class="btn btn-default add-to-cart"
-                                                      >
+                                                       >
                                                         <i class="fa fa-shopping-cart"></i>Add to cart
                                                     </a>
                                                 </div>                                            </div>
@@ -401,13 +402,13 @@
 
 
 <!-- Code HTML đã sửa -->
-                                                           <a href="addtocart?productId=${pro.productId}&quantity=1" 
+                                                    <a href="addtocart?productId=${pro.productId}&quantity=1" 
         class="btn btn-default add-to-cart" 
         onclick="showCartAlert(event)">
         <i class="fa fa-shopping-cart"></i> Add to cart
         </a>
 
-                                                           <div class="product-overlay">
+                                                    <div class="product-overlay">
         <div class="overlay-content">
         <h2><fmt:formatNumber value="${pro.getPrice()}" type="number" pattern="#,###"/>đ</h2>
         <div><a href="productdetail?productId=${pro.productId}" class="product-detail-link">${pro.name}</a></div>
@@ -417,7 +418,7 @@
         <i class="fa fa-shopping-cart"></i>Add to cart
         </a>
         </div>
-        </div>
+            </div>
     </script>
     <!-- Thêm script -->
 

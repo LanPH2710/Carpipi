@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.common;
 
 import dal.OrderDetail1DAO;
@@ -72,6 +68,7 @@ public class MyOrderServlet extends HttpServlet {
         int userId = acc.getUserId();
         int statusId = 0;
         String statusIdParam = request.getParameter("statusId");
+        String keyword = request.getParameter("keyword");
         if (statusIdParam != null && !statusIdParam.isEmpty()) {
             try {
                 statusId = Integer.parseInt(statusIdParam);
@@ -81,12 +78,14 @@ public class MyOrderServlet extends HttpServlet {
                 request.setAttribute("error", "Status ID không hợp lệ.");
             }
         }
-        if(statusId>0){
+        if (statusId > 0) {
             myOrder = oddao1.getOrderDetailByStatus(userId, statusId);
-        }else{
+        } else if (keyword != null) {
+            myOrder = oddao1.getOrderDetailName(userId, keyword);
+        } else {
             myOrder = oddao1.getAllOrderDetail(userId);
         }
-        
+
         // Phân trang
         int page, numperpage = 2;
         int size = myOrder.size();
@@ -104,6 +103,7 @@ public class MyOrderServlet extends HttpServlet {
         request.setAttribute("myOrder", myOrder);
         request.setAttribute("page", page);
         request.setAttribute("statusId", statusId);
+        request.setAttribute("keyword", keyword);
         request.setAttribute("num", num);
         request.getRequestDispatcher("myOrder.jsp").forward(request, response);
     }

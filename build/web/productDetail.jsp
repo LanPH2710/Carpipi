@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.text.DecimalFormat" %>
 <!DOCTYPE html>
+<fmt:setLocale value="en_US"/>
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
@@ -166,8 +167,12 @@
                                                 <span class="text-success">In stock</span>-->
                     </div>
                     <div class="mb-3">
-                        <span class="h5"><fmt:formatNumber value="${pro.price}" type="number" pattern="#,###"/> VNĐ</span> <span class="text-muted"></span>
+                        <span class="h5">
+                            <fmt:formatNumber value="${pro.price}" type="number" pattern="#,##0.0"/> USD
+                        </span> 
+                        <span class="text-muted"></span>
                     </div>
+
                     <p style="font-size: 1.5 rem;">${pro.description}</p>
                     <div class="row">
                         <div class="col-6"><strong>Hãng:</strong> ${brand}</div>
@@ -336,6 +341,7 @@
                                         </div>
                                         <div class="review-body mt-3">
                                             <p>${all.feedbackInfo}</p>
+                                            <img src="img/${all.feedbackImg}" alt="" style="width: auto; height: 220px; object-fit: cover"/>
                                         </div>
                                     </div>
                                 </c:forEach>
@@ -351,7 +357,7 @@
                                     <div>
                                         <a href="productdetail?productId=${pro2.productId}" class="nav-link">${pro2.name}</a>
                                         <strong class="text-dark">
-                                            <fmt:formatNumber value="${pro2.price}" type="number" pattern="#,###"/> VNĐ
+                                            <fmt:formatNumber value="${pro2.price}" type="number" pattern="#,##0.0"/> USD
                                         </strong>
                                     </div>
                                 </div>

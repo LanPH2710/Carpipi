@@ -156,6 +156,10 @@
         <servlet-name>FeedbackDetailServlet</servlet-name>
         <servlet-class>controller.marketing.FeedbackDetailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderListForSaleServlet</servlet-name>
+        <servlet-class>controller.sale.OrderListForSaleServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -283,5 +287,9 @@
     <servlet-mapping>
         <servlet-name>FeedbackDetailServlet</servlet-name>
         <url-pattern>/feedbackdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderListForSaleServlet</servlet-name>
+        <url-pattern>/orderlistforsale</url-pattern>
     </servlet-mapping>
 </web-app>

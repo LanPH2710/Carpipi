@@ -151,7 +151,7 @@
                                         </c:choose>
                                         <c:choose>
                                             <c:when test="${sessionScope.account.roleId == 2}">
-                                            <li><a href="marketing">Makerting</a></li>
+                                            <li><a href="marketingdashboard">Makerting</a></li>
                                             </c:when>
                                         </c:choose>
                                         <c:choose>

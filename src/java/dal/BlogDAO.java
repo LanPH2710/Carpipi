@@ -374,5 +374,28 @@ public class BlogDAO extends DBContext {
         }
 
     }
+     
+     public int getBlogCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM blog";
+
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1); // Lấy giá trị của cột đầu tiên
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
     
+     public static void main(String[] args) {
+        BlogDAO blogDAO = new BlogDAO();
+        int blogCount = blogDAO.getBlogCount();
+        System.out.println("Số lượng blog: " + blogCount);
+    }
 }

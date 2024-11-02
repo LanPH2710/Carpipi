@@ -9,7 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Account;
 import model.Feedback;
 
@@ -21,7 +23,7 @@ public class FeedbackDAO extends DBContext {
 
     public List<Feedback> getAllFeedback() {
         List<Feedback> list = new ArrayList<>();
-        String sql = "SELECT * FROM feedback";
+        String sql = "SELECT * FROM feedback order by feedbackTime desc";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -50,7 +52,8 @@ public class FeedbackDAO extends DBContext {
 
     public List<Feedback> getFeedbackByProductId(String productID) {
         List<Feedback> list = new ArrayList<>();
-        String sql = "SELECT * FROM feedback WHERE status =1 and productId LIKE ?";
+        String sql = "SELECT * FROM feedback WHERE status =1 and productId LIKE ?"
+                + "order by feedbackTime desc";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             // Gán giá trị cho tham số productID
@@ -80,7 +83,7 @@ public class FeedbackDAO extends DBContext {
 
     public List<Account> getUserNameByProductId(String productId) {
         List<Account> list = new ArrayList<>();
-        String sql = "SELECT a.* FROM feedback f JOIN account a ON f.userId = a.userId WHERE f.productId like ?;";  // Sử dụng tham số
+        String sql = "SELECT a.* FROM feedback f JOIN account a ON f.userId = a.userId WHERE f.productId like ?;";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, productId);
@@ -110,7 +113,7 @@ public class FeedbackDAO extends DBContext {
 
     public List<Feedback> getFeedbackByRate(String productID, int rate) {
         List<Feedback> list = new ArrayList<>();
-        String sql = "SELECT * FROM feedback WHERE status =1 and productId LIKE ? AND feedbackRate = ?";
+        String sql = "SELECT * FROM feedback WHERE status =1 and productId LIKE ? AND feedbackRate = ? ORDER BY feedbackTime DESC";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, productID);
@@ -125,8 +128,8 @@ public class FeedbackDAO extends DBContext {
                 String feedbackImg = rs.getString("feedbackImg");
                 int feedbackRate = rs.getInt("feedbackRate");
                 int status = rs.getInt("status");
-                
-                 if(feedbackImg == null){
+
+                if (feedbackImg == null) {
                     feedbackImg = "";
                 }
 
@@ -156,6 +159,24 @@ public class FeedbackDAO extends DBContext {
         }
         return rate;
     }
+    
+    public void createFeedback(int userId, String productId, String feedbackInfo, String feedbackImg, int feedbackRate, int status) {
+        String sql = "INSERT INTO feedback (userId, productId, feedbackInfo, feedbackTime, feedbackImg, feedbackRate, status)"
+                + " VALUES (?, ?, ?, NOW(), ?, ?, ?)";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, userId);
+            st.setString(2, productId);
+            st.setString(3, feedbackInfo);
+            st.setString(4, feedbackImg);
+            st.setInt(5, feedbackRate);
+            st.setInt(6, status);
+
+            st.executeUpdate(); // Thực thi câu lệnh INSERT
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý ngoại lệ nếu có lỗi xảy ra
+        }
+    }
 
     public List<Feedback> getFeedbackListByPage(List<Feedback> feedbacks, int start, int end) {
         ArrayList<Feedback> arr = new ArrayList<>();
@@ -163,6 +184,59 @@ public class FeedbackDAO extends DBContext {
             arr.add(feedbacks.get(i));
         }
         return arr;
+    }
+
+    public Map<String, Object> getFeedbackDetailsById(int feedbackId) {
+        Map<String, Object> feedbackDetail = null;
+
+        String sql = "SELECT "
+                + "f.feedbackId, "
+                + // Added feedbackId to the SELECT statement
+                "CONCAT(a.firstName, ' ', a.lastName) AS fullName, "
+                + "a.email, "
+                + "a.mobile, "
+                + "p.name AS productName, "
+                + "f.feedbackRate AS ratedStar, "
+                + "f.feedbackInfo AS feedback, "
+                + "f.status AS feedbackStatus "
+                + "FROM feedback f "
+                + "JOIN account a ON f.userId = a.userId "
+                + "JOIN product p ON f.productId = p.productId "
+                + "WHERE f.feedbackId = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, feedbackId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    feedbackDetail = new HashMap<>();
+                    feedbackDetail.put("feedbackId", rs.getInt("feedbackId")); // Added feedbackId to the map
+                    feedbackDetail.put("fullName", rs.getString("fullName"));
+                    feedbackDetail.put("email", rs.getString("email"));
+                    feedbackDetail.put("mobile", rs.getString("mobile"));
+                    feedbackDetail.put("productName", rs.getString("productName"));
+                    feedbackDetail.put("ratedStar", rs.getInt("ratedStar"));
+                    feedbackDetail.put("feedback", rs.getString("feedback"));
+                    feedbackDetail.put("feedbackStatus", rs.getInt("feedbackStatus"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return feedbackDetail;
+    }
+
+    public void updateFeedbackStatus(int feedbackId, int status) {
+        String sql = "UPDATE feedback SET status = ? WHERE feedbackId = ?";
+        try (
+                PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, status);
+            stm.setInt(2, feedbackId);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

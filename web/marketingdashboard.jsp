@@ -72,7 +72,18 @@
                                 <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
                                 </c:when>
                             </c:choose>
-                        <li><a href="postlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>Post List</a></li>
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)">
+                                <i class="uil uil-flip-h me-2 d-inline-block"></i>Posts List</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="postlist">Tất cả bài viết</a></li>
+                                        <c:forEach items="${topic}" var="t">
+                                        <li><a href="postlist?topic=${t.blogTopicId}">${t.toppicName}</a></li>
+                                        </c:forEach>
+                                </ul>
+                            </div>
+                        </li>
                         <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
@@ -254,8 +265,20 @@
                                             datasets: [{
                                                     label: 'Total Quantity Sold',
                                                     data: data,
-                                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                                    backgroundColor: [
+                                                        'rgba(255,99,132,0.2)',
+                                                        'rgba(54,162,235,0.2)',
+                                                        'rgba(255,206,86,0.2)',
+                                                        'rgba(153,102,255,0.2)',
+                                                        'rgba(255,158,64,0.2)'
+                                                    ],
+                                                    borderColor: [
+                                                        'rgba(255,99,132,1)',
+                                                        'rgba(54,162,235,1)',
+                                                        'rgba(255,206,86,1)',
+                                                        'rgba(153,102,255,1)',
+                                                        'rgba(255,158,64,1)'
+                                                    ],
                                                     borderWidth: 1
                                                 }]
                                         },
@@ -269,7 +292,48 @@
                                     });
                                 </script>
                             </div>
+
                             <div class="col-xl-4 col-lg-5 mt-4">
+                                <div style="width: 700px; margin: auto; margin-top: 50px;"> <!-- Adjust margin-top for spacing -->
+                                    <h2>Customer Feedback Analysis</h2>
+                                    <canvas id="customerFeedbackChart" width="500" height="400"></canvas>
+                                </div>
+
+                                <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+
+                                <script>
+                                    // Define the data for the chart
+                                    const data = {
+                                        labels: [
+                                            'Red',
+                                            'Blue',
+                                            'Yellow'
+                                        ],
+                                        datasets: [{
+                                                label: 'My First Dataset',
+                                                data: [300, 50, 100],
+                                                backgroundColor: [
+                                                    'rgb(255, 99, 132)',
+                                                    'rgb(54, 162, 235)',
+                                                    'rgb(255, 205, 86)'
+                                                ],
+                                                hoverOffset: 4
+                                            }]
+                                    };
+
+                                    // Define the configuration options for the chart
+                                    const config = {
+                                        type: 'doughnut',
+                                        data: data,
+                                    };
+
+                                    // Initialize the chart
+                                    const feedbackCtx = document.getElementById('customerFeedbackChart').getContext('2d');
+                                    const customerFeedbackChart = new Chart(feedbackCtx, config);
+                                </script>
+                            </div>
+
+<!--                            <div class="col-xl-4 col-lg-5 mt-4">
                                 <div class="card shadow border-0 p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h6 class="align-items-center mb-0">Patients by Department</h6>
@@ -283,45 +347,45 @@
                                     </div>
                                     <div id="department" class="apex-chart"></div>
                                 </div>
-                            </div><!--end col-->
+                            </div>end col-->
                         </div><!--end row-->
 
-                        
-
-                            
-                        </div><!--end row-->
-                    </div>
-                </div><!--end container-->
-
-                <!-- Footer Start -->
-                <footer class="bg-white shadow py-3">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col">
-
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </div><!--end container-->
-                </footer><!--end footer-->
-                <!-- End -->
-            </main>
-            <!--End page-content" -->
-        </div>
-        <!-- page-wrapper -->
 
 
-        <!-- javascript -->
-        <script src="assetsSlider/js/bootstrap.bundle.min.js"></script>
-        <!-- simplebar -->
-        <script src="assetsSlider/js/simplebar.min.js"></script>
-        <!-- Chart -->
-        <script src="assetsSlider/js/apexcharts.min.js"></script>
-        <script src="assetsSlider/js/columnchart.init.js"></script>
-        <!-- Icons -->
-        <script src="assetsSlider/js/feather.min.js"></script>
-        <!-- Main Js -->
-        <script src="assetsSlider/js/app.js"></script>
 
-    </body>
+                    </div><!--end row-->
+                </div>
+        </div><!--end container-->
+
+        <!-- Footer Start -->
+        <footer class="bg-white shadow py-3">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col">
+
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </footer><!--end footer-->
+        <!-- End -->
+    </main>
+    <!--End page-content" -->
+</div>
+<!-- page-wrapper -->
+
+
+<!-- javascript -->
+<script src="assetsSlider/js/bootstrap.bundle.min.js"></script>
+<!-- simplebar -->
+<script src="assetsSlider/js/simplebar.min.js"></script>
+<!-- Chart -->
+<script src="assetsSlider/js/apexcharts.min.js"></script>
+<script src="assetsSlider/js/columnchart.init.js"></script>
+<!-- Icons -->
+<script src="assetsSlider/js/feather.min.js"></script>
+<!-- Main Js -->
+<script src="assetsSlider/js/app.js"></script>
+
+</body>
 
 </html>

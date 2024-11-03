@@ -82,7 +82,7 @@
         <!-- Loader -->
 
         <div class="page-wrapper doctris-theme toggled">
-             <nav id="sidebar" class="sidebar-wrapper">
+            <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
                         <a href="home">
@@ -92,10 +92,10 @@
                     </div>
 
                     <ul class="sidebar-menu pt-3">
-                         <c:if test="${sessionScope.account == null||sessionScope.account.roleId == 1}">
-                                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                                        </c:if>
-                       
+                        <c:if test="${sessionScope.account == null||sessionScope.account.roleId == 1}">
+                            <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                            </c:if>
+
 
 
                         <li class="sidebar-dropdown">
@@ -130,13 +130,13 @@
                             </div>
                         </li>
 
-                       
+
 
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
                 <!-- sidebar-content  -->
-              
+
             </nav>
             <!-- sidebar-wrapper  -->
 
@@ -170,7 +170,7 @@
 
 
                         </div>
-                            <div class="text-center flex-grow-1">
+                        <div class="text-center flex-grow-1">
                             <h2 class="mb-0" style="font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #3b5998;">carpipi</h2>
                         </div>
 
@@ -239,9 +239,9 @@
                         <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                             <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                                 <li class="breadcrumb-item"><a href="home">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Giỏ Hàng</li>
-                                    <li class="breadcrumb-item "><a href="tax">Thuế</a></li>
-                                    <li class="breadcrumb-item"><a href="checkout.jsp">Checkout</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Giỏ Hàng</li>
+                                <li class="breadcrumb-item "><a href="tax">Thuế</a></li>
+                                <li class="breadcrumb-item"><a href="checkout.jsp">Checkout</a></li>
 
 
                             </ul>
@@ -253,7 +253,7 @@
                             </div>
                             <c:remove var="messUpdateCart" scope="session" />
                         </c:if>
-                       
+
 
 
 
@@ -335,13 +335,13 @@
                                 </c:if>
                             </div><!--end col-->
                         </div><!--end row-->
+                        <div class="row">
+                            <div class="col-lg-8 col-md-6 mt-4 pt-2">
+                                <a href="productlist" class="btn btn-primary">Mua thêm</a>
 
-                        <c:if test="${not empty sessionScope.carts}">       
-                            <div class="row">
-                                <div class="col-lg-8 col-md-6 mt-4 pt-2">
-                                    <a href="productlist" class="btn btn-primary">Shop More</a>
+                            </div>
+                            <c:if test="${not empty sessionScope.carts}">       
 
-                                </div>
                                 <div class="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
                                     <div class="table-responsive bg-white rounded shadow">
                                         <table class="table table-center table-padding mb-0">
@@ -350,7 +350,7 @@
                                                 <tr>
                                                     <td class="h6 p-3">Giá (chưa thuế)</td>
                                                     <td class="text-end font-weight-bold p-3">
-                                                        <fmt:formatNumber value="${sessionScope.totalMoney}" type="number" minFractionDigits="0"/> đ
+                                                        <fmt:formatNumber value="${sessionScope.totalMoney}" type="number" minFractionDigits="0"/> $
                                                     </td>
                                                 </tr>
 
@@ -362,8 +362,9 @@
                                         <a href="tax" class="btn btn-primary" >Tính Thuế</a>
                                     </div>
                                 </div><!--end col-->
-                            </div><!--end row-->
-                        </c:if> 
+                            </c:if> 
+                        </div><!--end row-->
+
                     </div>
                 </div><!--end container-->
 

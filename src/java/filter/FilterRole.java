@@ -39,9 +39,6 @@ public class FilterRole implements Filter {
     private List<String> getMarketingUrls() {
         return Arrays.asList("/marketing","/marketingdashboard");
     }
-    private List<String> getShipperUrls() {
-        return Arrays.asList("","");
-    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -74,8 +71,6 @@ public class FilterRole implements Filter {
             }
             // Check for marketing requests
             else if (getMarketingUrls().stream().anyMatch(requestURI::contains) && roleId != 2) {
-                res.sendRedirect(loginURI);
-            } else if (getShipperUrls().stream().anyMatch(requestURI::contains) && roleId != 5) {
                 res.sendRedirect(loginURI);
             } else {
                 chain.doFilter(request, response);

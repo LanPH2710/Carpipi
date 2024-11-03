@@ -196,6 +196,97 @@ public class OrderDAO extends DBContext {
     }
     return orderCount;
 }
+    
+      public List<OrderDetail> getListOrderWithStatus(String status) {
+        List<OrderDetail> list = new ArrayList();
+
+        String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId,\n"
+                + "orr.orderStatus, SUBSTRING_INDEX(GROUP_CONCAT(p.name ORDER BY od.orderId SEPARATOR ', '), ', ', 1) AS firstProductName, \n"
+                + "COUNT(od.productId) - 1 AS additionalProductCount \n"
+                + "FROM carpipi.order orr \n"
+                + "JOIN carpipi.account acc ON orr.userId = acc.userId \n"
+                + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId \n"
+                + "JOIN carpipi.product p ON od.productId = p.productId \n"
+                + "Where orr.orderStatus = ?\n"
+                + "GROUP BY orr.orderId";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, status);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("Record found: " + rs.getInt("orderStatus")); // Kiểm tra xem có bản ghi nào trả về
+
+                OrderDetail o = new OrderDetail();
+                o.setOrderId(rs.getInt("orderId"));
+                o.setUserId(rs.getInt("userId")); // Đảm bảo userId có trong truy vấn SQL nếu cần
+                o.setSaleId(rs.getInt("saleId"));
+                o.setCreateDate(rs.getString("createDate"));
+                o.setFirstName(rs.getString("firstName"));
+                o.setLastName(rs.getString("lastName"));
+                o.setTotalPrice(rs.getDouble("totalPrice"));
+                o.setOrderStatus(rs.getInt("orderStatus"));
+                o.setProductName(rs.getString("firstProductName"));
+                o.setQuantity(rs.getInt("additionalProductCount"));
+
+                list.add(o);
+            }
+
+        } catch (Exception e) {
+        }
+
+        return list;
+    }
+
+    public List<OrderDetail> getListOrderWithSearch(String search) {
+        List<OrderDetail> list = new ArrayList();
+        String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId,\n"
+                    + "orr.orderStatus, SUBSTRING_INDEX(GROUP_CONCAT(p.name ORDER BY od.orderId SEPARATOR ', '), ', ', 1) AS firstProductName, \n"
+                    + "COUNT(od.productId) - 1 AS additionalProductCount \n"
+                    + "FROM carpipi.order orr \n"
+                    + "JOIN carpipi.account acc ON orr.userId = acc.userId \n"
+                    + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId \n"
+                    + "JOIN carpipi.product p ON od.productId = p.productId \n"
+                    + "Where orr.orderStatus = ? or acc.firstName Like ? or acc.lastName Like ?\n"
+                    + "GROUP BY orr.orderId";
+       
+      
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            
+                st.setString(1, search);  // Order status
+                st.setString(2, "%" + search + "%");  // First name
+                st.setString(3, "%" + search + "%");  // Last name
+        
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("Record found: " + rs.getInt("firstName")); // Kiểm tra xem có bản ghi nào trả về
+
+                OrderDetail o = new OrderDetail();
+                o.setOrderId(rs.getInt("orderId"));
+                o.setUserId(rs.getInt("userId")); // Đảm bảo userId có trong truy vấn SQL nếu cần
+                o.setSaleId(rs.getInt("saleId"));
+                o.setCreateDate(rs.getString("createDate"));
+                o.setFirstName(rs.getString("firstName"));
+                o.setLastName(rs.getString("lastName"));
+                o.setTotalPrice(rs.getDouble("totalPrice"));
+                o.setOrderStatus(rs.getInt("orderStatus"));
+                o.setProductName(rs.getString("firstProductName"));
+                o.setQuantity(rs.getInt("additionalProductCount"));
+
+                list.add(o);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();  // In ra lỗi khi có vấn đề xảy ra
+
+        }
+
+        return list;
+    }
 
         
     public static void main(String[] args) {

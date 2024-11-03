@@ -209,6 +209,34 @@ public class BrandDAO extends DBContext {
         return false;
     }
     
+    public List<Brand> getTotalRevenueByBrand() {
+        List<Brand> revenues = new ArrayList<>();
+        String query = "SELECT b.name AS brand_name, " +
+                       "SUM(od.quantity * p.price * (1 + 10 / 100)) AS total_revenue " +
+                       "FROM `order` AS o " +
+                       "JOIN orderdetail AS od ON o.orderId = od.orderId " +
+                       "JOIN product AS p ON od.productId = p.productId " +
+                       "JOIN brand AS b ON p.brandId = b.brandId " +
+                       "WHERE o.orderStatus = 4 " +
+                       "GROUP BY b.name;";
+
+        try (
+             PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                String brandName = rs.getString("name");
+                double totalRevenue = rs.getDouble("totalRevenue");
+                revenues.add(new Brand(brandName, totalRevenue));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle exceptions as appropriate
+        }
+
+        return revenues;
+    }
+    
     public static void main(String[] args) {
         //System.out.println(b.getBrandIdByName("Audi"));
         BrandDAO b = new BrandDAO();

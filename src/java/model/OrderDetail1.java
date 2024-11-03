@@ -1,13 +1,15 @@
 package model;
 
 public class OrderDetail1 {
+
+    private int orderDetailId;
     private int orderId;
     private String productId;
     private int quantity;
-    private String shippingAddress;
     private int discountId;
     private int colorId;
-    
+    private int isfeedback;
+
     private String productName;
     private String description;
     private String createDate;
@@ -20,22 +22,24 @@ public class OrderDetail1 {
     public OrderDetail1() {
     }
 
-    public OrderDetail1(int orderId, String productId, int quantity, String shippingAddress, int discountId, int colorId) {
+    public OrderDetail1(int orderDetailId, int orderId, String productId, int quantity, int discountId, int colorId, int isfeedback) {
+        this.orderDetailId = orderDetailId;
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;
-        this.shippingAddress = shippingAddress;
         this.discountId = discountId;
         this.colorId = colorId;
+        this.isfeedback = isfeedback;
     }
 
-    public OrderDetail1(int orderId, String productId, int quantity, String shippingAddress, int discountId, int colorId, String productName, String description, String createDate, String brandName, String colorName, double price, double discount, String imageUrl) {
+    public OrderDetail1(int orderDetailId, int orderId, String productId, int quantity, int discountId, int colorId, int isfeedback, String productName, String description, String createDate, String brandName, String colorName, double price, double discount, String imageUrl) {
+        this.orderDetailId = orderDetailId;
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;
-        this.shippingAddress = shippingAddress;
         this.discountId = discountId;
         this.colorId = colorId;
+        this.isfeedback = isfeedback;
         this.productName = productName;
         this.description = description;
         this.createDate = createDate;
@@ -45,9 +49,15 @@ public class OrderDetail1 {
         this.discount = discount;
         this.imageUrl = imageUrl;
     }
-    
-    
 
+    public int getOrderDetailId() {
+        return orderDetailId;
+    }
+
+    public void setOrderDetailId(int orderDetailId) {
+        this.orderDetailId = orderDetailId;
+    }
+    
     public int getOrderId() {
         return orderId;
     }
@@ -70,14 +80,6 @@ public class OrderDetail1 {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public String getShippingAddress() {
-        return shippingAddress;
-    }
-
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
     }
 
     public int getDiscountId() {
@@ -159,6 +161,13 @@ public class OrderDetail1 {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    
-    
+
+    public int getIsfeedback() {
+        return isfeedback;
+    }
+
+    public void setIsfeedback(int isfeedback) {
+        this.isfeedback = isfeedback;
+    }
+
 }

@@ -81,7 +81,7 @@
                         <h5>Phản hồi từ khách hàng</h5>
                         <div class="mb-3">
                             <label class="form-label">Nội dung phản hồi</label>
-                            <textarea class="form-control"  name="feedbackInfo" rows="2" required></textarea>
+                            <textarea class="form-control"  name="feedbackInfor" rows="2" required></textarea>
                         </div>
 
                         <div class="mb-3" style="display: flex; align-items: center;">
@@ -105,6 +105,7 @@
                         </div>
                         <input type="hidden" name="productId" value="${pro.productId}">
                         <input type="hidden" name="userId" value="${acc.userId}">
+                        <input type="hidden" name="orderDetailId" value="${orderDetailId}">
                         <div class="mb-3" style="display: flex; align-items: center;">
                             <label>Hình ảnh phản hồi:</label>
                             <input name="feedbackImg" type="file" class="form-control" accept="image/*" onchange="previewImage(event)">

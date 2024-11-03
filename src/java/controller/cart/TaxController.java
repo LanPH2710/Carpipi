@@ -16,7 +16,8 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
 import model.Cart;
-import java.sql.SQLException; 
+import java.sql.SQLException;
+
 /**
  *
  * @author hiule
@@ -38,8 +39,7 @@ public class TaxController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-          
-            
+
         }
     }
 
@@ -57,20 +57,28 @@ public class TaxController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
+     
+        if (account == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
         int userId = account.getUserId();
         CartDAO cartDAO = new CartDAO();
-       List<Cart> carts = cartDAO.getSelectedCarts(userId);
-       
-        double totalFinal= 0;
-         for (Cart cartItem : carts) {
-            
-                 
-                  totalFinal += cartItem.getQuantity() * cartItem.getProduct().getPrice()* (1 + 0.4) * 1.10;
-             
+        List<Cart> carts = cartDAO.getSelectedCarts(userId);
+        if (carts == null || carts.isEmpty()) {
+            session.setAttribute("messUpdateCart", "Bạn chưa chọn sản phẩm");
+            response.sendRedirect("carts");
+            return;
         }
-         
-         session.setAttribute("totalFinal", totalFinal);
-         session.setAttribute("cartsSelect", carts);
+        double totalFinal = 0;
+        for (Cart cartItem : carts) {
+
+            totalFinal += cartItem.getQuantity() * cartItem.getProduct().getPrice() * (1 + 0.4) * 1.10;
+
+        }
+
+        session.setAttribute("totalFinal", totalFinal);
+        session.setAttribute("cartsSelect", carts);
         request.getRequestDispatcher("checkout_1.jsp").forward(request, response);
     }
 

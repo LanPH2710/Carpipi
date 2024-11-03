@@ -79,6 +79,30 @@ public class BrandDAO extends DBContext {
         return null;
     }
     
+    // Method to get brand details by brandId
+    public Brand getBrandById1(int brandId) {
+        Brand brand = null;
+        String sql = "SELECT * FROM brand WHERE brandId = ?";
+        
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, brandId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    brand = new Brand();
+                    brand.setBrandId(rs.getInt("brandId"));
+                    brand.setName(rs.getString("name"));
+                    brand.setProductCount(rs.getInt("productCount"));
+                    brand.setStatus(rs.getInt("status"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return brand;
+    }
+    
     // Lấy danh sách các brand với số lượng sản phẩm và trạng thái
     public List<Brand> getBrandListWithProductCount() {
     List<Brand> brandList = new ArrayList<>();
@@ -183,6 +207,34 @@ public class BrandDAO extends DBContext {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    public List<Brand> getTotalRevenueByBrand() {
+        List<Brand> revenues = new ArrayList<>();
+        String query = "SELECT b.name AS brand_name, " +
+                       "SUM(od.quantity * p.price * (1 + 10 / 100)) AS total_revenue " +
+                       "FROM `order` AS o " +
+                       "JOIN orderdetail AS od ON o.orderId = od.orderId " +
+                       "JOIN product AS p ON od.productId = p.productId " +
+                       "JOIN brand AS b ON p.brandId = b.brandId " +
+                       "WHERE o.orderStatus = 4 " +
+                       "GROUP BY b.name;";
+
+        try (
+             PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                String brandName = rs.getString("name");
+                double totalRevenue = rs.getDouble("totalRevenue");
+                revenues.add(new Brand(brandName, totalRevenue));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle exceptions as appropriate
+        }
+
+        return revenues;
     }
     
     public static void main(String[] args) {

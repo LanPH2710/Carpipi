@@ -1164,7 +1164,125 @@ public class ProductDAO extends DBContext {
             return false;
         }
     }
+    
+    public int getProductCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM product";
 
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1); // Lấy giá trị của cột đầu tiên
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+    
+    public List<Product> getProductsWithTotalQuantitySold() {
+    List<Product> productList = new ArrayList<>();
+    String query = "SELECT od.productId, p.name, p.price, SUM(od.quantity) AS total_quantity_sold " +
+                   "FROM orderdetail od " +
+                   "JOIN `order` o ON od.orderId = o.orderId " +
+                   "JOIN orderstatus os ON o.orderStatus = os.statusId " +
+                   "JOIN product p ON od.productId = p.productId " +
+                   "WHERE os.statusId = 4 " +
+                   "GROUP BY od.productId, p.name, p.price " +
+                   "ORDER BY total_quantity_sold DESC " +
+                   "LIMIT 5;";  // Limit the results to top 5
+
+    try (
+         PreparedStatement statement = connection.prepareStatement(query);
+         ResultSet resultSet = statement.executeQuery()) {
+
+        while (resultSet.next()) {
+            String productId = resultSet.getString("productId");
+            String name = resultSet.getString("name");
+            double price = resultSet.getDouble("price");
+            int totalQuantitySold = resultSet.getInt("total_quantity_sold");
+
+            // Create a Product object and set the retrieved values
+            Product product = new Product();
+            product.setProductId(productId);
+            product.setName(name);
+            product.setPrice(price);
+            product.setTotalQuantitySold(totalQuantitySold);
+
+            // Add the product to the list
+            productList.add(product);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); // Log the exception
+    }
+
+    return productList;
+}
+    
+    public List<Product> getTop5ProductsByTotalQuantitySold() {
+    List<Product> productList = new ArrayList<>();
+    String query = "SELECT od.productId, p.name, p.price, SUM(od.quantity) AS total_quantity_sold " +
+                   "FROM orderdetail od " +
+                   "JOIN `order` o ON od.orderId = o.orderId " +
+                   "JOIN orderstatus os ON o.orderStatus = os.statusId " +
+                   "JOIN product p ON od.productId = p.productId " +
+                   "WHERE os.statusId = 4 " +
+                   "GROUP BY od.productId, p.name, p.price " +
+                   "ORDER BY total_quantity_sold DESC " +
+                   "LIMIT 5;";  // Limit the results to top 5
+
+    try (
+         PreparedStatement statement = connection.prepareStatement(query);
+         ResultSet resultSet = statement.executeQuery()) {
+
+        while (resultSet.next()) {
+            String productId = resultSet.getString("productId");
+            String name = resultSet.getString("name");
+            double price = resultSet.getDouble("price");
+            int totalQuantitySold = resultSet.getInt("total_quantity_sold");
+
+            // Create a Product object and set the retrieved values
+            Product product = new Product();
+            product.setProductId(productId);
+            product.setName(name);
+            product.setPrice(price);
+            product.setTotalQuantitySold(totalQuantitySold);
+
+            // Add the product to the list
+            productList.add(product);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); // Log the exception
+    }
+
+    return productList;
+}
+
+    
+    public int getTotalQuantitySold() {
+    int totalQuantity = 0;
+    String query = "SELECT SUM(od.quantity) AS total_quantity_sold " +
+                   "FROM orderdetail od " +
+                   "JOIN `order` o ON od.orderId = o.orderId " +
+                   "JOIN orderstatus os ON o.orderStatus = os.statusId " +
+                   "WHERE os.statusId = 4"; // Assuming statusId 4 means 'sold'
+
+    try (PreparedStatement statement = connection.prepareStatement(query);
+         ResultSet resultSet = statement.executeQuery()) {
+
+        if (resultSet.next()) {
+            totalQuantity = resultSet.getInt("total_quantity_sold");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return totalQuantity;
+}
+
+    
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
         //String search = "g63";
@@ -1196,7 +1314,23 @@ public class ProductDAO extends DBContext {
         // Gọi phương thức cập nhật sản phẩm
 //            p.updateProduct(productId, name, seatNumber, price, fuel, stock, description, vat, supplyId, brandId, segmentId, styleId);
         System.out.println("Cập nhật sản phẩm thành công!");
+        
+       
+        int productCount = p.getProductCount();
+        System.out.println("Số lượng product: " + productCount);
+        
+        // Call the method to get products with total quantity sold
+        List<Product> products = p.getTop5ProductsByTotalQuantitySold();
 
+        // Print the results
+        System.out.println("Products sold in the last minute:");
+        for (Product product : products) {
+            System.out.println("Product ID: " + product.getProductId());
+            System.out.println("Name: " + product.getName());
+            System.out.println("Price: " + product.getPrice());
+            System.out.println("Total Quantity Sold: " + product.getTotalQuantitySold()); // Assume you have this method
+            System.out.println("---------------");
+        }
     }
 
 }

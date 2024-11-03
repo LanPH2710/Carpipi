@@ -114,12 +114,14 @@ public class ReturnResult extends HttpServlet {
 
             if (vnp_TransactionStatus.equals("00")) {
                 // Iterate over the list of carts and process them as needed
+                  int orderId = cartDAO.addOrder(account.getUserId(), name, email, phone, totalmoney, address, 1);
                 for (Cart cart : cartList) {
                     // Example: Call addOrder method for each cart or handle cart processing logic
                     // odao.addOrder(account, cart, email, phone, address, note, dateShip, timeShip, "0");
                     // odao.updateBought(account, cart);
                     cartDAO.deleteCar(cart.getCartId());
                     cartDAO.updateStockByCartId(cart.getCartId());
+                    cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 0);
                 }
 
                 EmailOrder handleEmail = new EmailOrder();
@@ -146,11 +148,13 @@ public class ReturnResult extends HttpServlet {
                 // Uncomment if needed
                 // executorService.submit(() -> handleEmail.sendEmail(sub, msg, email));
             } else {
+                 int orderId = cartDAO.addOrder(account.getUserId(), name, email, phone, totalmoney, address, 5);
                 for (Cart cart : cartList) {
                     // Example: Call addOrder method for each cart or handle cart processing logic
                     // odao.addOrder(account, cart, email, phone, address, note, dateShip, timeShip, "0");
                     // odao.updateBought(account, cart);
                     cartDAO.deleteCar(cart.getCartId());
+                      cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 0);
                    
                 }
                 request.setAttribute("vnp_TxnRef", vnp_TxnRef);

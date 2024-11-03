@@ -5,6 +5,7 @@
 package controller.cart;
 
 import dal.AccountDAO;
+import dal.CartDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,7 +14,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import model.Account;
+import model.Cart;
 
 /**
  *
@@ -71,6 +74,14 @@ public class CheckoutController extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+
+        CartDAO cartDAO = new CartDAO();
+        List<Cart> carts = cartDAO.getSelectedCarts(acc.getUserId());
+        if (carts == null || carts.isEmpty()) {
+            session.setAttribute("messUpdateCart", "Bạn chưa chọn sản phẩm");
+            response.sendRedirect("carts");
+            return;
+        }
         // For testing, forward to the test JSP
         request.getRequestDispatcher("checkout.jsp").forward(request, response);
     }
@@ -95,20 +106,17 @@ public class CheckoutController extends HttpServlet {
             String userName = request.getParameter("userName");
             String email = request.getParameter("email");
             String mobile = request.getParameter("mobile");
-            String address1 = request.getParameter("address1");
+            // Retrieve address components
+            String tinh = request.getParameter("tinh");
+            String quan = request.getParameter("quan");
+            String phuong = request.getParameter("phuong");
             String address2 = request.getParameter("address2");
-            String selectedAddress = request.getParameter("selectedAddress");
+
+            // Combine into a full address
+            String shippingAddress = String.join(", ", address2, phuong, quan, tinh);
 
             // Determine which address to use
-            String shippingAddress;
-            if ("address1".equals(selectedAddress)) {
-                shippingAddress = address1;
-            } else if ("address2".equals(selectedAddress)) {
-                shippingAddress = address2;
-            } else {
-                // Handle the case where no address is selected (shouldn't occur if form is valid)
-                shippingAddress = "";
-            }
+
             boolean flag = true;
             if (mobile == null || !isPhoneNum(mobile)) {
                 session.setAttribute("msg_phoneCart", "Số điện thoại không hợp lệ");
@@ -120,14 +128,13 @@ public class CheckoutController extends HttpServlet {
             }
 
             if (flag) {
-                  session.setAttribute("name", (lastName +firstName));
-            session.setAttribute("phone", mobile);
-            session.setAttribute("email", email);
-            session.setAttribute("address", shippingAddress);
+                session.setAttribute("name", (lastName + firstName));
+                session.setAttribute("phone", mobile);
+                session.setAttribute("email", email);
+                session.setAttribute("address", shippingAddress);
                 request.getRequestDispatcher("vnpay_pay.jsp").forward(request, response);
             } else {
                 // Set form field values and error messages in the request scope
-             
 
                 // Forward back to the checkout page
                 request.getRequestDispatcher("checkout.jsp").forward(request, response);

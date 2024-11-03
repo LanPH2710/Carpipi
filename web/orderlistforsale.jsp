@@ -226,7 +226,7 @@
                                                                 <span class="${list.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
                                                             </button>
                                                         </form>
-                                                        <a href="feedbackdetail?id=${list.feedbackId}" class="btn btn-icon btn-pills btn-soft-success">
+                                                        <a href="orderdetailforsale?orderId=${order.orderId}" class="btn btn-icon btn-pills btn-soft-success">
                                                             <i class="uil uil-pen"></i>
                                                         </a>
                                                     </td>

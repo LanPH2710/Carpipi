@@ -172,10 +172,10 @@
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                     <li class="breadcrumb-item"><a href="home">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="home">Home</a></li>
                                     <li class="breadcrumb-item"><a href="carts">Giỏ Hàng</a></li>
                                     <li class="breadcrumb-item"><a href="tax">Thuế</a></li>
-                                    
+
                                     <li class="breadcrumb-item active" aria-current="page">Checkout</a></li>
                                 </ul>
                             </nav>
@@ -251,7 +251,7 @@
                                             <div class="col-12">
                                                 <label for="userName" class="form-label" >Username</label>
                                                 <div class="input-group has-validation">
-                                                   
+
                                                     <input
                                                         type="text"
                                                         class="form-control"
@@ -268,26 +268,26 @@
                                             <!-- Email -->
                                             <div class="col-12">
                                                 <label for="email" class="form-label">Email </label>
-                                                 <div class="input-group has-validation">
+                                                <div class="input-group has-validation">
                                                     <span class="input-group-text bg-light text-muted border">@</span>
 
-                                                <input
-                                                    type="email"
-                                                    class="form-control"
-                                                    id="email"
-                                                    name="email"
-                                                    placeholder="you@example.com"
-                                                    value="${sessionScope.accCheckout.email}"
-                                                    >
-                                                <div class="invalid-feedback">
-                                                    Please enter a valid email address for shipping updates.
-                                                </div>
-                                                <c:if test="${not empty sessionScope.msg_gmailCart}">
-                                                    <div class="alert alert-danger">
-                                                        ${sessionScope.msg_gmailCart}
+                                                    <input
+                                                        type="email"
+                                                        class="form-control"
+                                                        id="email"
+                                                        name="email"
+                                                        placeholder="you@example.com"
+                                                        value="${sessionScope.accCheckout.email}"
+                                                        >
+                                                    <div class="invalid-feedback">
+                                                        Please enter a valid email address for shipping updates.
                                                     </div>
-                                                    <c:remove var="msg_gmailCart" scope="session" />
-                                                </c:if>
+                                                    <c:if test="${not empty sessionScope.msg_gmailCart}">
+                                                        <div class="alert alert-danger">
+                                                            ${sessionScope.msg_gmailCart}
+                                                        </div>
+                                                        <c:remove var="msg_gmailCart" scope="session" />
+                                                    </c:if>
                                                 </div>
                                             </div>
 
@@ -316,7 +316,7 @@
                                             <div class="col-md-4">
                                                 <label for="tinh" class="form-label">Tỉnh </label>
                                                 <select class="form-select form-control css_select" id="tinh" name="tinh" title="Chọn Tỉnh Thành" required>
-                                                    <option value="0">Tỉnh Thành</option>
+                                                    <option value="">Tỉnh Thành</option> <!-- Set value to empty string to trigger required validation -->
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Please select a valid province.
@@ -326,7 +326,7 @@
                                             <div class="col-md-4">
                                                 <label for="quan" class="form-label">Huyện</label>
                                                 <select class="form-select form-control css_select" id="quan" name="quan" title="Chọn Quận Huyện" required>
-                                                    <option value="0">Quận Huyện</option>
+                                                    <option value="">Quận Huyện</option> <!-- Set value to empty string to trigger required validation -->
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Please provide a valid district.
@@ -336,14 +336,14 @@
                                             <div class="col-md-4">
                                                 <label for="phuong" class="form-label">Phường Xã</label>
                                                 <select class="form-select form-control css_select" id="phuong" name="phuong" title="Chọn Phường Xã" required>
-                                                    <option value="0">Phường Xã</option>
+                                                    <option value="">Phường Xã</option> <!-- Set value to empty string to trigger required validation -->
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Please provide a valid ward.
                                                 </div>
                                             </div>
 
-                                            <!-- Address 2 -->
+                                            <!-- Specific Address Field -->
                                             <div class="col-12">
                                                 <label for="address2" class="form-label">Số Nhà / Địa Chỉ Cụ Thể </label>
                                                 <div class="input-group">
@@ -352,14 +352,15 @@
                                                         class="form-control"
                                                         id="address2"
                                                         name="address2"
-                                                        placeholder="  Vui lòng nhập địa chỉ chi tiết"
-                                                        >
-                                                  
+                                                        placeholder="Vui lòng nhập địa chỉ chi tiết"
+                                                        required  <!-- This attribute makes the field mandatory -->
+                                                    >
                                                 </div>
                                                 <div class="invalid-feedback">
                                                     Please enter your specific address.
                                                 </div>
                                             </div>
+
 
                                             <!--                                                                              <div class="form-check mt-4 pt-4 border-top">
                                                                                                                                     <input type="checkbox" class="form-check-input" id="same-address">
@@ -479,39 +480,43 @@
         <script src="https://esgoo.net/scripts/jquery.js"></script>
         <script>
                                         $(document).ready(function () {
-                                            //Lấy tỉnh thành
+                                            // Lấy tỉnh thành
                                             $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
                                                 if (data_tinh.error == 0) {
                                                     $.each(data_tinh.data, function (key_tinh, val_tinh) {
-                                                        $("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+                                                        // Use the name as the value
+                                                        $("#tinh").append('<option value="' + val_tinh.full_name + '" data-id="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
                                                     });
+
                                                     $("#tinh").change(function (e) {
-                                                        var idtinh = $(this).val();
-                                                        //Lấy quận huyện
+                                                        var idtinh = $(this).find(':selected').data('id'); // Get the ID using the data attribute
+
+                                                        // Lấy quận huyện
                                                         $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
                                                             if (data_quan.error == 0) {
-                                                                $("#quan").html('<option value="0">Quận Huyện</option>');
-                                                                $("#phuong").html('<option value="0">Phường Xã</option>');
+                                                                $("#quan").html('<option value="">Quận Huyện</option>');
+                                                                $("#phuong").html('<option value="">Phường Xã</option>');
                                                                 $.each(data_quan.data, function (key_quan, val_quan) {
-                                                                    $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                                                                    // Use the name as the value
+                                                                    $("#quan").append('<option value="' + val_quan.full_name + '" data-id="' + val_quan.id + '">' + val_quan.full_name + '</option>');
                                                                 });
-                                                                //Lấy phường xã  
+
+                                                                // Lấy phường xã
                                                                 $("#quan").change(function (e) {
-                                                                    var idquan = $(this).val();
+                                                                    var idquan = $(this).find(':selected').data('id'); // Get the ID using the data attribute
                                                                     $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
                                                                         if (data_phuong.error == 0) {
-                                                                            $("#phuong").html('<option value="0">Phường Xã</option>');
+                                                                            $("#phuong").html('<option value="">Phường Xã</option>');
                                                                             $.each(data_phuong.data, function (key_phuong, val_phuong) {
-                                                                                $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                                                                                // Use the name as the value
+                                                                                $("#phuong").append('<option value="' + val_phuong.full_name + '" data-id="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
                                                                             });
                                                                         }
                                                                     });
                                                                 });
-
                                                             }
                                                         });
                                                     });
-
                                                 }
                                             });
                                         });

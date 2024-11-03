@@ -3,11 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.marketing;
+package controller.admin;
 
 import dal.AccountDAO;
 import dal.BlogDAO;
-import dal.OrderDAO;
 import dal.ProductDAO;
 import dal.SliderDAO;
 import java.io.IOException;
@@ -21,9 +20,9 @@ import model.Product;
 
 /**
  *
- * @author ADMIN
+ * @author tuana
  */
-public class MktDashboardServlet extends HttpServlet {
+public class AdminDashBoardServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -40,10 +39,10 @@ public class MktDashboardServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MktDashboardServlet</title>");  
+            out.println("<title>Servlet AdminDashBoardServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet MktDashboardServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet AdminDashBoardServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -69,7 +68,7 @@ public class MktDashboardServlet extends HttpServlet {
         int blogCount = blogDAO.getBlogCount();
         int productCount = productDAO.getProductCount();
         int customerCount = accountDAO.getCustomerCount();
-        List<Product> productSale = productDAO.getTop5ProductsByTotalQuantitySold();
+        List<Product> productSale = productDAO.getProductsWithTotalQuantitySold();
         int totalQuantitySold = productDAO.getTotalQuantitySold();
         int sliderCount = sliderDAO.getSliderCount();
         //int orderCount = orderDAO.getOrderCount();
@@ -82,7 +81,7 @@ public class MktDashboardServlet extends HttpServlet {
         request.setAttribute("sliderCount", sliderCount);
         //request.setAttribute("orderCount", orderCount);
         // Chuyển tiếp tới trang JSP để hiển thị
-        request.getRequestDispatcher("marketingdashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("adminDashboard.jsp").forward(request, response);
     }
 
     /** 

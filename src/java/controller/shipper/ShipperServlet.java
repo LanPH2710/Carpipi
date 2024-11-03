@@ -8,7 +8,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import model.Order1;
 import model.OrderDetail1;
 
 public class ShipperServlet extends HttpServlet {
@@ -52,7 +55,8 @@ public class ShipperServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         OrderDetail1DAO od1dao = new OrderDetail1DAO();
-        List<OrderDetail1> order = new ArrayList<>();
+        List<Order1> order = new ArrayList<>();
+        Map<Integer, List<OrderDetail1>> orderDetailsMap = new HashMap<>();
         int statusId = 0;
         String statusIdParam = request.getParameter("statusId");
         String keyword = request.getParameter("keyword");
@@ -67,10 +71,12 @@ public class ShipperServlet extends HttpServlet {
         }
         if (statusId > 0) {
             order = od1dao.getShipOrderByStatus(statusId);
-        } else if (keyword != null) {
-            order = od1dao.getShipOrderBySearch(keyword);
-        } else {
+        }else {
             order = od1dao.getShipOrder();
+        }
+        for (Order1 order1 : order) {
+            List<OrderDetail1> orderDetails = od1dao.getOrderDetail(order1.getOrderId());
+            orderDetailsMap.put(order1.getOrderId(), orderDetails);
         }
         //phan trang
         int page, numperpage = 2;
@@ -85,7 +91,9 @@ public class ShipperServlet extends HttpServlet {
         int start = (page - 1) * numperpage;
         int end = Math.min(page * numperpage, size);
         order = od1dao.getMyOrderListByPage(order, start, end);
+        
         request.setAttribute("order", order);
+        request.setAttribute("orderDetailsMap", orderDetailsMap);
         request.setAttribute("page", page);
         request.setAttribute("statusId", statusId);
         request.setAttribute("keyword", keyword);

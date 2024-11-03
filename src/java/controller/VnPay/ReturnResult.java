@@ -121,7 +121,7 @@ public class ReturnResult extends HttpServlet {
                     // odao.updateBought(account, cart);
                     cartDAO.deleteCar(cart.getCartId());
                     cartDAO.updateStockByCartId(cart.getCartId());
-                    cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 1);
+                    cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 0);
                 }
 
                 EmailOrder handleEmail = new EmailOrder();
@@ -154,7 +154,7 @@ public class ReturnResult extends HttpServlet {
                     // odao.addOrder(account, cart, email, phone, address, note, dateShip, timeShip, "0");
                     // odao.updateBought(account, cart);
                     cartDAO.deleteCar(cart.getCartId());
-                      cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 1);
+                      cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 0);
                    
                 }
                 request.setAttribute("vnp_TxnRef", vnp_TxnRef);

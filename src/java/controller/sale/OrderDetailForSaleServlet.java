@@ -69,6 +69,8 @@ public class OrderDetailForSaleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
+
         String orderId = request.getParameter("orderId");
 
         AccountDAO accountDao = new AccountDAO();
@@ -88,7 +90,7 @@ public class OrderDetailForSaleServlet extends HttpServlet {
 
         Account accountOrder = accountDao.getAccountById(6);
 
-        List<Account> allSaleName = accountDao.getAccountByRoleId("3");
+        List<Account> allSaleName = accountDao.getAccountByRole();
 
         List<OrderStatus> listStatusOrder = orderDao.getListOrderStatus();
 

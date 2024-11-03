@@ -7,6 +7,7 @@ package controller.marketing;
 
 import dal.AccountDAO;
 import dal.BlogDAO;
+import dal.BrandDAO;
 import dal.OrderDAO;
 import dal.ProductDAO;
 import dal.SliderDAO;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Brand;
 import model.Product;
 
 /**
@@ -65,6 +67,8 @@ public class MktDashboardServlet extends HttpServlet {
         AccountDAO accountDAO = new AccountDAO();
         SliderDAO sliderDAO = new SliderDAO();
         //OrderDAO orderDAO = new OrderDAO();
+        BrandDAO brandDAO = new BrandDAO();
+        
         // Lấy số lượng blog từ BlogDAO
         int blogCount = blogDAO.getBlogCount();
         int productCount = productDAO.getProductCount();
@@ -72,6 +76,7 @@ public class MktDashboardServlet extends HttpServlet {
         List<Product> productSale = productDAO.getTop5ProductsByTotalQuantitySold();
         int totalQuantitySold = productDAO.getTotalQuantitySold();
         int sliderCount = sliderDAO.getSliderCount();
+        List<Brand> totalBrandRevenue = brandDAO.getTotalRevenueByBrand();
         //int orderCount = orderDAO.getOrderCount();
         // Đưa số lượng blog vào request attribute
         request.setAttribute("blogCount", blogCount);
@@ -80,6 +85,7 @@ public class MktDashboardServlet extends HttpServlet {
         request.setAttribute("productSale", productSale);
         request.setAttribute("totalQuantitySold", totalQuantitySold);
         request.setAttribute("sliderCount", sliderCount);
+        request.setAttribute("totalBrandRevenue", totalBrandRevenue);
         //request.setAttribute("orderCount", orderCount);
         // Chuyển tiếp tới trang JSP để hiển thị
         request.getRequestDispatcher("marketingdashboard.jsp").forward(request, response);

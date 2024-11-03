@@ -184,20 +184,6 @@
                                 </div>
                             </div><!--end col-->
 
-                            <!--                            <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
-                                                            <div class="card features feature-primary rounded border-0 shadow p-4">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="icon text-center rounded-md">
-                                                                        <i class="uil uil-medkit h3 mb-0"></i>
-                                                                    </div>
-                                                                    <div class="flex-1 ms-2">
-                                                                        <h5 class="mb-0">${orderCount}</h5>
-                                                                        <p class="text-muted mb-0">order</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>end col-->
-
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
                                 <a href="SliderList" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
@@ -214,23 +200,7 @@
                         </div><!--end row-->
 
                         <div class="row">
-                            <!--                            <div class="col-xl-8 col-lg-7 mt-4">
-                                                            <div class="card shadow border-0 p-4">
-                                                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                    <h6 class="align-items-center mb-0">Customer by Gender</h6>
-                                                                    
-                                                                    <div class="mb-0 position-relative">
-                                                                        <select class="form-select form-control" id="yearchart">
-                                                                            <option selected>2020</option>
-                                                                            <option value="2019">2019</option>
-                                                                            <option value="2018">2018</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div id="dashboard" class="apex-chart"></div>
-                                                            </div>
-                                                        </div>end col-->
-
+                  
 
                             <div class="col-xl-8 col-lg-7 mt-4">
                                 <div>
@@ -294,60 +264,93 @@
                             </div>
 
                             <div class="col-xl-4 col-lg-5 mt-4">
-                                <div style="width: 700px; margin: auto; margin-top: 50px;"> <!-- Adjust margin-top for spacing -->
-                                    <h2>Customer Feedback Analysis</h2>
-                                    <canvas id="customerFeedbackChart" width="500" height="400"></canvas>
+                                <div style="width: 400px; margin: auto; margin-top: 50px;"> 
+                                    <h2>Brand Revenue Pie</h2>
+                                    <canvas id="brandRevenuePie" width="500" height="400"></canvas>
                                 </div>
+                            </div>
 
-                                <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+                            <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
 
-                                <script>
-                                    // Define the data for the chart
-                                    const data = {
-                                        labels: [
-                                            'Red',
-                                            'Blue',
-                                            'Yellow'
-                                        ],
+                            <script>
+                                    // Prepare data for Brand Revenue Pie Chart
+                                    const brandRevenueData = {
+                                        labels: [], // This will hold the brand names
                                         datasets: [{
-                                                label: 'My First Dataset',
-                                                data: [300, 50, 100],
+                                                label: 'Brand Revenue',
+                                                data: [], // This will hold the corresponding revenue values
                                                 backgroundColor: [
                                                     'rgb(255, 99, 132)',
                                                     'rgb(54, 162, 235)',
-                                                    'rgb(255, 205, 86)'
-                                                ],
-                                                hoverOffset: 4
+                                                    'rgb(255, 205, 86)',
+                                                    'rgb(75, 192, 192)',
+                                                    'rgb(153, 102, 255)',
+                                                    'rgb(255, 159, 64)'
+                                                ]
                                             }]
                                     };
 
-                                    // Define the configuration options for the chart
-                                    const config = {
-                                        type: 'doughnut',
-                                        data: data,
+                                    // Fetch total revenue from the request attribute
+                                <c:forEach var="totalBrandRevenue" items="${totalBrandRevenue}">
+                                    brandRevenueData.labels.push('${totalBrandRevenue.name}');
+                                    brandRevenueData.datasets[0].data.push(${totalBrandRevenue.totalBrandRevenue});
+                                </c:forEach>
+
+                                    // Chart configuration
+                                    const brandRevenueConfig = {
+                                        type: 'pie', // or 'doughnut' if you prefer a doughnut chart
+                                        data: brandRevenueData
                                     };
 
-                                    // Initialize the chart
-                                    const feedbackCtx = document.getElementById('customerFeedbackChart').getContext('2d');
-                                    const customerFeedbackChart = new Chart(feedbackCtx, config);
-                                </script>
-                            </div>
+                                    // Create the chart
+                                    const brandRevenueCtx = document.getElementById('brandRevenuePie').getContext('2d');
+                                    const brandRevenueChart = new Chart(brandRevenueCtx, brandRevenueConfig);
+                            </script>
 
-<!--                            <div class="col-xl-4 col-lg-5 mt-4">
-                                <div class="card shadow border-0 p-4">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h6 class="align-items-center mb-0">Patients by Department</h6>
 
-                                        <div class="mb-0 position-relative">
-                                            <select class="form-select form-control" id="dailychart">
-                                                <option selected>Today</option>
-                                                <option value="2019">Yesterday</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div id="department" class="apex-chart"></div>
-                                </div>
-                            </div>end col-->
+
+                                                        <div class="col-xl-4 col-lg-5 mt-4">
+                                                            <div style="width: 400px; margin: auto; margin-top: 50px;"> 
+                                                                <h2>Customer Feedback Analysis</h2>
+                                                                <canvas id="customerFeedbackChart" width="500" height="400"></canvas>
+                                                            </div>
+                            
+                                                            <div style="width: 400px; margin: auto; margin-top: 50px;">
+                                                                <h2>Product Sales Analysis</h2>
+                                                                <canvas id="productSalesChart" width="500" height="400"></canvas>
+                                                            </div>
+                                                        </div>
+                            
+                                                        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+                            
+                                                        <script>
+                                                                // Customer Feedback Chart Data
+                                                                const brandRevenue = {
+                                                                    labels: ['Red', 'Blue', 'Yellow'],
+                                                                    datasets: [{
+                                                                            label: 'My First Dataset',
+                                                                            data: [300, 50, 100],
+                                                                            backgroundColor: [
+                                                                                'rgb(255, 99, 132)',
+                                                                                'rgb(54, 162, 235)',
+                                                                                'rgb(255, 205, 86)'
+                                                                            ],
+                                                                            hoverOffset: 4
+                                                                        }]
+                                                                };
+                            
+                                                                const feedbackConfig = {
+                                                                    type: 'doughnut',
+                                                                    data: feedbackData,
+                                                                };
+                            
+                                                                const feedbackCtx = document.getElementById('customerFeedbackChart').getContext('2d');
+                                                                const customerFeedbackChart = new Chart(feedbackCtx, feedbackConfig);
+                            
+                                                        </script>
+
+
+
                         </div><!--end row-->
 
 
@@ -358,15 +361,7 @@
         </div><!--end container-->
 
         <!-- Footer Start -->
-        <footer class="bg-white shadow py-3">
-            <div class="container-fluid">
-                <div class="row align-items-center">
-                    <div class="col">
 
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end container-->
-        </footer><!--end footer-->
         <!-- End -->
     </main>
     <!--End page-content" -->

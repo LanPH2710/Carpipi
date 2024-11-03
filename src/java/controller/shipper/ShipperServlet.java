@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.shipper;
 
 import dal.OrderDetail1DAO;
@@ -15,10 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.OrderDetail1;
 
-/**
- *
- * @author tuana
- */
 public class ShipperServlet extends HttpServlet {
 
     /**
@@ -60,7 +52,7 @@ public class ShipperServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         OrderDetail1DAO od1dao = new OrderDetail1DAO();
-        List<OrderDetail1> order =  new ArrayList<>();
+        List<OrderDetail1> order = new ArrayList<>();
         int statusId = 0;
         String statusIdParam = request.getParameter("statusId");
         String keyword = request.getParameter("keyword");
@@ -112,7 +104,11 @@ public class ShipperServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        OrderDetail1DAO od1dao = new OrderDetail1DAO();
+        int orderStatus = Integer.parseInt(request.getParameter("orderStatus"));
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
+        od1dao.updateOrderStatus(orderId, orderStatus);
+        response.sendRedirect("shipper");
     }
 
     /**

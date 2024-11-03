@@ -102,6 +102,7 @@
                 display: flex;
                 align-items: center;
                 width: 100%;
+                gap: 50px;
             }
 
             .product-info > div {
@@ -218,26 +219,59 @@
             <!-- Start Page Content -->
             <main class="page-content bg-light">
                 <div class="top-header">
-                    <div class="header-bar d-flex justify-content-between border-bottom">
+                    <div class="header-bar d-flex justify-content-between align-items-center border-bottom">
                         <div class="d-flex align-items-center">
                             <a href="#" class="logo-icon">
                                 <img src="assets1/images/logo-icon.png" height="30" class="small" alt="">
+                                <span class="big">
+                                    <img src="assets1/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
+                                    <img src="assets1/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                                </span>
                             </a>
                             <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
                                 <i class="uil uil-bars"></i>
                             </a>
-                            <div class="search-bar p-0 d-none d-lg-block ms-2">
-                                <div id="search" class="menu-search mb-0">
-                                    <form method="get" id="searchform" class="searchform" action="shipper">
-                                        <div>
-                                            <input type="text" class="form-control border rounded-pill" name="keyword" id="s" placeholder="Search Keywords..." value="${param.keyword}" >
-                                            <input type="submit" id="searchsubmit" value="Search">
-                                        </div>
-                                    </form>                             
-                                </div>
-                            </div>
-                            <a href="myorder" class="btn btn-secondary ms-2">Reset Search</a> <!-- Reset button -->
+                            <li class="list-inline-item mb-0 ms-1 d-flex align-items-center">
+                                <a href="home">
+                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="home" class="fea icon-sm"></i></div>
+                                </a>
+                            </li>
                         </div>
+
+                        <!-- Thêm chữ "carpipi" vào giữa -->
+                        <div class="text-center flex-grow-1">
+                            <h2 class="mb-0" style="font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #3b5998;">carpipi</h2>
+                        </div>
+
+                        <ul class="list-unstyled mb-0 d-flex align-items-center">
+                            <li class="list-inline-item mb-0 ms-1">
+                                <a href="logout">
+                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="log-out" class="fea icon-sm"></i></div>
+                                </a>
+                            </li>
+
+                            <li class="list-inline-item mb-0 ms-1">
+                                <a href="userprofile">
+                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="user" class="fea icon-sm"></i></div>
+                                </a>
+                            </li>
+
+                            <li class="list-inline-item mb-0 ms-1">
+                                <div class="dropdown dropdown-primary">
+                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="img/avatar-trang-4.jpg" class="avatar avatar-ex-small rounded-circle" alt="">
+                                    </button>
+                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
+                                        <a class="dropdown-item d-flex align-items-center text-dark" href="https://shreethemes.in/doctris/layouts/admin/profile.html">
+                                            <img src="img/avatar-trang-4.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                        </a>
+                                        <a class="dropdown-item text-dark" href="userprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
+                                        <div class="dropdown-divider border-top"></div>
+                                        <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="container-fluid">
@@ -281,47 +315,67 @@
                                                     <div class="order-item">
 
                                                         <div class="order-shop">
-                                                            <p class="delivery-status" id="status-${order.orderId}">${order.description}</p>
+                                                            <a href="" class="status-link">
+                                                                <p class="delivery-status">
+                                                                    <c:choose>
+                                                                        <c:when test="${order.orderStatus == 1}">
+                                                                            Đơn hàng đang chờ xử lý
+                                                                        </c:when>
+                                                                        <c:when test="${order.orderStatus == 2}">
+                                                                            Đơn hàng đã được xác nhận
+                                                                        </c:when>
+                                                                        <c:when test="${order.orderStatus == 3}">
+                                                                            Đơn hàng đã được giao đi
+                                                                        </c:when>
+                                                                        <c:when test="${order.orderStatus == 4}">
+                                                                            Đơn hàng đã được giao thành công
+                                                                        </c:when>
+                                                                        <c:when test="${order.orderStatus == 5}">
+                                                                            Đơn hàng đã bị hủy
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                </p>
+                                                            </a>
                                                             &nbsp;&nbsp;
 
                                                             <!-- Form dùng để cập nhật trạng thái đơn hàng -->
                                                             <form action="shipper" method="POST">
                                                                 <!-- Hidden field để gửi orderId -->
                                                                 <input type="hidden" name="orderId" value="${order.orderId}">
-
                                                                 <!-- Dropdown để chọn trạng thái -->
                                                                 <select class="form-control" name="orderStatus" onchange="this.form.submit()">
                                                                     <option value="">Cập nhật đơn hàng</option>
-                                                                    <option value="2" ${order.description == 'Đơn hàng đã được xác nhận' ? 'selected' : ''}>Confirmed</option>
-                                                                    <option value="3" ${order.description == 'Đơn hàng đã được giao đi' ? 'selected' : ''}>Shipped</option>
-                                                                    <option value="4" ${order.description == 'Đơn hàng đã được giao đến tay khách hàng' ? 'selected' : ''}>Done</option>
+                                                                    <option value="3" ${order.orderStatus == 3 ? 'selected' : ''}>Shipped</option>
+                                                                    <option value="4" ${order.orderStatus == 4 ? 'selected' : ''}>Done</option>
                                                                 </select>
                                                             </form>
                                                         </div>
 
 
-                                                        <div class="order-details">
-                                                            <div class="product-info">
-                                                                <img src="${order.imageUrl}" class="product-img">
-                                                                <div>
-                                                                    <h4><a href="cartCompletionDetail.jsp" style="color: inherit;">${order.productName}</a></h4>
-                                                                    <p>Hãng xe: ${order.brandName}</p>
-                                                                    <p>Số lượng: ${order.quantity}</p>
-                                                                    <p class="price">
-                                                                        <span>Giá: </span>
-                                                                        <fmt:formatNumber value="${order.price}" type="currency" currencySymbol="USD"/>
-                                                                    </p>
-                                                                    <p>Màu sắc: ${order.colorName}</p>
-                                                                    <p>Thời gian: ${order.createDate}</p>
-                                                                </div>
-                                                                <div class="order-actions">
-                                                                    <p class="price">
-                                                                        <span style="color: #2c3e50">Thành tiền:</span>&nbsp;&nbsp;
-                                                                        <fmt:formatNumber value="${order.price * (1 - order.discount) * order.quantity}" type="currency" currencySymbol="USD"/>
-                                                                    </p>
-                                                                    <button class="buy-again-btn">Thông tin đơn hàng</button>
+                                                        <c:forEach items="${orderDetailsMap[order.orderId]}" var="detail">
+                                                            <div class="order-item">
+                                                                <div class="product-info">
+                                                                    <img src="${detail.imageUrl}" class="product-img" alt="Product Image">
+                                                                    <div class="product-description">
+                                                                        <h4><a href="cartCompletionDetail.jsp" class="product-name">${detail.productName}</a></h4>
+                                                                        <p class="brand">Hãng xe: ${detail.brandName}</p>
+                                                                        <p class="quantity">Số lượng: ${detail.quantity}</p>
+                                                                        <p class="color">Màu sắc: ${detail.colorName}</p>
+                                                                    </div>
+                                                                    <c:if test="${fn:contains(detail.description, 'Đơn hàng đã được giao đến tay khách hàng') && detail.isfeedback == 0}">
+                                                                        <a class="buy-again-btn" href="customerfeedback?productId=${detail.productId}&orderDetailId=${detail.orderDetailId}">Đánh giá</a>
+                                                                    </c:if>
                                                                 </div>
                                                             </div>
+                                                        </c:forEach>
+                                                        <div class="order-actions">
+                                                            <p class="price">
+                                                                <span>Thành tiền:</span>&nbsp;&nbsp;
+                                                                <fmt:formatNumber value="${order.totalPrice}" type="currency" currencySymbol="USD"/>
+                                                            </p>
+                                                        </div>
+                                                        <div class="button-container">
+                                                            <button class="return-btn">Thông tin đơn hàng</button>
                                                         </div>
                                                     </div>
                                                 </c:forEach>

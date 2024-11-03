@@ -69,7 +69,7 @@ public class MktDashboardServlet extends HttpServlet {
         int blogCount = blogDAO.getBlogCount();
         int productCount = productDAO.getProductCount();
         int customerCount = accountDAO.getCustomerCount();
-        List<Product> productSale = productDAO.getProductsWithTotalQuantitySold();
+        List<Product> productSale = productDAO.getTop5ProductsByTotalQuantitySold();
         int totalQuantitySold = productDAO.getTotalQuantitySold();
         int sliderCount = sliderDAO.getSliderCount();
         //int orderCount = orderDAO.getOrderCount();

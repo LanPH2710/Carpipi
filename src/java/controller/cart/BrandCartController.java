@@ -42,21 +42,25 @@ public class BrandCartController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession();
+
             int supplyId = Integer.parseInt(request.getParameter("supplyId")); // Nhận supplyId từ yêu cầu
             CartDAO cartDAO = new CartDAO();
             Account account = (Account) session.getAttribute("account");
-            
+
+            if (account == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
             try {
                 List<Cart> carts = cartDAO.getCartsBySupplyId(supplyId, account.getUserId()); // Lấy giỏ hàng theo supplyId
                 for (Cart cartItem : carts) {
-                    
 
                     // Fetch color list for each product
                     ColorDAO colorDAO = new ColorDAO();
                     List<Color> colorList = colorDAO.getColorOfCar(cartItem.getProduct().getProductId());
                     cartItem.getProduct().setColorList(colorList); // Ensure Product class has a colorList property
                 }
-                
+
                 session.setAttribute("carts", carts); // Truyền danh sách giỏ hàng vào request
                 request.getSession().setAttribute("urlHistory", "brandCart?supplyId=" + supplyId);
                 request.getRequestDispatcher("cart.jsp").forward(request, response); // Chuyển tiếp đến trang giỏ hàng

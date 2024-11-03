@@ -43,7 +43,7 @@
         </style>
     </head>
     <body>
-       
+        <jsp:include page="header.jsp"/>
         <c:if test="${vnp_TransactionStatus==null}">
             <div class="container" style="text-align: center;margin: 50px auto;width: 50%;border: 1px solid #f0f0f0;padding: 20px;border-radius: 10px;background-color: #fdfdfd;">
                 <div class="header" style="background-color: #fca82d;padding: 10px;font-size: 24px;font-weight: bold;color: white;">ĐẶT HÀNG THÀNH CÔNG</div>
@@ -173,7 +173,7 @@
                         <a href="home" class="button">QUAY LẠI TRANG CHỦ</a>
                     </div> 
                 </c:if>
-           
+             <jsp:include page="footerDemo.jsp"></jsp:include>
                 </body>
                 </html>
 

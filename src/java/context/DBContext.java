@@ -13,7 +13,7 @@ public class DBContext {
     public DBContext() {
         try {
             String user = "root"; // Your MySQL username
-            String pass = "sa123"; // Your MySQL password
+            String pass = "12345"; // Your MySQL password
 
             String url = "jdbc:mysql://localhost:3306/carpipi"; // MySQL URL format - your schema name
             Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL driver class

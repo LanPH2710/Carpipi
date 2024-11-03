@@ -55,7 +55,7 @@
                                 <li><a href="admin"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                                 </c:when>
                                 <c:when test="${sessionScope.account.roleId == 2}">
-                                <li><a href="marketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                <li><a href="marketingdashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                                 </c:when>
                             </c:choose>
                         <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>

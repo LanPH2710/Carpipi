@@ -181,9 +181,27 @@ public class OrderDAO extends DBContext {
         return list;
     }
 
+    public int getOrderCount() {
+    int orderCount = 0;
+    String query = "SELECT COUNT(*) AS order_count FROM `order`"; // Enclose 'order' in backticks
+
+    try (PreparedStatement statement = connection.prepareStatement(query);
+         ResultSet resultSet = statement.executeQuery()) {
+
+        if (resultSet.next()) {
+            orderCount = resultSet.getInt("order_count");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return orderCount;
+}
+
+        
     public static void main(String[] args) {
         OrderDAO o = new OrderDAO();
-
+        int orderCount = o.getOrderCount();
+        System.out.println("Số lượng order: " + orderCount);
         List<OrderDetail> l = o.getAllOrderList();
         for (OrderDetail orderDetail : l) {
             System.out.println(orderDetail.getFirstName());

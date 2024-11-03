@@ -809,10 +809,31 @@ public class AccountDAO extends DBContext {
         
         return list;
     }
+    
+     public int getCustomerCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM account where roleId=4";
 
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1); // Lấy giá trị của cột đầu tiên
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+    
     public static void main(String[] args) {
         AccountDAO add = new AccountDAO();
         List<Account> acc = add.getAccountByRole();
         System.out.println(acc);
+        
+        int customerCount = add.getCustomerCount();
+        System.out.println("Số lượng customer: " + customerCount);
     }
 }

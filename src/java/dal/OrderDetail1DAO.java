@@ -500,6 +500,17 @@ public class OrderDetail1DAO extends DBContext {
             e.printStackTrace();
         }
     }
+    
+    public void updateOrderStatus(int orderId, int orderStatus) {
+        String query = "UPDATE `order` SET orderStatus = ? WHERE orderId = ?;";
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setInt(1, orderStatus);
+            st.setInt(2, orderId);
+            st.executeUpdate(); // Gọi phương thức này để thực hiện cập nhật
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public List<OrderDetail1> getMyOrderListByPage(List<OrderDetail1> order, int start, int end) {
         ArrayList<OrderDetail1> arr = new ArrayList<>();

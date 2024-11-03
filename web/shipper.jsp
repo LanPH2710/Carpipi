@@ -169,6 +169,24 @@
                 font-size: 18px;
                 color: green;
             }
+            .form-group {
+                display: inline-block;
+                margin-left: 10px;
+            }
+
+            .form-control {
+                width: 200px;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+                transition: border-color 0.3s;
+            }
+
+            .form-control:focus {
+                border-color: #007bff;
+                outline: none;
+            }
         </style>
     </head>
     <body>
@@ -261,11 +279,27 @@
                                             <c:otherwise>
                                                 <c:forEach items="${order}" var="order">
                                                     <div class="order-item">
+
                                                         <div class="order-shop">
-                                                            <a href="cartCompletionDetail.jsp">
-                                                                <p class="delivery-status">${order.description}</p>
-                                                            </a>&nbsp;&nbsp;
+                                                            <p class="delivery-status" id="status-${order.orderId}">${order.description}</p>
+                                                            &nbsp;&nbsp;
+
+                                                            <!-- Form dùng để cập nhật trạng thái đơn hàng -->
+                                                            <form action="shipper" method="POST">
+                                                                <!-- Hidden field để gửi orderId -->
+                                                                <input type="hidden" name="orderId" value="${order.orderId}">
+
+                                                                <!-- Dropdown để chọn trạng thái -->
+                                                                <select class="form-control" name="orderStatus" onchange="this.form.submit()">
+                                                                    <option value="">Cập nhật đơn hàng</option>
+                                                                    <option value="2" ${order.description == 'Đơn hàng đã được xác nhận' ? 'selected' : ''}>Confirmed</option>
+                                                                    <option value="3" ${order.description == 'Đơn hàng đã được giao đi' ? 'selected' : ''}>Shipped</option>
+                                                                    <option value="4" ${order.description == 'Đơn hàng đã được giao đến tay khách hàng' ? 'selected' : ''}>Done</option>
+                                                                </select>
+                                                            </form>
                                                         </div>
+
+
                                                         <div class="order-details">
                                                             <div class="product-info">
                                                                 <img src="${order.imageUrl}" class="product-img">

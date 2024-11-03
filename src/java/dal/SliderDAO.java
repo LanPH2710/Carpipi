@@ -167,12 +167,35 @@ public class SliderDAO extends DBContext {
             return false;
         }
     }
+    
+    
+    public int getSliderCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM slider";
 
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1); // Lấy giá trị của cột đầu tiên
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+    
+    
     public static void main(String[] args) {
         SliderDAO dao = new SliderDAO();
         Slider slider = dao.getSliderById(1);
         dao.updateSlider(1, "Au01", "test", "test", 1, "test", null);
         System.out.println(slider.getTitle() + slider.getDescription());
+        
+        int sliderCount = dao.getSliderCount();
+        System.out.println("tong so slider"+sliderCount);
     }
 
 }

@@ -79,6 +79,30 @@ public class BrandDAO extends DBContext {
         return null;
     }
     
+    // Method to get brand details by brandId
+    public Brand getBrandById1(int brandId) {
+        Brand brand = null;
+        String sql = "SELECT * FROM brand WHERE brandId = ?";
+        
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, brandId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    brand = new Brand();
+                    brand.setBrandId(rs.getInt("brandId"));
+                    brand.setName(rs.getString("name"));
+                    brand.setProductCount(rs.getInt("productCount"));
+                    brand.setStatus(rs.getInt("status"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return brand;
+    }
+    
     // Lấy danh sách các brand với số lượng sản phẩm và trạng thái
     public List<Brand> getBrandListWithProductCount() {
     List<Brand> brandList = new ArrayList<>();

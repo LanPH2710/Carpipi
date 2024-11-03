@@ -208,30 +208,34 @@ public class BrandDAO extends DBContext {
         }
         return false;
     }
-    
-    public List<Brand> getTotalRevenueByBrand() {
+public List<Brand> getTotalRevenueByBrand() {
         List<Brand> revenues = new ArrayList<>();
-        String query = "SELECT b.name AS brand_name, " +
-                       "SUM(od.quantity * p.price * (1 + 10 / 100)) AS total_revenue " +
-                       "FROM `order` AS o " +
-                       "JOIN orderdetail AS od ON o.orderId = od.orderId " +
-                       "JOIN product AS p ON od.productId = p.productId " +
-                       "JOIN brand AS b ON p.brandId = b.brandId " +
-                       "WHERE o.orderStatus = 4 " +
-                       "GROUP BY b.name;";
+        String query = "SELECT b.brandId, b.name AS brandName, "
+                + "SUM(od.quantity * p.price * (1 + 10 / 100)) AS totalRevenue "
+                + "FROM `order` AS o "
+                + "JOIN orderdetail AS od ON o.orderId = od.orderId "
+                + "JOIN product AS p ON od.productId = p.productId "
+                + "JOIN brand AS b ON p.brandId = b.brandId "
+                + "WHERE o.orderStatus = 4 "
+                + "GROUP BY b.brandId, b.name;";
 
-        try (
-             PreparedStatement stmt = connection.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
+        try (PreparedStatement stmt = connection.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                String brandName = rs.getString("name");
+                int brandId = rs.getInt("brandId");
+                String brandName = rs.getString("brandName");
                 double totalRevenue = rs.getDouble("totalRevenue");
-                revenues.add(new Brand(brandName, totalRevenue));
+
+                Brand brand = new Brand();
+                brand.setBrandId(brandId);
+                brand.setName(brandName);
+                brand.setTotalRevenue(totalRevenue);
+
+                revenues.add(brand);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle exceptions as appropriate
+            e.printStackTrace(); // Handle exceptions appropriately
         }
 
         return revenues;
@@ -241,8 +245,18 @@ public class BrandDAO extends DBContext {
         //System.out.println(b.getBrandIdByName("Audi"));
         BrandDAO b = new BrandDAO();
     //List<Brand> brandList = b.getBrandListWithProductCount();
-    List<Brand> brandList = b.getAllBrand();
-        System.out.println("");
+    List<Brand> brandList = b.getTotalRevenueByBrand();
+
+if (brandList.isEmpty()) {
+    System.out.println("No brands found with revenue.");
+} else {
+    System.out.println("Brand Revenue:");
+    for (Brand brand : brandList) {
+        System.out.printf("%s\t%.6f%n", brand.getName(), brand.getTotalRevenue());
+    }
+}
+
+        
     // Check if brandList is empty
     
 }

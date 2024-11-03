@@ -22,10 +22,15 @@ public class Brand {
             this.totalRevenue = totalRevenue;
         }
 
+    public double getTotalRevenue() {
+        return totalRevenue;
+    }
+
+    public void setTotalRevenue(double totalRevenue) {
+        this.totalRevenue = totalRevenue;
+    }
+
        
-        public double getTotalRevenue() {
-            return totalRevenue;
-        }
     public Brand() {
     }
 

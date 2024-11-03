@@ -4,6 +4,7 @@
  */
 package dal;
 
+
 import context.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,10 +14,12 @@ import java.util.List;
 import model.Cart;
 import model.Product;
 import dal.*;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import model.Account;
 import model.Color;
-
+import java.sql.Statement;
 /**
  *
  * @author hiule
@@ -69,19 +72,21 @@ public class CartDAO extends DBContext {
 
         return colorIds;
     }
-public Color getColorById(int colorId) {
-    String sql = "SELECT colorId, colorName FROM color WHERE colorId = ?";
-    try (PreparedStatement st = connection.prepareStatement(sql)) {
-        st.setInt(1, colorId);
-        ResultSet rs = st.executeQuery();
-        if (rs.next()) {
-            return new Color(rs.getInt("colorId"), rs.getString("colorName"));
+
+    public Color getColorById(int colorId) {
+        String sql = "SELECT colorId, colorName FROM color WHERE colorId = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, colorId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new Color(rs.getInt("colorId"), rs.getString("colorName"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return null;
     }
-    return null;
-}
+
     public int getQuantityByUserIdAndProductId(int userId, String productId) {
         String sql = "SELECT quantity FROM cart WHERE userId = ? AND productId = ? AND isDeleted = 0";
         int quantity = -1; // Default to -1 if no cart item is found
@@ -158,11 +163,12 @@ public Color getColorById(int colorId) {
         String sql = "UPDATE cart SET isDeleted = 1 WHERE cartId = ? ";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, cartId);
-            
+
             return ps.executeUpdate() > 0; // Trả về true nếu cập nhật thành công
         }
     }
-     public boolean deleteCar(int cartId) {
+
+    public boolean deleteCar(int cartId) {
         String sql = "UPDATE cart SET isDeleted = 1 WHERE cartId = ? and isSelect = 1";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, cartId);
@@ -394,20 +400,21 @@ public Color getColorById(int colorId) {
             throw new SQLException("Error updating cart selection for userId: " + userId + " and productId: " + productId, e);
         }
     }
- public boolean updateStockByCartId(int cartId) {
+
+    public boolean updateStockByCartId(int cartId) {
         String getProductSql = "SELECT productId FROM cart WHERE cartId = ? and isSelect = 1";
         String updateStockSql = "UPDATE product SET stock = stock - 1 WHERE productId = ? AND stock > 0"; // Ensures stock does not go negative
-        
+
         try (PreparedStatement getProductStmt = connection.prepareStatement(getProductSql)) {
             getProductStmt.setInt(1, cartId);
             ResultSet rs = getProductStmt.executeQuery();
-            
+
             if (rs.next()) {
                 String productId = rs.getString("productId");
                 try (PreparedStatement updateStockStmt = connection.prepareStatement(updateStockSql)) {
                     updateStockStmt.setString(1, productId);
                     int rowsAffected = updateStockStmt.executeUpdate();
-                    
+
                     if (rowsAffected > 0) {
                         System.out.println("Stock for product ID " + productId + " has been decremented by 1.");
                         return true;
@@ -425,15 +432,87 @@ public Color getColorById(int colorId) {
         return false;
     }
 
-    // Main method for testing
-    public static void main(String[] args) {
-        CartDAO productDAO = new CartDAO();
-        int testCartId = 1; // Replace with a valid cart ID for testing
-        
-        if (productDAO.updateStockByCartId(testCartId)) {
-            System.out.println("Stock updated successfully.");
-        } else {
-            System.out.println("Stock update failed.");
+        public int addOrder(int userId, String orderName, String email, String phone, double totalPrice, String address, int orderStatus) {
+        int orderId = -1; // ID của đơn hàng sẽ được trả về sau khi chèn
+        LocalDate currentDate = java.time.LocalDate.now();
+        String date = currentDate.toString();
+
+        try {
+            // Thêm dữ liệu vào bảng `order`
+            String sql = "INSERT INTO `order` (`orderDeliverCode`, `userId`, `orderName`, `orderEmai`, `orderPhone`, `totalPrice`, `shippingAddress`, `orderStatus`, `createDate`) "
+                       + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            String deliverCode = "DEL" + (System.currentTimeMillis() % 1000000); // Mã giao hàng ngắn gọn
+            st.setString(1, deliverCode);
+            st.setInt(2, userId);
+            st.setString(3, orderName);
+            st.setString(4, email);
+            st.setString(5, phone);
+            st.setDouble(6, totalPrice);
+            st.setString(7, address);
+            st.setInt(8, orderStatus);
+            st.setString(9, date);
+
+            st.executeUpdate();
+
+            // Lấy ID của đơn hàng vừa chèn
+            ResultSet rs = st.getGeneratedKeys();
+            if (rs.next()) {
+                orderId = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý lỗi
+        }
+
+        return orderId;
+    }
+
+    public void addOrderDetail(int orderId, String productId, int quantity, int colorId, int isFeedback) {
+        try {
+            String sql = "INSERT INTO `orderdetail` (`orderId`, `productId`, `quantity`, `colorId`, `isfeedback`) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, orderId);
+            st.setString(2, productId);
+            st.setInt(3, quantity);
+            st.setInt(4, colorId);
+            st.setInt(5, isFeedback); // Mặc định là 0 hoặc theo giá trị truyền vào
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý lỗi
         }
     }
+
+    public static void main(String[] args) {
+        // Giả lập kết nối cơ sở dữ liệu
+        DBContext dbContext = new DBContext();
+        CartDAO cartDAO = new CartDAO(); // Truyền `Connection` từ DBContext vào CartDAO
+
+        // Thông tin đơn hàng
+        int userId = 1; // ID người dùng giả định
+        String orderName = "John Doe";
+        String email = "johndoe@example.com";
+        String phone = "0123456789";
+        String address = "123 Main Street, District 1, HCMC";
+        String note = "Giao nhanh";
+        double totalPrice = 1000.00;
+        int orderStatus = 1; // Thành công
+
+        // Gọi phương thức addOrder để thêm đơn hàng và nhận về `orderId`
+        int orderId = cartDAO.addOrder(userId, orderName, email, phone, totalPrice, address, orderStatus);
+
+        if (orderId != -1) {
+            // Gọi phương thức addOrderDetail để thêm chi tiết đơn hàng nếu `orderId` hợp lệ
+            String productId = "ME01";
+            int quantity = 2;
+            int colorId = 1;
+            int isFeedback = 0; // Mặc định là 0
+
+            cartDAO.addOrderDetail(orderId, productId, quantity, colorId, isFeedback);
+
+            System.out.println("Đã thêm đơn hàng với ID: " + orderId + " và chi tiết đơn hàng thành công.");
+        } else {
+            System.out.println("Lỗi khi thêm đơn hàng.");
+        }
+    }
+
 }

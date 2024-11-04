@@ -92,7 +92,6 @@ public class BrandDAO extends DBContext {
                     brand = new Brand();
                     brand.setBrandId(rs.getInt("brandId"));
                     brand.setName(rs.getString("name"));
-                    brand.setProductCount(rs.getInt("productCount"));
                     brand.setStatus(rs.getInt("status"));
                 }
             }
@@ -208,6 +207,20 @@ public class BrandDAO extends DBContext {
         }
         return false;
     }
+    
+    public void updateBrand(int brandId, String brandName, int brandStatus) {
+        String query = "UPDATE Brand SET name = ?, status = ? WHERE brandId = ?";
+        
+        try (
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, brandName);
+            ps.setInt(2, brandStatus); // Cập nhật status với giá trị mới
+            ps.setInt(3, brandId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 public List<Brand> getTotalRevenueByBrand() {
         List<Brand> revenues = new ArrayList<>();
         String query = "SELECT b.brandId, b.name AS brandName, "
@@ -243,19 +256,20 @@ public List<Brand> getTotalRevenueByBrand() {
     
     public static void main(String[] args) {
         //System.out.println(b.getBrandIdByName("Audi"));
-        BrandDAO b = new BrandDAO();
-    //List<Brand> brandList = b.getBrandListWithProductCount();
-    List<Brand> brandList = b.getTotalRevenueByBrand();
-
-if (brandList.isEmpty()) {
-    System.out.println("No brands found with revenue.");
-} else {
-    System.out.println("Brand Revenue:");
-    for (Brand brand : brandList) {
-        System.out.printf("%s\t%.6f%n", brand.getName(), brand.getTotalRevenue());
-    }
-}
-
+//        BrandDAO b = new BrandDAO();
+//    //List<Brand> brandList = b.getBrandListWithProductCount();
+//    List<Brand> brandList = b.getTotalRevenueByBrand();
+//
+//if (brandList.isEmpty()) {
+//    System.out.println("No brands found with revenue.");
+//} else {
+//    System.out.println("Brand Revenue:");
+//    for (Brand brand : brandList) {
+//        System.out.printf("%s\t%.6f%n", brand.getName(), brand.getTotalRevenue());
+//    }
+//}
+BrandDAO brandDAO = new BrandDAO();
+brandDAO.updateBrand(1, "New Brand Name", 1);
         
     // Check if brandList is empty
     

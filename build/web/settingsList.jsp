@@ -258,7 +258,6 @@
                                                                     </button>
                                                                 </form>
                                                                 <a href="settingdetail?brandId=${brand.brandId}" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
-                                                                <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
@@ -304,7 +303,7 @@
                                                                         <span class="${style.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
                                                                     </button>
                                                                 </form>
-                                                                <a href="editSetting?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
+                                                                <a href="settingdetail?styleId=${style.styleId}" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
 
                                                             </td>
                                                         </tr>
@@ -344,7 +343,7 @@
                                                                         <span class="${segment.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
                                                                     </button>
                                                                 </form>
-                                                                <a href="editSetting?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
+                                                                <a href="settingdetail?segmentId=${segment.segmentId}" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
 
                                                             </td>
                                                         </tr>
@@ -383,7 +382,7 @@
                                                                         <span class="${supply.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
                                                                     </button>
                                                                 </form>
-                                                                <a href="editSetting?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
+                                                                <a href="settingdetail?supplyId=${supply.supplyId}" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
 
                                                             </td>
                                                         </tr>

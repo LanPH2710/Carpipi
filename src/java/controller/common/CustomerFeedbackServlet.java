@@ -1,7 +1,7 @@
 package controller.common;
 
 import dal.FeedbackDAO;
-import dal.OrderDetail1DAO;
+import dal.OrderDetailDAO;
 import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -92,7 +92,7 @@ public class CustomerFeedbackServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         FeedbackDAO fdao = new FeedbackDAO();
-        OrderDetail1DAO od1dao = new OrderDetail1DAO();
+        OrderDetailDAO od1dao = new OrderDetailDAO();
         String feedbackInfor = request.getParameter("feedbackInfor"); // Đảm bảo đồng nhất tên biến
         int userId = Integer.parseInt(request.getParameter("userId"));
         String productId = request.getParameter("productId");

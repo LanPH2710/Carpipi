@@ -1,6 +1,5 @@
 package controller.shipper;
 
-import dal.OrderDetail1DAO;
 import dal.OrderDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;

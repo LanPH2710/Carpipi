@@ -184,20 +184,6 @@
                                 </div>
                             </div><!--end col-->
 
-                            <!--                            <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
-                                                            <div class="card features feature-primary rounded border-0 shadow p-4">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="icon text-center rounded-md">
-                                                                        <i class="uil uil-medkit h3 mb-0"></i>
-                                                                    </div>
-                                                                    <div class="flex-1 ms-2">
-                                                                        <h5 class="mb-0">${orderCount}</h5>
-                                                                        <p class="text-muted mb-0">order</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>end col-->
-
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
                                 <a href="SliderList" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
@@ -214,27 +200,11 @@
                         </div><!--end row-->
 
                         <div class="row">
-                            <!--                            <div class="col-xl-8 col-lg-7 mt-4">
-                                                            <div class="card shadow border-0 p-4">
-                                                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                    <h6 class="align-items-center mb-0">Customer by Gender</h6>
-                                                                    
-                                                                    <div class="mb-0 position-relative">
-                                                                        <select class="form-select form-control" id="yearchart">
-                                                                            <option selected>2020</option>
-                                                                            <option value="2019">2019</option>
-                                                                            <option value="2018">2018</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div id="dashboard" class="apex-chart"></div>
-                                                            </div>
-                                                        </div>end col-->
 
 
                             <div class="col-xl-8 col-lg-7 mt-4">
                                 <div>
-                                    <h2>Product Sales Chart</h2>
+                                    <h2>5 san pham ban chay nhat</h2>
                                     <div style="width: 700px; margin: auto;"> <!-- Set a specific width for the chart -->
                                         <canvas id="productSalesChart" width="500" height="400"></canvas>
                                     </div>
@@ -263,7 +233,7 @@
                                         data: {
                                             labels: labels,
                                             datasets: [{
-                                                    label: 'Total Quantity Sold',
+                                                    label: 'Tong so luong san pham duoc ban',
                                                     data: data,
                                                     backgroundColor: [
                                                         'rgba(255,99,132,0.2)',
@@ -284,8 +254,38 @@
                                         },
                                         options: {
                                             scales: {
+                                                x: {
+                                                    beginAtZero: true,
+                                                    ticks: {
+                                                        font: {
+                                                            size: 16 // Set x-axis label font size
+                                                        }
+                                                    }
+                                                },
                                                 y: {
-                                                    beginAtZero: true
+                                                    beginAtZero: true,
+                                                    ticks: {
+                                                        font: {
+                                                            size: 16 // Set y-axis label font size
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            plugins: {
+                                                legend: {
+                                                    labels: {
+                                                        font: {
+                                                            size: 18 // Set legend font size
+                                                        }
+                                                    }
+                                                },
+                                                tooltip: {
+                                                    bodyFont: {
+                                                        size: 20 // Set tooltip font size when hovering
+                                                    },
+                                                    titleFont: {
+                                                        size: 20 // Set tooltip title font size
+                                                    }
                                                 }
                                             }
                                         }
@@ -294,60 +294,86 @@
                             </div>
 
                             <div class="col-xl-4 col-lg-5 mt-4">
-                                <div style="width: 700px; margin: auto; margin-top: 50px;"> <!-- Adjust margin-top for spacing -->
-                                    <h2>Customer Feedback Analysis</h2>
-                                    <canvas id="customerFeedbackChart" width="500" height="400"></canvas>
+                                <div>
+                                    <h2>doanh thu theo thuong hieu</h2>
+                                    <div style="width: 400px; margin: auto; margin-top: 50px;"> 
+
+                                        <canvas id="brandRevenuePie" width="500" height="400"></canvas>
+                                    </div>
                                 </div>
 
                                 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
 
                                 <script>
-                                    // Define the data for the chart
-                                    const data = {
-                                        labels: [
-                                            'Red',
-                                            'Blue',
-                                            'Yellow'
-                                        ],
+                                    // Prepare data for Brand Revenue Pie Chart
+                                    const brandRevenueData = {
+                                        labels: [], // This will hold the brand names
                                         datasets: [{
-                                                label: 'My First Dataset',
-                                                data: [300, 50, 100],
+                                                label: 'Doanh thu',
+                                                data: [], // This will hold the corresponding revenue values
                                                 backgroundColor: [
-                                                    'rgb(255, 99, 132)',
-                                                    'rgb(54, 162, 235)',
-                                                    'rgb(255, 205, 86)'
+                                                    'rgba(255, 99, 132,0.2)',
+                                                    'rgba(54, 162, 235,0.2)',
+                                                    'rgba(255, 205, 86,0.2)',
+                                                    'rgba(75, 192, 192,0.2)',
+                                                    'rgba(153, 102, 255,0.2)',
+                                                    'rgba(255, 159, 64,0.2)'
                                                 ],
-                                                hoverOffset: 4
+                                                borderColor: [
+                                                    'rgba(255, 99, 132,1)',
+                                                    'rgba(54, 162, 235,1)',
+                                                    'rgba(255, 205, 86,1)',
+                                                    'rgba(75, 192, 192,1)',
+                                                    'rgba(153, 102, 255,1)',
+                                                    'rgba(255, 159, 64,1)'
+                                                ]
                                             }]
                                     };
 
-                                    // Define the configuration options for the chart
-                                    const config = {
-                                        type: 'doughnut',
-                                        data: data,
+                                    // Fetch total revenue from the request attribute using JSTL
+                                    <c:forEach var="totalBrandRevenue" items="${totalBrandRevenue}">
+                                    brandRevenueData.labels.push('${totalBrandRevenue.name}');
+                                    brandRevenueData.datasets[0].data.push(${totalBrandRevenue.totalRevenue}); // Ensure property name matches
+                                    </c:forEach>
+
+                                    // Chart configuration
+                                    const brandRevenueConfig = {
+                                        type: 'pie', // or 'doughnut' if you prefer a doughnut chart
+                                        data: brandRevenueData,
+                                        options: {
+                                            plugins: {
+                                                legend: {
+                                                    labels: {
+                                                        font: {
+                                                            size: 18 // Set legend font size
+                                                        }
+                                                    }
+                                                },
+                                                tooltip: {
+                                                    bodyFont: {
+                                                        size: 20 // Set tooltip font size when hovering
+                                                    },
+                                                    titleFont: {
+                                                        size: 20 // Set tooltip title font size
+                                                    }
+                                                }
+                                            },
+                                            interaction: {
+                                                mode: 'nearest', // Define interaction mode
+                                                intersect: false
+                                            }
+                                        }
                                     };
 
-                                    // Initialize the chart
-                                    const feedbackCtx = document.getElementById('customerFeedbackChart').getContext('2d');
-                                    const customerFeedbackChart = new Chart(feedbackCtx, config);
+                                    // Create the chart
+                                    const brandRevenueCtx = document.getElementById('brandRevenuePie').getContext('2d');
+                                    const brandRevenueChart = new Chart(brandRevenueCtx, brandRevenueConfig);
                                 </script>
+
                             </div>
 
-<!--                            <div class="col-xl-4 col-lg-5 mt-4">
-                                <div class="card shadow border-0 p-4">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h6 class="align-items-center mb-0">Patients by Department</h6>
 
-                                        <div class="mb-0 position-relative">
-                                            <select class="form-select form-control" id="dailychart">
-                                                <option selected>Today</option>
-                                                <option value="2019">Yesterday</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div id="department" class="apex-chart"></div>
-                                </div>
-                            </div>end col-->
+
                         </div><!--end row-->
 
 
@@ -358,15 +384,7 @@
         </div><!--end container-->
 
         <!-- Footer Start -->
-        <footer class="bg-white shadow py-3">
-            <div class="container-fluid">
-                <div class="row align-items-center">
-                    <div class="col">
 
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end container-->
-        </footer><!--end footer-->
         <!-- End -->
     </main>
     <!--End page-content" -->

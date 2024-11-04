@@ -26,7 +26,7 @@
     
     <div class="navbar">
        
-        <a href="orderlistforsale">Order List</a>
+        <a href="orderlist">Order List</a>
         
        
     </div>

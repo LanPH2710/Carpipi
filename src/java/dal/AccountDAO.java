@@ -777,14 +777,14 @@ public class AccountDAO extends DBContext {
         return account != null;
     }
     
-    public List<Account> getAccountByRoleId(String roleId){
+    public List<Account> getAccountByRole(){
         
         List<Account> list = new ArrayList<>();
         
          String sql = "select * from Account where roleId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, roleId);
+            st.setString(1, "3");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Account account = new Account(rs.getInt(1),
@@ -830,7 +830,8 @@ public class AccountDAO extends DBContext {
     
     public static void main(String[] args) {
         AccountDAO add = new AccountDAO();
-        
+        List<Account> acc = add.getAccountByRole();
+        System.out.println(acc);
         
         int customerCount = add.getCustomerCount();
         System.out.println("Số lượng customer: " + customerCount);

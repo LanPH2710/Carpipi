@@ -15,7 +15,22 @@ public class Brand {
     private String image;
     private int status;
     private int productCount;
+    private double totalRevenue;
 
+        public Brand(String name, double totalRevenue) {
+            this.name = name;
+            this.totalRevenue = totalRevenue;
+        }
+
+    public double getTotalRevenue() {
+        return totalRevenue;
+    }
+
+    public void setTotalRevenue(double totalRevenue) {
+        this.totalRevenue = totalRevenue;
+    }
+
+       
     public Brand() {
     }
 

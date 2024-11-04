@@ -1,4 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="java.util.List" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -56,35 +60,7 @@
                     </div>
                     <ul class="sidebar-menu pt-3">
 
-                        <c:choose>
-                            <c:when test="${sessionScope.account.roleId == 1}">
-                                <li><a href="admin"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                                </c:when>
-                                <c:when test="${sessionScope.account.roleId == 2}">
-                                <li><a href="marketingdashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                                </c:when>
-                            </c:choose>
-                        <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
-                        <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
-                        <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
-                            <c:choose>
-                                <c:when test="${sessionScope.account.roleId == 1}">
-                                <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
-                                </c:when>
-                            </c:choose>
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)">
-                                <i class="uil uil-flip-h me-2 d-inline-block"></i>Posts List</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="postlist">Tất cả bài viết</a></li>
-                                        <c:forEach items="${topic}" var="t">
-                                        <li><a href="postlist?topic=${t.blogTopicId}">${t.toppicName}</a></li>
-                                        </c:forEach>
-                                </ul>
-                            </div>
-                        </li>
-                        <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
+                        <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block"></i>Order List</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -133,8 +109,8 @@
                                             <i class="uil uil-bed h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
-                                            <h5 class="mb-0"> ${blogCount}</h5>
-                                            <p class="text-muted mb-0">post</p>
+                                            <h5 class="mb-0"> <fmt:formatNumber value="${total}" type="number" pattern="#,###"/></h5>
+                                            <p class="text-muted mb-0">total</p>
                                         </div>
                                     </div>
                                 </a>
@@ -147,7 +123,7 @@
                                             <i class="uil uil-file-medical-alt h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">${productCount}</h5>
+                                            <h5 class="mb-0"></h5>
                                             <p class="text-muted mb-0">product</p>
                                         </div>
                                     </div>
@@ -161,7 +137,7 @@
                                             <i class="uil uil-social-distancing h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">${customerCount}</h5>
+                                            <h5 class="mb-0"></h5>
                                             <p class="text-muted mb-0">customer</p>
                                         </div>
                                     </div>
@@ -176,7 +152,7 @@
                                             <i class="uil uil-ambulance h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">${totalQuantitySold}</h5>
+                                            <h5 class="mb-0"></h5>
                                             <p class="text-muted mb-0">total Sale Product</p>
                                         </div>
                                     </div>
@@ -191,7 +167,7 @@
                                             <i class="uil uil-medical-drip h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">${sliderCount}</h5>
+                                            <h5 class="mb-0"></h5>
                                             <p class="text-muted mb-0">slider Count</p>
                                         </div>
                                     </div>
@@ -204,36 +180,37 @@
 
                             <div class="col-xl-8 col-lg-7 mt-4">
                                 <div>
-                                    <h2>5 san pham ban chay nhat</h2>
-                                    <div style="width: 700px; margin: auto;"> <!-- Set a specific width for the chart -->
+                                    <h2>top 5 nhan vien cua nam</h2>
+                                    <div style="width: 700px; margin: auto;">
                                         <canvas id="productSalesChart" width="500" height="400"></canvas>
                                     </div>
                                 </div>
+
                                 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
 
-
                                 <script>
-                                    // Prepare product data for the chart
-                                    const products = [];
-                                    <c:forEach var="product" items="${productSale}">
-                                    products.push({
-                                        name: '${product.name}',
-                                        totalQuantitySold: ${product.totalQuantitySold}
+                               
+                                    // Chuẩn bị dữ liệu từ orderCount để hiển thị trên biểu đồ
+                                    const orders = [];
+                                    <c:forEach var="order" items="${orderCount}">
+                                    orders.push({
+                                        name: '${order.saleName}',
+                                        totalQuantitySold: ${order.totalOrders}
                                     });
                                     </c:forEach>
 
-                                    // Create arrays for labels and data
-                                    const labels = products.map(product => product.name); // Product names
-                                    const data = products.map(product => product.totalQuantitySold); // Total quantities sold
+                                    // Tạo mảng labels và data từ sản phẩm
+                                    const labels = orders.map(order => order.name); // Tên nhân viên
+                                    const data = orders.map(order => order.totalQuantitySold); // Số lượng sản phẩm đã bán
 
-                                    // Create the chart
+                                    // Tạo biểu đồ
                                     const ctx = document.getElementById('productSalesChart').getContext('2d');
                                     const myChart = new Chart(ctx, {
                                         type: 'bar',
                                         data: {
                                             labels: labels,
                                             datasets: [{
-                                                    label: 'Tong so luong san pham duoc ban',
+                                                    label: 'Tổng Số don bán',
                                                     data: data,
                                                     backgroundColor: [
                                                         'rgba(255,99,132,0.2)',
@@ -256,42 +233,27 @@
                                             scales: {
                                                 x: {
                                                     beginAtZero: true,
-                                                    ticks: {
-                                                        font: {
-                                                            size: 16 // Set x-axis label font size
-                                                        }
-                                                    }
+                                                    ticks: {font: {size: 16}}
                                                 },
                                                 y: {
                                                     beginAtZero: true,
-                                                    ticks: {
-                                                        font: {
-                                                            size: 16 // Set y-axis label font size
-                                                        }
-                                                    }
+                                                    ticks: {font: {size: 16}}
                                                 }
                                             },
                                             plugins: {
                                                 legend: {
-                                                    labels: {
-                                                        font: {
-                                                            size: 18 // Set legend font size
-                                                        }
-                                                    }
+                                                    labels: {font: {size: 18}}
                                                 },
                                                 tooltip: {
-                                                    bodyFont: {
-                                                        size: 20 // Set tooltip font size when hovering
-                                                    },
-                                                    titleFont: {
-                                                        size: 20 // Set tooltip title font size
-                                                    }
+                                                    bodyFont: {size: 20},
+                                                    titleFont: {size: 20}
                                                 }
                                             }
                                         }
                                     });
                                 </script>
                             </div>
+
 
                             <div class="col-xl-4 col-lg-5 mt-4">
                                 <div>

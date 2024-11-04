@@ -2,31 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.sale;
+package controller.common;
 
-import dal.AccountDAO;
-import dal.ColorDAO;
-import dal.OrderDAO;
-import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import dal.*;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
-import model.Account;
-import model.Order;
-import model.OrderDetail;
-import model.OrderStatus;
-import model.Product;
-import model.ProductImage;
+import model.*;
 
 /**
  *
- * @author Sonvu
+ * @author nguye
  */
-public class OrderListForSaleServlet extends HttpServlet {
+public class OrderInformationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,28 +34,17 @@ public class OrderListForSaleServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        AccountDAO accountDao = new AccountDAO();
-        Order order = new Order();
-        OrderDAO orderDao = new OrderDAO();
-        ColorDAO colorDao = new ColorDAO();
-        ProductDAO p = new ProductDAO();
-        Product product = new Product();
-        ProductImage image = new ProductImage();
-
-        List<OrderDetail> orderList = orderDao.getAllOrderList();
-
-        List<OrderStatus> listStatusOrder = orderDao.getListOrderStatus();
-
-        List<Account> allSaleName = accountDao.getAccountByRoleId("3");
-
-        for (Account account : allSaleName) {
-            System.out.println(account.getUserId());
-            System.out.println(account.getLastName());
-
+        HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("account");
+        if (acc == null) {
+            response.sendRedirect("login.jsp"); // Chuyển hướng về trang login nếu không có tài khoản
+            return;
         }
-        request.setAttribute("allSaleName", allSaleName);
-        request.setAttribute("listStatusOrder", listStatusOrder);
-        request.setAttribute("orderList", orderList);
+        String orIdParam = request.getParameter("orderId");
+        OrderDAO orDao = new OrderDAO();
+        List<OrderDetail> orderInfor = orDao.getOrderInforById(orIdParam);
+        request.setAttribute("orderInfor", orderInfor);
+        request.getRequestDispatcher("orderInformation.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -76,14 +59,7 @@ public class OrderListForSaleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         processRequest(request, response);
-
-        String status = request.getParameter("status");
-        System.out.println("status: " + status);
-        System.out.println("===================================================");
-        request.getRequestDispatcher("orderlistforsale.jsp").forward(request, response);
-
     }
 
     /**
@@ -98,20 +74,6 @@ public class OrderListForSaleServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
-        String status = request.getParameter("status");
-        System.out.println("status: " + status);
-        
-        OrderDAO orderDao = new OrderDAO();
-        List<OrderDetail> orderList = orderDao.getListOrderWithStatus(status);
-        
-        
-        
-        request.setAttribute("status", status);
-        request.setAttribute("orderList", orderList);
-        System.out.println("---------------------------");
-
-        request.getRequestDispatcher("orderlistforsale.jsp").forward(request, response);
     }
 
     /**

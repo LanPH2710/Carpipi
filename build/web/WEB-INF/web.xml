@@ -167,18 +167,32 @@
         <servlet-class>controller.common.CustomerFeedbackServlet</servlet-class>
     </servlet>
     <servlet>
-
         <servlet-name>ShipperServlet</servlet-name>
         <servlet-class>controller.shipper.ShipperServlet</servlet-class>
-</servlet>
-<servlet>
+    </servlet>
+    <servlet>
         <servlet-name>MktDashboardServlet</servlet-name>
         <servlet-class>controller.marketing.MktDashboardServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SettingDetailServlet</servlet-name>
         <servlet-class>controller.admin.SettingDetailServlet</servlet-class>
-
+    </servlet>
+    <servlet>
+        <servlet-name>AdminDashBoardServlet</servlet-name>
+        <servlet-class>controller.admin.AdminDashBoardServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderInformationServlet</servlet-name>
+        <servlet-class>controller.common.OrderInformationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DashboardForSaleServlet</servlet-name>
+        <servlet-class>controller.sale.DashboardForSaleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaleCheckServlet</servlet-name>
+        <servlet-class>controller.sale.SaleCheckServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
@@ -317,17 +331,31 @@
         <url-pattern>/customerfeedback</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>ShipperServlet</servlet-name>
         <url-pattern>/shipper</url-pattern>
-</servlet-mapping>
- <servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>MktDashboardServlet</servlet-name>
         <url-pattern>/marketingdashboard</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SettingDetailServlet</servlet-name>
         <url-pattern>/settingdetail</url-pattern>
-
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminDashBoardServlet</servlet-name>
+        <url-pattern>/admindashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderInformationServlet</servlet-name>
+        <url-pattern>/orderInfor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardForSaleServlet</servlet-name>
+        <url-pattern>/dashboardforsale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaleCheckServlet</servlet-name>
+        <url-pattern>/salecheck</url-pattern>
     </servlet-mapping>
 </web-app>

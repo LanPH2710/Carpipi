@@ -3,14 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.marketing;
+package controller.sale;
 
-import dal.AccountDAO;
-import dal.BlogDAO;
-import dal.BrandDAO;
 import dal.OrderDAO;
-import dal.ProductDAO;
-import dal.SliderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,14 +13,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import model.Brand;
-import model.Product;
+import model.Order;
 
 /**
  *
- * @author ADMIN
+ * @author Sonvu
  */
-public class MktDashboardServlet extends HttpServlet {
+public class DashboardForSaleServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -42,10 +36,10 @@ public class MktDashboardServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MktDashboardServlet</title>");  
+            out.println("<title>Servlet DashboardForSaleServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet MktDashboardServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DashboardForSaleServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,34 +56,16 @@ public class MktDashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        BlogDAO blogDAO = new BlogDAO();
-        ProductDAO productDAO = new ProductDAO();
-        AccountDAO accountDAO = new AccountDAO();
-        SliderDAO sliderDAO = new SliderDAO();
-        //OrderDAO orderDAO = new OrderDAO();
-        BrandDAO brandDAO = new BrandDAO();
+        OrderDAO orderDAO = new OrderDAO();
         
-        // Lấy số lượng blog từ BlogDAO
-        int blogCount = blogDAO.getBlogCount();
-        int productCount = productDAO.getProductCount();
-        int customerCount = accountDAO.getCustomerCount();
-        List<Product> productSale = productDAO.getTop5ProductsByTotalQuantitySold();
-        int totalQuantitySold = productDAO.getTotalQuantitySold();
-        int sliderCount = sliderDAO.getSliderCount();
-        List<Brand> totalBrandRevenue = brandDAO.getTotalRevenueByBrand();
-        //int orderCount = orderDAO.getOrderCount();
-        // Đưa số lượng blog vào request attribute
-        request.setAttribute("blogCount", blogCount);
-        request.setAttribute("productCount", productCount);
-        request.setAttribute("customerCount", customerCount);
-        request.setAttribute("productSale", productSale);
-        request.setAttribute("totalQuantitySold", totalQuantitySold);
-        request.setAttribute("sliderCount", sliderCount);
-        request.setAttribute("totalBrandRevenue", totalBrandRevenue);
-        //request.setAttribute("orderCount", orderCount);
-        // Chuyển tiếp tới trang JSP để hiển thị
-        request.getRequestDispatcher("marketingdashboard.jsp").forward(request, response);
-    }
+        double total = orderDAO.getTotalPrice();
+        List<Order> orderCount = orderDAO.getTop5SalerByOrder();
+        
+        System.out.println(total);
+        request.setAttribute("total", total);
+        request.setAttribute("orderCount", orderCount);
+        request.getRequestDispatcher("dashboardforsale.jsp").forward(request, response);
+    } 
 
     /** 
      * Handles the HTTP <code>POST</code> method.

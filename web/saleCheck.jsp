@@ -203,7 +203,7 @@
                         <li>
                             <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
                         </li>
-                        <li><a href="shipper"><i class="uil uil-cube me-2 d-inline-block"></i>Vận chuyển</a></li>
+                        <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -288,10 +288,12 @@
                                     <div class="header">
                                         <c:set var="currentStatusId" value="${param.statusId != null ? param.statusId : 0}" />
                                         <ul class="tabs">
-                                            <li class="${currentStatusId == 0 ? 'active' : ''}"><a href="shipper">Tất cả</a></li>
-                                            <li class="${currentStatusId == 2 ? 'active' : ''}"><a href="shipper?statusId=2">Đã xác nhận</a></li>
-                                            <li class="${currentStatusId == 3 ? 'active' : ''}"><a href="shipper?statusId=3">Chờ giao hàng</a></li>
-                                            <li class="${currentStatusId == 4 ? 'active' : ''}"><a href="shipper?statusId=4">Hoàn thành</a></li>
+                                            <li class="${currentStatusId == 0 ? 'active' : ''}"><a href="salecheck">Tất cả</a></li>
+                                            <li class="${currentStatusId == 1 ? 'active' : ''}"><a href="salecheck?statusId=1">Chờ xác nhận</a></li>
+                                            <li class="${currentStatusId == 2 ? 'active' : ''}"><a href="salecheck?statusId=2">Đã xác nhận</a></li>
+                                            <li class="${currentStatusId == 3 ? 'active' : ''}"><a href="salecheck?statusId=3">Chờ giao hàng</a></li>
+                                            <li class="${currentStatusId == 4 ? 'active' : ''}"><a href="salecheck?statusId=4">Hoàn thành</a></li>
+                                            <li class="${currentStatusId == 5 ? 'active' : ''}"><a href="salecheck?statusId=5">Đã hủy</a></li>
                                         </ul>
                                     </div>
                                     <div class="order-list">
@@ -339,54 +341,24 @@
                                                             &nbsp;&nbsp;
 
                                                             <!-- Form dùng để cập nhật trạng thái đơn hàng -->
-                                                            <form id="orderForm" action="shipper" method="POST">
+                                                            <form id="orderForm" action="salecheck" method="POST">
                                                                 <!-- Hidden field để gửi orderId -->
                                                                 <input type="hidden" name="orderId" value="${order.orderId}">
 
-                                                                <!-- Kiểm tra trạng thái và chỉ hiển thị select nếu orderStatus khác 4 -->
-                                                                <c:if test="${order.orderStatus != 4}">
-                                                                    <!-- Dropdown để chọn trạng thái -->
-                                                                    <select class="form-control" name="orderStatus" onchange="checkAndSubmit(this)">
-                                                                        <option value="">Cập nhật đơn hàng</option>
-                                                                        <option value="3" ${order.orderStatus == 3 ? 'selected' : ''}>Shipped</option>
-                                                                        <option value="4" ${order.orderStatus == 4 ? 'selected' : ''}>Done</option>
-                                                                    </select>
+                                                                <!-- Kiểm tra trạng thái và chỉ hiển thị nút nếu orderStatus == 1 -->
+                                                                <c:if test="${order.orderStatus == 1}">
+                                                                    <!-- Nút xác nhận đơn hàng -->
+                                                                    <button type="submit" class="btn btn-success" name="orderStatus" value="2" onclick="return confirm('Bạn có chắc muốn xác nhận đơn hàng này?');">
+                                                                        Xác nhận
+                                                                    </button>
+
+                                                                    <!-- Nút hủy đơn hàng -->
+                                                                    <button type="submit" class="btn btn-danger" name="orderStatus" value="5" onclick="return confirm('Bạn có chắc muốn hủy đơn hàng này?');">
+                                                                        Hủy đơn
+                                                                    </button>
                                                                 </c:if>
                                                             </form>
-
-                                                            <script>
-                                                                // Lưu trạng thái hiện tại khi trang được tải
-                                                                const currentStatus = "${order.orderStatus}";
-
-                                                                function checkAndSubmit(selectElement) {
-                                                                    // Lấy giá trị mới từ dropdown
-                                                                    const newStatus = selectElement.value;
-
-                                                                    // Nếu giá trị mới là "" thì không làm gì
-                                                                    if (newStatus === "") {
-                                                                        return;
-                                                                    }
-
-                                                                    // Kiểm tra nếu giá trị mới khác với giá trị hiện tại
-                                                                    if (newStatus !== currentStatus) {
-                                                                        // Hiển thị hộp thoại xác nhận
-                                                                        const confirmUpdate = confirm("Bạn muốn cập nhật đơn hàng này?");
-                                                                        if (confirmUpdate) {
-                                                                            // Gửi form nếu người dùng chọn "Có"
-                                                                            document.getElementById("orderForm").submit();
-                                                                        } else {
-                                                                            // Nếu chọn "Không", khôi phục lại giá trị ban đầu
-                                                                            selectElement.value = currentStatus;
-                                                                        }
-                                                                    } else {
-                                                                        // Nếu không thay đổi, thông báo và không gửi form
-                                                                        alert("Trạng thái đơn hàng không thay đổi.");
-                                                                    }
-                                                                }
-                                                            </script>
                                                         </div>
-
-
                                                         <c:forEach items="${orderDetailsMap[order.orderId]}" var="detail">
                                                             <div class="order-item">
                                                                 <div class="product-info">
@@ -426,7 +398,7 @@
                                     <span class="text-muted me-3">Showing <b>${page}</b> out of <b>${num}</b> pages customers</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${page > 1}">
-                                            <li class="page-item"><a class="page-link" href="shipper?page=${page - 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Previous">Prev</a></li>
+                                            <li class="page-item"><a class="page-link" href="salecheck?page=${page - 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Previous">Prev</a></li>
                                             </c:if>
                                             <c:forEach begin="${(page - 1) <= 1 ? 1 : (page - 1)}" end="${page + 1 > num ? num : page + 1}" var="i">
                                                 <c:choose>
@@ -434,12 +406,12 @@
                                                     <li class="page-item active"><a class="page-link">${i}</a></li>
                                                     </c:when>
                                                     <c:otherwise>
-                                                    <li class="page-item"><a href="shipper?page=${i}&statusId=${statusId}&keyword=${keyword}" class="page-link">${i}</a></li>
+                                                    <li class="page-item"><a href="salecheck?page=${i}&statusId=${statusId}&keyword=${keyword}" class="page-link">${i}</a></li>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </c:forEach>
                                             <c:if test="${page < num}">
-                                            <li class="page-item"><a class="page-link" href="shipper?page=${page + 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Next">Next</a></li>
+                                            <li class="page-item"><a class="page-link" href="salecheck?page=${page + 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Next">Next</a></li>
                                             </c:if>
                                     </ul>
                                 </div>

@@ -78,12 +78,12 @@
             <div class="col-9 menu">
                 <c:choose>
                     <c:when test="${sessionScope.account.roleId == 1}">
-                        <span class="headerN"><a href="admin">Admin</a></span>
+                        <span class="headerN"><a href="admindashboard">Admin</a></span>
                     </c:when>
                 </c:choose>
                 <c:choose>
                     <c:when test="${sessionScope.account.roleId == 2}">
-                        <span class="headerN"><a href="marketing">Makerting</a></span>
+                        <span class="headerN"><a href="marketingdashboard">Makerting</a></span>
                     </c:when>
                 </c:choose>
                 <c:choose>

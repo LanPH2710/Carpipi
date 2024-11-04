@@ -29,6 +29,43 @@ public class Product {
     private List<ProductImage> images;
     private List<Color> colorList;
     private int totalQuantitySold;
+    private double totalRevenue;
+
+    public Product(String name, double totalRevenue) {
+        this.name = name;
+        this.totalRevenue = totalRevenue;
+    }
+
+    public Product(String productId, String name, int seatNumber, double price, String fuel, int stock, String description, double VAT, int supplyId, int brandId, int segmentId, int styleId, int status, List<ProductImage> images, List<Color> colorList, int totalQuantitySold, double totalRevenue) {
+        this.productId = productId;
+        this.name = name;
+        this.seatNumber = seatNumber;
+        this.price = price;
+        this.fuel = fuel;
+        this.stock = stock;
+        this.description = description;
+        this.VAT = VAT;
+        this.supplyId = supplyId;
+        this.brandId = brandId;
+        this.segmentId = segmentId;
+        this.styleId = styleId;
+        this.status = status;
+        this.images = images;
+        this.colorList = colorList;
+        this.totalQuantitySold = totalQuantitySold;
+        this.totalRevenue = totalRevenue;
+    }
+
+    public double getTotalRevenue() {
+        return totalRevenue;
+    }
+
+    public void setTotalRevenue(double totalRevenue) {
+        this.totalRevenue = totalRevenue;
+    }
+    
+    
+     
     public List<Color> getColorList() {
         return colorList;
     }

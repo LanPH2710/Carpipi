@@ -3,12 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.marketing;
+package controller.admin;
 
 import dal.AccountDAO;
 import dal.BlogDAO;
-import dal.BrandDAO;
-import dal.OrderDAO;
+import dal.FeedbackDAO;
 import dal.ProductDAO;
 import dal.SliderDAO;
 import java.io.IOException;
@@ -18,14 +17,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import model.Brand;
+import model.Account;
+import model.Feedback;
 import model.Product;
 
 /**
  *
- * @author ADMIN
+ * @author tuana
  */
-public class MktDashboardServlet extends HttpServlet {
+public class AdminDashBoardServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -42,10 +42,10 @@ public class MktDashboardServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MktDashboardServlet</title>");  
+            out.println("<title>Servlet AdminDashBoardServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet MktDashboardServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet AdminDashBoardServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,17 +66,19 @@ public class MktDashboardServlet extends HttpServlet {
         ProductDAO productDAO = new ProductDAO();
         AccountDAO accountDAO = new AccountDAO();
         SliderDAO sliderDAO = new SliderDAO();
+        FeedbackDAO fdao = new FeedbackDAO();
         //OrderDAO orderDAO = new OrderDAO();
-        BrandDAO brandDAO = new BrandDAO();
-        
         // Lấy số lượng blog từ BlogDAO
         int blogCount = blogDAO.getBlogCount();
         int productCount = productDAO.getProductCount();
         int customerCount = accountDAO.getCustomerCount();
-        List<Product> productSale = productDAO.getTop5ProductsByTotalQuantitySold();
+        int staffCount = accountDAO.getStaffCount();
+        int feedbackCount = fdao.getFeedbackCount();
+        List<Feedback> feedbackRate = fdao.getFeedbackRateByBrand();
+        List<Account> staff = accountDAO.getStaff();
+        List<Product> productSale = productDAO.getProductsWithTotalQuantitySold();
         int totalQuantitySold = productDAO.getTotalQuantitySold();
         int sliderCount = sliderDAO.getSliderCount();
-        List<Brand> totalBrandRevenue = brandDAO.getTotalRevenueByBrand();
         //int orderCount = orderDAO.getOrderCount();
         // Đưa số lượng blog vào request attribute
         request.setAttribute("blogCount", blogCount);
@@ -85,10 +87,13 @@ public class MktDashboardServlet extends HttpServlet {
         request.setAttribute("productSale", productSale);
         request.setAttribute("totalQuantitySold", totalQuantitySold);
         request.setAttribute("sliderCount", sliderCount);
-        request.setAttribute("totalBrandRevenue", totalBrandRevenue);
+        request.setAttribute("feedbackBrand", feedbackRate);
+        request.setAttribute("staffCount", staffCount);
+        request.setAttribute("staff", staff);
+        request.setAttribute("feedbackCount", feedbackCount);
         //request.setAttribute("orderCount", orderCount);
         // Chuyển tiếp tới trang JSP để hiển thị
-        request.getRequestDispatcher("marketingdashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("adminDashboard.jsp").forward(request, response);
     }
 
     /** 

@@ -1,6 +1,6 @@
 package controller.common;
 
-import dal.OrderDetail1DAO;
+import dal.OrderDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -9,9 +9,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Account;
-import model.OrderDetail1;
+import model.Order;
+import model.OrderDetail;
 
 /**
  *
@@ -58,8 +61,9 @@ public class MyOrderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        OrderDetail1DAO oddao1 = new OrderDetail1DAO();
-        List<OrderDetail1> myOrder = new ArrayList<>();
+        OrderDetailDAO oddao1 = new OrderDetailDAO();
+        List<Order> myOrder = new ArrayList<>();
+        Map<Integer, List<OrderDetail>> orderDetailsMap = new HashMap<>();
         Account acc = (Account) session.getAttribute("account");
         if (acc == null) {
             response.sendRedirect("login.jsp"); // Chuyển hướng về trang login nếu không có tài khoản
@@ -79,13 +83,14 @@ public class MyOrderServlet extends HttpServlet {
             }
         }
         if (statusId > 0) {
-            myOrder = oddao1.getOrderDetailByStatus(userId, statusId);
-        } else if (keyword != null) {
-            myOrder = oddao1.getOrderDetailName(userId, keyword);
+            myOrder = oddao1.getOrderByStatus(userId, statusId);
         } else {
-            myOrder = oddao1.getAllOrderDetail(userId);
+            myOrder = oddao1.getOrderByUserId(userId);
         }
-
+        for (Order order : myOrder) {
+            List<OrderDetail> orderDetails = oddao1.getOrderDetail(order.getOrderId());
+            orderDetailsMap.put(order.getOrderId(), orderDetails);
+        }
         // Phân trang
         int page, numperpage = 2;
         int size = myOrder.size();
@@ -101,6 +106,7 @@ public class MyOrderServlet extends HttpServlet {
         myOrder = oddao1.getMyOrderListByPage(myOrder, start, end);
 
         request.setAttribute("myOrder", myOrder);
+        request.setAttribute("orderDetailsMap", orderDetailsMap);
         request.setAttribute("page", page);
         request.setAttribute("statusId", statusId);
         request.setAttribute("keyword", keyword);

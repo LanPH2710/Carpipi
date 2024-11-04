@@ -201,7 +201,7 @@
                     </div>
                     <ul class="sidebar-menu pt-3">
                         <li>
-                            <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
+                            <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
                         </li>
                         <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
                     </ul>
@@ -407,7 +407,9 @@
                                                             </p>
                                                         </div>
                                                         <div class="button-container">
-                                                            <button class="return-btn">Thông tin đơn hàng</button>
+                                                            <a href="orderInfor?orderId=${order.orderId}">
+                                                                <button class="return-btn">Thông tin đơn hàng</button>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </c:forEach>

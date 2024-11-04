@@ -215,7 +215,7 @@
                     </div>
                     <ul class="sidebar-menu pt-3">
                         <li>
-                            <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
+                            <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
                         </li>
                         <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
                     </ul>
@@ -391,10 +391,6 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
-
-
-
-
                                 </div>
                             </div><!--end row--> 
                         </div>

@@ -339,16 +339,51 @@
                                                             &nbsp;&nbsp;
 
                                                             <!-- Form dùng để cập nhật trạng thái đơn hàng -->
-                                                            <form action="shipper" method="POST">
+                                                            <form id="orderForm" action="shipper" method="POST">
                                                                 <!-- Hidden field để gửi orderId -->
                                                                 <input type="hidden" name="orderId" value="${order.orderId}">
-                                                                <!-- Dropdown để chọn trạng thái -->
-                                                                <select class="form-control" name="orderStatus" onchange="this.form.submit()">
-                                                                    <option value="">Cập nhật đơn hàng</option>
-                                                                    <option value="3" ${order.orderStatus == 3 ? 'selected' : ''}>Shipped</option>
-                                                                    <option value="4" ${order.orderStatus == 4 ? 'selected' : ''}>Done</option>
-                                                                </select>
+
+                                                                <!-- Kiểm tra trạng thái và chỉ hiển thị select nếu orderStatus khác 4 -->
+                                                                <c:if test="${order.orderStatus != 4}">
+                                                                    <!-- Dropdown để chọn trạng thái -->
+                                                                    <select class="form-control" name="orderStatus" onchange="checkAndSubmit(this)">
+                                                                        <option value="">Cập nhật đơn hàng</option>
+                                                                        <option value="3" ${order.orderStatus == 3 ? 'selected' : ''}>Shipped</option>
+                                                                        <option value="4" ${order.orderStatus == 4 ? 'selected' : ''}>Done</option>
+                                                                    </select>
+                                                                </c:if>
                                                             </form>
+
+                                                            <script>
+                                                                // Lưu trạng thái hiện tại khi trang được tải
+                                                                const currentStatus = "${order.orderStatus}";
+
+                                                                function checkAndSubmit(selectElement) {
+                                                                    // Lấy giá trị mới từ dropdown
+                                                                    const newStatus = selectElement.value;
+
+                                                                    // Nếu giá trị mới là "" thì không làm gì
+                                                                    if (newStatus === "") {
+                                                                        return;
+                                                                    }
+
+                                                                    // Kiểm tra nếu giá trị mới khác với giá trị hiện tại
+                                                                    if (newStatus !== currentStatus) {
+                                                                        // Hiển thị hộp thoại xác nhận
+                                                                        const confirmUpdate = confirm("Bạn muốn cập nhật đơn hàng này?");
+                                                                        if (confirmUpdate) {
+                                                                            // Gửi form nếu người dùng chọn "Có"
+                                                                            document.getElementById("orderForm").submit();
+                                                                        } else {
+                                                                            // Nếu chọn "Không", khôi phục lại giá trị ban đầu
+                                                                            selectElement.value = currentStatus;
+                                                                        }
+                                                                    } else {
+                                                                        // Nếu không thay đổi, thông báo và không gửi form
+                                                                        alert("Trạng thái đơn hàng không thay đổi.");
+                                                                    }
+                                                                }
+                                                            </script>
                                                         </div>
 
 
@@ -362,9 +397,6 @@
                                                                         <p class="quantity">Số lượng: ${detail.quantity}</p>
                                                                         <p class="color">Màu sắc: ${detail.colorName}</p>
                                                                     </div>
-                                                                    <c:if test="${fn:contains(detail.description, 'Đơn hàng đã được giao đến tay khách hàng') && detail.isfeedback == 0}">
-                                                                        <a class="buy-again-btn" href="customerfeedback?productId=${detail.productId}&orderDetailId=${detail.orderDetailId}">Đánh giá</a>
-                                                                    </c:if>
                                                                 </div>
                                                             </div>
                                                         </c:forEach>

@@ -83,7 +83,7 @@
                     </div>
 
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="dash"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                        <li><a href="admindashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                       
 
                         <li class="sidebar-dropdown">

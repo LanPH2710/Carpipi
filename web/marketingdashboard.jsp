@@ -200,11 +200,11 @@
                         </div><!--end row-->
 
                         <div class="row">
-                  
+
 
                             <div class="col-xl-8 col-lg-7 mt-4">
                                 <div>
-                                    <h2>Product Sales Chart</h2>
+                                    <h2>5 san pham ban chay nhat</h2>
                                     <div style="width: 700px; margin: auto;"> <!-- Set a specific width for the chart -->
                                         <canvas id="productSalesChart" width="500" height="400"></canvas>
                                     </div>
@@ -233,7 +233,7 @@
                                         data: {
                                             labels: labels,
                                             datasets: [{
-                                                    label: 'Total Quantity Sold',
+                                                    label: 'Tong so luong san pham duoc ban',
                                                     data: data,
                                                     backgroundColor: [
                                                         'rgba(255,99,132,0.2)',
@@ -254,8 +254,38 @@
                                         },
                                         options: {
                                             scales: {
+                                                x: {
+                                                    beginAtZero: true,
+                                                    ticks: {
+                                                        font: {
+                                                            size: 16 // Set x-axis label font size
+                                                        }
+                                                    }
+                                                },
                                                 y: {
-                                                    beginAtZero: true
+                                                    beginAtZero: true,
+                                                    ticks: {
+                                                        font: {
+                                                            size: 16 // Set y-axis label font size
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            plugins: {
+                                                legend: {
+                                                    labels: {
+                                                        font: {
+                                                            size: 18 // Set legend font size
+                                                        }
+                                                    }
+                                                },
+                                                tooltip: {
+                                                    bodyFont: {
+                                                        size: 20 // Set tooltip font size when hovering
+                                                    },
+                                                    titleFont: {
+                                                        size: 20 // Set tooltip title font size
+                                                    }
                                                 }
                                             }
                                         }
@@ -264,90 +294,83 @@
                             </div>
 
                             <div class="col-xl-4 col-lg-5 mt-4">
-                                <div style="width: 400px; margin: auto; margin-top: 50px;"> 
-                                    <h2>Brand Revenue Pie</h2>
-                                    <canvas id="brandRevenuePie" width="500" height="400"></canvas>
+                                <div>
+                                    <h2>doanh thu theo thuong hieu</h2>
+                                    <div style="width: 400px; margin: auto; margin-top: 50px;"> 
+
+                                        <canvas id="brandRevenuePie" width="500" height="400"></canvas>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+                                <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
 
-                            <script>
+                                <script>
                                     // Prepare data for Brand Revenue Pie Chart
                                     const brandRevenueData = {
                                         labels: [], // This will hold the brand names
                                         datasets: [{
-                                                label: 'Brand Revenue',
+                                                label: 'Doanh thu',
                                                 data: [], // This will hold the corresponding revenue values
                                                 backgroundColor: [
-                                                    'rgb(255, 99, 132)',
-                                                    'rgb(54, 162, 235)',
-                                                    'rgb(255, 205, 86)',
-                                                    'rgb(75, 192, 192)',
-                                                    'rgb(153, 102, 255)',
-                                                    'rgb(255, 159, 64)'
+                                                    'rgba(255, 99, 132,0.2)',
+                                                    'rgba(54, 162, 235,0.2)',
+                                                    'rgba(255, 205, 86,0.2)',
+                                                    'rgba(75, 192, 192,0.2)',
+                                                    'rgba(153, 102, 255,0.2)',
+                                                    'rgba(255, 159, 64,0.2)'
+                                                ],
+                                                borderColor: [
+                                                    'rgba(255, 99, 132,1)',
+                                                    'rgba(54, 162, 235,1)',
+                                                    'rgba(255, 205, 86,1)',
+                                                    'rgba(75, 192, 192,1)',
+                                                    'rgba(153, 102, 255,1)',
+                                                    'rgba(255, 159, 64,1)'
                                                 ]
                                             }]
                                     };
 
-                                    // Fetch total revenue from the request attribute
-                                <c:forEach var="totalBrandRevenue" items="${totalBrandRevenue}">
+                                    // Fetch total revenue from the request attribute using JSTL
+                                    <c:forEach var="totalBrandRevenue" items="${totalBrandRevenue}">
                                     brandRevenueData.labels.push('${totalBrandRevenue.name}');
-                                    brandRevenueData.datasets[0].data.push(${totalBrandRevenue.totalBrandRevenue});
-                                </c:forEach>
+                                    brandRevenueData.datasets[0].data.push(${totalBrandRevenue.totalRevenue}); // Ensure property name matches
+                                    </c:forEach>
 
                                     // Chart configuration
                                     const brandRevenueConfig = {
                                         type: 'pie', // or 'doughnut' if you prefer a doughnut chart
-                                        data: brandRevenueData
+                                        data: brandRevenueData,
+                                        options: {
+                                            plugins: {
+                                                legend: {
+                                                    labels: {
+                                                        font: {
+                                                            size: 18 // Set legend font size
+                                                        }
+                                                    }
+                                                },
+                                                tooltip: {
+                                                    bodyFont: {
+                                                        size: 20 // Set tooltip font size when hovering
+                                                    },
+                                                    titleFont: {
+                                                        size: 20 // Set tooltip title font size
+                                                    }
+                                                }
+                                            },
+                                            interaction: {
+                                                mode: 'nearest', // Define interaction mode
+                                                intersect: false
+                                            }
+                                        }
                                     };
 
                                     // Create the chart
                                     const brandRevenueCtx = document.getElementById('brandRevenuePie').getContext('2d');
                                     const brandRevenueChart = new Chart(brandRevenueCtx, brandRevenueConfig);
-                            </script>
+                                </script>
 
-
-
-                                                        <div class="col-xl-4 col-lg-5 mt-4">
-                                                            <div style="width: 400px; margin: auto; margin-top: 50px;"> 
-                                                                <h2>Customer Feedback Analysis</h2>
-                                                                <canvas id="customerFeedbackChart" width="500" height="400"></canvas>
-                                                            </div>
-                            
-                                                            <div style="width: 400px; margin: auto; margin-top: 50px;">
-                                                                <h2>Product Sales Analysis</h2>
-                                                                <canvas id="productSalesChart" width="500" height="400"></canvas>
-                                                            </div>
-                                                        </div>
-                            
-                                                        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
-                            
-                                                        <script>
-                                                                // Customer Feedback Chart Data
-                                                                const brandRevenue = {
-                                                                    labels: ['Red', 'Blue', 'Yellow'],
-                                                                    datasets: [{
-                                                                            label: 'My First Dataset',
-                                                                            data: [300, 50, 100],
-                                                                            backgroundColor: [
-                                                                                'rgb(255, 99, 132)',
-                                                                                'rgb(54, 162, 235)',
-                                                                                'rgb(255, 205, 86)'
-                                                                            ],
-                                                                            hoverOffset: 4
-                                                                        }]
-                                                                };
-                            
-                                                                const feedbackConfig = {
-                                                                    type: 'doughnut',
-                                                                    data: feedbackData,
-                                                                };
-                            
-                                                                const feedbackCtx = document.getElementById('customerFeedbackChart').getContext('2d');
-                                                                const customerFeedbackChart = new Chart(feedbackCtx, feedbackConfig);
-                            
-                                                        </script>
+                            </div>
 
 
 

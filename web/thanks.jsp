@@ -142,7 +142,7 @@
                             </div>    
                             <div class="form-group">
                                 <label >Số tiền:</label>
-                                <label><fmt:formatNumber value="${vnp_Amount}"/> vnđ</label>
+                                <label><fmt:formatNumber value="${vnp_Amount}"/> USD</label>
                             </div>  
                             <div class="form-group">
                                 <label >Mô tả giao dịch:</label>

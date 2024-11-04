@@ -3,7 +3,7 @@
     Created on : Oct 28, 2024, 3:35:05 PM
     Author     : hiule
 --%>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -15,9 +15,8 @@
         <meta charset="utf-8" />
         <title>Carpipi</title>
 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
-        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+
         <!-- favicon -->
         <link rel="shortcut icon" href="img/logo3.png">
         <!-- Bootstrap -->
@@ -30,250 +29,10 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assets1/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <style type="text/css">
-            body{
-                margin-top:20px;
-                background-color: #f1f3f7;
-            }
 
-            .card {
-                margin-bottom: 24px;
-                -webkit-box-shadow: 0 2px 3px #e4e8f0;
-                box-shadow: 0 2px 3px #e4e8f0;
-            }
-            .card {
-                position: relative;
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: flex;
-                -webkit-box-orient: vertical;
-                -webkit-box-direction: normal;
-                -ms-flex-direction: column;
-                flex-direction: column;
-                min-width: 0;
-                word-wrap: break-word;
-                background-color: #fff;
-                background-clip: border-box;
-                border: 1px solid #eff0f2;
-                border-radius: 1rem;
-            }
-            .activity-checkout {
-                list-style: none
-            }
-
-            .activity-checkout .checkout-icon {
-                position: absolute;
-                top: -4px;
-                left: -24px
-            }
-
-            .activity-checkout .checkout-item {
-                position: relative;
-                padding-bottom: 24px;
-                padding-left: 35px;
-                border-left: 2px solid #f5f6f8
-            }
-
-            .activity-checkout .checkout-item:first-child {
-                border-color: #3b76e1
-            }
-
-            .activity-checkout .checkout-item:first-child:after {
-                background-color: #3b76e1
-            }
-
-            .activity-checkout .checkout-item:last-child {
-                border-color: transparent
-            }
-
-            .activity-checkout .checkout-item.crypto-activity {
-                margin-left: 50px
-            }
-
-            .activity-checkout .checkout-item .crypto-date {
-                position: absolute;
-                top: 3px;
-                left: -65px
-            }
-
-
-
-            .avatar-xs {
-                height: 1rem;
-                width: 1rem
-            }
-
-            .avatar-sm {
-                height: 2rem;
-                width: 2rem
-            }
-
-            .avatar {
-                height: 3rem;
-                width: 3rem
-            }
-
-            .avatar-md {
-                height: 4rem;
-                width: 4rem
-            }
-
-            .avatar-lg {
-                height: 5rem;
-                width: 5rem
-            }
-
-            .avatar-xl {
-                height: 6rem;
-                width: 6rem
-            }
-
-            .avatar-title {
-                -webkit-box-align: center;
-                -ms-flex-align: center;
-                align-items: center;
-                background-color: #3b76e1;
-                color: #fff;
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: flex;
-                font-weight: 500;
-                height: 100%;
-                -webkit-box-pack: center;
-                -ms-flex-pack: center;
-                justify-content: center;
-                width: 100%
-            }
-
-            .avatar-group {
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: flex;
-                -ms-flex-wrap: wrap;
-                flex-wrap: wrap;
-                padding-left: 8px
-            }
-
-            .avatar-group .avatar-group-item {
-                margin-left: -8px;
-                border: 2px solid #fff;
-                border-radius: 50%;
-                -webkit-transition: all .2s;
-                transition: all .2s
-            }
-
-            .avatar-group .avatar-group-item:hover {
-                position: relative;
-                -webkit-transform: translateY(-2px);
-                transform: translateY(-2px)
-            }
-
-            .card-radio {
-                background-color: #fff;
-                border: 2px solid #eff0f2;
-                border-radius: .75rem;
-                padding: .5rem;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                display: block
-            }
-
-            .card-radio:hover {
-                cursor: pointer
-            }
-
-            .card-radio-label {
-                display: block
-            }
-
-            .edit-btn {
-                width: 35px;
-                height: 35px;
-                line-height: 40px;
-                text-align: center;
-                position: absolute;
-                right: 25px;
-                margin-top: -50px
-            }
-
-            .card-radio-input {
-                display: none
-            }
-
-            .card-radio-input:checked+.card-radio {
-                border-color: #3b76e1!important
-            }
-
-
-            .font-size-16 {
-                font-size: 16px!important;
-            }
-            .text-truncate {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-            a {
-                text-decoration: none!important;
-            }
-
-
-            .form-control {
-                display: block;
-                width: 100%;
-                padding: 0.47rem 0.75rem;
-                font-size: .875rem;
-                font-weight: 400;
-                line-height: 1.5;
-                color: #545965;
-                background-color: #fff;
-                background-clip: padding-box;
-                border: 1px solid #e2e5e8;
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                appearance: none;
-                border-radius: 0.75rem;
-                -webkit-transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
-                transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
-                transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-                transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
-            }
-
-            .edit-btn {
-                width: 35px;
-                height: 35px;
-                line-height: 40px;
-                text-align: center;
-                position: absolute;
-                right: 25px;
-                margin-top: -50px;
-            }
-
-            .ribbon {
-                position: absolute;
-                right: -26px;
-                top: 20px;
-                -webkit-transform: rotate(45deg);
-                transform: rotate(45deg);
-                color: #fff;
-                font-size: 13px;
-                font-weight: 500;
-                padding: 1px 22px;
-                font-size: 13px;
-                font-weight: 500
-            }
-
-
-
-
-        </style>
     </head>
+
     <body>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
-        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <!-- Loader -->
         <div id="preloader">
             <div id="status">
@@ -362,7 +121,7 @@
                                 <a href="home">
                                     <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="home" class="fea icon-sm"></i></div>
                                 </a>
-                                <a href="tax" class="ms-2" style="text-decoration: none; color: #3b5998; font-weight: bold;">Trở về thuế</a>
+                                <a href="checkout" class="ms-2" style="text-decoration: none; color: #3b5998; font-weight: bold;">Trở về checkout</a>
                             </li>
                         </div>
 
@@ -409,7 +168,7 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Checkout</h5>
+                            <h5 class="mb-0">Address Information</h5>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
@@ -417,7 +176,8 @@
                                     <li class="breadcrumb-item"><a href="carts">Giỏ Hàng</a></li>
                                     <li class="breadcrumb-item"><a href="tax">Thuế</a></li>
 
-                                    <li class="breadcrumb-item active" aria-current="page">Checkout</a></li>
+                                    <li class="breadcrumb-item"><a href="checkout">Checkout</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Thêm Thông Tin</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -449,111 +209,92 @@
                                 </div>
                             </div><!--end col-->
 
-                            <div class="col-xl-8 mt-4">
-                                <form action="checkout" method="post">
+                            <div class="col-md-7 col-lg-8 mt-4">
+                                <div class="card rounded shadow p-4 border-0">
+                                    <h5 class="mb-3">Billing address</h5>
+                                    <form action="editAddressUser" method="post" class="needs-validation" novalidate>
+                                        <!-- Hidden input for addressId -->
+                                        <input type="hidden" name="addressId" value="${addressUser.addressId}" />
 
-                                    <div class="card rounded shadow p-4 border-0">
-                                        <div class="card-body">
-                                            <ol class="activity-checkout mb-0 px-4 mt-3">
-                                                <!-- Shipping Info -->
-                                                <li class="checkout-item">
-                                                    <div class="avatar checkout-icon p-1">
-                                                        <div class="avatar-title rounded-circle bg-primary">
-                                                            <i class="bx bxs-truck text-white font-size-20"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="feed-item-list">
-                                                        <div>
-                                                            <h5 class="font-size-16 mb-1">Shipping Info</h5>
-                                                            <p class="text-muted text-truncate mb-4">Các thông tin địa chỉ</p>
-                                                            <div class="mb-3">
-                                                                <div class="edit-btn bg-light rounded">
-                                                                    <a href="addAddressUser" >
-                                                                        <i class="bx bx-plus font-size-16"></i>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="row">
+                                        <!-- Name -->
+                                        <div class="col-12">
+                                            <label for="name" class="form-label">Tên</label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="name"
+                                                name="name"
+                                                value="${fn:escapeXml(param.name != null ? param.name : addressUser.name)}"
+                                                required
+                                                >
+                                            <div class="invalid-feedback">
+                                                Please enter your name.
+                                            </div>
+                                        </div>
 
-                                                                    <c:forEach var="userAddress" items="${userAddress}" varStatus="status">
-                                                                        <div class="col-lg-4 col-sm-6">
-                                                                            <div data-bs-toggle="collapse">
-                                                                                <label class="card-radio-label mb-0">
-                                                                                    <input
-                                                                                        type="radio"
-                                                                                        name="address"
-                                                                                        class="card-radio-input"
-                                                                                        value="${userAddress.addressId}"
-                                                                                        ${status.first ? 'checked' : ''}
-                                                                                        required
-                                                                                        >
-                                                                                    <div class="card-radio text-truncate p-3">
-                                                                                        <span class="fs-14 mb-4 d-block">Thông tin: ${userAddress.addressId}</span>
-                                                                                        <span class="fs-14 mb-2 d-block">Tên: ${userAddress.name}</span>
-                                                                                        <span class="text-muted fw-normal d-block">Email:${userAddress.email}</span>
-                                                                                        <span class="text-muted fw-normal text-wrap mb-1 d-block">${userAddress.address}</span>
-                                                                                        <span class="text-muted fw-normal d-block">SĐT:${userAddress.phone}</span>
-                                                                                    </div>
-                                                                                </label>
-                                                                                <div class="edit-btn bg-light rounded">
-                                                                                    <a href="editAddressUser?addressId=${userAddress.addressId}">
-                                                                                        <i class="bx bx-pencil font-size-16"></i>
-                                                                                    </a>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </c:forEach>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <!-- Payment Info -->
-                                                <li class="checkout-item">
-                                                    <div class="avatar checkout-icon p-1">
-                                                        <div class="avatar-title rounded-circle bg-primary">
-                                                            <i class="bx bxs-wallet-alt text-white font-size-20"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="feed-item-list">
-                                                        <div>
-                                                            <h5 class="font-size-16 mb-1">Payment Info</h5>
-                                                            <p class="text-muted text-truncate mb-4">Duis arcu tortor, suscipit eget</p>
-                                                        </div>
-                                                        <div>
-                                                            <h5 class="font-size-14 mb-3">Payment method :</h5>
-                                                            <div class="row">
-                                                                <div class="col-lg-3 col-sm-6">
-                                                                    <div data-bs-toggle="collapse">
-                                                                        <label class="card-radio-label">
-                                                                            <input type="radio" name="pay-method" id="pay-methodoption1" class="card-radio-input" value="online"checked="" >
-                                                                            <span class="card-radio py-3 text-center text-truncate">
-                                                                                <i class="bx bx-credit-card d-block h2 mb-3"></i>
-                                                                                Thanh Toán Trực Tuyến
-                                                                            </span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-3 col-sm-6">
+                                        <!-- Email -->
+                                        <div class="col-12">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input
+                                                type="email"
+                                                class="form-control"
+                                                id="email"
+                                                name="email"
+                                                value="${fn:escapeXml(param.email != null ? param.email : addressUser.email)}"
+                                                required
+                                                >
+                                            <div class="invalid-feedback">
+                                                Please enter a valid email address.
+                                            </div>
+                                            <c:if test="${not empty msg_gmailCart}">
+                                                <div class="alert alert-danger">
+                                                    ${msg_gmailCart}
+                                                </div>
+                                            </c:if>
+                                        </div>
 
-                                                                </div>
-                                                                <div class="col-lg-3 col-sm-6">
-                                                                    <div>
-                                                                        <label class="card-radio-label">
-                                                                            <input type="radio" name="pay-method" id="pay-methodoption3" class="card-radio-input" value="cod" >
-                                                                            <span class="card-radio py-3 text-center text-truncate">
-                                                                                <i class="bx bx-money d-block h2 mb-3"></i>
-                                                                                <span>COD</span>
-                                                                            </span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ol>
-                                        </div> <button class="w-100 btn btn-primary" type="submit">Continue to checkout</button>
-                                    </div>   </form>                       
+                                        <!-- Phone Number -->
+                                        <div class="col-12">
+                                            <label for="phone" class="form-label">Số điện thoại</label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="phone"
+                                                name="phone"
+                                                value="${fn:escapeXml(param.phone != null ? param.phone : addressUser.phone)}"
+                                                required
+                                                >
+                                            <div class="invalid-feedback">
+                                                Please enter your phone number.
+                                            </div>
+                                            <c:if test="${not empty msg_phoneCart}">
+                                                <div class="alert alert-danger">
+                                                    ${msg_phoneCart}
+                                                </div>
+                                            </c:if>
+                                        </div>
+
+                                        <!-- Address -->
+                                        <div class="col-12">
+                                            <label for="address" class="form-label">Địa chỉ</label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="address"
+                                                name="address"
+                                                value="${fn:escapeXml(param.address != null ? param.address : addressUser.address)}"
+                                                required
+                                                >
+                                            <div class="invalid-feedback">
+                                                Please enter your address.
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <button class="w-100 btn btn-primary" type="submit">Lưu Thay Đổi</button>
+                                    </form>
+
+                                </div>
                             </div><!--end col-->
                         </div><!--end row-->
                     </div>
@@ -674,11 +415,7 @@
                                             });
                                         });
         </script>
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script type="text/javascript">
 
-        </script>
     </body>
 
 </html>

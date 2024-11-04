@@ -1,10 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
-
 <html lang="en">
-
     <head>
         <meta charset="utf-8" />
         <title>Admin Dash Board</title>
@@ -86,7 +83,7 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.account.roleId == 1}">
-                                <li><a href="admin"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                <li><a href="admindashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                                 </c:when>
                                 <c:when test="${sessionScope.account.roleId == 2}">
                                 <li><a href="marketingdashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
@@ -102,7 +99,7 @@
                             </c:choose>
                             <c:choose>
                                 <c:when test="${sessionScope.account.roleId == 1}">
-                                <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>User List</a></li>
+                                <li><a href="userlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>User List</a></li>
                                 </c:when>
                             </c:choose>
                         <li><a href="postlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>Post List</a></li>
@@ -202,7 +199,7 @@
 
                             <!-- Product Count -->
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
-                                <a href="productlist" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
+                                <a href="proformarketing" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
                                             <i class="uil uil-box h3 mb-0"></i> <!-- Icon sản phẩm -->
@@ -279,24 +276,6 @@
                         <!--end row-->
 
                         <div class="row">
-                            <!--                            <div class="col-xl-8 col-lg-7 mt-4">
-                                                            <div class="card shadow border-0 p-4">
-                                                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                    <h6 class="align-items-center mb-0">Customer by Gender</h6>
-                            
-                                                                    <div class="mb-0 position-relative">
-                                                                        <select class="form-select form-control" id="yearchart">
-                                                                            <option selected>2020</option>
-                                                                            <option value="2019">2019</option>
-                                                                            <option value="2018">2018</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div id="dashboard" class="apex-chart"></div>
-                                                            </div>
-                                                        </div>-->
-
-
                             <div class="col-xl-8 col-lg-7 mt-4">
                                 <div>
                                     <h2>Product Sales Chart</h2>
@@ -412,21 +391,22 @@
 
 
 
-                            <!--                            <div class="col-xl-4 col-lg-5 mt-4">
-                                                            <div class="card shadow border-0 p-4">
-                                                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                    <h6 class="align-items-center mb-0">Patients by Department</h6>
-                            
-                                                                    <div class="mb-0 position-relative">
-                                                                        <select class="form-select form-control" id="dailychart">
-                                                                            <option selected>Today</option>
-                                                                            <option value="2019">Yesterday</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div id="department" class="apex-chart"></div>
-                                                            </div>
-                                                        </div>end col-->
+                            <div class="col-xl-4 col-lg-5 mt-4">
+                                <div class="card shadow border-0 p-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h6 class="align-items-center mb-0">Patients by Department</h6>
+
+                                        <div class="mb-0 position-relative">
+                                            <select class="form-select form-control" id="dailychart">
+                                                <option selected>Today</option>
+                                                <option value="2019">Yesterday</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div id="department" class="apex-chart"></div>
+                                </div>
+                            </div>
+
                         </div><!--end row-->
 
                         <div class="row">
@@ -857,7 +837,7 @@
                                                                         dropdown.classList.remove('show');
                                                                     });
                                                                 }
-                                                            }
+                                                            };
         </script>
     </body>
 

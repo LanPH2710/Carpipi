@@ -258,7 +258,6 @@
                                                                     </button>
                                                                 </form>
                                                                 <a href="settingdetail?brandId=${brand.brandId}" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
-                                                                <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>

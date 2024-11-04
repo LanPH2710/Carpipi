@@ -92,7 +92,7 @@ public class BrandDAO extends DBContext {
                     brand = new Brand();
                     brand.setBrandId(rs.getInt("brandId"));
                     brand.setName(rs.getString("name"));
-                    brand.setProductCount(rs.getInt("productCount"));
+                  //  brand.setProductCount(rs.getInt("productCount"));
                     brand.setStatus(rs.getInt("status"));
                 }
             }
@@ -196,18 +196,17 @@ public class BrandDAO extends DBContext {
     return brandList;
 }
 
-    // Cập nhật trạng thái của brand
-    public boolean updateBrandStatus(int brandId, int status) {
-        String sql = "UPDATE brand SET status = ? WHERE brandId = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, status);
-            ps.setInt(2, brandId);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+    public void updateBrand(int brandId, String brandName, int brandStatus) throws SQLException {
+    String query = "UPDATE brand SET name = ?, status = ? WHERE brandId = ?";
+    try (
+         PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setString(1, brandName);
+        stmt.setInt(2, brandStatus);
+        stmt.setInt(3, brandId);
+        stmt.executeUpdate();
     }
+}
+
 public List<Brand> getTotalRevenueByBrand() {
         List<Brand> revenues = new ArrayList<>();
         String query = "SELECT b.brandId, b.name AS brandName, "
@@ -245,17 +244,36 @@ public List<Brand> getTotalRevenueByBrand() {
         //System.out.println(b.getBrandIdByName("Audi"));
         BrandDAO b = new BrandDAO();
     //List<Brand> brandList = b.getBrandListWithProductCount();
-    List<Brand> brandList = b.getTotalRevenueByBrand();
+//    List<Brand> brandList = b.getTotalRevenueByBrand();
+//
+//if (brandList.isEmpty()) {
+//    System.out.println("No brands found with revenue.");
+//} else {
+//    System.out.println("Brand Revenue:");
+//    for (Brand brand : brandList) {
+//        System.out.printf("%s\t%.6f%n", brand.getName(), brand.getTotalRevenue());
+//    }
+//}
+//int testBrandId = 1; // ID của brand muốn cập nhật
+//        String newBrandName = "Mercedes-Benz"; // Tên mới
+//        int newBrandStatus = 1; // Trạng thái mới (1 = Hiển thị, 0 = Ẩn)
+//
+//        try {
+//            b.updateBrand(testBrandId, newBrandName, newBrandStatus);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            System.out.println("Error updating brand: " + e.getMessage());
+//        }
+Brand brand = b.getBrandById1(1);
 
-if (brandList.isEmpty()) {
-    System.out.println("No brands found with revenue.");
-} else {
-    System.out.println("Brand Revenue:");
-    for (Brand brand : brandList) {
-        System.out.printf("%s\t%.6f%n", brand.getName(), brand.getTotalRevenue());
-    }
-}
-
+        if (brand != null) {
+            System.out.println("Brand ID: " + brand.getBrandId());
+            System.out.println("Brand Name: " + brand.getName());
+         //   System.out.println("Product Count: " + brand.getProductCount());
+            System.out.println("Status: " + brand.getStatus());
+        } else {
+            System.out.println("No brand found with the given ID.");
+        }
         
     // Check if brandList is empty
     

@@ -578,11 +578,55 @@ public class StyleDAO extends DBContext {
 
         return list;
     }
-
+    
+    public void updateStyle(String styleId, String styleName, int styleStatus) throws SQLException {
+    String query = "UPDATE style SET styleName = ?, status = ? WHERE styleId = ?";
+    try (
+         PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setString(1, styleName);
+        stmt.setInt(2, styleStatus);
+        stmt.setString(3, styleId);
+        stmt.executeUpdate();
+    }
+}
+    
+    public Style getStyleById(String styleId) {
+        Style style = null;
+        String sql = "SELECT * FROM style WHERE styleId = ?";
+        
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, styleId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    style = new Style();
+                    style.setStyleId(rs.getString("styleId"));
+                    style.setStyleName(rs.getString("styleName"));
+                  //  brand.setProductCount(rs.getInt("productCount"));
+                    style.setStatus(rs.getInt("status"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return style;
+    }
+    
     public static void main(String[] args) {
         StyleDAO s = new StyleDAO();
-        List<Style> styletList = s.getStyleListWithProductCount();
-        System.out.println(s.getAllStyleCar());
-    }
+//        List<Style> styletList = s.getStyleListWithProductCount();
+//        System.out.println(s.getAllStyleCar());
+// 
+    Style style = s.getStyleById("1");
 
+        if (style != null) {
+            System.out.println("Style ID: " + style.getStyleId());
+            System.out.println("Style Name: " + style.getStyleName());
+         //   System.out.println("Product Count: " + brand.getProductCount());
+            System.out.println("Status: " + style.getStatus());
+        } else {
+            System.out.println("No style found with the given ID.");
+        }
+}
 }

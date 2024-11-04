@@ -163,6 +163,42 @@ public class SegmentDAO extends DBContext{
         return false;
     }
     
+    public Segment getSegmentById(int segmentId) {
+        Segment segment = null;
+        String sql = "SELECT * FROM segment WHERE segmentId = ?";
+        
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, segmentId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    segment = new Segment();
+                    segment.setSegmentId(rs.getInt("segmentId"));
+                    segment.setSegmentName(rs.getString("segmentName"));
+                    segment.setStatus(rs.getInt("status"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return segment;
+    }
+    
+    public void updateBrand(int brandId, String brandName, int brandStatus) {
+        String query = "UPDATE Brand SET name = ?, status = ? WHERE brandId = ?";
+        
+        try (
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, brandName);
+            ps.setInt(2, brandStatus); // Cập nhật status với giá trị mới
+            ps.setInt(3, brandId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public static void main(String[] args) {
         SegmentDAO s = new SegmentDAO();
         List<Segment> segmentList = s.getSegmentListWithProductCount();

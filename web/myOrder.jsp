@@ -353,16 +353,16 @@
                                                                                 <p class="quantity">Số lượng: ${detail.quantity}</p>
                                                                                 <p class="color">Màu sắc: ${detail.colorName}</p>
                                                                             </div>
-                                                                            <c:if test="${fn:contains(detail.description, 'Đơn hàng đã được giao đến tay khách hàng') && detail.isfeedback == 0}">
+                                                                            <c:if test="${fn:contains(detail.orderStatusDescription, 'Đơn hàng đã được giao đến tay khách hàng') && detail.isFeedback == 0}">
                                                                                 <a class="buy-again-btn" href="customerfeedback?productId=${detail.productId}&orderDetailId=${detail.orderDetailId}">Đánh giá</a>
                                                                             </c:if>
 
                                                                         </div>
                                                                         <c:choose>
-                                                                            <c:when test="${detail.isfeedback == 0}">
+                                                                            <c:when test="${detail.isFeedback == 0}">
                                                                                 <small class="feedback-message">Xin hãy đánh giá xe sau khi nhận được hàng !</small>
                                                                             </c:when>
-                                                                            <c:when test="${detail.isfeedback == 1}">
+                                                                            <c:when test="${detail.isFeedback == 1}">
                                                                                 <small class="feedback-message">Cảm ơn bạn đã đánh giá sản phẩm !</small>
                                                                             </c:when>
                                                                         </c:choose>
@@ -375,17 +375,17 @@
                                                                     </p>
                                                                 </div>
                                                                 <div class="button-container">
-                                                                    <button class="return-btn">Thông tin đơn hàng</button>
+                                                                    <a href="orderInfor?orderId=${order.orderId}">
+                                                                        <button class="return-btn">Thông tin đơn hàng</button>
+                                                                    </a>
                                                                     <c:if test="${order.orderStatus == 4}">
                                                                         <a href="addToCart">
                                                                             <button class="buy-again-btn">Mua Lại</button>
                                                                         </a>
                                                                     </c:if>
                                                                 </div>
-
                                                             </div>
                                                         </div>
-
                                                     </article>
                                                 </c:forEach>
                                             </c:otherwise>
@@ -405,7 +405,7 @@
                                     <span class="text-muted me-3">Showing <b>${page}</b> out of <b>${num}</b> pages customers</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${page > 1}">
-                                            <li class="page-item"><a class="page-link" href="myorder?page=${page - 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Previous">Prev</a></li>
+                                            <li class="page-item"><a class="page-link" href="myorder?page=${page - 1}&statusId=${orderStatus}&keyword=${keyword}" aria-label="Previous">Prev</a></li>
                                             </c:if>
                                             <c:forEach begin="${(page - 1) <= 1 ? 1 : (page - 1)}" end="${page + 1 > num ? num : page + 1}" var="i">
                                                 <c:choose>
@@ -413,12 +413,12 @@
                                                     <li class="page-item active"><a class="page-link">${i}</a></li>
                                                     </c:when>
                                                     <c:otherwise>
-                                                    <li class="page-item"><a href="myorder?page=${i}&statusId=${statusId}&keyword=${keyword}" class="page-link">${i}</a></li>
+                                                    <li class="page-item"><a href="myorder?page=${i}&statusId=${orderStatus}&keyword=${keyword}" class="page-link">${i}</a></li>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </c:forEach>
                                             <c:if test="${page < num}">
-                                            <li class="page-item"><a class="page-link" href="myorder?page=${page + 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Next">Next</a></li>
+                                            <li class="page-item"><a class="page-link" href="myorder?page=${page + 1}&statusId=${orderStatus}&keyword=${keyword}" aria-label="Next">Next</a></li>
                                             </c:if>
                                     </ul>
                                 </div>

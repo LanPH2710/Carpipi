@@ -1,6 +1,6 @@
 package controller.common;
 
-import dal.OrderDetail1DAO;
+import dal.OrderDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import model.Account;
-import model.Order1;
-import model.OrderDetail1;
+import model.Order;
+import model.OrderDetail;
 
 /**
  *
@@ -61,9 +61,9 @@ public class MyOrderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        OrderDetail1DAO oddao1 = new OrderDetail1DAO();
-        List<Order1> myOrder = new ArrayList<>();
-        Map<Integer, List<OrderDetail1>> orderDetailsMap = new HashMap<>();
+        OrderDetailDAO oddao1 = new OrderDetailDAO();
+        List<Order> myOrder = new ArrayList<>();
+        Map<Integer, List<OrderDetail>> orderDetailsMap = new HashMap<>();
         Account acc = (Account) session.getAttribute("account");
         if (acc == null) {
             response.sendRedirect("login.jsp"); // Chuyển hướng về trang login nếu không có tài khoản
@@ -87,8 +87,8 @@ public class MyOrderServlet extends HttpServlet {
         } else {
             myOrder = oddao1.getOrderByUserId(userId);
         }
-        for (Order1 order : myOrder) {
-            List<OrderDetail1> orderDetails = oddao1.getOrderDetail(order.getOrderId());
+        for (Order order : myOrder) {
+            List<OrderDetail> orderDetails = oddao1.getOrderDetail(order.getOrderId());
             orderDetailsMap.put(order.getOrderId(), orderDetails);
         }
         // Phân trang

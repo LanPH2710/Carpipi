@@ -71,7 +71,7 @@ public class ShipperServlet extends HttpServlet {
         }
         if (statusId > 0) {
             order = od1dao.getShipOrderByStatus(statusId);
-        }else {
+        } else {
             order = od1dao.getShipOrder();
         }
         for (Order order1 : order) {
@@ -91,7 +91,7 @@ public class ShipperServlet extends HttpServlet {
         int start = (page - 1) * numperpage;
         int end = Math.min(page * numperpage, size);
         order = od1dao.getMyOrderListByPage(order, start, end);
-        
+
         request.setAttribute("order", order);
         request.setAttribute("orderDetailsMap", orderDetailsMap);
         request.setAttribute("page", page);

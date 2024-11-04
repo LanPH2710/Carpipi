@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Product List</title>
+        <title>Order List</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -101,28 +101,51 @@
                             <!------------search----------------->
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form action="SliderList" role="search" method="get" id="searchform" class="searchform">
-                                        <div class="search-container">
-                                            <!-- Filter by status -->
+
+
+                                    <div class="search-container">
+                                        <!-- Filter by status -->
+                                        <form action="orderlistforsale" method="post" style="display: inline;">
                                             <span>
                                                 <label for="status">Trạng thái:</label>
                                             </span>
+
+
                                             <span>
-                                                <select name="status" style="height:40px; border-radius: 10px; padding: 10px; border: 1px solid #ccc;">
-                                                    <option value="">Tất cả</option>
+
+                                                <select name="status" style="height:40px; border-radius:10px; padding:10px; border:1px solid #ccc;" onchange="this.form.submit()">
+                                                    <option value="10">Tất cả</option>
+                                                    <c:forEach items="${requestScope.listStatusOrder}" var="status">
+
+                                                        <option value="${status.statusId}">
+                                                            <c:forEach items="${requestScope.listStatusOrder}" var="st">
+                                                                <c:if test="${status.statusId == st.statusId}">
+                                                                    ${status.description}
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </option>
+
+                                                    </c:forEach>
 
                                                 </select>
+
+
                                             </span>
-                                            <!-- Search by title or backlink -->
+
+                                        </form>
+                                        <!-- Search by title or backlink -->
+                                        <form action="orderlistforsale" role="search" method="post" id="searchform" class="searchform">
                                             <span>
-                                                <input type="text" class="form-control border rounded-pill" id="s" name="search" placeholder="Tìm kiếm theo tên/ backlink" value="${param.search}" />
+                                                <input type="text" class="form-control border rounded-pill" id="s" name="search" placeholder="Tìm kiếm theo tên" value="${param.search}" />
                                             </span>
                                             <!-- Search button -->
+
                                             <span>
                                                 <input type="submit" id="searchsubmit" value="Search">
                                             </span>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
+
                                 </div>
                             </div>
                             <!------------------end search--------------------->
@@ -162,22 +185,54 @@
                                                 <th class="border-bottom p-3">Ngày đặt hàng</th>
                                                 <th class="border-bottom p-3" style="min-width: 140px;">Tên khách hàng</th>
                                                 <th class="border-bottom p-3">Tên sản phẩm</th>
+                                                <th class="border-bottom p-3">Tên người bán hàng</th>
                                                 <th class="border-bottom p-3" style="max-width: 330px">Tổng chi phí</th>
                                                 <th class="border-bottom p-3">Trạng thái</th>
                                                 <th class="border-bottom p-3" style="min-width: 100px;"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="p-3"></td>
-                                                <td class="p-3"></td>
-                                                <td class="p-3"></td>
-                                                <td class="p-3"></td>
-                                                <td class="p-3"></td>
-                                                <td class="p-3"></td>
-                                                <td class="p-3"></td>
-                                            </tr>
-<!--                                                orderlistforsale-->
+                                            <c:forEach items="${requestScope.orderList}" var="order">
+                                                <tr>
+                                                    <td class="p-3">${order.orderId}</td>
+                                                    <td class="p-3">${order.createDate}</td>
+                                                    <td class="p-3">${order.orderName}</td>                                       
+                                                    <td class="p-3">
+
+                                                        <h5>${order.productName}</h5>
+                                                        <p>Số lượng sản phẩm khác: ${order.quantity}</p>
+                                                    </td>
+                                                    <td class="p-3">
+                                                        <c:forEach items="${requestScope.allSaleName}" var="saleName">
+                                                            <c:if test="${saleName.userId == order.saleId}">
+                                                                ${saleName.firstName} ${saleName.lastName}
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </td>
+                                                    <td class="p-3"><fmt:formatNumber value="${order.totalPrice}" type="number" pattern="#,###"/></td>
+                                                    <td class="p-3">
+                                                        <c:forEach items="${requestScope.listStatusOrder}" var="status">
+                                                            <c:if test="${status.statusId == order.orderStatus}">
+                                                                ${status.description}
+                                                            </c:if>
+
+                                                        </c:forEach>
+                                                    </td>
+                                                    <td>
+                                                        <form action="" method="POST" style="display: inline;">
+                                                            <input type="hidden" name="sliderId" value="${list.feedbackId}" />
+                                                            <input type="hidden" name="status" value="${list.status == 1 ? 0 : 1}">
+                                                            <button type="submit" name="action" value="updateSliderStatus" class="btn btn-icon btn-pills ${list.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
+                                                                <span class="${list.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
+                                                            </button>
+                                                        </form>
+                                                        <a href="orderdetailforsale?orderId=${order.orderId}" class="btn btn-icon btn-pills btn-soft-success">
+                                                            <i class="uil uil-pen"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                            <!-- orderlistforsale-->
                                         </tbody>
                                     </table>
                                 </div>
@@ -196,14 +251,14 @@
                                 <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage - 1}&search=${param.search}&status=${param.status}" aria-label="Previous">Prev</a>
                             </li>
                         </c:if>
-
+        
                          Page Numbers 
                         <c:forEach begin="1" end="${totalPages}" var="page">
                             <li class="page-item ${currentPage == page ? 'active' : ''}">
                                 <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${page}&search=${param.search}&status=${param.status}">${page}</a>
                             </li>
                         </c:forEach>
-
+        
                          Next Button 
                         <c:if test="${sliders.size() == 15}">
                             <li class="page-item">

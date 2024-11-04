@@ -827,6 +827,39 @@ public class AccountDAO extends DBContext {
 
         return count;
     }
+     
+     public List<Account> getAccountByRoleId(String roleId){
+        
+        List<Account> list = new ArrayList<>();
+        
+         String sql = "select * from Account where roleId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, roleId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Account account = new Account(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getInt(10),
+                        rs.getString(11),
+                        rs.getInt(12));
+                
+                list.add(account);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        
+        return list;
+    }
     
     public static void main(String[] args) {
         AccountDAO add = new AccountDAO();

@@ -254,7 +254,6 @@ public class AccountDAO extends DBContext {
 //            System.err.println("Lỗi khi thêm account: " + e.getMessage());
 //        }
 //    }
-    
     public void insertAccount(Account acc) {
         try {
 
@@ -364,9 +363,9 @@ public class AccountDAO extends DBContext {
 
     // Kiểm tra email có đúng định dạng không
     public boolean isValidEmail(String email) {
-    String emailRegex = "^[A-Za-z0-9+_.-]+@gmail\\.com$";
-    return email != null && Pattern.compile(emailRegex).matcher(email).matches();
-}
+        String emailRegex = "^[A-Za-z0-9+_.-]+@gmail\\.com$";
+        return email != null && Pattern.compile(emailRegex).matcher(email).matches();
+    }
 
     // Kiểm tra số điện thoại có đúng định dạng không (10 số)
     public boolean isValidMobile(String mobile) {
@@ -776,12 +775,12 @@ public class AccountDAO extends DBContext {
         // Nếu account không null, nghĩa là thông tin hợp lệ
         return account != null;
     }
-    
-    public List<Account> getAccountByRole(){
-        
+
+    public List<Account> getAccountByRole() {
+
         List<Account> list = new ArrayList<>();
-        
-         String sql = "select * from Account where roleId = ?";
+
+        String sql = "select * from Account where roleId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, "3");
@@ -799,24 +798,22 @@ public class AccountDAO extends DBContext {
                         rs.getInt(10),
                         rs.getString(11),
                         rs.getInt(12));
-                
+
                 list.add(account);
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
-        
-        
+
         return list;
     }
-    
-     public int getCustomerCount() {
+
+    public int getCustomerCount() {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM account where roleId=4";
 
         try (
-             PreparedStatement stmt = connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+                PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {
                 count = rs.getInt(1); // Lấy giá trị của cột đầu tiên
@@ -827,12 +824,12 @@ public class AccountDAO extends DBContext {
 
         return count;
     }
-     
-     public List<Account> getAccountByRoleId(String roleId){
-        
+
+    public List<Account> getAccountByRoleId(String roleId) {
+
         List<Account> list = new ArrayList<>();
-        
-         String sql = "select * from Account where roleId = ?";
+
+        String sql = "select * from Account where roleId = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, roleId);
@@ -850,22 +847,66 @@ public class AccountDAO extends DBContext {
                         rs.getInt(10),
                         rs.getString(11),
                         rs.getInt(12));
-                
+
                 list.add(account);
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
-        
-        
+
         return list;
     }
-    
+
+    public int getStaffCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM account where roleId in (2,3,5)";
+
+        try (
+                PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1); // Lấy giá trị của cột đầu tiên
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+    public List<Account> getStaff() {
+        List<Account> list = new ArrayList<>();
+        String sql = "select * from Account where roleId in (2,3,5)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Account account = new Account(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getInt(10),
+                        rs.getString(11),
+                        rs.getInt(12));
+
+                list.add(account);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         AccountDAO add = new AccountDAO();
         List<Account> acc = add.getAccountByRole();
         System.out.println(acc);
-        
+
         int customerCount = add.getCustomerCount();
         System.out.println("Số lượng customer: " + customerCount);
     }

@@ -17,6 +17,7 @@ public class Feedback {
     private String feedbackImg;
     private int feedbackRate;
     private int status;
+    private String brandName;
 
     public Feedback(int feedbackId, int userId, String productId, String feedbackInfo, String feedbackTime, String feedbackImg, int feedbackRate, int status) {
         this.feedbackId = feedbackId;
@@ -31,6 +32,12 @@ public class Feedback {
 
     public Feedback() {
     }
+
+    public Feedback(int feedbackRate, String brandName) {
+        this.feedbackRate = feedbackRate;
+        this.brandName = brandName;
+    }
+    
 
     public int getFeedbackId() {
         return feedbackId;
@@ -96,7 +103,12 @@ public class Feedback {
         this.status = status;
     }
 
-   
-    
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
     
 }

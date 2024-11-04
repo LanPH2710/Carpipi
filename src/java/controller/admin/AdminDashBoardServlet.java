@@ -7,6 +7,7 @@ package controller.admin;
 
 import dal.AccountDAO;
 import dal.BlogDAO;
+import dal.FeedbackDAO;
 import dal.ProductDAO;
 import dal.SliderDAO;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Account;
+import model.Feedback;
 import model.Product;
 
 /**
@@ -63,11 +66,16 @@ public class AdminDashBoardServlet extends HttpServlet {
         ProductDAO productDAO = new ProductDAO();
         AccountDAO accountDAO = new AccountDAO();
         SliderDAO sliderDAO = new SliderDAO();
+        FeedbackDAO fdao = new FeedbackDAO();
         //OrderDAO orderDAO = new OrderDAO();
         // Lấy số lượng blog từ BlogDAO
         int blogCount = blogDAO.getBlogCount();
         int productCount = productDAO.getProductCount();
         int customerCount = accountDAO.getCustomerCount();
+        int staffCount = accountDAO.getStaffCount();
+        int feedbackCount = fdao.getFeedbackCount();
+        List<Feedback> feedbackRate = fdao.getFeedbackRateByBrand();
+        List<Account> staff = accountDAO.getStaff();
         List<Product> productSale = productDAO.getProductsWithTotalQuantitySold();
         int totalQuantitySold = productDAO.getTotalQuantitySold();
         int sliderCount = sliderDAO.getSliderCount();
@@ -79,6 +87,10 @@ public class AdminDashBoardServlet extends HttpServlet {
         request.setAttribute("productSale", productSale);
         request.setAttribute("totalQuantitySold", totalQuantitySold);
         request.setAttribute("sliderCount", sliderCount);
+        request.setAttribute("feedbackBrand", feedbackRate);
+        request.setAttribute("staffCount", staffCount);
+        request.setAttribute("staff", staff);
+        request.setAttribute("feedbackCount", feedbackCount);
         //request.setAttribute("orderCount", orderCount);
         // Chuyển tiếp tới trang JSP để hiển thị
         request.getRequestDispatcher("adminDashboard.jsp").forward(request, response);

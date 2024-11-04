@@ -85,7 +85,7 @@ public class OrderDAO extends DBContext {
 
         String sql = "SELECT acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
                 + "       orr.orderId, orr.orderDeliverCode, orr.userId, orr.createDate, orr.totalPrice, orr.orderStatus,\n"
-                + "       od.productId, od.quantity, od.shippingAddress, od.discountId, od.colorId,\n"
+                + "       od.productId, od.quantity, orr.shippingAddress, od.discountId, od.colorId,\n"
                 + "       p.name AS productName, p.price AS productPrice, MIN(pri.imageUrl) AS imageUrl\n"
                 + "FROM carpipi.order orr\n"
                 + "JOIN carpipi.account acc ON orr.userId = acc.userId\n"
@@ -94,7 +94,7 @@ public class OrderDAO extends DBContext {
                 + "JOIN carpipi.productImage pri ON pri.productId = p.productId\n"
                 + "WHERE od.orderId = ?\n"
                 + "GROUP BY acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
-                + "         orr.orderId, od.productId, od.quantity, od.shippingAddress, od.discountId, od.colorId,\n"
+                + "         orr.orderId, od.productId, od.quantity, orr.shippingAddress, od.discountId, od.colorId,\n"
                 + "         p.name, p.price;";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
@@ -432,15 +432,60 @@ public class OrderDAO extends DBContext {
         return total;
     }
 
+     
+
+    public List<Order> getTop5SalerByOrder() {
+    List<Order> orderList = new ArrayList<>();
+    String query = "SELECT a.userName AS saleName, COUNT(o.orderId) AS total_orders\n"
+                 + "FROM `order` o\n"
+                 + "JOIN `account` a ON o.saleId = a.userId\n"
+                 + "WHERE o.orderStatus = 4\n"
+                 + "GROUP BY a.userName\n"
+                 + "ORDER BY total_orders DESC\n"
+                 + "LIMIT 5";
+
+    try (
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet resultSet = statement.executeQuery()
+    ) {
+        while (resultSet.next()) {
+            // Lấy dữ liệu từ ResultSet
+            String saleName = resultSet.getString("saleName");
+            int totalOrders = resultSet.getInt("total_orders");
+
+            // Tạo đối tượng Order và thiết lập các giá trị
+            Order order = new Order();
+            order.setSaleName(saleName); // Giả sử lớp Order có phương thức setSaleName
+            order.setTotalOrders(totalOrders); // Giả sử lớp Order có phương thức setTotalOrders
+
+            // Thêm vào danh sách
+            orderList.add(order);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); // Ghi log ngoại lệ
+    }
+
+    return orderList;
+}
+
+    
 //son--------------//   
-    public static void main(String[] args) {
+   public static void main(String[] args) {
         OrderDAO o = new OrderDAO();
-        int orderCount = o.getOrderCount();
-        System.out.println("Số lượng order: " + orderCount);
-        List<OrderDetail> l = o.getOrderInforById("1");
+
+        List<OrderDetail> l = o.getListOrderdetailById("1");
         for (OrderDetail orderDetail : l) {
-            System.out.println(orderDetail.getProductName());
+            System.out.println(orderDetail.getFirstName());
         }
 
+        double total = o.getTotalPrice();
+        System.out.println("total price:" + total);
+        
+        
+        List<Order> orderList = o.getTop5SalerByOrder();
+        for (Order order : orderList) {
+            System.out.println(order.getSaleName());
+            System.out.println(order.getTotalOrders());
+        }
     }
 }

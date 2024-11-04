@@ -146,7 +146,7 @@
                                     <!--                                    <li class=" scroll active"><a href="home">Trang Chủ</a></li>-->
                                     <c:choose>
                                         <c:when test="${sessionScope.account.roleId == 1}">
-                                            <li><a href="admin">Admin</a></li>
+                                            <li><a href="admindashboard">Admin</a></li>
                                             </c:when>
                                         </c:choose>
                                         <c:choose>
@@ -156,7 +156,12 @@
                                         </c:choose>
                                         <c:choose>
                                             <c:when test="${sessionScope.account.roleId == 3}">
-                                            <li><a href="sale">Sale</a></li>
+                                            <li><a href="dashboardforsale">Sale</a></li>
+                                            </c:when>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.account.roleId == 5}">
+                                            <li><a href="shipper">Shipper</a></li>
                                             </c:when>
                                         </c:choose>
                                         <c:choose>
@@ -179,7 +184,7 @@
                                             <a href="carts">CART</a>
                                         </li>
                                     </c:if>
- 
+
                                     <c:choose>
                                         <c:when test="${sessionScope.account == null}">
                                             <li></li>

@@ -238,6 +238,48 @@ public class FeedbackDAO extends DBContext {
             e.printStackTrace();
         }
     }
+    
+    public int getFeedbackCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM feedback";
+
+        try (
+                PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1); // Lấy giá trị của cột đầu tiên
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+    
+    public List<Feedback> getFeedbackRateByBrand() {
+        List<Feedback> feedbackList = new ArrayList<>();
+        String sql = "SELECT b.brandId, "
+                + "       b.name AS brandName, "
+                + "       COALESCE(ROUND(AVG(f.feedbackRate), 0), 0) AS averageFeedbackRate "
+                + "FROM brand b "
+                + "LEFT JOIN product p ON b.brandId = p.brandId "
+                + "LEFT JOIN feedback f ON p.productId = f.productId "
+                + "GROUP BY b.brandId, b.name;";
+
+        try (
+                PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                int averageFeedbackRate = rs.getInt("averageFeedbackRate");
+                String brandName = rs.getString("brandName");
+                Feedback feedback = new Feedback(averageFeedbackRate, brandName);
+                feedbackList.add(feedback);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return feedbackList;
+    }
 
     public static void main(String[] args) {
         FeedbackDAO f = new FeedbackDAO();

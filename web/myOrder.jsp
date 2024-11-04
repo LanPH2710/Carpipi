@@ -215,7 +215,7 @@
                     </div>
                     <ul class="sidebar-menu pt-3">
                         <li>
-                            <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
+                            <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
                         </li>
                         <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
                     </ul>
@@ -348,7 +348,7 @@
                                                                         <div class="product-info">
                                                                             <img src="${detail.imageUrl}" class="product-img" alt="Product Image">
                                                                             <div class="product-description">
-                                                                                <h4><a href="cartCompletionDetail.jsp" class="product-name">${detail.productName}</a></h4>
+                                                                                <h4><a href="orderInfor?orderId=${order.orderId}" class="product-name">${detail.productName}</a></h4>
                                                                                 <p class="brand">Hãng xe: ${detail.brandName}</p>
                                                                                 <p class="quantity">Số lượng: ${detail.quantity}</p>
                                                                                 <p class="color">Màu sắc: ${detail.colorName}</p>
@@ -391,10 +391,6 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
-
-
-
-
                                 </div>
                             </div><!--end row--> 
                         </div>

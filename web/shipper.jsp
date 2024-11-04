@@ -201,7 +201,7 @@
                     </div>
                     <ul class="sidebar-menu pt-3">
                         <li>
-                            <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
+                            <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
                         </li>
                         <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
                     </ul>
@@ -339,16 +339,51 @@
                                                             &nbsp;&nbsp;
 
                                                             <!-- Form dùng để cập nhật trạng thái đơn hàng -->
-                                                            <form action="shipper" method="POST">
+                                                            <form id="orderForm" action="shipper" method="POST">
                                                                 <!-- Hidden field để gửi orderId -->
                                                                 <input type="hidden" name="orderId" value="${order.orderId}">
-                                                                <!-- Dropdown để chọn trạng thái -->
-                                                                <select class="form-control" name="orderStatus" onchange="this.form.submit()">
-                                                                    <option value="">Cập nhật đơn hàng</option>
-                                                                    <option value="3" ${order.orderStatus == 3 ? 'selected' : ''}>Shipped</option>
-                                                                    <option value="4" ${order.orderStatus == 4 ? 'selected' : ''}>Done</option>
-                                                                </select>
+
+                                                                <!-- Kiểm tra trạng thái và chỉ hiển thị select nếu orderStatus khác 4 -->
+                                                                <c:if test="${order.orderStatus != 4}">
+                                                                    <!-- Dropdown để chọn trạng thái -->
+                                                                    <select class="form-control" name="orderStatus" onchange="checkAndSubmit(this)">
+                                                                        <option value="">Cập nhật đơn hàng</option>
+                                                                        <option value="3" ${order.orderStatus == 3 ? 'selected' : ''}>Shipped</option>
+                                                                        <option value="4" ${order.orderStatus == 4 ? 'selected' : ''}>Done</option>
+                                                                    </select>
+                                                                </c:if>
                                                             </form>
+
+                                                            <script>
+                                                                // Lưu trạng thái hiện tại khi trang được tải
+                                                                const currentStatus = "${order.orderStatus}";
+
+                                                                function checkAndSubmit(selectElement) {
+                                                                    // Lấy giá trị mới từ dropdown
+                                                                    const newStatus = selectElement.value;
+
+                                                                    // Nếu giá trị mới là "" thì không làm gì
+                                                                    if (newStatus === "") {
+                                                                        return;
+                                                                    }
+
+                                                                    // Kiểm tra nếu giá trị mới khác với giá trị hiện tại
+                                                                    if (newStatus !== currentStatus) {
+                                                                        // Hiển thị hộp thoại xác nhận
+                                                                        const confirmUpdate = confirm("Bạn muốn cập nhật đơn hàng này?");
+                                                                        if (confirmUpdate) {
+                                                                            // Gửi form nếu người dùng chọn "Có"
+                                                                            document.getElementById("orderForm").submit();
+                                                                        } else {
+                                                                            // Nếu chọn "Không", khôi phục lại giá trị ban đầu
+                                                                            selectElement.value = currentStatus;
+                                                                        }
+                                                                    } else {
+                                                                        // Nếu không thay đổi, thông báo và không gửi form
+                                                                        alert("Trạng thái đơn hàng không thay đổi.");
+                                                                    }
+                                                                }
+                                                            </script>
                                                         </div>
 
 
@@ -357,7 +392,7 @@
                                                                 <div class="product-info">
                                                                     <img src="${detail.imageUrl}" class="product-img" alt="Product Image">
                                                                     <div class="product-description">
-                                                                        <h4><a href="cartCompletionDetail.jsp" class="product-name">${detail.productName}</a></h4>
+                                                                        <h4><a href="orderInfor?orderId=${order.orderId}" class="product-name">${detail.productName}</a></h4>
                                                                         <p class="brand">Hãng xe: ${detail.brandName}</p>
                                                                         <p class="quantity">Số lượng: ${detail.quantity}</p>
                                                                         <p class="color">Màu sắc: ${detail.colorName}</p>
@@ -372,7 +407,9 @@
                                                             </p>
                                                         </div>
                                                         <div class="button-container">
-                                                            <button class="return-btn">Thông tin đơn hàng</button>
+                                                            <a href="orderInfor?orderId=${order.orderId}">
+                                                                <button class="return-btn">Thông tin đơn hàng</button>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </c:forEach>

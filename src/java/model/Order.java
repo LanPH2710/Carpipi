@@ -17,6 +17,8 @@ public class Order {
     private BigDecimal totalPrice; // Sử dụng BigDecimal cho tiền tệ
     private String note;
     private int saleId;
+    private String saleName;
+    private int totalOrders;
     private Integer shipperId; // Integer vì có thể null
     private Date createDate; // Sử dụng Date cho ngày tháng
     private String shippingAddress;
@@ -43,8 +45,24 @@ public class Order {
     }
     
     
+    
+    public String getSaleName() {
+        return saleName;
+    }
+
+    public void setSaleName(String saleName) {
+        this.saleName = saleName;
+    }
+
+    public int getTotalOrders() {
+        return totalOrders;
+    }
 
     // Getters và Setters
+    public void setTotalOrders(int totalOrders) {
+        this.totalOrders = totalOrders;
+    }
+
     public int getOrderId() {
         return orderId;
     }

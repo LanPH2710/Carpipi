@@ -49,12 +49,35 @@
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                        <c:choose>
+                            <c:when test="${sessionScope.account.roleId == 1}">
+                                <li><a href="admindashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                </c:when>
+                                <c:when test="${sessionScope.account.roleId == 2}">
+                                <li><a href="marketingdashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                </c:when>
+                            </c:choose>
                         <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
                         <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
                         <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
-                        <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
-                        <li><a href="postlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>Post List</a></li>
+                        <c:choose>
+                                <c:when test="${sessionScope.account.roleId == 1}">
+                                <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
+                                </c:when>
+                            </c:choose>
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)">
+                                <i class="uil uil-flip-h me-2 d-inline-block"></i>Posts List</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="postlist">Tất cả bài viết</a></li>
+                                        <c:forEach items="${topic}" var="t">
+                                        <li><a href="postlist?topic=${t.blogTopicId}">${t.toppicName}</a></li>
+                                        </c:forEach>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -235,7 +258,6 @@
                                                                     </button>
                                                                 </form>
                                                                 <a href="settingdetail?brandId=${brand.brandId}" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
-                                                                <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
@@ -281,7 +303,7 @@
                                                                         <span class="${style.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
                                                                     </button>
                                                                 </form>
-                                                                <a href="editSetting?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
+                                                                <a href="settingdetail?styleId=${style.styleId}" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
 
                                                             </td>
                                                         </tr>
@@ -321,7 +343,7 @@
                                                                         <span class="${segment.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
                                                                     </button>
                                                                 </form>
-                                                                <a href="editSetting?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
+                                                                <a href="settingdetail?segmentId=${segment.segmentId}" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
 
                                                             </td>
                                                         </tr>
@@ -360,7 +382,7 @@
                                                                         <span class="${supply.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
                                                                     </button>
                                                                 </form>
-                                                                <a href="editSetting?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
+                                                                <a href="settingdetail?supplyId=${supply.supplyId}" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
 
                                                             </td>
                                                         </tr>

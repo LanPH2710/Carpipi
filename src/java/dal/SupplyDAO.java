@@ -156,9 +156,56 @@ public class SupplyDAO extends DBContext {
         return false;
     }
     
+    public void updateSupply(String supplyId, String supplyName, int supplyStatus) throws SQLException {
+    String query = "UPDATE style SET styleName = ?, status = ? WHERE styleId = ?";
+    try (
+         PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setString(1, supplyName);
+        stmt.setInt(2, supplyStatus);
+        stmt.setString(3, supplyId);
+        stmt.executeUpdate();
+    }
+}
+    
+    public Supply getSupplyById(String suplyId) {
+        Supply supply = null;
+        String sql = "SELECT * FROM supply WHERE supplyId = ?";
+        
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, suplyId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    supply = new Supply();
+                    supply.setSupplyId(rs.getString("supplyId"));
+                    supply.setSupplyName(rs.getString("supplyName"));
+                    supply.setSupplyLocation(rs.getString("supplyLocation"));
+                  //  brand.setProductCount(rs.getInt("productCount"));
+                    supply.setStatus(rs.getInt("status"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return supply;
+    }
+    
     public static void main(String[] args) {
         SupplyDAO s = new SupplyDAO();
-        List<Supply> supplyList = s.getSupplyListWithProductCount();
+       // List<Supply> supplyList = s.getSupplyListWithProductCount();
         //System.out.println(s.getAllSupplyCar());
+        
+        Supply supply = s.getSupplyById("1");
+
+        if (supply != null) {
+            System.out.println("Style ID: " + supply.getSupplyId());
+            System.out.println("Style Name: " + supply.getSupplyName());
+            System.out.println("Style location: " + supply.getSupplyLocation());
+         //   System.out.println("Product Count: " + brand.getProductCount());
+            System.out.println("Status: " + supply.getStatus());
+        } else {
+            System.out.println("No style found with the given ID.");
+        }
     }
 }

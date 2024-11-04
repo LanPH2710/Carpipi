@@ -145,16 +145,40 @@
                 border-radius: 10px;
             }
 
-            .order-summary table {
-                width: 100%;
-                border-collapse: collapse;
+            .order-summary {
+                background-color: #f8f9fa; /* Màu nền nhạt cho khung */
+                border: 1px solid #ddd; /* Viền nhạt cho khung */
+                padding: 15px;
+                border-radius: 8px; /* Bo góc khung */
+                max-width: 400px; /* Đặt độ rộng tối đa */
+                margin: 20px auto; /* Căn giữa */
             }
 
-            .order-summary td {
-                padding: 12px;
+            .order-summary .table {
+                margin-bottom: 0; /* Loại bỏ khoảng cách dưới */
+            }
+
+            .order-summary td.text-muted {
+                color: #6c757d; /* Màu chữ nhạt */
+                font-size: 16px;
+            }
+
+            .order-summary td.text-right {
+                color: #333;
+                font-size: 16px;
+            }
+
+            .order-summary td.font-weight-bold {
+                font-weight: 700;
+                color: #212529; /* Màu chữ đậm */
+            }
+
+            .order-summary tr {
                 border-bottom: 1px solid #ddd;
-                font-size: 15px;
-                color: #34495e;
+            }
+
+            .order-summary tr:last-child {
+                border-bottom: none; /* Loại bỏ viền dưới cùng */
             }
 
             .total {
@@ -190,6 +214,65 @@
                 border-radius: 10px;
                 object-fit: cover;
             }
+            /* Container chính */
+            .d-flex.justify-content-between.gap-2 {
+                display: flex;
+                justify-content: space-between;
+                gap: 20px;
+                margin-bottom: 20px;
+            }
+
+            /* Shipping Info */
+            .shipping-info {
+                background-color: #f1f1f1; /* Màu nền nhạt */
+                border: 1px solid #ccc; /* Viền nhạt */
+                padding: 20px;
+                border-radius: 8px; /* Bo góc */
+                width: 48%; /* Đặt chiều rộng cố định */
+            }
+
+            .shipping-info h5 {
+                font-size: 18px;
+                color: #333;
+                margin-bottom: 10px;
+            }
+
+            .shipping-info p {
+                font-size: 14px;
+                color: #555;
+                margin: 4px 0;
+            }
+
+            /* Tracking Timeline */
+            .tracking-timeline {
+                background-color: #f1f1f1;
+                border: 1px solid #ccc;
+                padding: 20px;
+                border-radius: 8px;
+                width: 48%;
+            }
+
+            .timeline-entry {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                border-left: 3px solid #28a745; /* Viền trái cho dòng thời gian */
+                padding-left: 15px;
+            }
+
+            .timeline-entry .time {
+                font-size: 14px;
+                color: #6c757d;
+                margin-bottom: 5px;
+            }
+
+            .timeline-entry .status {
+                font-size: 16px;
+                color: #28a745;
+                font-weight: bold;
+            }
+
+
         </style>
 
     </head>
@@ -214,10 +297,10 @@
                     </div>
                     <ul class="sidebar-menu pt-3">
                         <li>
-                            <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
+                            <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
                         </li>
                         <li>
-                            <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
+                            <a href="productlist"><i class="uil uil-car me-2 d-inline-block"></i>Product List</a>
                         </li>
                     </ul>
                     <!-- sidebar-menu  -->
@@ -249,7 +332,7 @@
                                     </form>                             
                                 </div>
                             </div>
-                            <a href="carts" class="btn btn-secondary ms-2">Reset Search</a>
+
                         </div>
                     </div>
                 </div>
@@ -285,7 +368,9 @@
                                     <c:forEach var="order" items="${orderInfor}">
                                         <!-- Product Image -->
                                         <div class="product-info1">
-                                            <img src="${order.imageUrl}" class="product-img rounded">
+                                            <a href="productdetail?productId=${order.productId}">
+                                                <img src="${order.imageUrl}" class="product-img rounded">
+                                            </a>
 
                                             <!-- Product Info -->
                                             <div>
@@ -328,23 +413,34 @@
                                             </div>
                                         </div>
                                     </c:forEach>
-
                                 </div>
 
-                                <!-- Order Summary -->
-                                <div class="order-summary">
-                                    <table class="table table-borderless">
-                                        <c:forEach var="sum" items="${orderInfor}" begin="0" end="0">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="text-muted">Tổng tiền hàng</td>
-                                                    <td class="text-right font-weight-bold"><fmt:formatNumber value="${sum.totalPrice}" type="currency" currencySymbol="$" /></td>
-                                                </tr>
-                                            </tbody>
-                                        </c:forEach>
+                                <!-- Order Summary and Reorder Button -->
+                                <div class="d-flex justify-content-between align-items-center mb-6">
+                                    <div class="order-summary">
+                                        <table class="table table-borderless mb-0">
+                                            <c:forEach var="sum" items="${orderInfor}" begin="0" end="0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-muted">Tổng tiền hàng</td>
+                                                        <td class="text-right font-weight-bold">
+                                                            <fmt:formatNumber value="${sum.totalPrice}" type="currency" currencySymbol="$" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </c:forEach>
+                                        </table>
+                                    </div>
 
-                                    </table>
+                                    <c:forEach var="rebuy" items="${orderInfor}" begin="0" end="0">
+                                        <div class="reorder-btn ml-3">
+                                            <a href="addtocart?productId=${rebuy.productId}&quantity=${rebuy.quantity}" 
+                                               class="btn btn-primary">Mua lại</a>
+                                        </div>
+                                    </c:forEach>
                                 </div>
+
+
                             </div>
                         </div><!--end row--> 
                     </div>

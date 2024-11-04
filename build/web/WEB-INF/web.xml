@@ -190,6 +190,10 @@
         <servlet-name>DashboardForSaleServlet</servlet-name>
         <servlet-class>controller.sale.DashboardForSaleServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SaleCheckServlet</servlet-name>
+        <servlet-class>controller.sale.SaleCheckServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -349,5 +353,9 @@
     <servlet-mapping>
         <servlet-name>DashboardForSaleServlet</servlet-name>
         <url-pattern>/dashboardforsale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaleCheckServlet</servlet-name>
+        <url-pattern>/salecheck</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -4,56 +4,47 @@
  */
 package model;
 
-/**
- *
- * @author Sonvu
- */
-public class Order {
-//orderId int AI PK 
-//userId int 
-//totalPrice decimal(15,2) 
-//note varchar(255) 
-//saleId int 
-//shipperId int 
-//createDate datetime 
-//orderStatus int    
+import java.math.BigDecimal;
+import java.util.Date;
 
+public class Order {
     private int orderId;
-    private int userId;
-    private double totalPrice;
+    private String orderDeliverCode;
+    private Integer userId; // Integer vì có thể null
+    private String orderName;
+    private String orderEmail; // Đã sửa từ orderEmai thành orderEmail
+    private String orderPhone;
+    private BigDecimal totalPrice; // Sử dụng BigDecimal cho tiền tệ
     private String note;
     private int saleId;
-    private int shipperId;
-    private String createDate;
+    private Integer shipperId; // Integer vì có thể null
+    private Date createDate; // Sử dụng Date cho ngày tháng
+    private String shippingAddress;
     private int orderStatus;
 
-    private String firstName;
-    private String lastName;
-    private int gender;
-    private String email;
-    private String mobile;
-    private String address;
+    // Constructor
+    public Order() {
+    }
 
-    public Order(int orderId, int userId, double totalPrice, String note, int saleId, int shipperId, String createDate, int orderStatus, String firstName, String lastName, int gender, String email, String mobile, String address) {
+    public Order(int orderId, String orderDeliverCode, Integer userId, String orderName, String orderEmail, String orderPhone, BigDecimal totalPrice, String note, int saleId, Integer shipperId, Date createDate, String shippingAddress, int orderStatus) {
         this.orderId = orderId;
+        this.orderDeliverCode = orderDeliverCode;
         this.userId = userId;
+        this.orderName = orderName;
+        this.orderEmail = orderEmail;
+        this.orderPhone = orderPhone;
         this.totalPrice = totalPrice;
         this.note = note;
         this.saleId = saleId;
         this.shipperId = shipperId;
         this.createDate = createDate;
+        this.shippingAddress = shippingAddress;
         this.orderStatus = orderStatus;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.email = email;
-        this.mobile = mobile;
-        this.address = address;
     }
+    
+    
 
-    public Order() {
-    }
-
+    // Getters và Setters
     public int getOrderId() {
         return orderId;
     }
@@ -62,19 +53,51 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public int getUserId() {
+    public String getOrderDeliverCode() {
+        return orderDeliverCode;
+    }
+
+    public void setOrderDeliverCode(String orderDeliverCode) {
+        this.orderDeliverCode = orderDeliverCode;
+    }
+
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public double getTotalPrice() {
+    public String getOrderName() {
+        return orderName;
+    }
+
+    public void setOrderName(String orderName) {
+        this.orderName = orderName;
+    }
+
+    public String getOrderEmail() {
+        return orderEmail;
+    }
+
+    public void setOrderEmail(String orderEmail) {
+        this.orderEmail = orderEmail;
+    }
+
+    public String getOrderPhone() {
+        return orderPhone;
+    }
+
+    public void setOrderPhone(String orderPhone) {
+        this.orderPhone = orderPhone;
+    }
+
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -94,20 +117,28 @@ public class Order {
         this.saleId = saleId;
     }
 
-    public int getShipperId() {
+    public Integer getShipperId() {
         return shipperId;
     }
 
-    public void setShipperId(int shipperId) {
+    public void setShipperId(Integer shipperId) {
         this.shipperId = shipperId;
     }
 
-    public String getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 
     public int getOrderStatus() {
@@ -117,53 +148,4 @@ public class Order {
     public void setOrderStatus(int orderStatus) {
         this.orderStatus = orderStatus;
     }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getGender() {
-        return gender;
-    }
-
-    public void setGender(int gender) {
-        this.gender = gender;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
 }

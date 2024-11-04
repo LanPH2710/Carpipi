@@ -362,9 +362,6 @@
                                                                         <p class="quantity">Số lượng: ${detail.quantity}</p>
                                                                         <p class="color">Màu sắc: ${detail.colorName}</p>
                                                                     </div>
-                                                                    <c:if test="${fn:contains(detail.description, 'Đơn hàng đã được giao đến tay khách hàng') && detail.isfeedback == 0}">
-                                                                        <a class="buy-again-btn" href="customerfeedback?productId=${detail.productId}&orderDetailId=${detail.orderDetailId}">Đánh giá</a>
-                                                                    </c:if>
                                                                 </div>
                                                             </div>
                                                         </c:forEach>

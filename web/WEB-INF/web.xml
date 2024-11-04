@@ -182,6 +182,10 @@
         <servlet-name>AdminDashBoardServlet</servlet-name>
         <servlet-class>controller.admin.AdminDashBoardServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderInformationServlet</servlet-name>
+        <servlet-class>controller.common.OrderInformationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -333,5 +337,9 @@
     <servlet-mapping>
         <servlet-name>AdminDashBoardServlet</servlet-name>
         <url-pattern>/admindashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderInformationServlet</servlet-name>
+        <url-pattern>/orderInfor</url-pattern>
     </servlet-mapping>
 </web-app>

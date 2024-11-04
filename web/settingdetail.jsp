@@ -136,80 +136,55 @@
                                             </a><!--end nav link-->
                                         </li><!--end nav item-->
                                     </ul>
-                  
-                                    <c:if test="${brand != null}">
-                                        <form method="POST" action="settingdetail">
 
-                                            <div class="tab-content p-4" id="pills-tabContent">
-                                                <div class="tab-pane fade show active" id="pills-overview" role="tabpanel"
-                                                     aria-labelledby="overview-tab">
-                                                    <div class="row">
-                                                        <div class="col-lg-6 col-12 mt-4">
-
-                                                            <div>
-                                                                <strong>brand ID</strong>
-                                                                <!--                                                            <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">-->
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
-                                                                    ${brand.brandId}
-                                                                </div>
+                                    <form method="POST" action="settingdetail">
+                                        <div class="tab-content p-4" id="pills-tabContent">
+                                            <div class="tab-pane fade show active" id="pills-overview" role="tabpanel" aria-labelledby="overview-tab">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-12 mt-4">
+                                                        <div>
+                                                            <strong>ID Thương Hiệu</strong>
+                                                            <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                ${brand.brandId}
                                                             </div>
-
-                                                            <div>
-                                                                <strong>brand name</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
-                                                                    ${brand.name}
-                                                                </div>
-                                                            </div>
-
+                                                            <input type="hidden" name="brandId" value="${brand.brandId}" />
                                                         </div>
-                                                        <div class="col-lg-6 col-12 mt-4">
 
-<!--                                                            <div>
-                                                                <strong>brand Count</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
-                                                                    ${brand.productCount}
-                                                                </div>
-                                                            </div>-->
-
-
-                                                            <strong>Trạng thái</strong>
-                                                            <input type="hidden" name="feedbackId" value="${feedbackdetail.feedbackId}" />
-                                                            <select name="status" class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
-                                                                <option value="1" ${brand.status == 1 ? 'selected' : ''}>Hiển thị</option>
-                                                                <option value="0" ${brand.status == 0 ? 'selected' : ''}>Ẩn</option>
-                                                            </select>
-
-
-
-
-
+                                                        <div>
+                                                            <strong>Tên Thương Hiệu</strong>
+                                                            <input 
+                                                                type="text" 
+                                                                name="brandName" 
+                                                                class="form-control d-flex justify-content-between align-items-center rounded p-3 shadow mt-3" 
+                                                                value="${brand.name}">
                                                         </div>
                                                     </div>
-
-
-<!--                                                    <h5 class="mb-0 mt-4 pt-2">Image</h5>
-                                                    <div class="row">
-                                                        <div class="col-md-12 col-lg-6 mt-4">
-
-                                                        </div>end col
-
-                                                        <div class="col-md-12 col-lg-6 mt-4">
-
-                                                        </div>end col
-                                                    </div>end row-->
-
-
+                                                    <div class="col-lg-6 col-12 mt-4">
+                                                        <div>
+                                                            <strong>Loại</strong>
+                                                            <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                Sản Phẩm
+                                                            </div>
+<!--                                                            <input type="hidden" name="brandId" value="${brand.brandId}" />-->
+                                                        </div>
+                                                        <div>
+                                                            <strong>Trạng thái</strong>
+                                                            <select name="status" class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                <option value="active" ${brand.status == 1 ? 'selected' : ''}>Hiển thị</option>
+                                                                <option value="inactive" ${brand.status == 0 ? 'selected' : ''}>Ẩn</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="settingsList" class="btn btn-secondary">Hủy</a>
+                                            <input type="submit" class="btn btn-info" value="Lưu">
+                                        </div>
+                                    </form>
 
 
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a href="settingsList" class="btn btn-secondary">Hủy</a>
-                                                <input type="submit" class="btn btn-info" value="Lưu">
-                                            </div>
-                                        </form>
-                                    </c:if>
-                                   
 
 
 

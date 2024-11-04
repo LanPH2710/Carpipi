@@ -1,6 +1,6 @@
 package controller.shipper;
 
-import dal.OrderDetail1DAO;
+import dal.OrderDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import model.Order1;
-import model.OrderDetail1;
+import model.Order;
+import model.OrderDetail;
 
 public class ShipperServlet extends HttpServlet {
 
@@ -54,9 +54,9 @@ public class ShipperServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        OrderDetail1DAO od1dao = new OrderDetail1DAO();
-        List<Order1> order = new ArrayList<>();
-        Map<Integer, List<OrderDetail1>> orderDetailsMap = new HashMap<>();
+        OrderDetailDAO od1dao = new OrderDetailDAO();
+        List<Order> order = new ArrayList<>();
+        Map<Integer, List<OrderDetail>> orderDetailsMap = new HashMap<>();
         int statusId = 0;
         String statusIdParam = request.getParameter("statusId");
         String keyword = request.getParameter("keyword");
@@ -74,8 +74,8 @@ public class ShipperServlet extends HttpServlet {
         }else {
             order = od1dao.getShipOrder();
         }
-        for (Order1 order1 : order) {
-            List<OrderDetail1> orderDetails = od1dao.getOrderDetail(order1.getOrderId());
+        for (Order order1 : order) {
+            List<OrderDetail> orderDetails = od1dao.getOrderDetail(order1.getOrderId());
             orderDetailsMap.put(order1.getOrderId(), orderDetails);
         }
         //phan trang
@@ -112,7 +112,7 @@ public class ShipperServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        OrderDetail1DAO od1dao = new OrderDetail1DAO();
+        OrderDetailDAO od1dao = new OrderDetailDAO();
         int orderStatus = Integer.parseInt(request.getParameter("orderStatus"));
         int orderId = Integer.parseInt(request.getParameter("orderId"));
         od1dao.updateOrderStatus(orderId, orderStatus);

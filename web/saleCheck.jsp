@@ -203,7 +203,7 @@
                         <li>
                             <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
                         </li>
-                        <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
+                        <li><a href="salecheck"><i class="uil uil-cube me-2 d-inline-block"></i>Xác nhận đơn hàng</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>

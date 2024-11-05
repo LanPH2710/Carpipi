@@ -326,12 +326,10 @@ public class OrderDAO extends DBContext {
 
     /// Manhhuy-----------------------------------------------------------------------------------------------------//
 //son--------------//
-    
-
     public List<OrderDetail> getListOrderWithStatus(String status) {
         List<OrderDetail> list = new ArrayList();
 
-        String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId,\n"
+        String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId, orr.orderName,\n"
                 + "orr.orderStatus, SUBSTRING_INDEX(GROUP_CONCAT(p.name ORDER BY od.orderId SEPARATOR ', '), ', ', 1) AS firstProductName, \n"
                 + "COUNT(od.productId) - 1 AS additionalProductCount \n"
                 + "FROM carpipi.order orr \n"
@@ -356,6 +354,7 @@ public class OrderDAO extends DBContext {
                 o.setCreateDate(rs.getDate("createDate"));
                 o.setFirstName(rs.getString("firstName"));
                 o.setLastName(rs.getString("lastName"));
+                o.setOrderName(rs.getString("orderName"));
                 o.setTotalPrice(rs.getDouble("totalPrice"));
                 o.setOrderStatus(rs.getInt("orderStatus"));
                 o.setProductName(rs.getString("firstProductName"));
@@ -372,27 +371,27 @@ public class OrderDAO extends DBContext {
 
     public List<OrderDetail> getListOrderWithSearch(String search) {
         List<OrderDetail> list = new ArrayList();
-        String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId,\n"
-                + "orr.orderStatus, SUBSTRING_INDEX(GROUP_CONCAT(p.name ORDER BY od.orderId SEPARATOR ', '), ', ', 1) AS firstProductName, \n"
-                + "COUNT(od.productId) - 1 AS additionalProductCount \n"
-                + "FROM carpipi.order orr \n"
+        String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId, orr.orderName,\n"
+                + "       orr.orderStatus, SUBSTRING_INDEX(GROUP_CONCAT(p.name ORDER BY od.orderId SEPARATOR ', '), ', ', 1) AS firstProductName, \n"
+                + "       COUNT(od.productId) - 1 AS additionalProductCount \n"
+                + "FROM carpipi.`order` orr \n"
                 + "JOIN carpipi.account acc ON orr.userId = acc.userId \n"
                 + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId \n"
                 + "JOIN carpipi.product p ON od.productId = p.productId \n"
-                + "Where orr.orderStatus = ? or acc.firstName Like ? or acc.lastName Like ?\n"
-                + "GROUP BY orr.orderId";
+                + "GROUP BY orr.orderId\n"
+                + "HAVING firstProductName LIKE ? OR acc.firstName LIKE ? OR acc.lastName LIKE ?";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
 
-            st.setString(1, search);  // Order status
+            st.setString(1, "%" + search + "%");  // Order status
             st.setString(2, "%" + search + "%");  // First name
             st.setString(3, "%" + search + "%");  // Last name
 
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
-                System.out.println("Record found: " + rs.getInt("firstName")); // Kiểm tra xem có bản ghi nào trả về
+                System.out.println("Record found: " + rs.getString("firstName")); // Kiểm tra xem có bản ghi nào trả về
 
                 OrderDetail o = new OrderDetail();
                 o.setOrderId(rs.getInt("orderId"));
@@ -401,6 +400,7 @@ public class OrderDAO extends DBContext {
                 o.setCreateDate(rs.getDate("createDate"));
                 o.setFirstName(rs.getString("firstName"));
                 o.setLastName(rs.getString("lastName"));
+                o.setOrderName(rs.getString("orderName"));
                 o.setTotalPrice(rs.getDouble("totalPrice"));
                 o.setOrderStatus(rs.getInt("orderStatus"));
                 o.setProductName(rs.getString("firstProductName"));
@@ -432,43 +432,70 @@ public class OrderDAO extends DBContext {
         return total;
     }
 
-     
+    public double getTotalCarSale() {
+        double total = 0;
+        String query = "SELECT SUM(od.quantity) as quantity\n"
+                + "FROM `order` o join carpipi.orderDetail od\n"
+                + "On o.orderId = od.orderId\n"
+                + "where orderStatus= 4";
+        try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                total = resultSet.getDouble("quantity");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+    
+    public int getTotalSaler() {
+        int total = 0;
+        String query = "select Count(*) as quantity from Account where roleId = 3";
+        try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                total = resultSet.getInt("quantity");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+    
 
     public List<Order> getTop5SalerByOrder() {
-    List<Order> orderList = new ArrayList<>();
-    String query = "SELECT a.userName AS saleName, COUNT(o.orderId) AS total_orders\n"
-                 + "FROM `order` o\n"
-                 + "JOIN `account` a ON o.saleId = a.userId\n"
-                 + "WHERE o.orderStatus = 4\n"
-                 + "GROUP BY a.userName\n"
-                 + "ORDER BY total_orders DESC\n"
-                 + "LIMIT 5";
+        List<Order> orderList = new ArrayList<>();
+        String query = "SELECT a.userName AS saleName, COUNT(o.orderId) AS total_orders\n"
+                + "FROM `order` o\n"
+                + "JOIN `account` a ON o.saleId = a.userId\n"
+                + "WHERE o.orderStatus = 4\n"
+                + "GROUP BY a.userName\n"
+                + "ORDER BY total_orders DESC\n"
+                + "LIMIT 5";
 
-    try (
-        PreparedStatement statement = connection.prepareStatement(query);
-        ResultSet resultSet = statement.executeQuery()
-    ) {
-        while (resultSet.next()) {
-            // Lấy dữ liệu từ ResultSet
-            String saleName = resultSet.getString("saleName");
-            int totalOrders = resultSet.getInt("total_orders");
+        try (
+                PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                // Lấy dữ liệu từ ResultSet
+                String saleName = resultSet.getString("saleName");
+                int totalOrders = resultSet.getInt("total_orders");
 
-            // Tạo đối tượng Order và thiết lập các giá trị
-            Order order = new Order();
-            order.setSaleName(saleName); // Giả sử lớp Order có phương thức setSaleName
-            order.setTotalOrders(totalOrders); // Giả sử lớp Order có phương thức setTotalOrders
+                // Tạo đối tượng Order và thiết lập các giá trị
+                Order order = new Order();
+                order.setSaleName(saleName); // Giả sử lớp Order có phương thức setSaleName
+                order.setTotalOrders(totalOrders); // Giả sử lớp Order có phương thức setTotalOrders
 
-            // Thêm vào danh sách
-            orderList.add(order);
+                // Thêm vào danh sách
+                orderList.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Ghi log ngoại lệ
         }
-    } catch (SQLException e) {
-        e.printStackTrace(); // Ghi log ngoại lệ
+
+        return orderList;
     }
 
-    return orderList;
-}
-
-    
 //son--------------//   
    public static void main(String[] args) {
         OrderDAO o = new OrderDAO();

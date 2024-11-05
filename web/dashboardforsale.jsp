@@ -106,11 +106,11 @@
                                 <a href="postlist" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
-                                            <i class="uil uil-bed h3 mb-0"></i>
+                                            
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0"> <fmt:formatNumber value="${total}" type="number" pattern="#,###"/></h5>
-                                            <p class="text-muted mb-0">total</p>
+                                            <p class="text-muted mb-0">Tổng tiền</p>
                                         </div>
                                     </div>
                                 </a>
@@ -123,8 +123,8 @@
                                             <i class="uil uil-file-medical-alt h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
-                                            <h5 class="mb-0"></h5>
-                                            <p class="text-muted mb-0">product</p>
+                                            <h5 class="mb-0">${totalOfCar}</h5>
+                                            <p class="text-muted mb-0">Tổng sản phẩm</p>
                                         </div>
                                     </div>
                                 </a>
@@ -137,42 +137,17 @@
                                             <i class="uil uil-social-distancing h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
-                                            <h5 class="mb-0"></h5>
-                                            <p class="text-muted mb-0">customer</p>
+                                            <h5 class="mb-0">${totalSaler}</h5>
+                                            <p class="text-muted mb-0">Tổng nhân viên</p>
                                         </div>
                                     </div>
 
                                 </a>
                             </div><!--end col-->
 
-                            <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
-                                <div class="card features feature-primary rounded border-0 shadow p-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon text-center rounded-md">
-                                            <i class="uil uil-ambulance h3 mb-0"></i>
-                                        </div>
-                                        <div class="flex-1 ms-2">
-                                            <h5 class="mb-0"></h5>
-                                            <p class="text-muted mb-0">total Sale Product</p>
-                                        </div>
-                                    </div>
+                           
 
-                                </div>
-                            </div><!--end col-->
-
-                            <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
-                                <a href="SliderList" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon text-center rounded-md">
-                                            <i class="uil uil-medical-drip h3 mb-0"></i>
-                                        </div>
-                                        <div class="flex-1 ms-2">
-                                            <h5 class="mb-0"></h5>
-                                            <p class="text-muted mb-0">slider Count</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div><!--end col-->
+                            
                         </div><!--end row-->
 
                         <div class="row">

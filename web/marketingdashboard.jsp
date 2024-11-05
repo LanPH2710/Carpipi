@@ -7,7 +7,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Doctris - Doctor Appointment Booking System</title>
+        <title>Carpipi</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -132,7 +132,7 @@
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
                                             <!--                                            <i class="uil uil-bed h3 mb-0"></i>-->
-                                            <i class="uil uil-file-medical-alt h3 mb-0"></i>
+                                            <i class="uil uil-file-edit-alt h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0"> ${blogCount}</h5>
@@ -146,7 +146,7 @@
                                 <a href="productlist" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
-                                            <i class="uil uil-file-medical-alt h3 mb-0"></i>
+                                            <i class="uil uil-box h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0">${productCount}</h5>
@@ -160,7 +160,7 @@
                                 <a href="customerlist" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
-                                            <i class="uil uil-social-distancing h3 mb-0"></i>
+                                            <i class="uil uil-users-alt h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0">${customerCount}</h5>
@@ -175,7 +175,7 @@
                                 <div class="card features feature-primary rounded border-0 shadow p-4">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
-                                            <i class="uil uil-ambulance h3 mb-0"></i>
+                                            <i class="uil uil-shopping-cart h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0">${totalQuantitySold}</h5>
@@ -191,11 +191,11 @@
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
 
-                                            <i class="uil uil-medical-drip h3 mb-0"></i>
+                                            <i class="uil uil-sliders-v-alt h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0">${sliderCount}</h5>
-                                            <p class="text-muted mb-0">slider Đang Hoạt Động</p>
+                                            <p class="text-muted mb-0">Slider Đang Hoạt Động</p>
                                         </div>
                                     </div>
                                 </a>

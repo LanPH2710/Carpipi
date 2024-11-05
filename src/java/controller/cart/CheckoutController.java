@@ -113,7 +113,8 @@ public class CheckoutController extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
-
+        CartDAO cartDAO = new CartDAO();
+         List<Cart> cartList = cartDAO.getCartsByUserId(acc.getUserId()); 
         // Retrieve selected address ID from the form
         String selectedAddressIdStr = request.getParameter("address");
         int selectedAddressId = -1;
@@ -149,9 +150,9 @@ public class CheckoutController extends HttpServlet {
             request.getRequestDispatcher("checkout.jsp").forward(request, response);
             return;
         }
-            
+
         String name = selectedAddress.getName();
-        String phone =selectedAddress.getPhone();
+        String phone = selectedAddress.getPhone();
         String email = selectedAddress.getEmail();
         String address = selectedAddress.getAddress();
         // Store selected address and payment method in session or process accordingly
@@ -160,24 +161,36 @@ public class CheckoutController extends HttpServlet {
 
         // Proceed based on the selected payment method
         if (payMethod.equals("online")) {
-                session.setAttribute("name", name);
-                session.setAttribute("phone", phone);
-                session.setAttribute("email", email);
-                session.setAttribute("address", address);
+            session.setAttribute("name", name);
+            session.setAttribute("phone", phone);
+            session.setAttribute("email", email);
+            session.setAttribute("address", address);
             // Redirect to online payment page
             response.sendRedirect("vnpay_pay.jsp");
         } else if (payMethod.equals("cod")) {
             // Process COD order
-            // You can implement order creation logic here
-            // For now, redirect to order confirmation page
-            response.sendRedirect("order_confirmation.jsp");
+           double totalmoney = (double) session.getAttribute("totalFinal");// Ensure to implement a method to calculate total money if needed
+            int orderId = cartDAO.addOrder(acc.getUserId(), name, email, phone, totalmoney, address, 1);
+
+            for (Cart cart : cartList) {
+                // Add each cart's details to the order
+                cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 0);
+
+                // Update stock for the product associated with the cart item
+                cartDAO.updateStockByCartId(cart.getCartId());
+
+                // Remove the cart after processing
+                cartDAO.deleteCar(cart.getCartId());
+            }
+
+            // Redirect to order confirmation page after processing
+            response.sendRedirect("thanks.jsp");
         } else {
             // Handle other payment methods if any
             request.setAttribute("error", "Invalid payment method selected.");
             request.getRequestDispatcher("checkout.jsp").forward(request, response);
         }
     }
-
 
     /**
      * Returns a short description of the servlet.

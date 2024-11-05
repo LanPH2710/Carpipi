@@ -278,7 +278,7 @@
                         <div class="row">
                             <div class="col-xl-8 col-lg-7 mt-4">
                                 <div>
-                                    <h2>Product Sales Chart</h2>
+                                    <h2>Product Sales Chart From Brand</h2>
                                     <div style="width: 700px; margin: auto;">
                                         <canvas id="productSalesChart" width="700" height="400"></canvas>
                                     </div>
@@ -293,20 +293,21 @@
                                     </div>
                                 </div>
                             </div>
+
                             <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
 
                             <script>
                                 // Biểu đồ Doanh số sản phẩm
-                                const products = [];
-                                <c:forEach var="product" items="${productSale}">
-                                products.push({
-                                    name: '${product.name}',
-                                    totalQuantitySold: ${product.totalQuantitySold}
+                                const brands = [];
+                                <c:forEach var="brand" items="${brandSale}">
+                                brands.push({
+                                    name: '${brand.name}',
+                                    totalRevenue: ${brand.totalRevenue}  // Sửa lỗi không có dấu ":" ở đây
                                 });
                                 </c:forEach>
 
-                                const labelsSales = products.map(product => product.name);
-                                const dataSales = products.map(product => product.totalQuantitySold);
+                                const labelsSales = brands.map(brand => brand.name);  // Sửa thành "brands"
+                                const dataSales = brands.map(brand => brand.totalRevenue);  // Sửa thành "brands"
 
                                 const ctxSales = document.getElementById('productSalesChart').getContext('2d');
                                 const productSalesChart = new Chart(ctxSales, {
@@ -314,7 +315,7 @@
                                     data: {
                                         labels: labelsSales,
                                         datasets: [{
-                                                label: 'Total Quantity Sold',
+                                                label: 'Total Revenue',
                                                 data: dataSales,
                                                 backgroundColor: 'rgba(54, 162, 235, 0.5)',
                                                 borderColor: 'rgba(54, 162, 235, 1)',
@@ -389,13 +390,10 @@
                                 });
                             </script>
 
-
-
-                            <div class="col-xl-4 col-lg-5 mt-4">
+<!--                            <div class="col-xl-4 col-lg-5 mt-4">
                                 <div class="card shadow border-0 p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h6 class="align-items-center mb-0">Patients by Department</h6>
-
                                         <div class="mb-0 position-relative">
                                             <select class="form-select form-control" id="dailychart">
                                                 <option selected>Today</option>
@@ -405,9 +403,9 @@
                                     </div>
                                     <div id="department" class="apex-chart"></div>
                                 </div>
-                            </div>
-
-                        </div><!--end row-->
+                            </div>-->
+                        </div>
+                        <!--end row-->
 
                         <div class="row">
                             <div class="col-xl-4 col-lg-6 mt-4">

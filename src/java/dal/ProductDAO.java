@@ -1183,6 +1183,24 @@ public class ProductDAO extends DBContext {
         return count;
     }
     
+    public int getActiveProductCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM product where status=1";
+
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1); // Lấy giá trị của cột đầu tiên
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+    
     public List<Product> getProductsWithTotalQuantitySold() {
     List<Product> productList = new ArrayList<>();
     String query = "SELECT od.productId, p.name, p.price, SUM(od.quantity) AS total_quantity_sold " +

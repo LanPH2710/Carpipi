@@ -187,6 +187,24 @@ public class SliderDAO extends DBContext {
         return count;
     }
     
+    public int getActiveSliderCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM slider where status=1";
+
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1); // Lấy giá trị của cột đầu tiên
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+    
     
     public static void main(String[] args) {
         SliderDAO dao = new SliderDAO();

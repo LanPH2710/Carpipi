@@ -57,24 +57,34 @@ public class TaxController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-     
+
         if (account == null) {
             response.sendRedirect("login.jsp");
             return;
         }
+
         int userId = account.getUserId();
         CartDAO cartDAO = new CartDAO();
+        List<Cart> cartList = cartDAO.getCartsByUserId(userId); // Return as List<Cart>
+
+        // Check if the list is empty or if all cart items have quantity 0
+        if (cartList == null || cartList.isEmpty() || cartList.stream().allMatch(cart -> cart.getQuantity() == 0)) {
+            session.setAttribute("messUpdateCart", "San pham bang 0");
+            response.sendRedirect("carts");
+            return;
+        }
+
         List<Cart> carts = cartDAO.getSelectedCarts(userId);
+
         if (carts == null || carts.isEmpty()) {
             session.setAttribute("messUpdateCart", "Bạn chưa chọn sản phẩm");
             response.sendRedirect("carts");
             return;
         }
+
         double totalFinal = 0;
         for (Cart cartItem : carts) {
-
             totalFinal += cartItem.getQuantity() * cartItem.getProduct().getPrice() * (1 + 0.4) * 1.10;
-
         }
 
         session.setAttribute("totalFinal", totalFinal);

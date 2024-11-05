@@ -378,11 +378,13 @@
                                                                     <a href="orderInfor?orderId=${order.orderId}">
                                                                         <button class="return-btn">Thông tin đơn hàng</button>
                                                                     </a>
+                                                                    <c:forEach items="${orderDetailsMap[order.orderId]}" var="rebuy">
                                                                     <c:if test="${order.orderStatus == 4}">
-                                                                        <a href="addToCart">
+                                                                        <a href="addtocart?productId=${rebuy.productId}&colorId=${rebuy.colorId}&quantity=1">
                                                                             <button class="buy-again-btn">Mua Lại</button>
                                                                         </a>
                                                                     </c:if>
+                                                                    </c:forEach>
                                                                 </div>
                                                             </div>
                                                         </div>

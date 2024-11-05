@@ -145,13 +145,16 @@ public class OrderDAO extends DBContext {
             while (rs.next()) {
                 System.out.println("Record found: " + rs.getInt("orderId")); // Kiểm tra xem có bản ghi nào trả về
 
-                OrderDetail o = new OrderDetail();
+               OrderDetail o = new OrderDetail();
                 o.setOrderId(rs.getInt("orderId"));
                 o.setUserId(rs.getInt("userId")); // Đảm bảo userId có trong truy vấn SQL nếu cần
                 o.setCreateDate(rs.getDate("createDate")); // Thay đổi kiểu Date
                 o.setOrderName(rs.getString("orderName"));
                 o.setTotalPrice(rs.getDouble("totalPrice"));
                 o.setOrderStatus(rs.getInt("orderStatus"));
+                o.setFirstName(rs.getString("firstName"));
+                o.setLastName(rs.getString("lastName"));
+                o.setSaleId(rs.getInt("saleId"));
                 o.setProductName(rs.getString("firstProductName"));
                 o.setQuantity(rs.getInt("additionalProductCount"));
 
@@ -347,16 +350,16 @@ public class OrderDAO extends DBContext {
             while (rs.next()) {
                 System.out.println("Record found: " + rs.getInt("orderStatus")); // Kiểm tra xem có bản ghi nào trả về
 
-                OrderDetail o = new OrderDetail();
+               OrderDetail o = new OrderDetail();
                 o.setOrderId(rs.getInt("orderId"));
                 o.setUserId(rs.getInt("userId")); // Đảm bảo userId có trong truy vấn SQL nếu cần
-                o.setSaleId(rs.getInt("saleId"));
-                o.setCreateDate(rs.getDate("createDate"));
-                o.setFirstName(rs.getString("firstName"));
-                o.setLastName(rs.getString("lastName"));
+                o.setCreateDate(rs.getDate("createDate")); // Thay đổi kiểu Date
                 o.setOrderName(rs.getString("orderName"));
                 o.setTotalPrice(rs.getDouble("totalPrice"));
                 o.setOrderStatus(rs.getInt("orderStatus"));
+                o.setFirstName(rs.getString("firstName"));
+                o.setLastName(rs.getString("lastName"));
+                o.setSaleId(rs.getInt("saleId"));
                 o.setProductName(rs.getString("firstProductName"));
                 o.setQuantity(rs.getInt("additionalProductCount"));
 
@@ -366,6 +369,8 @@ public class OrderDAO extends DBContext {
         } catch (Exception e) {
         }
 
+       
+        
         return list;
     }
 
@@ -496,23 +501,15 @@ public class OrderDAO extends DBContext {
         return orderList;
     }
 
-//son--------------//   
+//son--------------//      
    public static void main(String[] args) {
         OrderDAO o = new OrderDAO();
 
-        List<OrderDetail> l = o.getListOrderdetailById("1");
+        List<OrderDetail> l = o.getListOrderWithStatus("1");
         for (OrderDetail orderDetail : l) {
             System.out.println(orderDetail.getFirstName());
         }
 
-        double total = o.getTotalPrice();
-        System.out.println("total price:" + total);
         
-        
-        List<Order> orderList = o.getTop5SalerByOrder();
-        for (Order order : orderList) {
-            System.out.println(order.getSaleName());
-            System.out.println(order.getTotalOrders());
-        }
     }
 }

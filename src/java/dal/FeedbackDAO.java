@@ -226,7 +226,8 @@ public class FeedbackDAO extends DBContext {
 
         return feedbackDetail;
     }
-
+    
+    
     public void updateFeedbackStatus(int feedbackId, int status) {
         String sql = "UPDATE feedback SET status = ? WHERE feedbackId = ?";
         try (

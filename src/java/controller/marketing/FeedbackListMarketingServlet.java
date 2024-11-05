@@ -41,7 +41,64 @@ public class FeedbackListMarketingServlet extends HttpServlet {
         AccountDAO accountDao = new AccountDAO();
         ProductDAO productDao = new ProductDAO();
 
-        List<Feedback> listFeedback = feDao.getAllFeedback();
+        String indexPage = request.getParameter("index");
+        String status = request.getParameter("status");
+        String search = request.getParameter("search");
+        String sort = request.getParameter("sort");
+        String order = request.getParameter("order");
+
+        System.out.println("ffid: " + sort);
+        System.out.println("status: " + status);
+        System.out.println("search: " + search);
+
+        if (indexPage == null || indexPage.isEmpty()) {
+            indexPage = "1";
+        }
+
+        int index = Integer.parseInt(indexPage);
+
+        List<Feedback> listFeedback = new ArrayList<>();
+
+        if ((search == null || search.isEmpty()) && (status == null || status.isEmpty())) {
+            listFeedback = feDao.getAllFeedbackAndPaging(index);
+        } else {
+            listFeedback = feDao.getFeedbackBySearchAndPaging(index, search, status);
+        }
+
+        if (sort != null && !sort.isEmpty()) {
+            if ((search == null || search.isEmpty()) && (status == null || status.isEmpty())) {
+                listFeedback = feDao.getAllFeedbackAndPaging(index);
+
+                switch (sort) {
+                    case "name":
+                        listFeedback = feDao.getOrderByProductName(index, order);
+                        break;
+                    case "time":
+                        listFeedback = feDao.getOrderByTime(index, order);
+                        break;
+                    case "feedbackId":
+                        listFeedback = feDao.getOrderByFeedbackId(index, order);
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                switch (sort) {
+                    case "name":
+                        listFeedback = feDao.getFeedbackBySearchOrderByName(index, search, status, order);
+                        break;
+                    case "time":
+                        listFeedback = feDao.getFeedbackBySearchOrderByTime(index, search, status, order);
+                        break;
+                    case "feedbackId":
+                        listFeedback = feDao.getFeedbackBySearchOrderById(index, search, status, order);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
 
         List<Account> listAccount = new ArrayList<>();
 
@@ -66,7 +123,7 @@ public class FeedbackListMarketingServlet extends HttpServlet {
             }
 
         }
-        
+
         for (Feedback f : listFeedback) {
             Account accountOunt = accountDao.getAccountById(f.getUserId());
             boolean check = false;
@@ -96,6 +153,18 @@ public class FeedbackListMarketingServlet extends HttpServlet {
 
         }
 
+        int count = feDao.getFeedbackCount();
+        int endPage = count / 5;
+        if (count % 5 != 0) {
+            endPage++;
+        }
+
+        request.setAttribute("sort", sort);
+        request.setAttribute("order", order);
+        request.setAttribute("status", status);
+        request.setAttribute("search", search);
+        request.setAttribute("index", index);
+        request.setAttribute("endP", endPage);
         request.setAttribute("listProduct", listProduct);
         request.setAttribute("listAccount", listAccount);
         request.setAttribute("listFeedback", listFeedback);
@@ -115,7 +184,6 @@ public class FeedbackListMarketingServlet extends HttpServlet {
             throws ServletException, IOException {
 
         processRequest(request, response);
-        
 
         request.getRequestDispatcher("feedbacklistmarketing.jsp").forward(request, response);
     }
@@ -132,6 +200,23 @@ public class FeedbackListMarketingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+
+        String feedbackId = request.getParameter("feedbackId");
+        int feeId = Integer.parseInt(feedbackId);
+        String status = request.getParameter("status");
+        int staId = Integer.parseInt(status);
+
+        System.out.println(feedbackId);
+        System.out.println("Status: " + status);
+
+        FeedbackDAO feDao = new FeedbackDAO();
+        Feedback feedback = new Feedback();
+
+        feDao.updateFeedbackStatus(feeId, staId);
+
+        processRequest(request, response);
+
+        response.sendRedirect("feedbacklistformarketing");
     }
 
     /**

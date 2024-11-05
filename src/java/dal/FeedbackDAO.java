@@ -159,7 +159,7 @@ public class FeedbackDAO extends DBContext {
         }
         return rate;
     }
-    
+
     public void createFeedback(int userId, String productId, String feedbackInfo, String feedbackImg, int feedbackRate, int status) {
         String sql = "INSERT INTO feedback (userId, productId, feedbackInfo, feedbackTime, feedbackImg, feedbackRate, status)"
                 + " VALUES (?, ?, ?, NOW(), ?, ?, ?)";
@@ -239,9 +239,515 @@ public class FeedbackDAO extends DBContext {
         }
     }
 
+    public int getFeedbackCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM feedback";
+
+        try (
+                PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1); // Lấy giá trị của cột đầu tiên
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+    public List<Feedback> getFeedbackRateByBrand() {
+        List<Feedback> feedbackList = new ArrayList<>();
+        String sql = "SELECT b.brandId, "
+                + "       b.name AS brandName, "
+                + "       COALESCE(ROUND(AVG(f.feedbackRate), 0), 0) AS averageFeedbackRate "
+                + "FROM brand b "
+                + "LEFT JOIN product p ON b.brandId = p.brandId "
+                + "LEFT JOIN feedback f ON p.productId = f.productId "
+                + "GROUP BY b.brandId, b.name;";
+
+        try (
+                PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                int averageFeedbackRate = rs.getInt("averageFeedbackRate");
+                String brandName = rs.getString("brandName");
+                Feedback feedback = new Feedback(averageFeedbackRate, brandName);
+                feedbackList.add(feedback);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return feedbackList;
+    }
+
+    public List<Feedback> getAllFeedbackAndPaging(int index) {
+        List<Feedback> list = new ArrayList<>();
+        String sql = "SELECT * FROM carpipi.feedback order by feedbackTime desc limit 5 offset ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, ((index - 1) * 5));
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int feedbackId = rs.getInt("feedbackId");
+                int userId = rs.getInt("userId");
+                String productId = rs.getString("productId");
+                String feedbackInfo = rs.getString("feedbackInfo");
+                String feedbackImg = rs.getString("feedbackImg");
+                String feedbackTime = rs.getString("feedbackTime");
+                int feedbackRate = rs.getInt("feedbackRate");
+                int status = rs.getInt("status");
+
+                if (feedbackImg == null) {
+                    feedbackImg = "";
+                }
+
+                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackImg, feedbackRate, status);
+                list.add(feedback);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public List<Feedback> getOrderByTime(int index, String order) {
+        List<Feedback> list = new ArrayList<>();
+        String sql = "SELECT * FROM carpipi.feedback order by feedbackTime" + order + "limit 5 offset ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, ((index - 1) * 5));
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int feedbackId = rs.getInt("feedbackId");
+                int userId = rs.getInt("userId");
+                String productId = rs.getString("productId");
+                String feedbackInfo = rs.getString("feedbackInfo");
+                String feedbackImg = rs.getString("feedbackImg");
+                String feedbackTime = rs.getString("feedbackTime");
+                int feedbackRate = rs.getInt("feedbackRate");
+                int status = rs.getInt("status");
+
+                if (feedbackImg == null) {
+                    feedbackImg = "";
+                }
+
+                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackImg, feedbackRate, status);
+                list.add(feedback);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public List<Feedback> getOrderByFeedbackId(int index, String order) {
+        List<Feedback> list = new ArrayList<>();
+        String sql = "SELECT * FROM carpipi.feedback order by feedbackId " + order + " limit 5 offset ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, ((index - 1) * 5));
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int feedbackId = rs.getInt("feedbackId");
+                int userId = rs.getInt("userId");
+                String productId = rs.getString("productId");
+                String feedbackInfo = rs.getString("feedbackInfo");
+                String feedbackImg = rs.getString("feedbackImg");
+                String feedbackTime = rs.getString("feedbackTime");
+                int feedbackRate = rs.getInt("feedbackRate");
+                int status = rs.getInt("status");
+
+                if (feedbackImg == null) {
+                    feedbackImg = "";
+                }
+
+                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackImg, feedbackRate, status);
+                list.add(feedback);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<Feedback> getOrderByProductName(int index, String order) {
+        List<Feedback> list = new ArrayList<>();
+        String sql = "SELECT * FROM carpipi.feedback order by productId "+ order +" limit 5 offset ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, ((index - 1) * 5));
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int feedbackId = rs.getInt("feedbackId");
+                int userId = rs.getInt("userId");
+                String productId = rs.getString("productId");
+                String feedbackInfo = rs.getString("feedbackInfo");
+                String feedbackImg = rs.getString("feedbackImg");
+                String feedbackTime = rs.getString("feedbackTime");
+                int feedbackRate = rs.getInt("feedbackRate");
+                int status = rs.getInt("status");
+
+                if (feedbackImg == null) {
+                    feedbackImg = "";
+                }
+
+                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackImg, feedbackRate, status);
+                list.add(feedback);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public List<Feedback> getFeedbackBySearchAndPaging(int index, String search, String status) {
+        List<Feedback> list = new ArrayList<>();
+        String sql = "";
+
+        // Trường hợp 1: Chỉ có search, không có status
+        if ((status == null || status.isEmpty()) && (search != null && !search.isEmpty())) {
+            sql = "SELECT f.*, a.firstName, a.lastName, p.name \n"
+                    + "FROM feedback f JOIN account a \n"
+                    + "ON f.userId = a.userId \n"
+                    + "JOIN product p \n"
+                    + "ON f.productId = p.productId\n"
+                    + "WHERE p.name Like ? OR f.feedbackInfo LIKE ? \n"
+                    + "order by feedbackTime desc \n"
+                    + "limit 5 offset ?";
+            System.out.println("case1");
+            System.out.println("---------");
+        } // Trường hợp 2: Chỉ có status, không có search
+        else if ((status != null && !status.isEmpty()) && (search == null || search.isEmpty())) {
+            sql = "SELECT f.*, a.firstName, a.lastName, p.name \n"
+                    + "FROM carpipi.feedback f JOIN carpipi.account a \n"
+                    + "ON f.userId = a.userId \n"
+                    + "JOIN carpipi.product p \n"
+                    + "ON f.productId = p.productId\n"
+                    + "WHERE f.status = ?\n"
+                    + "order by feedbackTime desc \n"
+                    + "limit 5 offset ?";
+            System.out.println("case2");
+            System.out.println("---------");
+        } // Trường hợp 3: Có cả search và status
+        else if ((status != null && !status.isEmpty()) && (search != null && !search.isEmpty())) {
+            sql = "SELECT f.*, a.firstName, a.lastName, p.name \n"
+                    + "FROM carpipi.feedback f JOIN carpipi.account a \n"
+                    + "ON f.userId = a.userId \n"
+                    + "JOIN carpipi.product p \n"
+                    + "ON f.productId = p.productId\n"
+                    + "WHERE (p.name Like ? OR f.feedbackInfo LIKE ?) And f.status = ?\n"
+                    + "order by feedbackTime desc \n"
+                    + "limit 5 offset ?";
+            System.out.println("case3");
+            System.out.println("---------");
+        } // Trường hợp 4: Status là "10" và có search
+       
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            // Thiết lập tham số cho từng trường hợp
+            if ((status == null || status.isEmpty()) && (search != null && !search.isEmpty())) { // case 1
+                st.setString(1, "%" + search + "%");
+                st.setString(2, "%" + search + "%");
+                st.setInt(3, ((index - 1) * 5));
+            } else if ((status != null && !status.isEmpty()) && (search == null || search.isEmpty())) { // case 2
+                st.setString(1, status);
+                st.setInt(2, ((index - 1) * 5));
+            } else if ((status != null && !status.isEmpty()) && (search != null && !search.isEmpty())) { // case 3
+                st.setString(1, "%" + search + "%");
+                st.setString(2, "%" + search + "%");
+                st.setString(3, status);
+                st.setInt(4, ((index - 1) * 5));
+            } 
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int feedbackId = rs.getInt("feedbackId");
+                int userId = rs.getInt("userId");
+                String productId = rs.getString("productId");
+                String feedbackInfo = rs.getString("feedbackInfo");
+                String feedbackImg = rs.getString("feedbackImg");
+                String feedbackTime = rs.getString("feedbackTime");
+                int feedbackRate = rs.getInt("feedbackRate");
+                int statuss = rs.getInt("status");
+
+                if (feedbackImg == null) {
+                    feedbackImg = "";
+                }
+
+                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackImg, feedbackRate, statuss);
+                list.add(feedback);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<Feedback> getFeedbackBySearchOrderByTime(int index, String search, String status, String order) {
+        List<Feedback> list = new ArrayList<>();
+        String sql = "";
+
+        // Trường hợp 1: Chỉ có search, không có status
+        if ((status == null || status.isEmpty()) && (search != null && !search.isEmpty())) {
+            sql = "SELECT f.*, a.firstName, a.lastName, p.name \n"
+                    + "FROM feedback f JOIN account a \n"
+                    + "ON f.userId = a.userId \n"
+                    + "JOIN product p \n"
+                    + "ON f.productId = p.productId\n"
+                    + "WHERE p.name Like ? OR f.feedbackInfo LIKE ? \n"
+                    + "order by feedbackTime desc \n"
+                    + "limit 5 offset ?";
+            System.out.println("case1");
+            System.out.println("---------");
+        } // Trường hợp 2: Chỉ có status, không có search
+        else if ((status != null && !status.isEmpty()) && (search == null || search.isEmpty())) {
+            sql = "SELECT f.*, a.firstName, a.lastName, p.name \n"
+                    + "FROM carpipi.feedback f JOIN carpipi.account a \n"
+                    + "ON f.userId = a.userId \n"
+                    + "JOIN carpipi.product p \n"
+                    + "ON f.productId = p.productId\n"
+                    + "WHERE f.status = ?\n"
+                    + "order by feedbackTime desc \n"
+                    + "limit 5 offset ?";
+            System.out.println("case2");
+            System.out.println("---------");
+        } // Trường hợp 3: Có cả search và status
+        else if ((status != null && !status.isEmpty()) && (search != null && !search.isEmpty())) {
+            sql = "SELECT f.*, a.firstName, a.lastName, p.name \n"
+                    + "FROM carpipi.feedback f JOIN carpipi.account a \n"
+                    + "ON f.userId = a.userId \n"
+                    + "JOIN carpipi.product p \n"
+                    + "ON f.productId = p.productId\n"
+                    + "WHERE (p.name Like ? OR f.feedbackInfo LIKE ?) And f.status = ?\n"
+                    + "order by feedbackTime desc \n"
+                    + "limit 5 offset ?";
+            System.out.println("case3");
+            System.out.println("---------");
+        } // Trường hợp 4: Status là "10" và có search
+       
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            // Thiết lập tham số cho từng trường hợp
+            if ((status == null || status.isEmpty()) && (search != null && !search.isEmpty())) { // case 1
+                st.setString(1, "%" + search + "%");
+                st.setString(2, "%" + search + "%");
+                st.setInt(3, ((index - 1) * 5));
+            } else if ((status != null && !status.isEmpty()) && (search == null || search.isEmpty())) { // case 2
+                st.setString(1, status);
+                st.setInt(2, ((index - 1) * 5));
+            } else if ((status != null && !status.isEmpty()) && (search != null && !search.isEmpty())) { // case 3
+                st.setString(1, "%" + search + "%");
+                st.setString(2, "%" + search + "%");
+                st.setString(3, status);
+                st.setInt(4, ((index - 1) * 5));
+            } 
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int feedbackId = rs.getInt("feedbackId");
+                int userId = rs.getInt("userId");
+                String productId = rs.getString("productId");
+                String feedbackInfo = rs.getString("feedbackInfo");
+                String feedbackImg = rs.getString("feedbackImg");
+                String feedbackTime = rs.getString("feedbackTime");
+                int feedbackRate = rs.getInt("feedbackRate");
+                int statuss = rs.getInt("status");
+
+                if (feedbackImg == null) {
+                    feedbackImg = "";
+                }
+
+                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackImg, feedbackRate, statuss);
+                list.add(feedback);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<Feedback> getFeedbackBySearchOrderByName(int index, String search, String status, String order) {
+        List<Feedback> list = new ArrayList<>();
+        String sql = "";
+
+        // Trường hợp 1: Chỉ có search, không có status
+        if ((status == null || status.isEmpty()) && (search != null && !search.isEmpty())) {
+            sql = "SELECT f.*, a.firstName, a.lastName, p.name \n"
+                    + "FROM feedback f JOIN account a \n"
+                    + "ON f.userId = a.userId \n"
+                    + "JOIN product p \n"
+                    + "ON f.productId = p.productId\n"
+                    + "WHERE p.name Like ? OR f.feedbackInfo LIKE ? \n"
+                    + "order by f.productId "+ order +" \n"
+                    + "limit 5 offset ?";
+            System.out.println("case1");
+            System.out.println("---------");
+        } // Trường hợp 2: Chỉ có status, không có search
+        else if ((status != null && !status.isEmpty()) && (search == null || search.isEmpty())) {
+            sql = "SELECT f.*, a.firstName, a.lastName, p.name \n"
+                    + "FROM carpipi.feedback f JOIN carpipi.account a \n"
+                    + "ON f.userId = a.userId \n"
+                    + "JOIN carpipi.product p \n"
+                    + "ON f.productId = p.productId\n"
+                    + "WHERE f.status = ?\n"
+                    + "order by f.productId "+ order +" \n"
+                    + "limit 5 offset ?";
+            System.out.println("case2");
+            System.out.println("---------");
+        } // Trường hợp 3: Có cả search và status
+        else if ((status != null && !status.isEmpty()) && (search != null && !search.isEmpty())) {
+            sql = "SELECT f.*, a.firstName, a.lastName, p.name \n"
+                    + "FROM carpipi.feedback f JOIN carpipi.account a \n"
+                    + "ON f.userId = a.userId \n"
+                    + "JOIN carpipi.product p \n"
+                    + "ON f.productId = p.productId\n"
+                    + "WHERE (p.name Like ? OR f.feedbackInfo LIKE ?) And f.status = ?\n"
+                    + "order by f.productId "+ order +" \n"
+                    + "limit 5 offset ?";
+            System.out.println("case3");
+            System.out.println("---------");
+        } // Trường hợp 4: Status là "10" và có search
+       
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            // Thiết lập tham số cho từng trường hợp
+            if ((status == null || status.isEmpty()) && (search != null && !search.isEmpty())) { // case 1
+                st.setString(1, "%" + search + "%");
+                st.setString(2, "%" + search + "%");
+                st.setInt(3, ((index - 1) * 5));
+            } else if ((status != null && !status.isEmpty()) && (search == null || search.isEmpty())) { // case 2
+                st.setString(1, status);
+                st.setInt(2, ((index - 1) * 5));
+            } else if ((status != null && !status.isEmpty()) && (search != null && !search.isEmpty())) { // case 3
+                st.setString(1, "%" + search + "%");
+                st.setString(2, "%" + search + "%");
+                st.setString(3, status);
+                st.setInt(4, ((index - 1) * 5));
+            } 
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int feedbackId = rs.getInt("feedbackId");
+                int userId = rs.getInt("userId");
+                String productId = rs.getString("productId");
+                String feedbackInfo = rs.getString("feedbackInfo");
+                String feedbackImg = rs.getString("feedbackImg");
+                String feedbackTime = rs.getString("feedbackTime");
+                int feedbackRate = rs.getInt("feedbackRate");
+                int statuss = rs.getInt("status");
+
+                if (feedbackImg == null) {
+                    feedbackImg = "";
+                }
+
+                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackImg, feedbackRate, statuss);
+                list.add(feedback);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<Feedback> getFeedbackBySearchOrderById(int index, String search, String status, String order) {
+        List<Feedback> list = new ArrayList<>();
+        String sql = "";
+
+        // Trường hợp 1: Chỉ có search, không có status
+        if ((status == null || status.isEmpty()) && (search != null && !search.isEmpty())) {
+            sql = "SELECT f.*, a.firstName, a.lastName, p.name \n"
+                    + "FROM feedback f JOIN account a \n"
+                    + "ON f.userId = a.userId \n"
+                    + "JOIN product p \n"
+                    + "ON f.productId = p.productId\n"
+                    + "WHERE p.name Like ? OR f.feedbackInfo LIKE ? \n"
+                    + "order by f.feedbackId "+ order +" \n"
+                    + "limit 5 offset ?";
+            System.out.println("case1");
+            System.out.println("---------");
+        } // Trường hợp 2: Chỉ có status, không có search
+        else if ((status != null && !status.isEmpty()) && (search == null || search.isEmpty())) {
+            sql = "SELECT f.*, a.firstName, a.lastName, p.name \n"
+                    + "FROM carpipi.feedback f JOIN carpipi.account a \n"
+                    + "ON f.userId = a.userId \n"
+                    + "JOIN carpipi.product p \n"
+                    + "ON f.productId = p.productId\n"
+                    + "WHERE f.status = ?\n"
+                    + "order by f.feedbackId "+ order +" \n"
+                    + "limit 5 offset ?";
+            System.out.println("case2");
+            System.out.println("---------");
+        } // Trường hợp 3: Có cả search và status
+        else if ((status != null && !status.isEmpty()) && (search != null && !search.isEmpty())) {
+            sql = "SELECT f.*, a.firstName, a.lastName, p.name \n"
+                    + "FROM carpipi.feedback f JOIN carpipi.account a \n"
+                    + "ON f.userId = a.userId \n"
+                    + "JOIN carpipi.product p \n"
+                    + "ON f.productId = p.productId\n"
+                    + "WHERE (p.name Like ? OR f.feedbackInfo LIKE ?) And f.status = ?\n"
+                    + "order by f.feedbackId "+ order +" \n"
+                    + "limit 5 offset ?";
+            System.out.println("case3");
+            System.out.println("---------");
+        } // Trường hợp 4: Status là "10" và có search
+       
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            // Thiết lập tham số cho từng trường hợp
+            if ((status == null || status.isEmpty()) && (search != null && !search.isEmpty())) { // case 1
+                st.setString(1, "%" + search + "%");
+                st.setString(2, "%" + search + "%");
+                st.setInt(3, ((index - 1) * 5));
+            } else if ((status != null && !status.isEmpty()) && (search == null || search.isEmpty())) { // case 2
+                st.setString(1, status);
+                st.setInt(2, ((index - 1) * 5));
+            } else if ((status != null && !status.isEmpty()) && (search != null && !search.isEmpty())) { // case 3
+                st.setString(1, "%" + search + "%");
+                st.setString(2, "%" + search + "%");
+                st.setString(3, status);
+                st.setInt(4, ((index - 1) * 5));
+            } 
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int feedbackId = rs.getInt("feedbackId");
+                int userId = rs.getInt("userId");
+                String productId = rs.getString("productId");
+                String feedbackInfo = rs.getString("feedbackInfo");
+                String feedbackImg = rs.getString("feedbackImg");
+                String feedbackTime = rs.getString("feedbackTime");
+                int feedbackRate = rs.getInt("feedbackRate");
+                int statuss = rs.getInt("status");
+
+                if (feedbackImg == null) {
+                    feedbackImg = "";
+                }
+
+                Feedback feedback = new Feedback(feedbackId, userId, productId, feedbackInfo, feedbackTime, feedbackImg, feedbackRate, statuss);
+                list.add(feedback);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         FeedbackDAO f = new FeedbackDAO();
+        List<Feedback> l = f.getFeedbackBySearchAndPaging(1, "me", "");
 
-        System.out.println(f.getAllFeedback());
+        for (Feedback feedback : l) {
+            System.out.println(feedback.getFeedbackRate());
+        }
+
     }
 }

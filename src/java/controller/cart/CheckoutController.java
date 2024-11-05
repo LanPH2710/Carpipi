@@ -6,6 +6,7 @@ package controller.cart;
 
 import dal.AccountDAO;
 import dal.CartDAO;
+import dal.CheckOutDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
+import model.AddressUser;
 import model.Cart;
 
 /**
@@ -64,11 +66,18 @@ public class CheckoutController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AccountDAO adao = new AccountDAO();
+        CheckOutDAO checkout = new CheckOutDAO();
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("account");
         if (acc != null) {
-            Account user = adao.getAccountById(acc.getUserId());
-            session.setAttribute("accCheckout", user);
+            List<AddressUser> addressUsers = checkout.getAddressByUserId(acc.getUserId());
+            if (addressUsers != null && !addressUsers.isEmpty()) {
+                System.out.println("Address list size: " + addressUsers.size());
+                session.setAttribute("userAddress", addressUsers);
+            } else {
+                System.out.println("No addresses found.");
+            }
+
         } else {
             // Handle the case where the account is null (e.g., redirect to login)
             response.sendRedirect("login.jsp");
@@ -82,6 +91,7 @@ public class CheckoutController extends HttpServlet {
             response.sendRedirect("carts");
             return;
         }
+
         // For testing, forward to the test JSP
         request.getRequestDispatcher("checkout.jsp").forward(request, response);
     }
@@ -98,57 +108,76 @@ public class CheckoutController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        // Retrieve form data
-        String pttt = request.getParameter("pttt");
-        if (pttt != null && pttt.equals("ttpay")) {
-            String firstName = request.getParameter("firstName");
-            String lastName = request.getParameter("lastName");
-            String userName = request.getParameter("userName");
-            String email = request.getParameter("email");
-            String mobile = request.getParameter("mobile");
-            // Retrieve address components
-            String tinh = request.getParameter("tinh");
-            String quan = request.getParameter("quan");
-            String phuong = request.getParameter("phuong");
-            String address2 = request.getParameter("address2");
+        Account acc = (Account) session.getAttribute("account");
+        if (acc == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
-            // Combine into a full address
-            String shippingAddress = String.join(", ", address2, phuong, quan, tinh);
-
-            // Determine which address to use
-
-            boolean flag = true;
-            if (mobile == null || !isPhoneNum(mobile)) {
-                session.setAttribute("msg_phoneCart", "Số điện thoại không hợp lệ");
-                flag = false;
-            }
-            if (email == null || !isGmail(email)) {
-                session.setAttribute("msg_gmailCart", "Gmail không hợp lệ");
-                flag = false;
-            }
-
-            if (flag) {
-                session.setAttribute("name", (lastName + firstName));
-                session.setAttribute("phone", mobile);
-                session.setAttribute("email", email);
-                session.setAttribute("address", shippingAddress);
-                request.getRequestDispatcher("vnpay_pay.jsp").forward(request, response);
-            } else {
-                // Set form field values and error messages in the request scope
-
-                // Forward back to the checkout page
+        // Retrieve selected address ID from the form
+        String selectedAddressIdStr = request.getParameter("address");
+        int selectedAddressId = -1;
+        if (selectedAddressIdStr != null) {
+            try {
+                selectedAddressId = Integer.parseInt(selectedAddressIdStr);
+            } catch (NumberFormatException e) {
+                request.setAttribute("error", "Invalid address selected.");
                 request.getRequestDispatcher("checkout.jsp").forward(request, response);
+                return;
             }
+        } else {
+            // No address selected
+            request.setAttribute("error", "Please select a shipping address.");
+            request.getRequestDispatcher("checkout.jsp").forward(request, response);
+            return;
+        }
+
+        // Retrieve selected payment method from the form
+        String payMethod = request.getParameter("pay-method");
+        if (payMethod == null) {
+            // No payment method selected
+            request.setAttribute("error", "Please select a payment method.");
+            request.getRequestDispatcher("checkout.jsp").forward(request, response);
+            return;
+        }
+
+        // Fetch the selected address details
+        CheckOutDAO checkoutDAO = new CheckOutDAO();
+        AddressUser selectedAddress = checkoutDAO.getAddressById(selectedAddressId);
+        if (selectedAddress == null) {
+            request.setAttribute("error", "Selected address not found.");
+            request.getRequestDispatcher("checkout.jsp").forward(request, response);
+            return;
+        }
+            
+        String name = selectedAddress.getName();
+        String phone =selectedAddress.getPhone();
+        String email = selectedAddress.getEmail();
+        String address = selectedAddress.getAddress();
+        // Store selected address and payment method in session or process accordingly
+        session.setAttribute("selectedAddress", selectedAddress);
+        session.setAttribute("payMethod", payMethod);
+
+        // Proceed based on the selected payment method
+        if (payMethod.equals("online")) {
+                session.setAttribute("name", name);
+                session.setAttribute("phone", phone);
+                session.setAttribute("email", email);
+                session.setAttribute("address", address);
+            // Redirect to online payment page
+            response.sendRedirect("vnpay_pay.jsp");
+        } else if (payMethod.equals("cod")) {
+            // Process COD order
+            // You can implement order creation logic here
+            // For now, redirect to order confirmation page
+            response.sendRedirect("order_confirmation.jsp");
+        } else {
+            // Handle other payment methods if any
+            request.setAttribute("error", "Invalid payment method selected.");
+            request.getRequestDispatcher("checkout.jsp").forward(request, response);
         }
     }
 
-    public static boolean isGmail(String input) {
-        return input != null && input.matches("^[a-zA-Z][a-zA-Z0-9._%+-]*[a-zA-Z0-9]@[a-zA-Z0-9]{2,}(\\.[a-zA-Z0-9]{2,})+$");
-    }
-
-    public static boolean isPhoneNum(String input) {
-        return input != null && input.matches("\\d{10,11}");
-    }
 
     /**
      * Returns a short description of the servlet.

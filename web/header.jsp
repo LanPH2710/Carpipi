@@ -91,11 +91,12 @@
                         <span class="headerN"><a href="sale">Sale</a></span>
                     </c:when>
                 </c:choose>
+                
                 <c:choose>
-                    <c:when test="${sessionScope.account == null||sessionScope.account.roleId == 4}">
-                        <span class="headerN scroll"><a href="#featured-cars">Xe tiêu biểu</a></span>
-                    </c:when>
-                </c:choose>
+                    <c:when test="${sessionScope.account.roleId == 5}">
+                        <li><a href="shipper">Shipper</a></li>
+                        </c:when>
+                    </c:choose>
 
                 <span class="headerN"><a href="productlist" style="text-decoration:none; color: white">Danh sách mẫu</a></span>
 
@@ -109,15 +110,7 @@
                     </c:otherwise>
                 </c:choose>
 
-                <c:choose>
-                    <c:when test="${sessionScope.account == null}">
-                        <span class="headerN"><a style="text-decoration:none; color: white" href="login.jsp">Đăng Nhập</a></span>
-                    </c:when>
-                    <c:otherwise>
-                        <span class="headerN"><a style="text-decoration:none; color: white" href="logout">Đăng Xuất</a></span>
-                    </c:otherwise>
-                </c:choose>
-               
+
                 <c:set var="sizeCart" value="${sessionScope.sizeCart}"/>
                 <span class="headerN">
                     <a href="carts" style="text-decoration:none; color: white; position: relative;">
@@ -128,9 +121,18 @@
                         </c:if>
                     </a>
                 </span>
+                
+                <c:choose>
+                    <c:when test="${sessionScope.account == null}">
+                        <span class="headerN"><a style="text-decoration:none; color: white" href="login.jsp">Đăng Nhập</a></span>
+                    </c:when>
+                    <c:otherwise>
+                        <span class="headerN"><a style="text-decoration:none; color: white" href="logout">Đăng Xuất</a></span>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
-       
+
     </body>
 
 </html>

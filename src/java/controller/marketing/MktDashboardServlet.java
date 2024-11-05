@@ -70,12 +70,12 @@ public class MktDashboardServlet extends HttpServlet {
         BrandDAO brandDAO = new BrandDAO();
         
         // Lấy số lượng blog từ BlogDAO
-        int blogCount = blogDAO.getBlogCount();
-        int productCount = productDAO.getProductCount();
+        int blogCount = blogDAO.getActiveBlogCount();
+        int productCount = productDAO.getActiveProductCount();
         int customerCount = accountDAO.getCustomerCount();
         List<Product> productSale = productDAO.getTop5ProductsByTotalQuantitySold();
         int totalQuantitySold = productDAO.getTotalQuantitySold();
-        int sliderCount = sliderDAO.getSliderCount();
+        int sliderCount = sliderDAO.getActiveSliderCount();
         List<Brand> totalBrandRevenue = brandDAO.getTotalRevenueByBrand();
         //int orderCount = orderDAO.getOrderCount();
         // Đưa số lượng blog vào request attribute

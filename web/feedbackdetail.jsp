@@ -113,8 +113,8 @@
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Marketing</a></li>
-                                    <li class="breadcrumb-item"><a href="patients.html">Feedback List</a></li>
+                                    <li class="breadcrumb-item"><a href="marketingdashboard">Marketing</a></li>
+                                    <li class="breadcrumb-item"><a href="feedbacklistformarketing">Feedback List</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Feedback Detail</li>
                                 </ul>
                             </nav>
@@ -161,17 +161,17 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div>
-                                                                <strong>productName</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
-                                                                    ${feedbackdetail.productName}
-                                                                </div>
-                                                            </div>
 
                                                             <div>
                                                                 <strong>feedback</strong>
                                                                 <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
                                                                     ${feedbackdetail.feedback}
+                                                                </div>
+                                                            </div>
+                                                                <div>
+                                                                <strong>ratedStar</strong>
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                    ${feedbackdetail.ratedStar}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -190,12 +190,7 @@
                                                                     ${feedbackdetail.mobile}
                                                                 </div>
                                                             </div>
-                                                            <div>
-                                                                <strong>ratedStar</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
-                                                                    ${feedbackdetail.ratedStar}
-                                                                </div>
-                                                            </div>
+                                                            
 
 
                                                             <strong>Trạng thái</strong>
@@ -205,7 +200,13 @@
                                                                 <option value="0" ${feedbackdetail.feedbackStatus == 0 ? 'selected' : ''}>Ẩn</option>
                                                             </select>
 
-
+                                                            
+                                                            <div>
+                                                                <strong>productName</strong>
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                    ${feedbackdetail.productName}
+                                                                </div>
+                                                            </div>
 
 
 
@@ -230,7 +231,7 @@
 
                                             </div>
                                             <div class="modal-footer">
-                                                <a href="proformarketing" class="btn btn-secondary">Hủy</a>
+                                                <a href="feedbacklistformarketing" class="btn btn-secondary">Hủy</a>
                                                 <input type="submit" class="btn btn-info" value="Lưu">
                                             </div>
                                         </form>

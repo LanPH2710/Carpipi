@@ -166,25 +166,18 @@
                                         </c:choose>
                                         <c:choose>
                                             <c:when test="${sessionScope.account == null||sessionScope.account.roleId == 4}">
-                                            <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
+                                            <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
                                             </c:when>
                                         </c:choose>
-                                    <li class="scroll"><a href="#new-cars">Mẫu mới</a></li>
-
+                                    
+                                    <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
 
 
                                     <li class=""><a href="productlist">Danh sách mẫu</a></li>
                                     <li class=""><a href="BlogListServlet">Tin xe</a></li>
                                         <c:if test="${sessionScope.account == null||sessionScope.account.roleId == 4}">
-                                        <li ><li class="scroll"><a href="#contact">Liên lạc</a></li></li>
+<!--                                        <li ><li class="scroll"><a href="#contact">Liên lạc</a></li></li>-->
                                         </c:if>
-
-                                    <c:if test="${sessionScope.account != null}">
-                                        <li>
-                                            <a href="carts">CART</a>
-                                        </li>
-                                    </c:if>
-
                                     <c:choose>
                                         <c:when test="${sessionScope.account == null}">
                                             <li></li>
@@ -192,7 +185,14 @@
                                             <c:otherwise>
                                             <li><a href="userprofile">Welcome, ${sessionScope.account.lastName}!</a></li>
                                             </c:otherwise>
-                                        </c:choose>
+                                        </c:choose>    
+                                    <c:if test="${sessionScope.account != null}">
+                                        <li>
+                                            <a href="carts">Giỏ Hàng</a>
+                                        </li>
+                                    </c:if>
+
+                                    
                                         <c:choose>
                                             <c:when test="${sessionScope.account == null}">
                                             <li><a href="byaccount">Đăng Nhập</a></li>

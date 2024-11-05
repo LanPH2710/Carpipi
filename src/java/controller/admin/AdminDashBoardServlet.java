@@ -7,6 +7,7 @@ package controller.admin;
 
 import dal.AccountDAO;
 import dal.BlogDAO;
+import dal.BrandDAO;
 import dal.FeedbackDAO;
 import dal.ProductDAO;
 import dal.SliderDAO;
@@ -18,6 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Account;
+import model.Brand;
 import model.Feedback;
 import model.Product;
 
@@ -67,6 +69,7 @@ public class AdminDashBoardServlet extends HttpServlet {
         AccountDAO accountDAO = new AccountDAO();
         SliderDAO sliderDAO = new SliderDAO();
         FeedbackDAO fdao = new FeedbackDAO();
+        BrandDAO bdao = new BrandDAO();
         //OrderDAO orderDAO = new OrderDAO();
         // Lấy số lượng blog từ BlogDAO
         int blogCount = blogDAO.getBlogCount();
@@ -76,7 +79,7 @@ public class AdminDashBoardServlet extends HttpServlet {
         int feedbackCount = fdao.getFeedbackCount();
         List<Feedback> feedbackRate = fdao.getFeedbackRateByBrand();
         List<Account> staff = accountDAO.getStaff();
-        List<Product> productSale = productDAO.getProductsWithTotalQuantitySold();
+        List<Brand> brandSale = bdao.getTotalRevenueByBrand();
         int totalQuantitySold = productDAO.getTotalQuantitySold();
         int sliderCount = sliderDAO.getSliderCount();
         //int orderCount = orderDAO.getOrderCount();
@@ -84,7 +87,7 @@ public class AdminDashBoardServlet extends HttpServlet {
         request.setAttribute("blogCount", blogCount);
         request.setAttribute("productCount", productCount);
         request.setAttribute("customerCount", customerCount);
-        request.setAttribute("productSale", productSale);
+        request.setAttribute("brandSale", brandSale);
         request.setAttribute("totalQuantitySold", totalQuantitySold);
         request.setAttribute("sliderCount", sliderCount);
         request.setAttribute("feedbackBrand", feedbackRate);

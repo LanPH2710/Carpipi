@@ -7,7 +7,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Doctris - Doctor Appointment Booking System</title>
+        <title>Carpipi</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -31,6 +31,7 @@
         <link href="assetsSlider/css/tiny-slider.css" rel="stylesheet" />
         <!-- Css -->
         <link href="assetsSlider/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
     </head>
 
@@ -130,11 +131,12 @@
                                 <a href="postlist" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
-                                            <i class="uil uil-bed h3 mb-0"></i>
+                                            <!--                                            <i class="uil uil-bed h3 mb-0"></i>-->
+                                            <i class="uil uil-file-edit-alt h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0"> ${blogCount}</h5>
-                                            <p class="text-muted mb-0">post</p>
+                                            <p class="text-muted mb-0">Bài Viết Đang Hoạt Động</p>
                                         </div>
                                     </div>
                                 </a>
@@ -144,11 +146,11 @@
                                 <a href="productlist" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
-                                            <i class="uil uil-file-medical-alt h3 mb-0"></i>
+                                            <i class="uil uil-box h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0">${productCount}</h5>
-                                            <p class="text-muted mb-0">product</p>
+                                            <p class="text-muted mb-0">Sản Phẩm Đang Hoạt Động</p>
                                         </div>
                                     </div>
                                 </a>
@@ -158,11 +160,11 @@
                                 <a href="customerlist" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
-                                            <i class="uil uil-social-distancing h3 mb-0"></i>
+                                            <i class="uil uil-users-alt h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0">${customerCount}</h5>
-                                            <p class="text-muted mb-0">customer</p>
+                                            <p class="text-muted mb-0">Khách Hàng</p>
                                         </div>
                                     </div>
 
@@ -173,11 +175,11 @@
                                 <div class="card features feature-primary rounded border-0 shadow p-4">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
-                                            <i class="uil uil-ambulance h3 mb-0"></i>
+                                            <i class="uil uil-shopping-cart h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0">${totalQuantitySold}</h5>
-                                            <p class="text-muted mb-0">total Sale Product</p>
+                                            <p class="text-muted mb-0">Tổng Sản Phẩm Bán Ra</p>
                                         </div>
                                     </div>
 
@@ -188,11 +190,12 @@
                                 <a href="SliderList" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
-                                            <i class="uil uil-medical-drip h3 mb-0"></i>
+
+                                            <i class="uil uil-sliders-v-alt h3 mb-0"></i>
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0">${sliderCount}</h5>
-                                            <p class="text-muted mb-0">slider Count</p>
+                                            <p class="text-muted mb-0">Slider Đang Hoạt Động</p>
                                         </div>
                                     </div>
                                 </a>
@@ -204,7 +207,7 @@
 
                             <div class="col-xl-8 col-lg-7 mt-4">
                                 <div>
-                                    <h2>5 san pham ban chay nhat</h2>
+                                    <h4>5 Sản Phẩm Bán Chạy Nhất</h4>
                                     <div style="width: 700px; margin: auto;"> <!-- Set a specific width for the chart -->
                                         <canvas id="productSalesChart" width="500" height="400"></canvas>
                                     </div>
@@ -233,7 +236,7 @@
                                         data: {
                                             labels: labels,
                                             datasets: [{
-                                                    label: 'Tong so luong san pham duoc ban',
+                                                    label: 'Số Lượng Sản Phẩm Được Bán',
                                                     data: data,
                                                     backgroundColor: [
                                                         'rgba(255,99,132,0.2)',
@@ -295,7 +298,7 @@
 
                             <div class="col-xl-4 col-lg-5 mt-4">
                                 <div>
-                                    <h2>doanh thu theo thuong hieu</h2>
+                                    <h4>Doanh Thu Theo Thương Hiệu</h4>
                                     <div style="width: 400px; margin: auto; margin-top: 50px;"> 
 
                                         <canvas id="brandRevenuePie" width="500" height="400"></canvas>

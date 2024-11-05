@@ -214,16 +214,16 @@
                                                     </div>
 
 
-                                                    <h5 class="mb-0 mt-4 pt-2">Image</h5>
+<!--                                                    <h5 class="mb-0 mt-4 pt-2">Image</h5>
                                                     <div class="row">
                                                         <div class="col-md-12 col-lg-6 mt-4">
-
-                                                        </div><!--end col-->
+                                                            <img src="img/${feedbackdetail.feedbackImg}" alt="" style="width: auto; height: 220px; object-fit: cover"/>
+                                                        </div>end col
 
                                                         <div class="col-md-12 col-lg-6 mt-4">
 
-                                                        </div><!--end col-->
-                                                    </div><!--end row-->
+                                                        </div>end col
+                                                    </div>end row-->
 
 
                                                 </div>

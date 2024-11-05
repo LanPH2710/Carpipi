@@ -61,6 +61,7 @@
                     <ul class="sidebar-menu pt-3">
 
                         <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block"></i>Order List</a></li>
+                        <li><a href="salecheck"><i class="uil uil-dashboard me-2 d-inline-block"></i>Check Order</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -155,7 +156,7 @@
 
                             <div class="col-xl-8 col-lg-7 mt-4">
                                 <div>
-                                    <h2>top 5 nhan vien cua nam</h2>
+                                    <h2>top 5 nhân viên của năm</h2>
                                     <div style="width: 700px; margin: auto;">
                                         <canvas id="productSalesChart" width="500" height="400"></canvas>
                                     </div>
@@ -232,7 +233,7 @@
 
                             <div class="col-xl-4 col-lg-5 mt-4">
                                 <div>
-                                    <h2>doanh thu theo thuong hieu</h2>
+                                    
                                     <div style="width: 400px; margin: auto; margin-top: 50px;"> 
 
                                         <canvas id="brandRevenuePie" width="500" height="400"></canvas>

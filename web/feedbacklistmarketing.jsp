@@ -33,6 +33,8 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assetsSlider/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 
@@ -60,7 +62,7 @@
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
-                         <c:choose>
+                        <c:choose>
                             <c:when test="${sessionScope.account.roleId == 1}">
                                 <li><a href="admindashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                                 </c:when>
@@ -120,7 +122,7 @@
                             <!------------search----------------->
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form action="SliderList" role="search" method="get" id="searchform" class="searchform">
+                                    <form action="feedbacklistformarketing" role="search" method="get" id="searchform" class="searchform">
                                         <div class="search-container">
                                             <!-- Filter by status -->
                                             <span>
@@ -129,12 +131,14 @@
                                             <span>
                                                 <select name="status" style="height:40px; border-radius: 10px; padding: 10px; border: 1px solid #ccc;">
                                                     <option value="">Tất cả</option>
-
+                                                    <option value="1" ${param.status == '1' ? 'selected' : ''}>Hiện</option>
+                                                    <option value="0" ${param.status == '0' ? 'selected' : ''}>Ẩn</option>
+                                                   
                                                 </select>
                                             </span>
                                             <!-- Search by title or backlink -->
                                             <span>
-                                                <input type="text" class="form-control border rounded-pill" id="s" name="search" placeholder="Tìm kiếm theo tên/ backlink" value="${param.search}" />
+                                                <input type="text" class="form-control border rounded-pill" id="s" name="search" placeholder="Tìm kiếm" value="${param.search}" />
                                             </span>
                                             <!-- Search button -->
                                             <span>
@@ -177,11 +181,25 @@
                                     <table class="table table-center bg-white mb-0">
                                         <thead>
                                             <tr>
-                                                <th class="border-bottom p-3" style="min-width: 20px;">Id</th>
-                                                <th class="border-bottom p-3" style="min-width: 140px;">Tên nguời dùng</th>
-                                                <th class="border-bottom p-3">Tên sản phẩm</th>
+                                                <th class="border-bottom p-3" style="min-width: 20px;">
+                                                    <a class="text-decoration-none" href="feedbacklistformarketing?sort=feedbackId&search=${search}&status=${status}&order=${order == 'asc' && sort == 'feedbackId' ? 'desc' : 'asc'}">
+                                                        ID <i class="fa fa-sort"></i>
+                                                    </a>
+                                                </th>
+                                                <th class="border-bottom p-3" style="min-width: 140px;">
+                                                    Tên nguời dùng
+                                                </th>
+                                                <th class="border-bottom p-3">
+                                                    <a class="text-decoration-none" href="feedbacklistformarketing?sort=name&search=${search}&status=${status}&order=${order == 'asc' && sort == 'name' ? 'desc' : 'asc'}">
+                                                        Tên sản phẩm <i class="fa fa-sort"></i>
+                                                    </a>
+                                                </th>
                                                 <th class="border-bottom p-3" style="max-width: 330px">Nội dung</th>
-                                                <th class="border-bottom p-3">Thời gian</th>
+                                                <th class="border-bottom p-3">
+                                                    <a class="text-decoration-none" href="feedbacklistformarketing?sort=time&search=${search}&status=${status}&order=${order == 'asc' && sort == 'time' ? 'desc' : 'asc'}">
+                                                        Thời gian <i class="fa fa-sort"></i>
+                                                    </a>
+                                                </th>
                                                 <th class="border-bottom p-3">Đánh giá</th>
                                                 <th class="border-bottom p-3" style="min-width: 100px;"></th>
                                             </tr>
@@ -207,19 +225,24 @@
                                                     <td class="py-3" style="max-width: 330px">${list.feedbackInfo}</td>
                                                     <td class="p-3">${list.feedbackTime}</td>
                                                     <td class="p-3">
-                                                        <span class="text-warning">
-                                                            <i class="bi bi-star-fill"></i>
-                                                            <i class="bi bi-star-fill"></i>
-                                                            <i class="bi bi-star-fill"></i>
-                                                            <i class="bi bi-star-fill"></i>
-                                                            <i class="bi bi-star-fill"></i>
-
-                                                        </span>
+                                                        <c:forEach var="i" begin="1" end="5">
+                                                            <c:choose>
+                                                                <c:when test="${i <= list.feedbackRate}">
+                                                                    <i class="fa fa-star"></i>
+                                                                </c:when>
+                                                                <c:when test="${i == (list.feedbackRate + 1) && list.feedbackRate % 1 != 0}">
+                                                                    <i class="fas fa-star-half-alt"></i>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <i class="far fa-star"></i>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:forEach>
 
                                                     </td>
                                                     <td>
-                                                        <form action="" method="POST" style="display: inline;">
-                                                            <input type="hidden" name="sliderId" value="${list.feedbackId}" />
+                                                        <form action="feedbacklistformarketing" method="post" style="display: inline;">
+                                                            <input type="hidden" name="feedbackId" value="${list.feedbackId}" />
                                                             <input type="hidden" name="status" value="${list.status == 1 ? 0 : 1}">
                                                             <button type="submit" name="action" value="updateSliderStatus" class="btn btn-icon btn-pills ${list.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
                                                                 <span class="${list.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
@@ -238,37 +261,32 @@
                             </div>
                         </div>
                         <!--end row-->
-                        <!--                        <div class="row text-center">
-                                                     Pagination 
-                                                    <div class="col-12 mt-4">
-                                                        <div class="d-md-flex align-items-center text-center justify-content-between">
-                                                            <span class="text-muted me-3">Hiển thị ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + sliders.size()} ${totalItems}</span>
-                                                            <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                                                 Previous Button 
-                        <c:if test="${currentPage > 1}">
-                            <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage - 1}&search=${param.search}&status=${param.status}" aria-label="Previous">Prev</a>
-                            </li>
-                        </c:if>
+                        <div class="row text-center">
+                            <!-- Pagination -->
+                            <div class="col-12 mt-4">
+                                <div class="d-md-flex align-items-center text-center justify-content-between">
 
-                         Page Numbers 
-                        <c:forEach begin="1" end="${totalPages}" var="page">
-                            <li class="page-item ${currentPage == page ? 'active' : ''}">
-                                <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${page}&search=${param.search}&status=${param.status}">${page}</a>
-                            </li>
-                        </c:forEach>
-
-                         Next Button 
-                        <c:if test="${sliders.size() == 15}">
-                            <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage + 1}&search=${param.search}&status=${param.status}" aria-label="Next">Next</a>
-                            </li>
-                        </c:if>
-                    </ul>
-                </div>
-            </div>
-                                                                     PAGINATION END 
-        </div>end row-->
+                                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                        <c:if test="${index > 1}">
+                                            <li class="page-item"><a class="page-link" href="feedbacklistformarketing?index=${index - 1}" aria-label="Previous">Prev</a></li>
+                                            </c:if>
+                                            <c:forEach begin="${(index - 1) <= 1 ? 1 : (index - 1)}" end="${index + 1 > endP ? endP : index + 1}" var="i">
+                                                <c:choose>
+                                                    <c:when test="${i == index}">
+                                                    <li class="page-item active"><a class="page-link">${i}</a></li>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                    <li class="page-item"><a href="feedbacklistformarketing?index=${i}" class="page-link">${i}</a></li>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+                                            <c:if test="${index < endP}">
+                                            <li class="page-item"><a class="page-link" href="feedbacklistformarketing?index=${index + 1}" aria-label="Next">Next</a></li>
+                                            </c:if>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div><!--end container-->
 

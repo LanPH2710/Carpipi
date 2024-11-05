@@ -434,7 +434,7 @@
 
                                     <c:forEach var="rebuy" items="${orderInfor}" begin="0" end="0">
                                         <div class="reorder-btn ml-3">
-                                            <a href="addtocart?productId=${rebuy.productId}&quantity=${rebuy.quantity}" 
+                                            <a href="addtocart?productId=${rebuy.productId}&colorId=${rebuy.colorId}&quantity=1" 
                                                class="btn btn-primary">Mua lại</a>
                                         </div>
                                     </c:forEach>

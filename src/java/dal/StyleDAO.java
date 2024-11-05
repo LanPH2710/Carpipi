@@ -618,15 +618,23 @@ public class StyleDAO extends DBContext {
 //        List<Style> styletList = s.getStyleListWithProductCount();
 //        System.out.println(s.getAllStyleCar());
 // 
-    Style style = s.getStyleById("1");
+//    Style style = s.getStyleById("1");
+//
+//        if (style != null) {
+//            System.out.println("Style ID: " + style.getStyleId());
+//            System.out.println("Style Name: " + style.getStyleName());
+//         //   System.out.println("Product Count: " + brand.getProductCount());
+//            System.out.println("Status: " + style.getStatus());
+//        } else {
+//            System.out.println("No style found with the given ID.");
+//        }
 
-        if (style != null) {
-            System.out.println("Style ID: " + style.getStyleId());
-            System.out.println("Style Name: " + style.getStyleName());
-         //   System.out.println("Product Count: " + brand.getProductCount());
-            System.out.println("Status: " + style.getStatus());
-        } else {
-            System.out.println("No style found with the given ID.");
-        }
+try {
+    s.updateStyle("1", "Sedan", 1);
+} catch (SQLException e) {
+    e.printStackTrace();  // Handle the exception, maybe log it or notify the user
+}
+
+
 }
 }

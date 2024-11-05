@@ -100,9 +100,9 @@ public class OrderListForSaleServlet extends HttpServlet {
         processRequest(request, response);
 
         String status = request.getParameter("status");
-        String search = request.getParameter("search").trim();
+     
         System.out.println("status: " + status);
-        System.out.println("search: " + search);
+      
         
         OrderDAO orderDao = new OrderDAO();
         
@@ -110,24 +110,18 @@ public class OrderListForSaleServlet extends HttpServlet {
         
         List<OrderDetail> orderList = new ArrayList<>();
         
-        if(status == null || status.isEmpty() || status.equals("10") ){
-            orderList = orderDao.getAllOrderList();
-        }else{
-            orderList = orderDao.getListOrderWithStatus(status);
-        }
         
-        if(search != null && !search.isEmpty()){
-            orderList = orderDao.getListOrderWithSearch(search);
-        } 
+        orderList = orderDao.getListOrderWithStatus(status);
         
+        
+       
         
         
         request.setAttribute("status", status);
         request.setAttribute("orderList", orderList);
         System.out.println("---------------------------");
 
-        response.sendRedirect("orderlistforsale");
-    }
+request.getRequestDispatcher("orderlistforsale.jsp").forward(request, response);    }
 
     /**
      * Returns a short description of the servlet.

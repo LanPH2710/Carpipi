@@ -12,10 +12,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import model.Account;
 import model.Order;
 import model.OrderDetail;
 
@@ -60,6 +62,9 @@ public class SaleCheckServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession sesion = request.getSession();
+        Account sale = (Account) sesion.getAttribute("account");
+        int saleId = sale.getUserId();
         OrderDetailDAO od1dao = new OrderDetailDAO();
         List<Order> order = new ArrayList<>();
         Map<Integer, List<OrderDetail>> orderDetailsMap = new HashMap<>();
@@ -76,16 +81,16 @@ public class SaleCheckServlet extends HttpServlet {
             }
         }
         if (statusId > 0) {
-            order = od1dao.getShipOrderByStatus(statusId);
+            order = od1dao.getSaleOrderByStatus(statusId, saleId);
         } else {
-            order = od1dao.getSaleCheckOrder();
+            order = od1dao.getSaleCheckOrder(saleId);
         }
         for (Order order1 : order) {
             List<OrderDetail> orderDetails = od1dao.getOrderDetail(order1.getOrderId());
             orderDetailsMap.put(order1.getOrderId(), orderDetails);
         }
         //phan trang
-        int page, numperpage = 2;
+        int page, numperpage = 5;
         int size = order.size();
         int num = (int) Math.ceil((double) size / numperpage); // Số trang, làm tròn lên
         String xpage = request.getParameter("page");

@@ -106,29 +106,22 @@ public class CheckOutDAO extends DBContext{
             return false;
         }
     }
-    public static void main(String[] args) {
-    CheckOutDAO dao = new CheckOutDAO();
+  public static void main(String[] args) {
+        CheckOutDAO checkOutDAO = new CheckOutDAO();
+        
+        int userId = 1; // Replace with a valid user ID
+        double amountToAdd = 100.00; // Amount to add to the user's balance
 
-    // Sample data for testing the balance update
-    int userId = 1; // Replace with a valid userId for testing
-    double totalPrice = 50.0; // Replace with the purchase amount
-
-    // Attempt to update the balance after purchase
-    boolean success = dao.updateMoneyAfterPurchase(userId, totalPrice);
-    if (success) {
-        System.out.println("Balance updated successfully for user ID: " + userId);
-    } else {
-        System.out.println("Failed to update balance. Check if user has sufficient balance or if user ID is correct.");
+        // Call addMoneyToBalance and print the result
+        boolean isUpdated = checkOutDAO.addMoneyToBalance(userId, amountToAdd);
+        
+        if (isUpdated) {
+            System.out.println("Balance updated successfully for user ID: " + userId);
+            System.out.println("New Balance: " + checkOutDAO.getMoneyByUserId(userId));
+        } else {
+            System.out.println("Failed to update balance for user ID: " + userId);
+        }
     }
-
-    // Close the connection if necessary
-    try {
-        dao.connection.close();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-}
-
 
   public double getMoneyByUserId(int userId) {
     String sql = "SELECT money FROM account WHERE userId = ?";
@@ -166,7 +159,42 @@ public boolean updateMoneyAfterPurchase(int userId, double totalPrice) {
 
     return success;
 }
+public boolean addMoneyToBalance(int userId, double amountToAdd) {
+    String selectSql = "SELECT money FROM account WHERE userId = ?";
+    String updateSql = "UPDATE account SET money = ? WHERE userId = ?";
 
+    try (
+        PreparedStatement selectPs = connection.prepareStatement(selectSql);
+        PreparedStatement updatePs = connection.prepareStatement(updateSql)
+    ) {
+        // Step 1: Retrieve current balance
+        selectPs.setInt(1, userId);
+        double currentBalance = 0.0;
+
+        try (ResultSet rs = selectPs.executeQuery()) {
+            if (rs.next()) {
+                currentBalance = rs.getDouble("money");
+            } else {
+                System.out.println("User not found with ID: " + userId);
+                return false;
+            }
+        }
+
+        // Step 2: Calculate new balance
+        double newBalance = currentBalance + amountToAdd;
+
+        // Step 3: Update balance in the database
+        updatePs.setDouble(1, newBalance);
+        updatePs.setInt(2, userId);
+
+        int rowsUpdated = updatePs.executeUpdate();
+        return rowsUpdated > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
 
 
 }

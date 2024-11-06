@@ -189,13 +189,13 @@ public class CheckoutController extends HttpServlet {
             // Process COD order
             double totalmoney = (double) session.getAttribute("totalFinal");// Ensure to implement a method to calculate total money if needed
 
-            double balance = checkoutDAO.getBalanceByUserId(acc.getUserId());
+            double balance = checkoutDAO.getMoneyByUserId(acc.getUserId());
             if (totalmoney > balance) {
                 session.setAttribute("messCheckOut", "Số dư không đủ");
                 response.sendRedirect("checkout");
                 return;
             }else{
-            checkoutDAO.updateBalanceAfterPurchase(acc.getUserId(), totalmoney);
+            checkoutDAO.updateMoneyAfterPurchase(acc.getUserId(), totalmoney);
             int orderId = cartDAO.addOrder(acc.getUserId(), name, email, phone, totalmoney, address, 1,3);
             
             for (Cart cart : cartList) {

@@ -140,69 +140,84 @@ public class SettingDetailServlet extends HttpServlet {
     }
 
     @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    String brandIdParam = request.getParameter("brandId");
-    String statusParam = request.getParameter("status");
-    String brandName = request.getParameter("brandName");
-
-    String styleIdStr = request.getParameter("styleId"); // styleId remains as String
-    String styleName = request.getParameter("styleName");
-    String styleStatusStr = request.getParameter("styleStatus");
-
-    // Check input parameters for brand update
-    if (brandIdParam != null && statusParam != null && brandName != null) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         try {
-            int brandId = Integer.parseInt(brandIdParam);
-            int brandStatus = statusParam.equals("active") ? 1 : 0;
+            // Process Brand Update
+            String brandIdParam = request.getParameter("brandId");
+            String brandName = request.getParameter("brandName");
+            String statusParam = request.getParameter("status");
+            if (brandIdParam != null && brandName != null && statusParam != null) {
+                int brandId = Integer.parseInt(brandIdParam);
+                int brandStatus = statusParam.equalsIgnoreCase("active") ? 1 : 0;
 
-            BrandDAO brandDAO = new BrandDAO();
-            brandDAO.updateBrand(brandId, brandName, brandStatus);
+                BrandDAO brandDAO = new BrandDAO();
+                brandDAO.updateBrand(brandId, brandName, brandStatus);
+                response.sendRedirect("settingdetail?brandId=" + brandId);
+                return;
+            }
 
-            response.sendRedirect("settingdetail?brandId=" + brandId);
-            return;
+            // Process Style Update
+            String styleIdStr = request.getParameter("styleId");
+            String styleName = request.getParameter("styleName");
+            String styleStatusStr = request.getParameter("styleStatus");
+            if (styleIdStr != null && styleName != null && styleStatusStr != null) {
+                int styleStatus = styleStatusStr.equalsIgnoreCase("active") ? 1 : 0;
+
+                StyleDAO styleDAO = new StyleDAO();
+                styleDAO.updateStyle(styleIdStr, styleName, styleStatus);
+                response.sendRedirect("settingdetail?styleId=" + styleIdStr);
+                return;
+            }
+
+            // Process Segment Update
+            String segmentIdParam = request.getParameter("segmentId");
+            String segmentName = request.getParameter("segmentName");
+            String segmentStatusParam = request.getParameter("segmentStatus");
+            if (segmentIdParam != null && segmentName != null && segmentStatusParam != null) {
+                int segmentId = Integer.parseInt(segmentIdParam);
+                int segmentStatus = segmentStatusParam.equalsIgnoreCase("active") ? 1 : 0;
+
+                SegmentDAO segmentDAO = new SegmentDAO();
+                segmentDAO.updateSegment(segmentId, segmentName, segmentStatus);
+                response.sendRedirect("settingdetail?segmentId=" + segmentId);
+                return;
+            }
+
+            // Process Supply Update
+            String supplyIdStr = request.getParameter("supplyId");
+            String supplyName = request.getParameter("supplyName");
+            String supplyStatusStr = request.getParameter("supplyStatus");
+            String supplyLocation = request.getParameter("supplyLocation");
+            if (supplyIdStr != null && supplyName != null && supplyStatusStr != null && supplyLocation != null) {
+                int supplyStatus = supplyStatusStr.equalsIgnoreCase("active") ? 1 : 0;
+
+                SupplyDAO supplyDAO = new SupplyDAO();
+                supplyDAO.updateSupply(supplyIdStr, supplyName, supplyLocation, supplyStatus);
+                response.sendRedirect("settingdetail?supplyId=" + supplyIdStr);
+                return;
+            }
+
+            // If none of the parameters match, show an error
+            request.setAttribute("errorMessage", "Brand, style, segment, or supply details are required.");
+            request.getRequestDispatcher("home").forward(request, response);
+
         } catch (NumberFormatException e) {
-            request.setAttribute("errorMessage", "Invalid brand ID or status.");
+            request.setAttribute("errorMessage", "Invalid ID format or status value.");
             request.getRequestDispatcher("home").forward(request, response);
-            return;
-        } catch (Exception e) {
-            request.setAttribute("errorMessage", "An unexpected error occurred: " + e.getMessage());
-            request.getRequestDispatcher("home").forward(request, response);
-            return;
-        }
-    }
-
-    // Check input parameters for style update
-    if (styleIdStr != null && styleName != null && styleStatusStr != null) {
-        try {
-            // No need to parse styleIdStr as an integer; it remains as a String
-            int styleStatus = styleStatusStr.equals("active") ? 1 : 0;
-
-            StyleDAO styleDAO = new StyleDAO();
-            styleDAO.updateStyle(styleIdStr, styleName, styleStatus);  // Pass styleIdStr as String
-
-            response.sendRedirect("settingdetail?styleId=" + styleIdStr);
         } catch (Exception e) {
             request.setAttribute("errorMessage", "An unexpected error occurred: " + e.getMessage());
             request.getRequestDispatcher("home").forward(request, response);
         }
-    } else {
-        // If neither brand nor style parameters are provided, show an error
-        request.setAttribute("errorMessage", "Brand or style details are required.");
-        request.getRequestDispatcher("home").forward(request, response);
     }
-}
 
-
-
-
-/**
- * Returns a short description of the servlet.
- *
- * @return a String containing servlet description
- */
-@Override
-public String getServletInfo() {
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

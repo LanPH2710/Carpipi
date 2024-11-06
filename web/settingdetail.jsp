@@ -283,7 +283,7 @@
                                                                 <strong>Vị trí</strong>
                                                                 <input 
                                                                     type="text" 
-                                                                    name="supplyName" 
+                                                                    name="supplyLocation" 
                                                                     class="form-control d-flex justify-content-between align-items-center rounded p-3 shadow mt-3" 
                                                                     value="${supply.supplyLocation}">
                                                             </div>

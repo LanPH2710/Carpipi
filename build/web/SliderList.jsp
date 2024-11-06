@@ -209,7 +209,7 @@
                                                                 <span class="${slider.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
                                                             </button>
                                                         </form>
-                                                        <a href="editSlider?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile">
+                                                        <a href="sliderdetail?id=${slider.sliderId}" class="btn btn-icon btn-pills btn-soft-success">
                                                             <i class="uil uil-pen"></i>
                                                         </a>
                                                     </td>

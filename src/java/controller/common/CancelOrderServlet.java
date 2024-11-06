@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.sale;
+package controller.common;
 
 import dal.AccountDAO;
 import dal.OrderDAO;
@@ -12,15 +12,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.Account;
-import model.Order;
+import java.math.BigDecimal;
 
 /**
  *
- * @author Sonvu
+ * @author tuana
  */
-public class DashboardForSaleServlet extends HttpServlet {
+public class CancelOrderServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +37,10 @@ public class DashboardForSaleServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DashboardForSaleServlet</title>");
+            out.println("<title>Servlet CancelOrderServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DashboardForSaleServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CancelOrderServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,25 +58,26 @@ public class DashboardForSaleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        OrderDAO orderDAO = new OrderDAO();
-        AccountDAO accountDao = new AccountDAO();
+        OrderDAO od = new OrderDAO();
+        AccountDAO adao = new AccountDAO();
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
+        int payMethod = Integer.parseInt(request.getParameter("payMethod"));
 
-        double total = orderDAO.getTotalPrice();
-        double totalOfCar = orderDAO.getTotalCarSale();
-        int totalSaler = orderDAO.getTotalSaler();
-        List<Order> orderCount = orderDAO.getTop5SalerByOrder();
-        
-        
-        
+        // Kiểm tra xem tham số totalPrice có tồn tại và hợp lệ không
+        String totalPriceStr = request.getParameter("totalPrice");
+        BigDecimal totalPrice = (totalPriceStr != null && !totalPriceStr.isEmpty())
+                ? new BigDecimal(totalPriceStr)
+                : BigDecimal.ZERO;  // Giá trị mặc định nếu không có giá trị hợp lệ
 
-        System.out.println(total);
-        request.setAttribute("total", total);
-        request.setAttribute("totalOfCar", totalOfCar);
-        request.setAttribute("allSaleName", totalOfCar);
-        request.setAttribute("totalSaler", totalSaler);
+        // Hủy đơn hàng
+        od.cancelOrder(orderId);
 
-        request.setAttribute("orderCount", orderCount);
-        request.getRequestDispatcher("dashboardforsale.jsp").forward(request, response);
+        // Hoàn lại tiền cho người dùngì
+        if (payMethod == 1) {
+            adao.payback(userId, totalPrice);
+        }
+        response.sendRedirect("myorder");
     }
 
     /**
@@ -92,7 +91,7 @@ public class DashboardForSaleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /**

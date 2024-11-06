@@ -96,6 +96,7 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                margin-bottom: 20px;
             }
 
             .product-info {
@@ -125,9 +126,19 @@
                 font-size: 18px;
             }
 
+            .order-detail-item{
+                background-color: white;
+                border: 1px solid #e0e0e0;
+                padding: 20px;
+                margin: 4px;
+                border-radius: 10px;
+            }
+
             .order-actions {
                 margin-left: auto;
                 text-align: right;
+                display: flex;
+                justify-content: space-between;
             }
 
             .order-actions .price {
@@ -203,7 +214,7 @@
                         <li>
                             <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
                         </li>
-                        <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
+                        <li><a href="salecheck"><i class="uil uil-cube me-2 d-inline-block"></i>Xác nhận đơn hàng</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -353,14 +364,14 @@
                                                                     </button>
 
                                                                     <!-- Nút hủy đơn hàng -->
-                                                                    <button type="submit" class="btn btn-danger" name="orderStatus" value="5" onclick="return confirm('Bạn có chắc muốn hủy đơn hàng này?');">
-                                                                        Hủy đơn
-                                                                    </button>
+                                                                    <!--                                                                    <button type="submit" class="btn btn-danger" name="orderStatus" value="5" onclick="return confirm('Bạn có chắc muốn hủy đơn hàng này?');">
+                                                                                                                                            Hủy đơn
+                                                                                                                                        </button>-->
                                                                 </c:if>
                                                             </form>
                                                         </div>
                                                         <c:forEach items="${orderDetailsMap[order.orderId]}" var="detail">
-                                                            <div class="order-item">
+                                                            <div class="order-detail-item">
                                                                 <div class="product-info">
                                                                     <img src="${detail.imageUrl}" class="product-img" alt="Product Image">
                                                                     <div class="product-description">
@@ -373,6 +384,23 @@
                                                             </div>
                                                         </c:forEach>
                                                         <div class="order-actions">
+
+                                                            <a href="" class="status-link">
+                                                                <p class="delivery-status">
+                                                                    <c:choose>
+                                                                        <c:when test="${order.payMethod == 1}">
+                                                                            Đơn hàng đã thanh toán trước
+                                                                        </c:when>
+                                                                        <c:when test="${order.payMethod == 2}">
+                                                                            Đơn hàng thanh toán khi khách hàng nhận được hàng
+                                                                        </c:when>
+                                                                        <c:when test="${order.payMethod == 3}">
+                                                                            Đơn hàng đã được thanh toán trước
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                </p>
+                                                            </a>
+
                                                             <p class="price">
                                                                 <span>Thành tiền:</span>&nbsp;&nbsp;
                                                                 <fmt:formatNumber value="${order.totalPrice}" type="currency" currencySymbol="USD"/>

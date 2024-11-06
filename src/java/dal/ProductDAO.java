@@ -4,7 +4,10 @@ import context.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1183,6 +1186,24 @@ public class ProductDAO extends DBContext {
         return count;
     }
     
+    public int getActiveProductCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM product where status=1";
+
+        try (
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1); // Lấy giá trị của cột đầu tiên
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+    
     public List<Product> getProductsWithTotalQuantitySold() {
     List<Product> productList = new ArrayList<>();
     String query = "SELECT od.productId, p.name, p.price, SUM(od.quantity) AS total_quantity_sold " +
@@ -1260,6 +1281,53 @@ public class ProductDAO extends DBContext {
 
     return productList;
 }
+    
+    public List<Product> getTop5ProductsBySales(Date startDate, Date endDate) {
+    List<Product> topProducts = new ArrayList<>();
+    
+    String query = """
+        SELECT 
+            p.name,
+            SUM(od.quantity) AS total_quantity_sold
+        FROM 
+            orderdetail od
+        JOIN 
+            `order` o ON od.orderId = o.orderId
+        JOIN 
+            orderstatus os ON o.orderStatus = os.statusId
+        JOIN
+            product p ON od.productId = p.productId
+        WHERE 
+            os.statusId = 4 AND o.createDate BETWEEN ? AND ?
+        GROUP BY 
+            p.name
+        ORDER BY 
+            total_quantity_sold DESC
+        LIMIT 5;
+    """;
+    
+    try (
+         PreparedStatement stmt = connection.prepareStatement(query)) {
+
+        stmt.setDate(1, new java.sql.Date(startDate.getTime()));
+        stmt.setDate(2, new java.sql.Date(endDate.getTime()));
+
+        
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Product product = new Product();
+                product.setName(rs.getString("name"));
+                product.setTotalQuantitySold(rs.getInt("total_quantity_sold"));
+                
+                topProducts.add(product);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    
+    return topProducts;
+}
 
     
     public int getTotalQuantitySold() {
@@ -1295,41 +1363,67 @@ public class ProductDAO extends DBContext {
         //
         // Kiểm tra số lượng sản phẩm theo loại nhiên liệu
         // Kiểm tra số lượng sản phẩm theo loại nhiên liệu
-        Map<String, Integer> fuelCounts = p.getFuelCounts();
+//        Map<String, Integer> fuelCounts = p.getFuelCounts();
+//
+//        // Thay đổi ID và các thông tin cần cập nhật theo sản phẩm cụ thể
+//        String productId = "AU01"; // ID sản phẩm cần cập nhật
+//        String name = "Sản phẩm mới";
+//        int seatNumber = 5;
+//        double price = 3000000; // Giá sản phẩm
+//        //String fuel = "Xăng";
+//        int stock = 10; // Số lượng
+//        String description = "Mô tả sản phẩm";
+//        double vat = 10.0; // Thuế giá trị gia tăng
+//        int supplyId = 1; // ID nhà cung cấp
+//        int brandId = 1; // ID thương hiệu
+//        int segmentId = 1; // ID phân khúc
+//        int styleId = 1; // ID kiểu dáng
+//
+//        // Gọi phương thức cập nhật sản phẩm
+////            p.updateProduct(productId, name, seatNumber, price, fuel, stock, description, vat, supplyId, brandId, segmentId, styleId);
+//        System.out.println("Cập nhật sản phẩm thành công!");
+//        
+//       
+//        int productCount = p.getProductCount();
+//        System.out.println("Số lượng product: " + productCount);
+//        
+//        // Call the method to get products with total quantity sold
+//        List<Product> products = p.getTop5ProductsByTotalQuantitySold();
+//
+//        // Print the results
+//        System.out.println("Products sold in the last minute:");
+//        for (Product product : products) {
+//            System.out.println("Product ID: " + product.getProductId());
+//            System.out.println("Name: " + product.getName());
+//            System.out.println("Price: " + product.getPrice());
+//            System.out.println("Total Quantity Sold: " + product.getTotalQuantitySold()); // Assume you have this method
+//            System.out.println("---------------");
+//        }
 
-        // Thay đổi ID và các thông tin cần cập nhật theo sản phẩm cụ thể
-        String productId = "AU01"; // ID sản phẩm cần cập nhật
-        String name = "Sản phẩm mới";
-        int seatNumber = 5;
-        double price = 3000000; // Giá sản phẩm
-        //String fuel = "Xăng";
-        int stock = 10; // Số lượng
-        String description = "Mô tả sản phẩm";
-        double vat = 10.0; // Thuế giá trị gia tăng
-        int supplyId = 1; // ID nhà cung cấp
-        int brandId = 1; // ID thương hiệu
-        int segmentId = 1; // ID phân khúc
-        int styleId = 1; // ID kiểu dáng
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        // Gọi phương thức cập nhật sản phẩm
-//            p.updateProduct(productId, name, seatNumber, price, fuel, stock, description, vat, supplyId, brandId, segmentId, styleId);
-        System.out.println("Cập nhật sản phẩm thành công!");
-        
-       
-        int productCount = p.getProductCount();
-        System.out.println("Số lượng product: " + productCount);
-        
-        // Call the method to get products with total quantity sold
-        List<Product> products = p.getTop5ProductsByTotalQuantitySold();
+        try {
+            // Set start and end dates for the query
+            java.util.Date startDate = dateFormat.parse("2024-09-15");
+            java.util.Date endDate = dateFormat.parse("2024-10-30");
 
-        // Print the results
-        System.out.println("Products sold in the last minute:");
-        for (Product product : products) {
-            System.out.println("Product ID: " + product.getProductId());
-            System.out.println("Name: " + product.getName());
-            System.out.println("Price: " + product.getPrice());
-            System.out.println("Total Quantity Sold: " + product.getTotalQuantitySold()); // Assume you have this method
-            System.out.println("---------------");
+            // Instantiate the ProductDAO
+            ProductDAO productDAO = new ProductDAO();
+
+            // Retrieve the top 5 products by total quantity sold
+            List<Product> topProducts = productDAO.getTop5ProductsBySales(startDate, endDate);
+
+            // Print out each product's details
+            System.out.println("Top 5 Products by Total Quantity Sold:");
+            for (Product product : topProducts) {
+                System.out.println("Product ID: " + product.getProductId());
+                System.out.println("Name: " + product.getName());
+                System.out.println("Price: " + product.getPrice());
+                System.out.println("Total Quantity Sold: " + product.getTotalQuantitySold());
+                System.out.println("-------------------------------------");
+            }
+        } catch (ParseException e) {
+            System.err.println("Error parsing date: " + e.getMessage());
         }
     }
 

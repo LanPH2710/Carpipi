@@ -60,32 +60,6 @@ public class SettingDetailServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        // Get the brandId from the request parameter
-//        String brandIdStr = request.getParameter("brandId");
-//
-//        try {
-//            int brandId = Integer.parseInt(brandIdStr);
-//
-//            // Fetch the brand details from the database using the BrandDAO
-//            BrandDAO brandDAO = new BrandDAO();
-//            Brand brand = brandDAO.getBrandById1(brandId);
-//
-//            // Check if the brand exists
-//            if (brand != null) {
-//                // Set the brand object in request scope
-//                request.setAttribute("brand", brand);
-//                // Forward the request to the JSP page to display details
-//                request.getRequestDispatcher("settingdetail.jsp").forward(request, response);
-//            } else {
-//                response.getWriter().println("<h1>Brand not found</h1>");
-//            }
-//
-//        } catch (NumberFormatException e) {
-//            response.getWriter().println("<h1>Invalid brand ID</h1>");
-//        }
-//    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -159,9 +133,7 @@ public class SettingDetailServlet extends HttpServlet {
             } catch (NumberFormatException e) {
                 response.getWriter().println("<h1>Invalid brand ID</h1>");
             }
-        }
-        
-        else {
+        } else {
             response.getWriter().println("<h1>No brand or style ID provided</h1>");
         }
 
@@ -170,32 +142,68 @@ public class SettingDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String brandIdParam = request.getParameter("brandId");
-        String statusParam = request.getParameter("status"); // Lấy giá trị từ "status" thay vì "brandStatus"
-        String brandName = request.getParameter("brandName");
-
-        // Kiểm tra tham số đầu vào
-        if (brandIdParam == null || statusParam == null || brandName == null) {
-            request.setAttribute("errorMessage", "Brand ID, status, and name are required.");
-            request.getRequestDispatcher("home").forward(request, response);
-            return;
-        }
-
         try {
-            int brandId = Integer.parseInt(brandIdParam);
+            // Process Brand Update
+            String brandIdParam = request.getParameter("brandId");
+            String brandName = request.getParameter("brandName");
+            String statusParam = request.getParameter("status");
+            if (brandIdParam != null && brandName != null && statusParam != null) {
+                int brandId = Integer.parseInt(brandIdParam);
+                int brandStatus = statusParam.equalsIgnoreCase("active") ? 1 : 0;
 
-            // Chuyển đổi status từ chuỗi "active"/"inactive" thành 1 hoặc 0
-            int brandStatus = statusParam.equals("active") ? 1 : 0;
+                BrandDAO brandDAO = new BrandDAO();
+                brandDAO.updateBrand(brandId, brandName, brandStatus);
+                response.sendRedirect("settingdetail?brandId=" + brandId);
+                return;
+            }
 
-            // Tạo đối tượng BrandDAO
-            BrandDAO brandDAO = new BrandDAO();
-            // Cập nhật tên và trạng thái
-            brandDAO.updateBrand(brandId, brandName, brandStatus);
+            // Process Style Update
+            String styleIdStr = request.getParameter("styleId");
+            String styleName = request.getParameter("styleName");
+            String styleStatusStr = request.getParameter("styleStatus");
+            if (styleIdStr != null && styleName != null && styleStatusStr != null) {
+                int styleStatus = styleStatusStr.equalsIgnoreCase("active") ? 1 : 0;
 
-            // Chuyển hướng lại trang chi tiết sau khi cập nhật
-            response.sendRedirect("settingdetail?brandId=" + brandId);
+                StyleDAO styleDAO = new StyleDAO();
+                styleDAO.updateStyle(styleIdStr, styleName, styleStatus);
+                response.sendRedirect("settingdetail?styleId=" + styleIdStr);
+                return;
+            }
+
+            // Process Segment Update
+            String segmentIdParam = request.getParameter("segmentId");
+            String segmentName = request.getParameter("segmentName");
+            String segmentStatusParam = request.getParameter("segmentStatus");
+            if (segmentIdParam != null && segmentName != null && segmentStatusParam != null) {
+                int segmentId = Integer.parseInt(segmentIdParam);
+                int segmentStatus = segmentStatusParam.equalsIgnoreCase("active") ? 1 : 0;
+
+                SegmentDAO segmentDAO = new SegmentDAO();
+                segmentDAO.updateSegment(segmentId, segmentName, segmentStatus);
+                response.sendRedirect("settingdetail?segmentId=" + segmentId);
+                return;
+            }
+
+            // Process Supply Update
+            String supplyIdStr = request.getParameter("supplyId");
+            String supplyName = request.getParameter("supplyName");
+            String supplyStatusStr = request.getParameter("supplyStatus");
+            String supplyLocation = request.getParameter("supplyLocation");
+            if (supplyIdStr != null && supplyName != null && supplyStatusStr != null && supplyLocation != null) {
+                int supplyStatus = supplyStatusStr.equalsIgnoreCase("active") ? 1 : 0;
+
+                SupplyDAO supplyDAO = new SupplyDAO();
+                supplyDAO.updateSupply(supplyIdStr, supplyName, supplyLocation, supplyStatus);
+                response.sendRedirect("settingdetail?supplyId=" + supplyIdStr);
+                return;
+            }
+
+            // If none of the parameters match, show an error
+            request.setAttribute("errorMessage", "Brand, style, segment, or supply details are required.");
+            request.getRequestDispatcher("home").forward(request, response);
+
         } catch (NumberFormatException e) {
-            request.setAttribute("errorMessage", "Invalid brand ID or status.");
+            request.setAttribute("errorMessage", "Invalid ID format or status value.");
             request.getRequestDispatcher("home").forward(request, response);
         } catch (Exception e) {
             request.setAttribute("errorMessage", "An unexpected error occurred: " + e.getMessage());

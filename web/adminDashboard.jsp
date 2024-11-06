@@ -276,126 +276,179 @@
                         <!--end row-->
 
                         <div class="row">
-                            <div class="col-xl-8 col-lg-7 mt-4">
+                            <div class="col-xl-12 col-lg-7 mt-4">
                                 <div>
-                                    <h2>Product Sales Chart</h2>
+                                    <h3>Product Sales Chart From Brand</h3>
                                     <div style="width: 700px; margin: auto;">
                                         <canvas id="productSalesChart" width="700" height="400"></canvas>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-xl-8 col-lg-7 mt-4">
+                            <div class="col-xl-12 col-lg-7 mt-4">
                                 <div>
-                                    <h2>Feedback Rate</h2>
+                                    <h3>Feedback Rate</h3>
                                     <div style="width: 700px; margin: auto;">
                                         <canvas id="feedbackRateChart" width="700" height="400"></canvas>
                                     </div>
                                 </div>
                             </div>
+
                             <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
 
                             <script>
-                                // Biểu đồ Doanh số sản phẩm
-                                const products = [];
-                                <c:forEach var="product" items="${productSale}">
-                                products.push({
-                                    name: '${product.name}',
-                                    totalQuantitySold: ${product.totalQuantitySold}
-                                });
-                                </c:forEach>
+    // Biểu đồ Doanh số sản phẩm
+    const brands = [];
+    <c:forEach var="brand" items="${brandSale}">
+        brands.push({
+            name: '${brand.name}',
+            totalRevenue: ${brand.totalRevenue} // Sửa lỗi không có dấu ":" ở đây
+        });
+    </c:forEach>
 
-                                const labelsSales = products.map(product => product.name);
-                                const dataSales = products.map(product => product.totalQuantitySold);
+    const labelsSales = brands.map(brand => brand.name);
+    const dataSales = brands.map(brand => brand.totalRevenue);
 
-                                const ctxSales = document.getElementById('productSalesChart').getContext('2d');
-                                const productSalesChart = new Chart(ctxSales, {
-                                    type: 'bar',
-                                    data: {
-                                        labels: labelsSales,
-                                        datasets: [{
-                                                label: 'Total Quantity Sold',
-                                                data: dataSales,
-                                                backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                                                borderColor: 'rgba(54, 162, 235, 1)',
-                                                borderWidth: 1
-                                            }]
-                                    },
-                                    options: {
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true,
-                                                title: {
-                                                    display: true,
-                                                    text: 'Quantity Sold'
-                                                }
-                                            },
-                                            x: {
-                                                title: {
-                                                    display: true,
-                                                    text: 'Products'
-                                                }
-                                            }
-                                        },
-                                        responsive: true,
-                                        maintainAspectRatio: false
-                                    }
-                                });
+    const ctxSales = document.getElementById('productSalesChart').getContext('2d');
+    const productSalesChart = new Chart(ctxSales, {
+        type: 'bar',
+        data: {
+            labels: labelsSales,
+            datasets: [{
+                label: 'Total Revenue',
+                data: dataSales,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        font: {
+                            size: 16 // Set y-axis label font size
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Quantity Sold'
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 16 // Set x-axis label font size
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Products'
+                    }
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 18 // Set legend font size
+                        }
+                    }
+                },
+                tooltip: {
+                    bodyFont: {
+                        size: 20 // Set tooltip font size when hovering
+                    },
+                    titleFont: {
+                        size: 20 // Set tooltip title font size
+                    }
+                }
+            }
+        }
+    });
 
-                                // Biểu đồ Tỷ lệ phản hồi
-                                const feedbacks = [];
-                                <c:forEach var="feedback" items="${feedbackBrand}">
-                                feedbacks.push({
-                                    brandName: '${feedback.brandName}',
-                                    feedbackRate: ${feedback.feedbackRate}
-                                });
-                                </c:forEach>
+    // Biểu đồ Tỷ lệ phản hồi
+    const feedbacks = [];
+    <c:forEach var="feedback" items="${feedbackBrand}">
+        feedbacks.push({
+            brandName: '${feedback.brandName}',
+            feedbackRate: ${feedback.feedbackRate}
+        });
+    </c:forEach>
 
-                                const labelsFeedback = feedbacks.map(feedback => feedback.brandName);
-                                const dataFeedback = feedbacks.map(feedback => feedback.feedbackRate);
+    const labelsFeedback = feedbacks.map(feedback => feedback.brandName);
+    const dataFeedback = feedbacks.map(feedback => feedback.feedbackRate);
 
-                                const ctxFeedback = document.getElementById('feedbackRateChart').getContext('2d');
-                                const feedbackRateChart = new Chart(ctxFeedback, {
-                                    type: 'bar',
-                                    data: {
-                                        labels: labelsFeedback,
-                                        datasets: [{
-                                                label: 'Feedback Rate',
-                                                data: dataFeedback,
-                                                backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                                                borderColor: 'rgba(54, 162, 235, 1)',
-                                                borderWidth: 1
-                                            }]
-                                    },
-                                    options: {
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true,
-                                                title: {
-                                                    display: true,
-                                                    text: 'Feedback Rate'
-                                                }
-                                            },
-                                            x: {
-                                                title: {
-                                                    display: true,
-                                                    text: 'Brand'
-                                                }
-                                            }
-                                        },
-                                        responsive: true,
-                                        maintainAspectRatio: false
-                                    }
-                                });
-                            </script>
+    const ctxFeedback = document.getElementById('feedbackRateChart').getContext('2d');
+    const feedbackRateChart = new Chart(ctxFeedback, {
+        type: 'bar',
+        data: {
+            labels: labelsFeedback,
+            datasets: [{
+                label: 'Feedback Rate',
+                data: dataFeedback,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        font: {
+                            size: 16 // Set y-axis label font size
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Feedback Rate'
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 16 // Set x-axis label font size
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Brand'
+                    }
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 18 // Set legend font size
+                        }
+                    }
+                },
+                tooltip: {
+                    bodyFont: {
+                        size: 20 // Set tooltip font size when hovering
+                    },
+                    titleFont: {
+                        size: 20 // Set tooltip title font size
+                    }
+                }
+            }
+        }
+    });
+</script>
 
 
-
-                            <div class="col-xl-4 col-lg-5 mt-4">
+<!--                            <div class="col-xl-4 col-lg-5 mt-4">
                                 <div class="card shadow border-0 p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h6 class="align-items-center mb-0">Patients by Department</h6>
-
                                         <div class="mb-0 position-relative">
                                             <select class="form-select form-control" id="dailychart">
                                                 <option selected>Today</option>
@@ -405,9 +458,9 @@
                                     </div>
                                     <div id="department" class="apex-chart"></div>
                                 </div>
-                            </div>
-
-                        </div><!--end row-->
+                            </div>-->
+                        </div>
+                        <!--end row-->
 
                         <div class="row">
                             <div class="col-xl-4 col-lg-6 mt-4">
@@ -461,6 +514,47 @@
                                                         </div>
 
                                                     </div>
+                                                </div>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
+                                    
+                                    <div class="col-xl-4 col-lg-6 mt-4">
+                                <div class="card border-0 shadow rounded">
+                                    <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
+                                        <h6 class="mb-0"><i class="uil uil-users-alt text-primary me-1 h5"></i>Khách hàng thân thiết</h6>
+                                        
+                                    </div>
+
+                                    <ul class="list-unstyled mb-0 p-4">
+                                        <c:forEach items="${top5}" var="top5">
+                                            <li class="mt-4">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <div class="d-inline-flex">
+                                                        <img src="img/${top5.avatar}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                                        <div class="ms-3">
+                                                            <h6 class="text-dark mb-0 d-block">
+                                                                <a href="userprofileadmin?userId=${top5.userId}" class="text-dark text-decoration-none">
+                                                                    ${top5.firstName} ${top5.lastName}
+                                                                </a>
+                                                            </h6>
+
+                                                            <small class="text-muted">
+                                                                ${top5.email}
+                                                            </small>
+                                                            <br/>
+                                                            <small class="text-muted">
+                                                                ${top5.mobile}
+                                                            </small>
+                                                        </div>
+                                                    </div>
+<!--                                                    <div class="dropdown">
+                                                        <button class="btn btn-icon btn-pills btn-soft-success dropdown-toggle" id="dropdownMenuButton" aria-expanded="false" onclick="toggleDropdown(event)">
+                                                            <i class="uil uil-pen"></i>
+                                                        </button>
+                                                    </div>-->
                                                 </div>
                                             </li>
                                         </c:forEach>
@@ -653,7 +747,8 @@
                                                                     </li>
                                                                 </ul>
                             
-                                                                <div class="p-2 rounded-bottom shadow">
+-->                                                                
+<!--<div class="p-2 rounded-bottom shadow">
                                                                     <div class="row">
                                                                         <div class="col">
                                                                             <input type="text" class="form-control border" placeholder="Enter Message...">
@@ -664,11 +759,11 @@
                                                                             <a href="#" class="btn btn-icon btn-primary"><i class="uil uil-paperclip icons"></i></a>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>end col-->
+                                                                </div>-->
+                                                            
+                                                        
 
-                            <!--                            <div class="col-xl-4 col-lg-12 mt-4">
+                                                        <div class="col-xl-4 col-lg-12 mt-4">
                                                             <div class="card border-0 shadow rounded">
                                                                 <div class="p-4 border-bottom">
                                                                     <div class="d-flex justify-content-between align-items-center">
@@ -790,21 +885,21 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                        </div>end col-->
+                                                        </div>
                         </div><!--end row-->
                     </div>
                 </div><!--end container-->
 
-                <!-- Footer Start -->
-                <footer class="bg-white shadow py-3">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col">
-
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </div><!--end container-->
-                </footer><!--end footer-->
+                <!--                 Footer Start 
+                                <footer class="bg-white shadow py-3">
+                                    <div class="container-fluid">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                
+                                            </div>end col
+                                        </div>end row
+                                    </div>end container
+                                </footer>end footer
                 <!-- End -->
             </main>
             <!--End page-content" -->

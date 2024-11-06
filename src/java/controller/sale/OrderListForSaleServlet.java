@@ -14,6 +14,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import model.Order;
@@ -79,8 +80,6 @@ public class OrderListForSaleServlet extends HttpServlet {
 
         processRequest(request, response);
 
-        String status = request.getParameter("status");
-        System.out.println("status: " + status);
         System.out.println("===================================================");
         request.getRequestDispatcher("orderlistforsale.jsp").forward(request, response);
 
@@ -100,14 +99,28 @@ public class OrderListForSaleServlet extends HttpServlet {
         processRequest(request, response);
 
         String status = request.getParameter("status");
+        String search = request.getParameter("search");
+
         System.out.println("status: " + status);
-        
+        System.out.println("search: " + search);
+
         OrderDAO orderDao = new OrderDAO();
-        List<OrderDetail> orderList = orderDao.getListOrderWithStatus(status);
-        
-        
-        
-        request.setAttribute("status", status);
+
+        List<OrderDetail> orderList = new ArrayList<>();
+        orderList = orderDao.getAllOrderList();
+
+        if (status != null && status.equals("10")) {
+            orderList = orderDao.getAllOrderList();
+        } else if (status != null && !status.isEmpty()) {
+            orderList = orderDao.getListOrderWithStatus(status);
+        }
+
+        if (search != null && !search.isEmpty()) {
+            orderList = orderDao.getListOrderWithSearch(search);
+        }
+
+        request.setAttribute("search", search);
+        request.setAttribute("statusSelect", status);
         request.setAttribute("orderList", orderList);
         System.out.println("---------------------------");
 

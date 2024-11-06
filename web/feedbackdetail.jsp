@@ -113,16 +113,15 @@
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Marketing</a></li>
-                                    <li class="breadcrumb-item"><a href="patients.html">Feedback List</a></li>
+                                    <li class="breadcrumb-item"><a href="marketingdashboard">Marketing</a></li>
+                                    <li class="breadcrumb-item"><a href="feedbacklistformarketing">Feedback List</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Feedback Detail</li>
                                 </ul>
                             </nav>
                         </div>
                         <div class="row">
-                            <div class="col-lg-3 col-md-5 mt-4">
-                            </div><!--end col-->
-                            <div class="col-lg-5 col-md-7 mt-4">
+
+                            <div class="col-lg-6 col-md-7 mt-4">
                                 <div class="card border-0 shadow overflow-hidden">
                                     <ul class="nav nav-pills nav-justified flex-column flex-sm-row rounded-0 shadow overflow-hidden bg-white mb-0"
                                         id="pills-tab" role="tablist">
@@ -131,7 +130,7 @@
                                                href="#pills-overview" role="tab" aria-controls="pills-overview"
                                                aria-selected="false">
                                                 <div class="text-center pt-1 pb-1">
-                                                    <h4 class="title fw-normal mb-0">feedback</h4>
+                                                    <h4 class="title fw-normal mb-0">Đánh Giá</h4>
                                                 </div>
                                             </a><!--end nav link-->
                                         </li><!--end nav item-->
@@ -147,30 +146,32 @@
                                                         <div class="col-lg-6 col-12 mt-4">
 
                                                             <div>
-                                                                <strong>Feedback ID</strong>
+                                                                <strong>ID Đánh Giá</strong>
                                                                 <!--                                                            <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">-->
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                     ${feedbackdetail.feedbackId}
                                                                 </div>
                                                             </div>
 
                                                             <div>
-                                                                <strong>email</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                <strong>Email</strong>
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                     ${feedbackdetail.email}
                                                                 </div>
                                                             </div>
 
+
                                                             <div>
-                                                                <strong>productName</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
-                                                                    ${feedbackdetail.productName}
+                                                                <strong>Đánh Giá</strong>
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
+                                                                    ${feedbackdetail.ratedStar} Sao
                                                                 </div>
                                                             </div>
 
+
                                                             <div>
-                                                                <strong>feedback</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                <strong>Nội Dung</strong>
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                     ${feedbackdetail.feedback}
                                                                 </div>
                                                             </div>
@@ -178,59 +179,49 @@
                                                         <div class="col-lg-6 col-12 mt-4">
 
                                                             <div>
-                                                                <strong>fullName</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                <strong>Họ & Tên</strong>
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                     ${feedbackdetail.fullName}
                                                                 </div>
                                                             </div>
 
                                                             <div>
-                                                                <strong>mobile</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                <strong>Số Điện Thoại</strong>
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                     ${feedbackdetail.mobile}
                                                                 </div>
                                                             </div>
-                                                            <div>
-                                                                <strong>ratedStar</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
-                                                                    ${feedbackdetail.ratedStar}
-                                                                </div>
-                                                            </div>
-
-
                                                             <strong>Trạng thái</strong>
                                                             <input type="hidden" name="feedbackId" value="${feedbackdetail.feedbackId}" />
-                                                            <select name="status" class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                            <select name="status" class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                 <option value="1" ${feedbackdetail.feedbackStatus == 1 ? 'selected' : ''}>Hiển thị</option>
                                                                 <option value="0" ${feedbackdetail.feedbackStatus == 0 ? 'selected' : ''}>Ẩn</option>
                                                             </select>
-
-
-
-
-
+                                                            <div>
+                                                                <strong>Tên Sản Phẩm</strong>
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
+                                                                    ${feedbackdetail.productName}
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
 
-
-                                                    <h5 class="mb-0 mt-4 pt-2">Image</h5>
-                                                    <div class="row">
-                                                        <div class="col-md-12 col-lg-6 mt-4">
-
-                                                        </div><!--end col-->
-
-                                                        <div class="col-md-12 col-lg-6 mt-4">
-
-                                                        </div><!--end col-->
-                                                    </div><!--end row-->
+                                                    <!--                                                    <h5 class="mb-0 mt-4 pt-2">Image</h5>
+                                                                                                        <div class="row">
+                                                                                                            <div class="col-md-12 col-lg-6 mt-4">
+                                                                                                                <img src="img/${feedbackdetail.feedbackImg}" alt="" style="width: auto; height: 220px; object-fit: cover"/>
+                                                                                                            </div>end col
+                                                    
+                                                                                                            <div class="col-md-12 col-lg-6 mt-4">
+                                                    
+                                                                                                            </div>end col
+                                                                                                        </div>end row-->
 
 
                                                 </div>
-
-
                                             </div>
                                             <div class="modal-footer">
-                                                <a href="proformarketing" class="btn btn-secondary">Hủy</a>
+                                                <a href="feedbacklistformarketing" class="btn btn-secondary">Hủy</a>
                                                 <input type="submit" class="btn btn-info" value="Lưu">
                                             </div>
                                         </form>
@@ -238,17 +229,57 @@
                                     <c:if test="${empty feedbackdetail}">
                                         <p>No feedback details found.</p>
                                     </c:if>
-
-
-
                                 </div>
                             </div><!--end col-->
+                            <div class="col-lg-6 col-md-5 mt-4">
+                                <div class="card border-0 shadow overflow-hidden">
+                                    <ul class="nav nav-pills nav-justified flex-column flex-sm-row rounded-0 shadow overflow-hidden bg-white mb-0"
+                                        id="pills-tab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link rounded-0 active" id="overview-tab" data-bs-toggle="pill"
+                                               href="#pills-overview" role="tab" aria-controls="pills-overview"
+                                               aria-selected="false">
+                                                <div class="text-center pt-1 pb-1">
+                                                    <h4 class="title fw-normal mb-0">Ảnh</h4>
+                                                </div>
+                                            </a><!--end nav link-->
+                                        </li><!--end nav item-->
+                                    </ul>
 
+                                    <c:if test="${not empty feedbackdetail}">
+                                        <form method="POST" action="feedbackdetail">
 
+                                            <div class="tab-content p-4" id="pills-tabContent">
+                                                <div class="tab-pane fade show active" id="pills-overview" role="tabpanel"
+                                                     aria-labelledby="overview-tab">
+
+                                                    <h5 class="mb-0 mt-4 pt-2">Image</h5>
+                                                    <div class="row">
+                                                        <div class="col-md-12 col-lg-6 mt-4">
+                                                            <img src="img/${feedbackImg}" alt="Feedback Image" style="width: auto; height: 220px; object-fit: cover"/>
+                                                        </div>
+                                                        <!-- End col -->
+                                                        <div class="col-md-12 col-lg-6 mt-4">
+                                                            <!-- Add other content here if needed -->
+                                                        </div>
+                                                        <!-- End col -->
+                                                    </div>
+                                                    <!-- End row -->
+
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </c:if>
+
+                                    <c:if test="${empty feedbackdetail}">
+                                        <p>No feedback details found.</p>
+                                    </c:if>
+                                </div>
+                            </div><!--end col-->
                         </div><!--end row-->
                     </div>
                 </div><!--end container-->
-
                 <!-- Footer Start -->
                 <footer class="bg-white shadow py-3">
                     <div class="container-fluid">

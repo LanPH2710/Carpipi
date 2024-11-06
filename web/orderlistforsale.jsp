@@ -60,16 +60,15 @@
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                        <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
-                        <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
-                        <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
-                            <c:choose>
-                                <c:when test="${sessionScope.account.roleId == 1}">
+
+                        <c:choose>
+                            <c:when test="${sessionScope.account.roleId == 1}">
                                 <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
                                 </c:when>
                             </c:choose>
-                        <li><a href="postlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>Post List</a></li>
+                        <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block" ></i>Order List</a></li>
+                        <li><a href="salecheck"><i class="uil uil-dashboard me-2 d-inline-block"></i>Check Order</a></li>
+
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -105,34 +104,7 @@
 
                                     <div class="search-container">
                                         <!-- Filter by status -->
-                                        <form action="orderlistforsale" method="post" style="display: inline;">
-                                            <span>
-                                                <label for="status">Trạng thái:</label>
-                                            </span>
 
-
-                                            <span>
-
-                                                <select name="status" style="height:40px; border-radius:10px; padding:10px; border:1px solid #ccc;" onchange="this.form.submit()">
-                                                    <option value="10">Tất cả</option>
-                                                    <c:forEach items="${requestScope.listStatusOrder}" var="status">
-
-                                                        <option value="${status.statusId}">
-                                                            <c:forEach items="${requestScope.listStatusOrder}" var="st">
-                                                                <c:if test="${status.statusId == st.statusId}">
-                                                                    ${status.description}
-                                                                </c:if>
-                                                            </c:forEach>
-                                                        </option>
-
-                                                    </c:forEach>
-
-                                                </select>
-
-
-                                            </span>
-
-                                        </form>
                                         <!-- Search by title or backlink -->
                                         <form action="orderlistforsale" role="search" method="post" id="searchform" class="searchform">
                                             <span>
@@ -156,7 +128,9 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Slider</h5>
+                            <h5 class="mb-0">Order</h5>
+
+
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
@@ -171,10 +145,30 @@
                                             </c:when>
                                         </c:choose>
 
-                                    <li class="breadcrumb-item active" aria-current="page">Feedback</li>
+                                    <li class="breadcrumb-item active" aria-current="page"></li>
                                 </ul>
                             </nav>
                         </div>
+                        <div class="col-sm-2">
+                            <form action="orderlistforsale" method="post">
+                                <div class="input-group">
+                                    <label for="status" class="mr-2">Trạng thái:</label>
+                                    <select name="status" style="height:40px; border-radius:10px; padding:10px; border:1px solid #ccc;">
+                                        <option value="10">Tất cả</option>
+                                        <c:forEach items="${requestScope.listStatusOrder}" var="status">
+                                            <option value="${status.statusId}" ${status.statusId == statusSelect ? 'selected' : ''}>
+                                                ${status.description}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="submit">Lọc</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
                         <div class="row">
                             <div class="col-12 mt-4">
                                 <div class="table-responsive shadow rounded">
@@ -219,13 +213,7 @@
                                                         </c:forEach>
                                                     </td>
                                                     <td>
-                                                        <form action="" method="POST" style="display: inline;">
-                                                            <input type="hidden" name="sliderId" value="${list.feedbackId}" />
-                                                            <input type="hidden" name="status" value="${list.status == 1 ? 0 : 1}">
-                                                            <button type="submit" name="action" value="updateSliderStatus" class="btn btn-icon btn-pills ${list.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
-                                                                <span class="${list.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
-                                                            </button>
-                                                        </form>
+
                                                         <a href="orderdetailforsale?orderId=${order.orderId}" class="btn btn-icon btn-pills btn-soft-success">
                                                             <i class="uil uil-pen"></i>
                                                         </a>

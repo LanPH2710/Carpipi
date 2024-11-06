@@ -4,7 +4,6 @@
  */
 package dal;
 
-
 import context.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +19,9 @@ import java.util.Map;
 import model.Account;
 import model.Color;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author hiule
@@ -402,8 +404,8 @@ public class CartDAO extends DBContext {
     }
 
     public boolean updateStockByCartId(int cartId) {
-        String getProductSql = "SELECT productId FROM cart WHERE cartId = ? and isSelect = 1";
-        String updateStockSql = "UPDATE product SET stock = stock - 1 WHERE productId = ? AND stock > 0"; // Ensures stock does not go negative
+        String getProductSql = "SELECT productId, quantity FROM cart WHERE cartId = ? AND isSelect = 1";
+        String updateStockSql = "UPDATE product SET stock = stock - ? WHERE productId = ? AND stock >= ?"; // Ensure stock does not go negative
 
         try (PreparedStatement getProductStmt = connection.prepareStatement(getProductSql)) {
             getProductStmt.setInt(1, cartId);
@@ -411,12 +413,17 @@ public class CartDAO extends DBContext {
 
             if (rs.next()) {
                 String productId = rs.getString("productId");
+                int quantity = rs.getInt("quantity"); // Get the quantity from the cart
+
                 try (PreparedStatement updateStockStmt = connection.prepareStatement(updateStockSql)) {
-                    updateStockStmt.setString(1, productId);
+                    updateStockStmt.setInt(1, quantity);      // Decrement by quantity
+                    updateStockStmt.setString(2, productId);
+                    updateStockStmt.setInt(3, quantity);      // Ensure stock is sufficient
+
                     int rowsAffected = updateStockStmt.executeUpdate();
 
                     if (rowsAffected > 0) {
-                        System.out.println("Stock for product ID " + productId + " has been decremented by 1.");
+                        System.out.println("Stock for product ID " + productId + " has been decremented by " + quantity + ".");
                         return true;
                     } else {
                         System.out.println("Failed to update stock. Product might be out of stock or does not exist.");
@@ -432,17 +439,17 @@ public class CartDAO extends DBContext {
         return false;
     }
 
-        public int addOrder(int userId, String orderName, String email, String phone, double totalPrice, String address, int orderStatus) {
-        int orderId = -1; // ID của đơn hàng sẽ được trả về sau khi chèn
-        LocalDate currentDate = java.time.LocalDate.now();
-        String date = currentDate.toString();
+    public int addOrder(int userId, String orderName, String email, String phone, double totalPrice, String address, int orderStatus) {
+        int orderId = -1; // ID of the inserted order
+        LocalDateTime currentDate = java.time.LocalDateTime.now();
+        String date = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        try {
-            // Thêm dữ liệu vào bảng `order`
-            String sql = "INSERT INTO `order` (`orderDeliverCode`, `userId`, `orderName`, `orderEmai`, `orderPhone`, `totalPrice`, `shippingAddress`, `orderStatus`, `createDate`) "
-                       + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            String deliverCode = "DEL" + (System.currentTimeMillis() % 1000000); // Mã giao hàng ngắn gọn
+        String sql = "INSERT INTO `order` (`orderDeliverCode`, `userId`, `orderName`, `orderEmail`, `orderPhone`, `totalPrice`, `shippingAddress`, `orderStatus`, `createDate`) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            String deliverCode = "DEL" + (System.currentTimeMillis() % 1000000); // Short delivery code
+
             st.setString(1, deliverCode);
             st.setInt(2, userId);
             st.setString(3, orderName);
@@ -455,32 +462,35 @@ public class CartDAO extends DBContext {
 
             st.executeUpdate();
 
-            // Lấy ID của đơn hàng vừa chèn
-            ResultSet rs = st.getGeneratedKeys();
-            if (rs.next()) {
-                orderId = rs.getInt(1);
+            // Retrieve the generated order ID
+            try (ResultSet rs = st.getGeneratedKeys()) {
+                if (rs.next()) {
+                    orderId = rs.getInt(1);
+                }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Xử lý lỗi
+            e.printStackTrace(); // Log error details
         }
 
         return orderId;
     }
 
-    public void addOrderDetail(int orderId, String productId, int quantity, int colorId, int isFeedback) {
-        try {
-            String sql = "INSERT INTO `orderdetail` (`orderId`, `productId`, `quantity`, `colorId`, `isfeedback`) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, orderId);
-            st.setString(2, productId);
-            st.setInt(3, quantity);
-            st.setInt(4, colorId);
-            st.setInt(5, isFeedback); // Mặc định là 0 hoặc theo giá trị truyền vào
-            st.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace(); // Xử lý lỗi
-        }
+  public void addOrderDetail(int orderId, String productId, int quantity, int colorId, int isFeedback) {
+    String sql = "INSERT INTO `orderdetail` (`orderId`, `productId`, `quantity`, `colorId`, `isfeedback`) VALUES (?, ?, ?, ?, ?)";
+
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setInt(1, orderId);
+        st.setString(2, productId);
+        st.setInt(3, quantity);
+        st.setInt(4, colorId);
+        st.setInt(5, isFeedback);
+
+        st.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace(); // Log error details
     }
+}
+
 
     public static void main(String[] args) {
         // Giả lập kết nối cơ sở dữ liệu

@@ -185,14 +185,14 @@ public class SegmentDAO extends DBContext{
         return segment;
     }
     
-    public void updateBrand(int brandId, String brandName, int brandStatus) {
-        String query = "UPDATE Brand SET name = ?, status = ? WHERE brandId = ?";
+    public void updateSegment(int segmentId, String segmentName, int segmentStatus) {
+        String query = "UPDATE segment SET segmentName = ?, status = ? WHERE segmentId = ?";
         
         try (
              PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setString(1, brandName);
-            ps.setInt(2, brandStatus); // Cập nhật status với giá trị mới
-            ps.setInt(3, brandId);
+            ps.setString(1, segmentName);
+            ps.setInt(2, segmentStatus); // Cập nhật status với giá trị mới
+            ps.setInt(3, segmentId);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

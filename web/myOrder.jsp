@@ -72,6 +72,14 @@
                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             }
 
+            .order-detail-item{
+                background-color: white;
+                border: 1px solid #e0e0e0;
+                padding: 20px;
+                margin: 4px;
+                border-radius: 10px;
+            }
+
             .order-shop {
                 display: flex;
                 justify-content: space-between; /* Căn giữa các phần tử trong order-shop */
@@ -99,6 +107,7 @@
                 align-items: center; /* Căn giữa các phần tử theo chiều ngang */
                 margin-top: 10px; /* Thêm khoảng cách giữa shop và thông tin đơn hàng */
                 width: 100%; /* Thiết lập độ dài tối đa cho khối */
+                margin-bottom: 20px;
             }
 
             .order-details > * {
@@ -344,7 +353,7 @@
                                                                     </p>
                                                                 </a>
                                                                 <c:forEach items="${orderDetailsMap[order.orderId]}" var="detail">
-                                                                    <div class="order-item">
+                                                                    <div class="order-detail-item">
                                                                         <div class="product-info">
                                                                             <img src="${detail.imageUrl}" class="product-img" alt="Product Image">
                                                                             <div class="product-description">
@@ -378,11 +387,30 @@
                                                                     <a href="orderInfor?orderId=${order.orderId}">
                                                                         <button class="return-btn">Thông tin đơn hàng</button>
                                                                     </a>
-                                                                    <c:if test="${order.orderStatus == 4}">
-                                                                        <a href="addToCart">
-                                                                            <button class="buy-again-btn">Mua Lại</button>
-                                                                        </a>
-                                                                    </c:if>
+                                                                    <c:forEach items="${orderDetailsMap[order.orderId]}" var="rebuy" begin="0" end="0">
+                                                                        <c:if test="${order.orderStatus == 4}">
+                                                                            <a href="addtocart?productId=${rebuy.productId}&colorId=${rebuy.colorId}&quantity=1">
+                                                                                <button class="buy-again-btn">Mua Lại</button>
+                                                                            </a>
+                                                                        </c:if>
+                                                                        <c:if test="${order.orderStatus == 1}">
+                                                                            <a href="cancelorder?orderId=${order.orderId}&totalprice=${order.totalPrice}&userId=${order.userId}&payMethod=${order.payMethod}"
+                                                                               onclick="return confirmCancel();">
+                                                                                <button class="buy-again-btn">Hủy Đơn</button>
+                                                                            </a>
+                                                                        </c:if>
+                                                                        <script type="text/javascript">
+                                                                            function confirmCancel() {
+                                                                                
+                                                                                var confirmation = confirm("Bạn chắc chắn muốn hủy đơn hàng này?");
+                                                                                if (confirmation) {
+                                                                                    return true;
+                                                                                } else {
+                                                                                    return false;
+                                                                                }
+                                                                            }
+                                                                        </script>
+                                                                    </c:forEach>
                                                                 </div>
                                                             </div>
                                                         </div>

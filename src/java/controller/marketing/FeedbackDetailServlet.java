@@ -58,7 +58,7 @@ public class FeedbackDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String feedbackIdParam = request.getParameter("id");
-        
+
         if (feedbackIdParam != null) {
             try {
                 int feedbackId = Integer.parseInt(feedbackIdParam);
@@ -68,7 +68,14 @@ public class FeedbackDetailServlet extends HttpServlet {
                 Map<String, Object> feedbackDetail = feedbackDAO.getFeedbackDetailsById(feedbackId);
 
                 if (feedbackDetail != null) {
+                    // Get the feedback image from the database
+                    String feedbackImg = feedbackDAO.getFeedbackImageById(feedbackId);
+
+                    // Add the image and feedback details to request attributes
                     request.setAttribute("feedbackdetail", feedbackDetail);
+                    request.setAttribute("feedbackImg", feedbackImg); // Set feedbackImg for use in JSP
+
+                    // Forward the request to the feedbackdetail.jsp page
                     request.getRequestDispatcher("feedbackdetail.jsp").forward(request, response);
                 } else {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feedback not found");
@@ -76,8 +83,9 @@ public class FeedbackDetailServlet extends HttpServlet {
             } catch (NumberFormatException e) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid feedback ID format");
             }
-        } 
-        
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Feedback ID is required");
+        }
     }
 
     /**
@@ -88,44 +96,41 @@ public class FeedbackDetailServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-  @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String feedbackIdParam = request.getParameter("feedbackId");
-    String newStatusParam = request.getParameter("status");
-    
-    // Ghi log các tham số nhận được
-    System.out.println("Received feedbackId: " + feedbackIdParam);
-    System.out.println("Received newStatus: " + newStatusParam);
-    
-    // Kiểm tra tham số
-    if (feedbackIdParam == null || newStatusParam == null) {
-        request.setAttribute("errorMessage", "Feedback ID and new status must be provided.");
-        request.getRequestDispatcher("home").forward(request, response);
-        return;
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String feedbackIdParam = request.getParameter("feedbackId");
+        String newStatusParam = request.getParameter("status");
+
+        // Ghi log các tham số nhận được
+        System.out.println("Received feedbackId: " + feedbackIdParam);
+        System.out.println("Received newStatus: " + newStatusParam);
+
+        // Kiểm tra tham số
+        if (feedbackIdParam == null || newStatusParam == null) {
+            request.setAttribute("errorMessage", "Feedback ID and new status must be provided.");
+            request.getRequestDispatcher("home").forward(request, response);
+            return;
+        }
+
+        try {
+            int feedbackId = Integer.parseInt(feedbackIdParam);
+            int status = Integer.parseInt(newStatusParam);
+
+            // Tạo đối tượng FeedbackDAO
+            FeedbackDAO feedbackDAO = new FeedbackDAO();
+            // Gọi phương thức cập nhật trạng thái
+            feedbackDAO.updateFeedbackStatus(feedbackId, status);
+
+            // Chuyển hướng về trang chi tiết phản hồi sau khi cập nhật
+            response.sendRedirect("feedbackdetail?id=" + feedbackId);
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "Invalid feedback ID or new status.");
+            request.getRequestDispatcher("home").forward(request, response);
+        } catch (Exception e) {
+            request.setAttribute("errorMessage", "An unexpected error occurred: " + e.getMessage());
+            request.getRequestDispatcher("home").forward(request, response);
+        }
     }
-
-    try {
-        int feedbackId = Integer.parseInt(feedbackIdParam);
-        int status = Integer.parseInt(newStatusParam);
-
-        // Tạo đối tượng FeedbackDAO
-        FeedbackDAO feedbackDAO = new FeedbackDAO();
-        // Gọi phương thức cập nhật trạng thái
-        feedbackDAO.updateFeedbackStatus(feedbackId, status);
-
-        // Chuyển hướng về trang chi tiết phản hồi sau khi cập nhật
-        response.sendRedirect("feedbackdetail?id=" + feedbackId);
-    } catch (NumberFormatException e) {
-        request.setAttribute("errorMessage", "Invalid feedback ID or new status.");
-        request.getRequestDispatcher("home").forward(request, response);
-    } catch (Exception e) {
-        request.setAttribute("errorMessage", "An unexpected error occurred: " + e.getMessage());
-        request.getRequestDispatcher("home").forward(request, response);
-    }
-}
-
-
-
 
     @Override
     public String getServletInfo() {

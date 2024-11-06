@@ -226,8 +226,27 @@ public class FeedbackDAO extends DBContext {
 
         return feedbackDetail;
     }
-    
-    
+
+    public String getFeedbackImageById(int feedbackId) {
+        String feedbackImg = null;
+
+        String sql = "SELECT feedbackImg FROM feedback WHERE feedbackId = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, feedbackId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    feedbackImg = rs.getString("feedbackImg"); // Lấy thông tin feedbackImg
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return feedbackImg; // Trả về link ảnh hoặc null nếu không tìm thấy
+    }
+
     public void updateFeedbackStatus(int feedbackId, int status) {
         String sql = "UPDATE feedback SET status = ? WHERE feedbackId = ?";
         try (
@@ -371,10 +390,10 @@ public class FeedbackDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Feedback> getOrderByProductName(int index, String order) {
         List<Feedback> list = new ArrayList<>();
-        String sql = "SELECT * FROM carpipi.feedback order by productId "+ order +" limit 5 offset ?";
+        String sql = "SELECT * FROM carpipi.feedback order by productId " + order + " limit 5 offset ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, ((index - 1) * 5));
@@ -443,7 +462,6 @@ public class FeedbackDAO extends DBContext {
             System.out.println("case3");
             System.out.println("---------");
         } // Trường hợp 4: Status là "10" và có search
-       
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -461,7 +479,7 @@ public class FeedbackDAO extends DBContext {
                 st.setString(2, "%" + search + "%");
                 st.setString(3, status);
                 st.setInt(4, ((index - 1) * 5));
-            } 
+            }
 
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -486,7 +504,7 @@ public class FeedbackDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Feedback> getFeedbackBySearchOrderByTime(int index, String search, String status, String order) {
         List<Feedback> list = new ArrayList<>();
         String sql = "";
@@ -528,7 +546,6 @@ public class FeedbackDAO extends DBContext {
             System.out.println("case3");
             System.out.println("---------");
         } // Trường hợp 4: Status là "10" và có search
-       
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -546,7 +563,7 @@ public class FeedbackDAO extends DBContext {
                 st.setString(2, "%" + search + "%");
                 st.setString(3, status);
                 st.setInt(4, ((index - 1) * 5));
-            } 
+            }
 
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -571,7 +588,7 @@ public class FeedbackDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Feedback> getFeedbackBySearchOrderByName(int index, String search, String status, String order) {
         List<Feedback> list = new ArrayList<>();
         String sql = "";
@@ -584,7 +601,7 @@ public class FeedbackDAO extends DBContext {
                     + "JOIN product p \n"
                     + "ON f.productId = p.productId\n"
                     + "WHERE p.name Like ? OR f.feedbackInfo LIKE ? \n"
-                    + "order by f.productId "+ order +" \n"
+                    + "order by f.productId " + order + " \n"
                     + "limit 5 offset ?";
             System.out.println("case1");
             System.out.println("---------");
@@ -596,7 +613,7 @@ public class FeedbackDAO extends DBContext {
                     + "JOIN carpipi.product p \n"
                     + "ON f.productId = p.productId\n"
                     + "WHERE f.status = ?\n"
-                    + "order by f.productId "+ order +" \n"
+                    + "order by f.productId " + order + " \n"
                     + "limit 5 offset ?";
             System.out.println("case2");
             System.out.println("---------");
@@ -608,12 +625,11 @@ public class FeedbackDAO extends DBContext {
                     + "JOIN carpipi.product p \n"
                     + "ON f.productId = p.productId\n"
                     + "WHERE (p.name Like ? OR f.feedbackInfo LIKE ?) And f.status = ?\n"
-                    + "order by f.productId "+ order +" \n"
+                    + "order by f.productId " + order + " \n"
                     + "limit 5 offset ?";
             System.out.println("case3");
             System.out.println("---------");
         } // Trường hợp 4: Status là "10" và có search
-       
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -631,7 +647,7 @@ public class FeedbackDAO extends DBContext {
                 st.setString(2, "%" + search + "%");
                 st.setString(3, status);
                 st.setInt(4, ((index - 1) * 5));
-            } 
+            }
 
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -656,7 +672,7 @@ public class FeedbackDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Feedback> getFeedbackBySearchOrderById(int index, String search, String status, String order) {
         List<Feedback> list = new ArrayList<>();
         String sql = "";
@@ -669,7 +685,7 @@ public class FeedbackDAO extends DBContext {
                     + "JOIN product p \n"
                     + "ON f.productId = p.productId\n"
                     + "WHERE p.name Like ? OR f.feedbackInfo LIKE ? \n"
-                    + "order by f.feedbackId "+ order +" \n"
+                    + "order by f.feedbackId " + order + " \n"
                     + "limit 5 offset ?";
             System.out.println("case1");
             System.out.println("---------");
@@ -681,7 +697,7 @@ public class FeedbackDAO extends DBContext {
                     + "JOIN carpipi.product p \n"
                     + "ON f.productId = p.productId\n"
                     + "WHERE f.status = ?\n"
-                    + "order by f.feedbackId "+ order +" \n"
+                    + "order by f.feedbackId " + order + " \n"
                     + "limit 5 offset ?";
             System.out.println("case2");
             System.out.println("---------");
@@ -693,12 +709,11 @@ public class FeedbackDAO extends DBContext {
                     + "JOIN carpipi.product p \n"
                     + "ON f.productId = p.productId\n"
                     + "WHERE (p.name Like ? OR f.feedbackInfo LIKE ?) And f.status = ?\n"
-                    + "order by f.feedbackId "+ order +" \n"
+                    + "order by f.feedbackId " + order + " \n"
                     + "limit 5 offset ?";
             System.out.println("case3");
             System.out.println("---------");
         } // Trường hợp 4: Status là "10" và có search
-       
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -716,7 +731,7 @@ public class FeedbackDAO extends DBContext {
                 st.setString(2, "%" + search + "%");
                 st.setString(3, status);
                 st.setInt(4, ((index - 1) * 5));
-            } 
+            }
 
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -744,11 +759,12 @@ public class FeedbackDAO extends DBContext {
 
     public static void main(String[] args) {
         FeedbackDAO f = new FeedbackDAO();
-        List<Feedback> l = f.getFeedbackBySearchAndPaging(1, "me", "");
-
-        for (Feedback feedback : l) {
-            System.out.println(feedback.getFeedbackRate());
-        }
-
+//        List<Feedback> l = f.getFeedbackBySearchAndPaging(1, "me", "");
+//
+//        for (Feedback feedback : l) {
+//            System.out.println(feedback.getFeedbackRate());
+//        }
+String feedbackImage = f.getFeedbackImageById(1); // Truy vấn ảnh của feedback với feedbackId = 1
+System.out.println("Feedback Image: " + feedbackImage);
     }
 }

@@ -156,13 +156,14 @@ public class SupplyDAO extends DBContext {
         return false;
     }
     
-    public void updateSupply(String supplyId, String supplyName, int supplyStatus) throws SQLException {
-    String query = "UPDATE style SET styleName = ?, status = ? WHERE styleId = ?";
+    public void updateSupply(String supplyId, String supplyName, String supplyLocation, int supplyStatus) throws SQLException {
+    String query = "UPDATE style SET styleName = ?, status = ?, supplyLocation =? WHERE styleId = ?";
     try (
          PreparedStatement stmt = connection.prepareStatement(query)) {
         stmt.setString(1, supplyName);
-        stmt.setInt(2, supplyStatus);
-        stmt.setString(3, supplyId);
+        stmt.setString(2, supplyLocation);
+        stmt.setInt(3, supplyStatus);
+        stmt.setString(4, supplyId);
         stmt.executeUpdate();
     }
 }

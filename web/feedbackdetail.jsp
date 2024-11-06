@@ -205,7 +205,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <!--                                                    <h5 class="mb-0 mt-4 pt-2">Image</h5>
                                                                                                         <div class="row">
                                                                                                             <div class="col-md-12 col-lg-6 mt-4">
@@ -252,33 +252,31 @@
                                             <div class="tab-content p-4" id="pills-tabContent">
                                                 <div class="tab-pane fade show active" id="pills-overview" role="tabpanel"
                                                      aria-labelledby="overview-tab">
-                                                    
-                                                    
+
                                                     <h5 class="mb-0 mt-4 pt-2">Image</h5>
                                                     <div class="row">
                                                         <div class="col-md-12 col-lg-6 mt-4">
-                                                            <img src="img/${feedbackdetail.feedbackImg}" alt="" style="width: auto; height: 220px; object-fit: cover"/>
+                                                            <img src="img/${feedbackImg}" alt="Feedback Image" style="width: auto; height: 220px; object-fit: cover"/>
                                                         </div>
-<!--                                                        end col-->
-
+                                                        <!-- End col -->
                                                         <div class="col-md-12 col-lg-6 mt-4">
-
+                                                            <!-- Add other content here if needed -->
                                                         </div>
-<!--end col-->
+                                                        <!-- End col -->
                                                     </div>
-<!--                                                        end row-->
-
+                                                    <!-- End row -->
 
                                                 </div>
                                             </div>
-                                            
+
                                         </form>
                                     </c:if>
+
                                     <c:if test="${empty feedbackdetail}">
                                         <p>No feedback details found.</p>
                                     </c:if>
                                 </div>
-                                                    </div><!--end col-->
+                            </div><!--end col-->
                         </div><!--end row-->
                     </div>
                 </div><!--end container-->

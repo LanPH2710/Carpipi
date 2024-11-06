@@ -74,7 +74,7 @@ public class ReturnResult extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         CartDAO cartDAO = new CartDAO();
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         List<Cart> cartList = cartDAO.getCartsSelectByUserId(account.getUserId()); // Get a list of carts
 
@@ -118,10 +118,13 @@ public class ReturnResult extends HttpServlet {
                         for (Cart cart : cartList) {
                             // Example: Call addOrder method for each cart or handle cart processing logic
                             // odao.addOrder(account, cart, email, phone, address, note, dateShip, timeShip, "0");
-                            // odao.updateBought(account, cart);
-                            cartDAO.deleteCar(cart.getCartId());
-                            cartDAO.updateStockByCartId(cart.getCartId());
                             cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 0);
+
+                            // Update stock for the product associated with the cart item
+                            cartDAO.updateStockByCartId(cart.getCartId());
+
+                            // Remove the cart after processing
+                            cartDAO.deleteCar(cart.getCartId());
 
                         }
 
@@ -154,8 +157,13 @@ public class ReturnResult extends HttpServlet {
                             // Example: Call addOrder method for each cart or handle cart processing logic
                             // odao.addOrder(account, cart, email, phone, address, note, dateShip, timeShip, "0");
                             // odao.updateBought(account, cart);
-                            cartDAO.deleteCar(cart.getCartId());
                             cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 0);
+
+                            // Update stock for the product associated with the cart item
+                            cartDAO.updateStockByCartId(cart.getCartId());
+
+                            // Remove the cart after processing
+                            cartDAO.deleteCar(cart.getCartId());
 
                         }
                         request.setAttribute("vnp_TxnRef", vnp_TxnRef);

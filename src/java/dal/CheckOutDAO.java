@@ -114,7 +114,7 @@ public class CheckOutDAO extends DBContext{
     double totalPrice = 50.0; // Replace with the purchase amount
 
     // Attempt to update the balance after purchase
-    boolean success = dao.updateBalanceAfterPurchase(userId, totalPrice);
+    boolean success = dao.updateMoneyAfterPurchase(userId, totalPrice);
     if (success) {
         System.out.println("Balance updated successfully for user ID: " + userId);
     } else {
@@ -130,32 +130,33 @@ public class CheckOutDAO extends DBContext{
 }
 
 
-  public double getBalanceByUserId(int userId) {
-        String sql = "SELECT balance FROM account WHERE userId = ?";
-        double balance = -1.0; // Default to -1.0 if no balance is found
+  public double getMoneyByUserId(int userId) {
+    String sql = "SELECT money FROM account WHERE userId = ?";
+    double money = -1.0; // Default to -1.0 if no money is found
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, userId);
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, userId);
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    balance = rs.getDouble("balance");
-                }
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                money = rs.getDouble("money");
             }
-        } catch (SQLException e) {
-            e.printStackTrace(); // You could also log the exception instead of printing it
         }
-
-        return balance;
+    } catch (SQLException e) {
+        e.printStackTrace(); // You could also log the exception instead of printing it
     }
-  public boolean updateBalanceAfterPurchase(int userId, double totalPrice) {
-    String sql = "UPDATE account SET balance = balance - ? WHERE userId = ? AND balance >= ?";
+
+    return money;
+}
+
+public boolean updateMoneyAfterPurchase(int userId, double totalPrice) {
+    String sql = "UPDATE account SET money = money - ? WHERE userId = ? AND money >= ?";
     boolean success = false;
 
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
         ps.setDouble(1, totalPrice);
         ps.setInt(2, userId);
-        ps.setDouble(3, totalPrice); // Ensures balance does not go negative
+        ps.setDouble(3, totalPrice); // Ensures money does not go negative
 
         int affectedRows = ps.executeUpdate();
         success = affectedRows > 0; // If rows were affected, the update was successful
@@ -165,6 +166,7 @@ public class CheckOutDAO extends DBContext{
 
     return success;
 }
+
 
 
 }

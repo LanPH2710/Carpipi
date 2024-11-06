@@ -5,6 +5,7 @@
 package dal;
 
 import context.DBContext;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -573,24 +574,27 @@ public class AccountDAO extends DBContext {
     }
 
     public Account getAccountById(int userId) {
-        String sql = "select * from Account where userId=?";
+        String sql = "SELECT * FROM Account WHERE userId=?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, userId);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                return new Account(rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getInt(6),
-                        rs.getString(7),
-                        rs.getString(8),
-                        rs.getString(9),
-                        rs.getInt(10),
-                        rs.getString(11),
-                        rs.getInt(12));
+                return new Account(
+                        rs.getInt(1), // userId
+                        rs.getString(2), // userName
+                        rs.getString(3), // password
+                        rs.getString(4), // firstName
+                        rs.getString(5), // lastName
+                        rs.getInt(6), // gender
+                        rs.getString(7), // email
+                        rs.getString(8), // mobile
+                        rs.getString(9), // address
+                        rs.getInt(10), // roleId
+                        rs.getString(11), // avatar
+                        rs.getInt(12), // status
+                        rs.getBigDecimal(13) // money
+                );
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -900,6 +904,59 @@ public class AccountDAO extends DBContext {
             System.out.println(e);
         }
         return list;
+    }
+    
+    public List<Account> getTop5Customer() {
+        List<Account> list = new ArrayList<>();
+        String sql = "SELECT a.* FROM Account a \n"
+                + "JOIN (SELECT userId, SUM(totalPrice) as totalSpent \n"
+                + "FROM `order`\n"
+                + "GROUP BY userId \n"
+                + "ORDER BY totalSpent DESC\n"
+                + "LIMIT 5) AS topCustomers \n"
+                + "ON a.userId = topCustomers.userId \n"
+                + "WHERE a.roleId = 4";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Account account = new Account(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getInt(10),
+                        rs.getString(11),
+                        rs.getInt(12));
+
+                list.add(account);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public void payback(int userId, BigDecimal totalPrice) {
+        String sql = "UPDATE `account` SET money = money + ? WHERE userId = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            // Thiết lập tham số cho PreparedStatement
+            statement.setBigDecimal(1, totalPrice); // Chuyển đổi giá trị thành BigDecimal
+            statement.setInt(2, userId); // Thiết lập userId
+            // Thực thi câu lệnh cập nhật
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Cập nhật tiền thành công!");
+            } else {
+                System.out.println("Không tìm thấy người dùng.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

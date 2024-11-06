@@ -142,7 +142,7 @@ public class UserProfileServlet extends HttpServlet {
         }
 
         // Cập nhật account
-        adao.editAccount(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar, status, userId);
+        adao.editAccount(userName, password, firstName, lastName, gender, email, mobile, address, roleId, avatar!= null ? "img/" + avatar : null, status, userId);
         response.sendRedirect("userprofile");
     }
 

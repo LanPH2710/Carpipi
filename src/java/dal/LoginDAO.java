@@ -54,7 +54,7 @@ public class LoginDAO extends DBContext {
 
     public Account getEmailAndPassword(String username, String password) {
 
-        String sql = "select * from account where email = ? and password = ?";
+        String sql = "select * from carpipi.account where email = ? and password = ? and status = 1";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);

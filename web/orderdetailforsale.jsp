@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Feedback List</title>
+        <title>Order Detail</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -36,7 +36,7 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 
-        
+
         <style>
             .infor-customer {
                 display: grid; /* Sử dụng grid để chia cột */
@@ -91,16 +91,15 @@
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                        <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
-                        <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
-                        <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
-                            <c:choose>
-                                <c:when test="${sessionScope.account.roleId == 1}">
+
+                        <c:choose>
+                            <c:when test="${sessionScope.account.roleId == 1}">
                                 <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
                                 </c:when>
                             </c:choose>
-                        <li><a href="postlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>Post List</a></li>
+                        <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block" ></i>Order List</a></li>
+                        <li><a href="salecheck"><i class="uil uil-dashboard me-2 d-inline-block"></i>Check Order</a></li>
+
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -194,27 +193,24 @@
 
                                                 <li>
                                                     <h5>Họ tên</h5>
-                                                    <p>${accountOrder.firstName} ${accountOrder.lastName}</p>
+                                                    <p>${accountOrder.orderName}</p>
                                                 </li>
                                                 <li>
                                                     <h5>Emai</h5>
-                                                    <p>${accountOrder.email}</p>
+                                                    <p>${accountOrder.orderEmail}</p>
                                                 </li>
                                                 <li>
                                                     <h5>Số điện thoại</h5>
-                                                    <p>${accountOrder.mobile}</p>
+                                                    <p>${accountOrder.orderPhone}</p>
                                                 </li>
                                                 <li>
                                                     <h5>Ngày đặt hàng</h5>
-                                                    <p>${orderDetail.createDate}</p>
+                                                    <p>${accountOrder.createDate}</p>
                                                 </li>
-                                                <li>
-                                                    <h5>Tổng chi phí</h5>
-                                                    <p><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></p>
-                                                </li>
+                                                
                                                 <li>
                                                     <h5>Tên nhân viên sale</h5>
-                                                    <p>${saleInfo.firstName} ${saleInfo.lastName}</p>
+<!--                                                    <p>${saleInfo.firstName} ${saleInfo.lastName}</p>-->
                                                 </li>
                                                 <li>
                                                     <h5>Trạng thái</h5>
@@ -254,11 +250,11 @@
                                         <thead>
                                             <tr>
                                                 <th class="border-bottom p-3" style="">Sản phẩm</th>
-                                                <th class="border-bottom p-3" style="min-width: 140px;">Mô tả</th>
+                                                <th class="border-bottom p-3" style="min-width: 120px;">Mô tả</th>
                                                 <th class="border-bottom p-3">Màu sắc</th>                          
                                                 <th class="border-bottom p-3">Số lượng</th>
                                                 <th class="border-bottom p-3" style="max-width: 330px">Giá</th>
-
+                                                <th class="border-bottom p-3">Tiền thuế</th>
                                                 <th class="border-bottom p-3">Tổng</th>
 
                                             </tr>
@@ -269,7 +265,9 @@
                                             <c:forEach items="${requestScope.orderList}" var="od">
                                                 <tr>
                                                     <td>
-                                                        <a href=""><img style="width: 300px; padding: 10px 10px;"  src="${od.imageUrl}" alt=""></a>
+                                                        <a href="productDetail.jsp?productId=${od.productId}">
+                                                            <img style="width: 300px; padding: 10px 10px;" src="${od.imageUrl}" alt="">
+                                                        </a>
                                                     </td>
                                                     <td>
                                                         <h5><a href="">${od.productName}</a></h5>
@@ -283,27 +281,38 @@
 
                                                     </td>                                    
                                                     <td>${od.quantity}</td>
-                                                    <td><fmt:formatNumber value="${od.price}" type="number" pattern="#,###"/></td>
-
-                                                    <td></td>
+                                                    <td>
+                                                        <fmt:formatNumber value="${od.productPrice}" type="number" pattern="#,###"/>
+                                                    </td>
+                                                    <td>
+                                                        <fmt:formatNumber value="${od.productPrice * 0.3}" type="number" pattern="#,###"/>
+                                                    </td>
+                                                    <td>
+                                                        <fmt:formatNumber value="${od.productPrice * 0.3 + od.productPrice}" type="number" pattern="#,###"/>
+                                                    </td>
 
                                                 </tr>
 
 
                                             </c:forEach>
                                             <tr>
-                                                <td colspan="4">&nbsp;</td>
-                                                <td colspan="2">
+                                                <td colspan="3">&nbsp;</td>
+                                                <td colspan="3">
                                                     <table class="table table-condensed total-result">
 
                                                         <tr class="shipping-cost">
                                                             <td>Giá vận chuyển</td>
                                                             <td>Miễn phí</td>										
                                                         </tr>
+                                                        <tr class="shipping-cost">
+                                                            <td>Thuế</td>
+                                                            <td></td>										
+                                                        </tr>
                                                         <tr>
                                                             <td>Tổng</td>
                                                             <td><span><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></span></td>
                                                         </tr>
+
                                                     </table>
                                                 </td>
                                             </tr>

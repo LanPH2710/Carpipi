@@ -23,6 +23,7 @@ public class Order {
     private Date createDate; // Sử dụng Date cho ngày tháng
     private String shippingAddress;
     private int orderStatus;
+    private int payMethod;
 
     // Constructor
     public Order() {
@@ -43,8 +44,22 @@ public class Order {
         this.shippingAddress = shippingAddress;
         this.orderStatus = orderStatus;
     }
-    
-    
+    public Order(int orderId, String orderDeliverCode, Integer userId, String orderName, String orderEmail, String orderPhone, BigDecimal totalPrice, String note, int saleId, Integer shipperId, Date createDate, String shippingAddress, int orderStatus, int payMethod) {
+        this.orderId = orderId;
+        this.orderDeliverCode = orderDeliverCode;
+        this.userId = userId;
+        this.orderName = orderName;
+        this.orderEmail = orderEmail;
+        this.orderPhone = orderPhone;
+        this.totalPrice = totalPrice;
+        this.note = note;
+        this.saleId = saleId;
+        this.shipperId = shipperId;
+        this.createDate = createDate;
+        this.shippingAddress = shippingAddress;
+        this.orderStatus = orderStatus;
+        this.payMethod = payMethod;
+    }
     
     public String getSaleName() {
         return saleName;
@@ -165,5 +180,13 @@ public class Order {
 
     public void setOrderStatus(int orderStatus) {
         this.orderStatus = orderStatus;
+    }
+    
+    public int getPayMethod() {
+        return payMethod;
+    }
+
+    public void setPayMethod(int payMethod) {
+        this.payMethod = payMethod;
     }
 }

@@ -9,9 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import model.Brand;
 
 /**
@@ -224,7 +222,7 @@ public class BrandDAO extends DBContext {
 public List<Brand> getTotalRevenueByBrand() {
         List<Brand> revenues = new ArrayList<>();
         String query = "SELECT b.brandId, b.name AS brandName, "
-                + "SUM(od.quantity * p.price * (1 + 10 / 100)) AS totalRevenue "
+                + "SUM(od.quantity * p.price * 2.2) AS totalRevenue "
                 + "FROM `order` AS o "
                 + "JOIN orderdetail AS od ON o.orderId = od.orderId "
                 + "JOIN product AS p ON od.productId = p.productId "

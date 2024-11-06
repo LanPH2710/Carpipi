@@ -364,9 +364,11 @@ public class AccountDAO extends DBContext {
 
     // Kiểm tra email có đúng định dạng không
     public boolean isValidEmail(String email) {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@gmail\\.com$";
-        return email != null && Pattern.compile(emailRegex).matcher(email).matches();
-    }
+    // Regex for a valid email format
+    String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+
+    return email != null && Pattern.compile(emailRegex).matcher(email).matches();
+}
 
     // Kiểm tra số điện thoại có đúng định dạng không (10 số)
     public boolean isValidMobile(String mobile) {
@@ -966,5 +968,14 @@ public class AccountDAO extends DBContext {
 
         int customerCount = add.getCustomerCount();
         System.out.println("Số lượng customer: " + customerCount);
+       String email = "lanphhe181690@fpt.edu.vn";  // Test email
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        
+        // Validate email using the regex
+        if (email.matches(emailRegex)) {
+            System.out.println("Valid email: " + email);
+        } else {
+            System.out.println("Invalid email: " + email);
+        }
     }
 }

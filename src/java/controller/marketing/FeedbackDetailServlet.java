@@ -70,7 +70,9 @@ public class FeedbackDetailServlet extends HttpServlet {
                 if (feedbackDetail != null) {
                     // Get the feedback image from the database
                     String feedbackImg = feedbackDAO.getFeedbackImageById(feedbackId);
-
+                    if (feedbackImg == null) {
+                        feedbackImg = "no feedback image"; // This can be a path to a placeholder image
+                    }
                     // Add the image and feedback details to request attributes
                     request.setAttribute("feedbackdetail", feedbackDetail);
                     request.setAttribute("feedbackImg", feedbackImg); // Set feedbackImg for use in JSP

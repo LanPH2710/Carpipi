@@ -80,7 +80,6 @@ public class OrderListForSaleServlet extends HttpServlet {
 
         processRequest(request, response);
 
-       
         System.out.println("===================================================");
         request.getRequestDispatcher("orderlistforsale.jsp").forward(request, response);
 
@@ -100,28 +99,33 @@ public class OrderListForSaleServlet extends HttpServlet {
         processRequest(request, response);
 
         String status = request.getParameter("status");
-     
+        String search = request.getParameter("search");
+
         System.out.println("status: " + status);
-      
-        
+        System.out.println("search: " + search);
+
         OrderDAO orderDao = new OrderDAO();
-        
-        
-        
+
         List<OrderDetail> orderList = new ArrayList<>();
-        
-        
-        orderList = orderDao.getListOrderWithStatus(status);
-        
-        
-       
-        
-        
-        request.setAttribute("status", status);
+        orderList = orderDao.getAllOrderList();
+
+        if (status != null && status.equals("10")) {
+            orderList = orderDao.getAllOrderList();
+        } else if (status != null && !status.isEmpty()) {
+            orderList = orderDao.getListOrderWithStatus(status);
+        }
+
+        if (search != null && !search.isEmpty()) {
+            orderList = orderDao.getListOrderWithSearch(search);
+        }
+
+        request.setAttribute("search", search);
+        request.setAttribute("statusSelect", status);
         request.setAttribute("orderList", orderList);
         System.out.println("---------------------------");
 
-request.getRequestDispatcher("orderlistforsale.jsp").forward(request, response);    }
+        request.getRequestDispatcher("orderlistforsale.jsp").forward(request, response);
+    }
 
     /**
      * Returns a short description of the servlet.

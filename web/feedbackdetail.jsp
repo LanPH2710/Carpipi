@@ -206,18 +206,6 @@
                                                         </div>
                                                     </div>
 
-                                                    <!--                                                    <h5 class="mb-0 mt-4 pt-2">Image</h5>
-                                                                                                        <div class="row">
-                                                                                                            <div class="col-md-12 col-lg-6 mt-4">
-                                                                                                                <img src="img/${feedbackdetail.feedbackImg}" alt="" style="width: auto; height: 220px; object-fit: cover"/>
-                                                                                                            </div>end col
-                                                    
-                                                                                                            <div class="col-md-12 col-lg-6 mt-4">
-                                                    
-                                                                                                            </div>end col
-                                                                                                        </div>end row-->
-
-
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -248,15 +236,21 @@
 
                                     <c:if test="${not empty feedbackdetail}">
                                         <form method="POST" action="feedbackdetail">
-
                                             <div class="tab-content p-4" id="pills-tabContent">
-                                                <div class="tab-pane fade show active" id="pills-overview" role="tabpanel"
-                                                     aria-labelledby="overview-tab">
-
-                                                    <h5 class="mb-0 mt-4 pt-2">Image</h5>
+                                                <div class="tab-pane fade show active" id="pills-overview" role="tabpanel" aria-labelledby="overview-tab">
+                                                    <h5 class="mb-0 mt-4 pt-2">Ảnh</h5>
                                                     <div class="row">
                                                         <div class="col-md-12 col-lg-6 mt-4">
-                                                            <img src="img/${feedbackImg}" alt="Feedback Image" style="width: auto; height: 220px; object-fit: cover"/>
+                                                            <c:choose>
+                                                                <c:when test="${empty feedbackImg}">
+                                                                    <!-- If feedbackImg is empty, show a message indicating no image -->
+                                                                    <p>khong co anh</p>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <!-- Otherwise, show the actual feedback image -->
+                                                                    <img src="img/${feedbackImg}" alt="Feedback Image" style="width: auto; height: 220px; object-fit: cover"/>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                         </div>
                                                         <!-- End col -->
                                                         <div class="col-md-12 col-lg-6 mt-4">
@@ -265,12 +259,11 @@
                                                         <!-- End col -->
                                                     </div>
                                                     <!-- End row -->
-
                                                 </div>
                                             </div>
-
                                         </form>
                                     </c:if>
+
 
                                     <c:if test="${empty feedbackdetail}">
                                         <p>No feedback details found.</p>

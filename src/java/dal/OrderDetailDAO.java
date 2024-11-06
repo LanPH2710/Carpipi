@@ -137,52 +137,47 @@ public class OrderDetailDAO extends DBContext {
 
     public List<OrderDetail> getOrderDetail(int orderId) {
         List<OrderDetail> orderDetails = new ArrayList<>();
-        String sql = "SELECT "
-                + "    od.orderDetailId, "
-                + "    od.orderId, "
-                + "    od.productId, "
-                + "    od.quantity, "
-                + "    od.discountId, "
-                + "    od.colorId, "
-                + "    od.isfeedback, "
-                + "    p.name AS productName, "
-                + "    os.description, "
-                + "    o.createDate, "
-                + "    b.name AS brandName, "
-                + "    c.colorName, "
-                + "    p.price, "
-                + "    IFNULL(d.discount, 0) AS discount, "
-                + "    pi.imageUrl "
-                + "FROM "
-                + "    orderdetail od "
-                + "JOIN "
-                + "    `order` o ON od.orderId = o.orderId "
-                + "JOIN "
-                + "    OrderStatus os ON o.orderStatus = os.statusId "
-                + "JOIN "
-                + "    product p ON od.productId = p.productId "
-                + "JOIN "
-                + "    brand b ON p.brandId = b.brandId "
-                + "JOIN "
-                + "    colorofcar coc ON od.productId = coc.productId AND od.colorId = coc.colorId "
-                + "JOIN "
-                + "    color c ON coc.colorId = c.colorId "
-                + "LEFT JOIN "
-                + "    discount d ON od.discountId = d.discountId AND od.productId = d.productId "
-                + "LEFT JOIN "
-                + "    ( "
-                + "        SELECT productId, imageUrl "
-                + "        FROM productimage "
-                + "        WHERE (productId, imageId) IN ( "
-                + "            SELECT productId, MIN(imageId) "
-                + "            FROM productimage "
-                + "            GROUP BY productId "
-                + "        ) "
-                + "    ) pi ON p.productId = pi.productId "
-                + "WHERE "
-                + "    o.orderId = ? "
-                + "ORDER BY o.createDate DESC "
-                + "LIMIT 0, 1000;";
+        String sql = "SELECT \n"
+                + "    od.orderDetailId, \n"
+                + "    od.orderId, \n"
+                + "    od.productId, \n"
+                + "    od.quantity, \n"
+                + "    od.colorId, \n"
+                + "    od.isfeedback, \n"
+                + "    p.name AS productName, \n"
+                + "    os.description, \n"
+                + "    o.createDate, \n"
+                + "    b.name AS brandName, \n"
+                + "    c.colorName, \n"
+                + "    p.price, \n"
+                + "    pi.imageUrl \n"
+                + "FROM \n"
+                + "    orderdetail od \n"
+                + "JOIN \n"
+                + "    `order` o ON od.orderId = o.orderId \n"
+                + "JOIN \n"
+                + "    OrderStatus os ON o.orderStatus = os.statusId \n"
+                + "JOIN \n"
+                + "    product p ON od.productId = p.productId \n"
+                + "JOIN \n"
+                + "    brand b ON p.brandId = b.brandId \n"
+                + "JOIN \n"
+                + "    colorofcar coc ON od.productId = coc.productId AND od.colorId = coc.colorId \n"
+                + "JOIN \n"
+                + "    color c ON coc.colorId = c.colorId \n"
+                + "LEFT JOIN \n"
+                + "    ( \n"
+                + "        SELECT productId, imageUrl \n"
+                + "        FROM productimage \n"
+                + "        WHERE (productId, imageId) IN ( \n"
+                + "            SELECT productId, MIN(imageId) \n"
+                + "            FROM productimage \n"
+                + "            GROUP BY productId \n"
+                + "        ) \n"
+                + "    ) pi ON p.productId = pi.productId \n"
+                + "WHERE \n"
+                + "    o.orderId = ?\n"
+                + "ORDER BY o.createDate DESC ";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, orderId);
@@ -196,7 +191,6 @@ public class OrderDetailDAO extends DBContext {
                             rs.getInt("quantity"),
                             rs.getString("brandName"),
                             rs.getString("colorName"),
-                            rs.getDouble("discount"),
                             rs.getString("imageUrl"),
                             rs.getInt("colorId"),
                             rs.getInt("isfeedback"),
@@ -288,51 +282,45 @@ public class OrderDetailDAO extends DBContext {
     public List<OrderDetail> getOrderDetailByStatus(int userId, int statusId) {
         List<OrderDetail> orderDetails = new ArrayList<>();
         String sql = "SELECT \n"
-                + "    od.orderDetailId,\n"
-                + "    od.orderId,\n"
-                + "    od.productId,\n"
-                + "    od.quantity,\n"
-                + "    od.discountId,\n"
-                + "    od.colorId,\n"
-                + "    od.isfeedback,\n"
-                + "    p.name AS productName,\n"
-                + "    os.description,\n"
-                + "    o.createDate,\n"
-                + "    b.name AS brandName,\n"
-                + "    c.colorName,\n"
-                + "    p.price,\n"
-                + "    IFNULL(d.discount, 0) AS discount,\n"
-                + "    pi.imageUrl\n"
+                + "    od.orderDetailId, \n"
+                + "    od.orderId, \n"
+                + "    od.productId, \n"
+                + "    od.quantity, \n"
+                + "    od.colorId, \n"
+                + "    od.isfeedback, \n"
+                + "    p.name AS productName, \n"
+                + "    os.description, \n"
+                + "    o.createDate, \n"
+                + "    b.name AS brandName, \n"
+                + "    c.colorName, \n"
+                + "    p.price, \n"
+                + "    pi.imageUrl \n"
                 + "FROM \n"
-                + "    orderdetail od\n"
+                + "    orderdetail od \n"
                 + "JOIN \n"
-                + "    `order` o ON od.orderId = o.orderId\n"
+                + "    `order` o ON od.orderId = o.orderId \n"
                 + "JOIN \n"
-                + "    OrderStatus os ON o.orderStatus = os.statusId\n"
+                + "    OrderStatus os ON o.orderStatus = os.statusId \n"
                 + "JOIN \n"
-                + "    product p ON od.productId = p.productId\n"
+                + "    product p ON od.productId = p.productId \n"
                 + "JOIN \n"
-                + "    brand b ON p.brandId = b.brandId\n"
+                + "    brand b ON p.brandId = b.brandId \n"
                 + "JOIN \n"
-                + "    colorofcar coc ON od.productId = coc.productId AND od.colorId = coc.colorId\n"
+                + "    colorofcar coc ON od.productId = coc.productId AND od.colorId = coc.colorId \n"
                 + "JOIN \n"
-                + "    color c ON coc.colorId = c.colorId\n"
+                + "    color c ON coc.colorId = c.colorId \n"
                 + "LEFT JOIN \n"
-                + "    discount d ON od.discountId = d.discountId AND od.productId = d.productId\n"
-                + "LEFT JOIN \n"
-                + "    (\n"
-                + "        SELECT productId, imageUrl\n"
-                + "        FROM productimage\n"
-                + "        WHERE (productId, imageId) IN (\n"
-                + "            SELECT productId, MIN(imageId)\n"
-                + "            FROM productimage\n"
-                + "            GROUP BY productId\n"
-                + "        )\n"
-                + "    ) pi ON p.productId = pi.productId\n"
-                + "WHERE \n"
-                + "    o.userId = ? and o.orderStatus = ?\n"
-                + "ORDER BY o.createDate desc\n"
-                + "LIMIT 0, 1000;";
+                + "    ( \n"
+                + "        SELECT productId, imageUrl \n"
+                + "        FROM productimage \n"
+                + "        WHERE (productId, imageId) IN ( \n"
+                + "            SELECT productId, MIN(imageId) \n"
+                + "            FROM productimage \n"
+                + "            GROUP BY productId \n"
+                + "        ) \n"
+                + "    ) pi ON p.productId = pi.productId \n"
+                + "WHERE o.orderId = ? and od.orderStatus= ?\n"
+                + "ORDER BY o.createDate DESC ";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, userId);
@@ -347,86 +335,6 @@ public class OrderDetailDAO extends DBContext {
                             rs.getInt("quantity"),
                             rs.getString("brandName"),
                             rs.getString("colorName"),
-                            rs.getDouble("discount"),
-                            rs.getString("imageUrl"),
-                            rs.getInt("colorId"),
-                            rs.getInt("isfeedback"),
-                            rs.getInt("orderDetailId"),
-                            rs.getDouble("price"), // Assuming this is productPrice
-                            rs.getString("description") // Assuming this is orderStatusDescription
-                    );
-                    orderDetails.add(orderDetail);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return orderDetails;
-    }
-
-    public List<OrderDetail> getOrderDetailName(int userId, String keyword) {
-        List<OrderDetail> orderDetails = new ArrayList<>();
-        String sql = "SELECT \n"
-                + "    od.orderDetailId,\n"
-                + "    od.orderId,\n"
-                + "    od.productId,\n"
-                + "    od.quantity,\n"
-                + "    od.discountId,\n"
-                + "    od.colorId,\n"
-                + "    od.isfeedback,\n"
-                + "    p.name AS productName,\n"
-                + "    os.description,\n"
-                + "    o.createDate,\n"
-                + "    b.name AS brandName,\n"
-                + "    c.colorName,\n"
-                + "    p.price,\n"
-                + "    IFNULL(d.discount, 0) AS discount,\n"
-                + "    pi.imageUrl\n"
-                + "FROM \n"
-                + "    orderdetail od\n"
-                + "JOIN \n"
-                + "    `order` o ON od.orderId = o.orderId\n"
-                + "JOIN \n"
-                + "    OrderStatus os ON o.orderStatus = os.statusId\n"
-                + "JOIN \n"
-                + "    product p ON od.productId = p.productId\n"
-                + "JOIN \n"
-                + "    brand b ON p.brandId = b.brandId\n"
-                + "JOIN \n"
-                + "    colorofcar coc ON od.productId = coc.productId AND od.colorId = coc.colorId\n"
-                + "JOIN \n"
-                + "    color c ON coc.colorId = c.colorId\n"
-                + "LEFT JOIN \n"
-                + "    discount d ON od.discountId = d.discountId AND od.productId = d.productId\n"
-                + "LEFT JOIN \n"
-                + "    (\n"
-                + "        SELECT productId, imageUrl\n"
-                + "        FROM productimage\n"
-                + "        WHERE (productId, imageId) IN (\n"
-                + "            SELECT productId, MIN(imageId)\n"
-                + "            FROM productimage\n"
-                + "            GROUP BY productId\n"
-                + "        )\n"
-                + "    ) pi ON p.productId = pi.productId\n"
-                + "WHERE \n"
-                + "    o.userId = ? and p.name like ?\n"
-                + "ORDER BY o.createDate desc\n"
-                + "LIMIT 0, 1000;";
-
-        try (PreparedStatement st = connection.prepareStatement(sql)) {
-            st.setInt(1, userId);
-            st.setString(2, "%" + keyword + "%");
-            try (ResultSet rs = st.executeQuery()) {
-                while (rs.next()) {
-                    OrderDetail orderDetail = new OrderDetail(
-                            rs.getInt("orderId"),
-                            rs.getDate("createDate"), // Change to getDate
-                            rs.getString("productId"),
-                            rs.getString("productName"),
-                            rs.getInt("quantity"),
-                            rs.getString("brandName"),
-                            rs.getString("colorName"),
-                            rs.getDouble("discount"),
                             rs.getString("imageUrl"),
                             rs.getInt("colorId"),
                             rs.getInt("isfeedback"),
@@ -545,7 +453,6 @@ public class OrderDetailDAO extends DBContext {
                 + "    od.orderId,\n"
                 + "    od.productId,\n"
                 + "    od.quantity,\n"
-                + "    od.discountId,\n"
                 + "    od.colorId,\n"
                 + "    od.isfeedback,\n"
                 + "    p.name AS productName,\n"
@@ -599,7 +506,6 @@ public class OrderDetailDAO extends DBContext {
                             rs.getInt("quantity"),
                             rs.getString("brandName"),
                             rs.getString("colorName"),
-                            rs.getDouble("discount"),
                             rs.getString("imageUrl"),
                             rs.getInt("colorId"),
                             rs.getInt("isfeedback"),
@@ -647,7 +553,7 @@ public class OrderDetailDAO extends DBContext {
         }
         return orders;
     }
-    
+
     public List<Order> getSaleCheckOrder(int id) {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * "
@@ -685,7 +591,7 @@ public class OrderDetailDAO extends DBContext {
         }
         return orders;
     }
-    
+
     public List<Order> getSaleOrderByStatus(int statusId, int id) {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * "

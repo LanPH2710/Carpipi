@@ -106,23 +106,19 @@ public class CheckOutDAO extends DBContext{
             return false;
         }
     }
-       public static void main(String[] args) {
+    public static void main(String[] args) {
     CheckOutDAO dao = new CheckOutDAO();
 
-    // Sample data for testing the update
-    int addressId = 1; // Replace with a valid addressId for testing
-    String updatedAddress = "456 Updated Avenue, New City";
-    String updatedName = "Jane Smith";
-    String updatedEmail = "janesmith@example.com";
-    String updatedPhone = "0987654321";
+    // Sample data for testing the balance update
+    int userId = 1; // Replace with a valid userId for testing
+    double totalPrice = 50.0; // Replace with the purchase amount
 
-    // Call the updateAddress method and print the result
-    boolean isUpdated = dao.updateAddress(addressId, updatedName, updatedEmail, updatedPhone, updatedAddress);
-
-    if (isUpdated) {
-        System.out.println("Address updated successfully.");
+    // Attempt to update the balance after purchase
+    boolean success = dao.updateMoneyAfterPurchase(userId, totalPrice);
+    if (success) {
+        System.out.println("Balance updated successfully for user ID: " + userId);
     } else {
-        System.out.println("Failed to update address.");
+        System.out.println("Failed to update balance. Check if user has sufficient balance or if user ID is correct.");
     }
 
     // Close the connection if necessary
@@ -131,6 +127,44 @@ public class CheckOutDAO extends DBContext{
     } catch (SQLException e) {
         e.printStackTrace();
     }
+}
+
+
+  public double getMoneyByUserId(int userId) {
+    String sql = "SELECT money FROM account WHERE userId = ?";
+    double money = -1.0; // Default to -1.0 if no money is found
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, userId);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                money = rs.getDouble("money");
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); // You could also log the exception instead of printing it
+    }
+
+    return money;
+}
+
+public boolean updateMoneyAfterPurchase(int userId, double totalPrice) {
+    String sql = "UPDATE account SET money = money - ? WHERE userId = ? AND money >= ?";
+    boolean success = false;
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setDouble(1, totalPrice);
+        ps.setInt(2, userId);
+        ps.setDouble(3, totalPrice); // Ensures money does not go negative
+
+        int affectedRows = ps.executeUpdate();
+        success = affectedRows > 0; // If rows were affected, the update was successful
+    } catch (SQLException e) {
+        e.printStackTrace(); // You could also log the exception instead of printing it
+    }
+
+    return success;
 }
 
 

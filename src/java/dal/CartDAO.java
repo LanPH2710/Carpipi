@@ -27,31 +27,6 @@ import java.time.format.DateTimeFormatter;
  * @author hiule
  */
 public class CartDAO extends DBContext {
-//
-//    public static void main(String[] args) {
-//        CartDAO cartDAO = new CartDAO();
-//
-//        try {
-//            // Test data
-//            int userId = 1; // Example user ID
-//            String productId = "AU01"; // Example product ID (make sure this exists in your product table)
-//            int quantity = 2; // Number of items to add
-//
-//            // Attempt to add the product to the cart
-//            boolean success = cartDAO.addToCart(userId, productId, quantity);
-//            if (success) {
-//                System.out.println("Product added to cart successfully.");
-//            } else {
-//                System.out.println("Failed to add product to cart.");
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace(); // Print any SQL exceptions that occur
-//        } finally {
-//            // Close your database connection if necessary
-//            // connection.close(); // Uncomment if you're managing the connection in DBContext
-//        }
-//    }
 
     public List<Integer> getColorIdsOfCar(String productId) {
         List<Integer> colorIds = new ArrayList<>();
@@ -184,7 +159,34 @@ public class CartDAO extends DBContext {
     // Lấy danh sách sản phẩm từ giỏ hàng của người dùng
     public List<Cart> getCartsByUserId(int userId) {
         List<Cart> cartList = new ArrayList<>();
-        String sql = "SELECT * FROM cart WHERE userId = ? AND isDeleted = 0";
+        String sql = "SELECT * FROM cart WHERE userId = ? AND isDeleted = 0 ";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                // Assuming your Cart class has a constructor that takes these parameters
+                int cartId = rs.getInt("cartId");
+                String productId = rs.getString("productId");
+                int quantity = rs.getInt("quantity");
+                int isSelect = rs.getInt("isSelect");
+                int colorId = rs.getInt("colorId");
+                // You may need to fetch product details based on productId
+                Product product = new ProductDAO().getProductById(productId);  // Implement this method as needed
+
+                Cart cart = new Cart(cartId, userId, product, quantity, isSelect, colorId);
+                cartList.add(cart);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle exceptions appropriately
+        }
+
+        return cartList;
+    }
+
+    public List<Cart> getCartsSelectByUserId(int userId) {
+        List<Cart> cartList = new ArrayList<>();
+        String sql = "SELECT * FROM cart WHERE userId = ? AND isDeleted = 0 and isSelect =1 ";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, userId);
@@ -439,13 +441,13 @@ public class CartDAO extends DBContext {
         return false;
     }
 
-    public int addOrder(int userId, String orderName, String email, String phone, double totalPrice, String address, int orderStatus) {
+    public int addOrder(int userId, String orderName, String email, String phone, double totalPrice, String address, int orderStatus, int payMethod) {
         int orderId = -1; // ID of the inserted order
         LocalDateTime currentDate = java.time.LocalDateTime.now();
         String date = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        String sql = "INSERT INTO `order` (`orderDeliverCode`, `userId`, `orderName`, `orderEmail`, `orderPhone`, `totalPrice`, `shippingAddress`, `orderStatus`, `createDate`) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO `order` (`orderDeliverCode`, `userId`, `orderName`, `orderEmail`, `orderPhone`, `totalPrice`, `shippingAddress`, `orderStatus`, `createDate`, `payMethod`) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             String deliverCode = "DEL" + (System.currentTimeMillis() % 1000000); // Short delivery code
@@ -459,6 +461,7 @@ public class CartDAO extends DBContext {
             st.setString(7, address);
             st.setInt(8, orderStatus);
             st.setString(9, date);
+            st.setInt(10, payMethod); // New parameter for payment method
 
             st.executeUpdate();
 
@@ -475,54 +478,43 @@ public class CartDAO extends DBContext {
         return orderId;
     }
 
-  public void addOrderDetail(int orderId, String productId, int quantity, int colorId, int isFeedback) {
-    String sql = "INSERT INTO `orderdetail` (`orderId`, `productId`, `quantity`, `colorId`, `isfeedback`) VALUES (?, ?, ?, ?, ?)";
+    public void addOrderDetail(int orderId, String productId, int quantity, int colorId, int isFeedback) {
+    String sql = "INSERT INTO orderdetail (orderId, productId, quantity, colorId, isfeedback) VALUES (?, ?, ?, ?, ?)";
 
-    try (PreparedStatement st = connection.prepareStatement(sql)) {
-        st.setInt(1, orderId);
-        st.setString(2, productId);
-        st.setInt(3, quantity);
-        st.setInt(4, colorId);
-        st.setInt(5, isFeedback);
+    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-        st.executeUpdate();
+        preparedStatement.setInt(1, orderId);
+        preparedStatement.setString(2, productId);
+        preparedStatement.setInt(3, quantity);
+        preparedStatement.setInt(4, colorId);
+        preparedStatement.setInt(5, isFeedback);
+
+        int rowsInserted = preparedStatement.executeUpdate();
+        if (rowsInserted > 0) {
+            System.out.println("A new order detail was inserted successfully!");
+        } else {
+            System.out.println("Failed to insert order detail.");
+        }
     } catch (SQLException e) {
-        e.printStackTrace(); // Log error details
+        System.err.println("An error occurred while inserting order detail: " + e.getMessage());
     }
 }
 
+ public static void main(String[] args) {
+        // Assuming DbContext is handling the connection and OrderDetailDAO is initialized with it
+       
+        CartDAO orderDetailDAO = new CartDAO();
 
-    public static void main(String[] args) {
-        // Giả lập kết nối cơ sở dữ liệu
-        DBContext dbContext = new DBContext();
-        CartDAO cartDAO = new CartDAO(); // Truyền `Connection` từ DBContext vào CartDAO
+        // Sample data to insert
+        int orderId = 1;            // Assume this is a valid order ID
+        String productId = "AU03";   // Assume this is a valid product ID
+        int quantity = 2;
+                // Assume this is a valid discount ID
+        int colorId = 1;            // Assume this is a valid color ID
+        int isFeedback = 0;         // Feedback status (0 = no feedback, 1 = feedback given)
 
-        // Thông tin đơn hàng
-        int userId = 1; // ID người dùng giả định
-        String orderName = "John Doe";
-        String email = "johndoe@example.com";
-        String phone = "0123456789";
-        String address = "123 Main Street, District 1, HCMC";
-        String note = "Giao nhanh";
-        double totalPrice = 1000.00;
-        int orderStatus = 1; // Thành công
-
-        // Gọi phương thức addOrder để thêm đơn hàng và nhận về `orderId`
-        int orderId = cartDAO.addOrder(userId, orderName, email, phone, totalPrice, address, orderStatus);
-
-        if (orderId != -1) {
-            // Gọi phương thức addOrderDetail để thêm chi tiết đơn hàng nếu `orderId` hợp lệ
-            String productId = "ME01";
-            int quantity = 2;
-            int colorId = 1;
-            int isFeedback = 0; // Mặc định là 0
-
-            cartDAO.addOrderDetail(orderId, productId, quantity, colorId, isFeedback);
-
-            System.out.println("Đã thêm đơn hàng với ID: " + orderId + " và chi tiết đơn hàng thành công.");
-        } else {
-            System.out.println("Lỗi khi thêm đơn hàng.");
-        }
+        // Insert order detail
+        orderDetailDAO.addOrderDetail(orderId, productId, quantity, colorId, isFeedback);
     }
-
+ 
 }

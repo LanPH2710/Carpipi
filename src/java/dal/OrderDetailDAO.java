@@ -215,9 +215,10 @@ public class OrderDetailDAO extends DBContext {
 
     public List<Order> getOrderByUserId(int userId) {
         List<Order> orders = new ArrayList<>();
-        String query = "SELECT *"
+        String query = "SELECT * "
                 + "FROM `order` "
-                + "WHERE userId = ?";
+                + "WHERE userId = ? "
+                + "ORDER BY orderStatus ASC, createDate";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, userId);
@@ -237,7 +238,8 @@ public class OrderDetailDAO extends DBContext {
                             resultSet.getInt("shipperId"),
                             resultSet.getDate("createDate"), // Use getDate
                             resultSet.getString("shippingAddress"), // Ensure shippingAddress is retrieved
-                            resultSet.getInt("orderStatus")
+                            resultSet.getInt("orderStatus"),
+                            resultSet.getInt("payMethod")
                     );
                     orders.add(order);
                 }
@@ -441,31 +443,36 @@ public class OrderDetailDAO extends DBContext {
         return orderDetails;
     }
 
-    public List<Order> getShipOrder() {
+    public List<Order> getShipOrder(int id) {
         List<Order> orders = new ArrayList<>();
-        String query = "SELECT *"
+        String query = "SELECT * "
                 + "FROM `order` "
-                + "WHERE orderStatus IN (2,3,4) order by shippingAddress";
+                + "WHERE orderStatus IN (2,3,4) and shipperId = ? "
+                + "ORDER BY orderStatus ASC, shippingAddress DESC;";
 
-        try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);  // Đặt tham số trước khi thực thi câu truy vấn
 
-            while (resultSet.next()) {
-                Order order = new Order(
-                        resultSet.getInt("orderId"),
-                        resultSet.getString("orderDeliverCode"),
-                        resultSet.getInt("userId"),
-                        resultSet.getString("orderName"),
-                        resultSet.getString("orderEmail"), // Corrected typo
-                        resultSet.getString("orderPhone"),
-                        resultSet.getBigDecimal("totalPrice"), // Use getBigDecimal
-                        resultSet.getString("note"),
-                        resultSet.getInt("saleId"),
-                        resultSet.getInt("shipperId"),
-                        resultSet.getDate("createDate"), // Use getDate
-                        resultSet.getString("shippingAddress"), // Ensure shippingAddress is retrieved
-                        resultSet.getInt("orderStatus")
-                );
-                orders.add(order);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Order order = new Order(
+                            resultSet.getInt("orderId"),
+                            resultSet.getString("orderDeliverCode"),
+                            resultSet.getInt("userId"),
+                            resultSet.getString("orderName"),
+                            resultSet.getString("orderEmail"),
+                            resultSet.getString("orderPhone"),
+                            resultSet.getBigDecimal("totalPrice"),
+                            resultSet.getString("note"),
+                            resultSet.getInt("saleId"),
+                            resultSet.getInt("shipperId"),
+                            resultSet.getDate("createDate"), // Nếu là DATETIME, sử dụng getTimestamp()
+                            resultSet.getString("shippingAddress"),
+                            resultSet.getInt("orderStatus"),
+                            resultSet.getInt("payMethod")
+                    );
+                    orders.add(order);
+                }
             }
         } catch (SQLException e) {
             System.err.println("Error retrieving ship orders: " + e.getMessage());
@@ -473,14 +480,15 @@ public class OrderDetailDAO extends DBContext {
         return orders;
     }
 
-    public List<Order> getShipOrderByStatus(int statusId) {
+    public List<Order> getShipOrderByStatus(int statusId, int id) {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * "
                 + "FROM `order` "
-                + "WHERE orderStatus = ?";
+                + "WHERE orderStatus = ? and shipperId = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, statusId);
+            statement.setInt(2, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Order order = new Order(
@@ -496,7 +504,8 @@ public class OrderDetailDAO extends DBContext {
                             resultSet.getInt("shipperId"),
                             resultSet.getDate("createDate"), // Use getDate
                             resultSet.getString("shippingAddress"), // Ensure shippingAddress is retrieved
-                            resultSet.getInt("orderStatus")
+                            resultSet.getInt("orderStatus"),
+                            resultSet.getInt("payMethod")
                     );
                     orders.add(order);
                 }
@@ -638,6 +647,80 @@ public class OrderDetailDAO extends DBContext {
         }
         return orders;
     }
+    
+    public List<Order> getSaleCheckOrder(int id) {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * "
+                + "FROM `order` "
+                + "WHERE saleId = ? "
+                + "ORDER BY orderStatus ASC, createDate DESC";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            // Đặt tham số saleId trước khi thực thi truy vấn
+            statement.setInt(1, id);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Order order = new Order(
+                            resultSet.getInt("orderId"),
+                            resultSet.getString("orderDeliverCode"),
+                            resultSet.getInt("userId"),
+                            resultSet.getString("orderName"),
+                            resultSet.getString("orderEmail"),
+                            resultSet.getString("orderPhone"),
+                            resultSet.getBigDecimal("totalPrice"),
+                            resultSet.getString("note"),
+                            resultSet.getInt("saleId"),
+                            resultSet.getInt("shipperId"),
+                            resultSet.getDate("createDate"), // Nếu là DATETIME, sử dụng getTimestamp()
+                            resultSet.getString("shippingAddress"),
+                            resultSet.getInt("orderStatus"),
+                            resultSet.getInt("payMethod")
+                    );
+                    orders.add(order);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving sale check orders: " + e.getMessage());
+        }
+        return orders;
+    }
+    
+    public List<Order> getSaleOrderByStatus(int statusId, int id) {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * "
+                + "FROM `order` "
+                + "WHERE orderStatus = ? and saleId = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, statusId);
+            statement.setInt(2, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Order order = new Order(
+                            resultSet.getInt("orderId"),
+                            resultSet.getString("orderDeliverCode"),
+                            resultSet.getInt("userId"),
+                            resultSet.getString("orderName"),
+                            resultSet.getString("orderEmail"), // Corrected typo
+                            resultSet.getString("orderPhone"),
+                            resultSet.getBigDecimal("totalPrice"), // Use getBigDecimal
+                            resultSet.getString("note"),
+                            resultSet.getInt("saleId"),
+                            resultSet.getInt("shipperId"),
+                            resultSet.getDate("createDate"), // Use getDate
+                            resultSet.getString("shippingAddress"), // Ensure shippingAddress is retrieved
+                            resultSet.getInt("orderStatus"),
+                            resultSet.getInt("payMethod")
+                    );
+                    orders.add(order);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
 
     public List<Order> getMyOrderListByPage(List<Order> order, int start, int end) {
         ArrayList<Order> arr = new ArrayList<>();
@@ -653,11 +736,11 @@ public class OrderDetailDAO extends DBContext {
 
         // Assuming getAllOrderDetail is defined correctly and returns List<OrderDetail>
         List<Order> orderDetails = oddao.getOrderByStatus(6, 4);
-        List<Order> orderDetails2 = oddao.getShipOrderByStatus(4);
-        for (Order order : orderDetails2) {
-            System.out.println("Order Detail ID: " + order.getOrderId());
-            System.out.println("Quantity: " + order.getOrderName());
-        }
+        //List<Order> orderDetails2 = oddao.getShipOrderByStatus(4);
+//        for (Order order : orderDetails2) {
+//            System.out.println("Order Detail ID: " + order.getOrderId());
+//            System.out.println("Quantity: " + order.getOrderName());
+//        }
         List<OrderDetail> orderDetails3 = oddao.getOrderDetail(1);
 
         for (OrderDetail orderDetail : orderDetails3) {

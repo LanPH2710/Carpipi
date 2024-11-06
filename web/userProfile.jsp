@@ -126,10 +126,15 @@
                                     <input name="address" type="text" class="form-control" value="${user1.address}" required>
                                 </div>
                                 <!-- Role (Read-Only) -->
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <label class="labels">Vai trò</label>
                                     <input name="role" type="text" class="form-control" value="${role}" readonly>
                                 </div>
+                                <div class="col-md-6">
+                                    <label class="labels">Số dư tài khoản</label>
+                                    <input name="role" type="text" class="form-control" value="${user1.money} USD" readonly>
+                                </div>
+                                
                                 <!-- Email (Read-Only) -->
                                 <div class="col-md-12">
                                     <label class="labels">Email</label>

@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author tuana
@@ -21,7 +23,7 @@ public class Account {
     private int roleId;
     private String avatar;
     private int status;
-
+    private BigDecimal money;
     public Account() {
     }
     public Account(String userName, String password, String firstName, String lastName, 
@@ -91,6 +93,24 @@ public class Account {
         this.roleId = roleId;
         this.avatar = avatar;
     }
+
+    public Account(int userId, String userName, String password, String firstName, String lastName, int gender, String email, String mobile, String address, int roleId, String avatar, int status, BigDecimal money) {
+        this.userId = userId;
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+        this.mobile = mobile;
+        this.address = address;
+        this.roleId = roleId;
+        this.avatar = avatar;
+        this.status = status;
+        this.money = money;
+    }
+    
+    
 
     public int getUserId() {
         return userId;

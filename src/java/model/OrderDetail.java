@@ -36,6 +36,8 @@ public class OrderDetail {
     private int orderDetailId;
     private double productPrice;
     private String orderStatusDescription;
+    private int payMethod;
+
 
     public OrderDetail() {
     }
@@ -56,8 +58,7 @@ public class OrderDetail {
         this.orderStatusDescription = orderStatusDescription;
     }
 
-    
-    public OrderDetail(int orderId, int userId, String firstName, String lastName, Date createDate, String productId, String productName, int quantity, double totalPrice, int orderStatus, String shippingAddress, String brandName, String colorName, String imageUrl, int colorId, int isFeedback, String mobile, int gender, String orderDeliverCode, String orderName, String email, String orderEmail, String orderPhone, String note, int saleId, int shipperId, int orderDetailId, double productPrice, String orderStatusDescription) {
+    public OrderDetail(int orderId, int userId, String firstName, String lastName, Date createDate, String productId, String productName, int quantity, double totalPrice, int orderStatus, String shippingAddress, String brandName, String colorName, String imageUrl, int colorId, int isFeedback, String mobile, int gender, String orderDeliverCode, String orderName, String email, String orderEmail, String orderPhone, String note, int saleId, int shipperId, int orderDetailId, double productPrice, String orderStatusDescription, int payMethod) {
         this.orderId = orderId;
         this.userId = userId;
         this.firstName = firstName;
@@ -87,7 +88,11 @@ public class OrderDetail {
         this.orderDetailId = orderDetailId;
         this.productPrice = productPrice;
         this.orderStatusDescription = orderStatusDescription;
+        this.payMethod = payMethod;
     }
+
+    
+   
 
     public String getMobile() {
         return mobile;
@@ -330,5 +335,13 @@ public String getOrderStatusDescription() {
 public void setOrderStatusDescription(String orderStatusDescription) {
     this.orderStatusDescription = orderStatusDescription;
 }
+
+    public int getPayMethod() {
+        return payMethod;
+    }
+
+    public void setPayMethod(int payMethod) {
+        this.payMethod = payMethod;
+    }
 
 }

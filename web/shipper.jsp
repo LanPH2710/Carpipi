@@ -71,11 +71,18 @@
                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             }
 
+            .order-detail-item{
+                background-color: white;
+                border: 1px solid #e0e0e0;
+                padding: 20px;
+                margin: 4px;
+                border-radius: 10px;
+            }
+
             .order-shop {
                 display: flex;
-                justify-content: flex-end;
+                justify-content: space-between;
                 align-items: center;
-                gap: 5px;
             }
 
             .view-shop-btn {
@@ -96,6 +103,7 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                margin-bottom: 20px;
             }
 
             .product-info {
@@ -110,10 +118,11 @@
             }
 
             .product-info img {
-                width: auto;
+                width: 450px;
                 height: 280px;
                 margin-right: 20px;
                 border-radius: 10px;
+                object-fit: cover;
             }
 
             .order-details h4 {
@@ -128,6 +137,8 @@
             .order-actions {
                 margin-left: auto;
                 text-align: right;
+                display: flex;
+                justify-content: space-between;
             }
 
             .order-actions .price {
@@ -167,7 +178,7 @@
 
             .delivery-status {
                 margin-top: 13px;
-                font-size: 18px;
+                font-size: 20px;
                 color: green;
             }
             .form-group {
@@ -315,6 +326,7 @@
                                                     <div class="order-item">
 
                                                         <div class="order-shop">
+                                                            
                                                             <a href="" class="status-link">
                                                                 <p class="delivery-status">
                                                                     <c:choose>
@@ -388,7 +400,7 @@
 
 
                                                         <c:forEach items="${orderDetailsMap[order.orderId]}" var="detail">
-                                                            <div class="order-item">
+                                                            <div class="order-detail-item">
                                                                 <div class="product-info">
                                                                     <img src="${detail.imageUrl}" class="product-img" alt="Product Image">
                                                                     <div class="product-description">
@@ -401,6 +413,21 @@
                                                             </div>
                                                         </c:forEach>
                                                         <div class="order-actions">
+                                                            <a href="" class="status-link">
+                                                                <p class="delivery-status">
+                                                                    <c:choose>
+                                                                        <c:when test="${order.payMethod == 1}">
+                                                                            Đơn hàng đã thanh toán trước
+                                                                        </c:when>
+                                                                        <c:when test="${order.payMethod == 2}">
+                                                                            Đơn hàng thanh toán khi khách hàng nhận được hàng
+                                                                        </c:when>
+                                                                        <c:when test="${order.payMethod == 3}">
+                                                                            Đơn hàng đã được thanh toán trước
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                </p>
+                                                            </a>
                                                             <p class="price">
                                                                 <span>Thành tiền:</span>&nbsp;&nbsp;
                                                                 <fmt:formatNumber value="${order.totalPrice}" type="currency" currencySymbol="USD"/>

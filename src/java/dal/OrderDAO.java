@@ -102,7 +102,7 @@ public class OrderDAO extends DBContext {
                 + "orr.orderPhone, orr.totalPrice, orr.note, orr.saleId, orr.shipperId, "
                 + "orr.createDate, orr.shippingAddress, orr.orderStatus, "
                 + "os.description AS orderStatusDescription, "
-                + "od.orderDetailId, od.productId, od.quantity, od.discountId, od.colorId, od.isfeedback, "
+                + "od.orderDetailId, od.productId, od.quantity, od.colorId, od.isfeedback, "
                 + "p.name AS productName, p.price AS productPrice, MIN(pri.imageUrl) AS imageUrl "
                 + "FROM carpipi.order orr "
                 + "JOIN carpipi.account acc ON orr.userId = acc.userId "
@@ -115,7 +115,7 @@ public class OrderDAO extends DBContext {
                 + "orr.orderId, orr.orderDeliverCode, orr.userId, orr.orderName, orr.orderEmail, "
                 + "orr.orderPhone, orr.totalPrice, orr.note, orr.saleId, orr.shipperId, "
                 + "orr.createDate, orr.shippingAddress, orr.orderStatus, os.description, "
-                + "od.orderDetailId, od.productId, od.quantity, od.discountId, od.colorId, od.isfeedback, "
+                + "od.orderDetailId, od.productId, od.quantity, od.colorId, od.isfeedback, "
                 + "p.name, p.price";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
@@ -146,7 +146,6 @@ public class OrderDAO extends DBContext {
                 o.setOrderDetailId(rs.getInt("orderDetailId"));
                 o.setProductId(rs.getString("productId"));
                 o.setQuantity(rs.getInt("quantity"));
-                o.setDiscount(rs.getDouble("discountId"));
                 o.setColorId(rs.getInt("colorId"));
                 o.setIsFeedback(rs.getInt("isfeedback"));
                 o.setProductName(rs.getString("productName"));
@@ -171,7 +170,7 @@ public class OrderDAO extends DBContext {
                 + "orr.orderPhone, orr.totalPrice, orr.note, orr.saleId, orr.shipperId, "
                 + "orr.createDate, orr.shippingAddress, orr.orderStatus, "
                 + "os.description AS orderStatusDescription, "
-                + "od.orderDetailId, od.productId, od.quantity, od.discountId, od.colorId, od.isfeedback, "
+                + "od.orderDetailId, od.productId, od.quantity, od.colorId, od.isfeedback, "
                 + "p.name AS productName, p.price AS productPrice, MIN(pri.imageUrl) AS imageUrl "
                 + "FROM carpipi.order orr "
                 + "JOIN carpipi.account acc ON orr.userId = acc.userId "
@@ -184,7 +183,7 @@ public class OrderDAO extends DBContext {
                 + "orr.orderId, orr.orderDeliverCode, orr.userId, orr.orderName, orr.orderEmail, "
                 + "orr.orderPhone, orr.totalPrice, orr.note, orr.saleId, orr.shipperId, "
                 + "orr.createDate, orr.shippingAddress, orr.orderStatus, os.description, "
-                + "od.orderDetailId, od.productId, od.quantity, od.discountId, od.colorId, od.isfeedback, "
+                + "od.orderDetailId, od.productId, od.quantity, od.colorId, od.isfeedback, "
                 + "p.name, p.price";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
@@ -217,7 +216,7 @@ public class OrderDAO extends DBContext {
                 o.setOrderDetailId(rs.getInt("orderDetailId"));
                 o.setProductId(rs.getString("productId"));
                 o.setQuantity(rs.getInt("quantity"));
-                o.setDiscount(rs.getDouble("discountId"));
+                
                 o.setColorId(rs.getInt("colorId"));
                 o.setIsFeedback(rs.getInt("isfeedback"));
                 o.setProductName(rs.getString("productName"));
@@ -243,7 +242,7 @@ public class OrderDAO extends DBContext {
         List<OrderDetail> list = new ArrayList<>();
 
         String sql = "SELECT acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
-                + "       orr.*, od.productId, od.quantity, od.discountId, od.colorId,\n"
+                + "       orr.*, od.productId, od.quantity, od.colorId,\n"
                 + "       p.name, p.price, MIN(pri.imageUrl) AS imageUrl\n"
                 + "FROM carpipi.order orr\n"
                 + "JOIN carpipi.account acc\n"
@@ -256,7 +255,7 @@ public class OrderDAO extends DBContext {
                 + "ON pri.productId = p.productId\n"
                 + "WHERE od.orderId = ?\n"
                 + "GROUP BY acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
-                + "         orr.orderId, od.productId, od.quantity, od.discountId, od.colorId,\n"
+                + "         orr.orderId, od.productId, od.quantity, od.colorId,\n"
                 + "         p.name, p.price";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
@@ -293,7 +292,7 @@ public class OrderDAO extends DBContext {
     public OrderDetail getOrderdetailById(String orderId) {
         
         String sql = "SELECT acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
-                + "       orr.*, od.productId, od.quantity, od.discountId, od.colorId,\n"
+                + "       orr.*, od.productId, od.quantity, od.colorId,\n"
                 + "       p.name, p.price, MIN(pri.imageUrl) AS imageUrl\n"
                 + "FROM carpipi.order orr\n"
                 + "JOIN carpipi.account acc\n"
@@ -306,7 +305,7 @@ public class OrderDAO extends DBContext {
                 + "ON pri.productId = p.productId\n"
                 + "WHERE od.orderId = ?\n"
                 + "GROUP BY acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
-                + "         orr.orderId, od.productId, od.quantity, od.discountId, od.colorId,\n"
+                + "         orr.orderId, od.productId, od.quantity, od.colorId,\n"
                 + "         p.name, p.price";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {

@@ -10,11 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Account;
 import model.Order;
 import model.OrderDetail;
 import model.OrderStatus;
-import model.Role;
 
 /**
  *
@@ -501,7 +499,18 @@ public class OrderDAO extends DBContext {
         return orderList;
     }
 
-//son--------------//      
+//son--------------//  
+//tuan----------------------------------------------------------------------//
+    public void cancelOrder(int orderId){
+        String sql = "UPDATE `order` SET orderStatus = 5 WHERE orderId = ?;";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, orderId);
+            st.executeUpdate(); // Gọi phương thức này để thực hiện cập nhật
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    //tuan----------------------------------------------------------------------//    
    public static void main(String[] args) {
         OrderDAO o = new OrderDAO();
 

@@ -11,10 +11,19 @@ package model;
 public class BlogTopic {
     private int blogTopicId;
     private String toppicName;
-
+    private int blogTopicCount;
+    private int status;
+    
     public BlogTopic() {
     }
 
+    public BlogTopic(int blogTopicId, String toppicName, int blogTopicCount, int status) {
+        this.blogTopicId = blogTopicId;
+        this.toppicName = toppicName;
+        this.blogTopicCount = blogTopicCount;
+        this.status = status;
+    }
+    
     public BlogTopic(int blogTopicId, String toppicName) {
         this.blogTopicId = blogTopicId;
         this.toppicName = toppicName;
@@ -34,6 +43,22 @@ public class BlogTopic {
 
     public void setToppicName(String toppicName) {
         this.toppicName = toppicName;
+    }
+
+    public int getBlogTopicCount() {
+        return blogTopicCount;
+    }
+
+    public void setBlogTopicCount(int blogTopicCount) {
+        this.blogTopicCount = blogTopicCount;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
     
 }

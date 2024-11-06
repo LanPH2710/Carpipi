@@ -149,14 +149,14 @@
                                                             <div>
                                                                 <strong>Feedback ID</strong>
                                                                 <!--                                                            <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">-->
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                     ${feedbackdetail.feedbackId}
                                                                 </div>
                                                             </div>
 
                                                             <div>
                                                                 <strong>email</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                     ${feedbackdetail.email}
                                                                 </div>
                                                             </div>
@@ -164,13 +164,13 @@
 
                                                             <div>
                                                                 <strong>feedback</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                     ${feedbackdetail.feedback}
                                                                 </div>
                                                             </div>
                                                                 <div>
                                                                 <strong>ratedStar</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                     ${feedbackdetail.ratedStar}
                                                                 </div>
                                                             </div>
@@ -179,14 +179,14 @@
 
                                                             <div>
                                                                 <strong>fullName</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                     ${feedbackdetail.fullName}
                                                                 </div>
                                                             </div>
 
                                                             <div>
                                                                 <strong>mobile</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                     ${feedbackdetail.mobile}
                                                                 </div>
                                                             </div>
@@ -195,7 +195,7 @@
 
                                                             <strong>Trạng thái</strong>
                                                             <input type="hidden" name="feedbackId" value="${feedbackdetail.feedbackId}" />
-                                                            <select name="status" class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                            <select name="status" class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                 <option value="1" ${feedbackdetail.feedbackStatus == 1 ? 'selected' : ''}>Hiển thị</option>
                                                                 <option value="0" ${feedbackdetail.feedbackStatus == 0 ? 'selected' : ''}>Ẩn</option>
                                                             </select>
@@ -203,7 +203,7 @@
                                                             
                                                             <div>
                                                                 <strong>productName</strong>
-                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3bottom">
                                                                     ${feedbackdetail.productName}
                                                                 </div>
                                                             </div>

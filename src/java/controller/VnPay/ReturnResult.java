@@ -74,9 +74,9 @@ public class ReturnResult extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         CartDAO cartDAO = new CartDAO();
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-        List<Cart> cartList = cartDAO.getCartsByUserId(account.getUserId()); // Get a list of carts
+        List<Cart> cartList = cartDAO.getCartsSelectByUserId(account.getUserId()); // Get a list of carts
 
         OrderDAO odao = new OrderDAO();
 
@@ -90,91 +90,100 @@ public class ReturnResult extends HttpServlet {
             if (account != null) {
                 String vnp_TxnRef = request.getParameter("vnp_TxnRef");
                 String vnp_Amount = request.getParameter("vnp_Amount");
-        vnp_Amount = vnp_Amount.substring(0, vnp_Amount.length() - 2);
-        String vnp_OrderInfo = request.getParameter("vnp_OrderInfo");
-        String vnp_ResponseCode = request.getParameter("vnp_ResponseCode");
-        String vnp_TransactionNo = request.getParameter("vnp_TransactionNo");
-        String vnp_BankCode = request.getParameter("vnp_BankCode");
-        String vnp_PayDate_raw = request.getParameter("vnp_PayDate");
-        String vnp_TransactionStatus = request.getParameter("vnp_TransactionStatus");
+                vnp_Amount = vnp_Amount.substring(0, vnp_Amount.length() - 2);
+                String vnp_OrderInfo = request.getParameter("vnp_OrderInfo");
+                String vnp_ResponseCode = request.getParameter("vnp_ResponseCode");
+                String vnp_TransactionNo = request.getParameter("vnp_TransactionNo");
+                String vnp_BankCode = request.getParameter("vnp_BankCode");
+                String vnp_PayDate_raw = request.getParameter("vnp_PayDate");
+                String vnp_TransactionStatus = request.getParameter("vnp_TransactionStatus");
 
-        PaymentDAO padao = new PaymentDAO();
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        SimpleDateFormat outputFormatDTB = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat outputFormatWeb = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        
-        try {
-            Date date = inputFormat.parse(vnp_PayDate_raw);
-            String vnp_PayDateWeb = outputFormatWeb.format(date);
-            String vnp_PayDateDTB = outputFormatDTB.format(date);
-            request.setAttribute("vnp_PayDate", vnp_PayDateWeb);
-            double totalmoney = (double) session.getAttribute("totalFinal");
-            Payment p = new Payment("", vnp_TxnRef, vnp_Amount, vnp_OrderInfo, vnp_ResponseCode, vnp_TransactionNo, vnp_BankCode, vnp_PayDateDTB, vnp_TransactionStatus, account.getUserId());
-            padao.addPayment(p);
+                PaymentDAO padao = new PaymentDAO();
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                SimpleDateFormat outputFormatDTB = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat outputFormatWeb = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-            if (vnp_TransactionStatus.equals("00")) {
-                // Iterate over the list of carts and process them as needed
-                  int orderId = cartDAO.addOrder(account.getUserId(), name, email, phone, totalmoney, address, 1);
-                for (Cart cart : cartList) {
-                    // Example: Call addOrder method for each cart or handle cart processing logic
-                    // odao.addOrder(account, cart, email, phone, address, note, dateShip, timeShip, "0");
-                    // odao.updateBought(account, cart);
-                    cartDAO.deleteCar(cart.getCartId());
-                    cartDAO.updateStockByCartId(cart.getCartId());
-                    cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 0);
+                try {
+                    Date date = inputFormat.parse(vnp_PayDate_raw);
+                    String vnp_PayDateWeb = outputFormatWeb.format(date);
+                    String vnp_PayDateDTB = outputFormatDTB.format(date);
+                    request.setAttribute("vnp_PayDate", vnp_PayDateWeb);
+                    double totalmoney = (double) session.getAttribute("totalFinal");
+                    Payment p = new Payment("", vnp_TxnRef, vnp_Amount, vnp_OrderInfo, vnp_ResponseCode, vnp_TransactionNo, vnp_BankCode, vnp_PayDateDTB, vnp_TransactionStatus, account.getUserId());
+                    padao.addPayment(p);
+
+                    if (vnp_TransactionStatus.equals("00")) {
+                        // Iterate over the list of carts and process them as needed
+                        int orderId = cartDAO.addOrder(account.getUserId(), name, email, phone, totalmoney, address, 1, 1);
+                        for (Cart cart : cartList) {
+                            // Example: Call addOrder method for each cart or handle cart processing logic
+                            // odao.addOrder(account, cart, email, phone, address, note, dateShip, timeShip, "0");
+                            cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 0);
+
+                            // Update stock for the product associated with the cart item
+                            cartDAO.updateStockByCartId(cart.getCartId());
+
+                            // Remove the cart after processing
+                            cartDAO.deleteCar(cart.getCartId());
+
+                        }
+
+                        EmailOrder handleEmail = new EmailOrder();
+                        String sub = handleEmail.subjectOrder(name);
+                        // Uncomment and modify as needed to create email content
+                        // String msg = handleEmail.messageOrder(currentDateTime, formatNumber(totalmoney), phone, name, address, note, cartList);
+                        session.removeAttribute("cartList");
+                        session.removeAttribute("name");
+                        session.removeAttribute("phone");
+                        session.removeAttribute("email");
+                        session.removeAttribute("address");
+                        session.removeAttribute("note");
+                        session.setAttribute("size", 0);
+
+                        request.setAttribute("vnp_TxnRef", vnp_TxnRef);
+                        request.setAttribute("vnp_Amount", vnp_Amount);
+                        request.setAttribute("vnp_OrderInfo", vnp_OrderInfo);
+                        request.setAttribute("vnp_ResponseCode", vnp_ResponseCode);
+                        request.setAttribute("vnp_TransactionNo", vnp_TransactionNo);
+                        request.setAttribute("vnp_BankCode", vnp_BankCode);
+                        request.setAttribute("vnp_TransactionStatus", vnp_TransactionStatus);
+                        request.getRequestDispatcher("thanks.jsp").forward(request, response);
+
+                        // Uncomment if needed
+                        // executorService.submit(() -> handleEmail.sendEmail(sub, msg, email));
+                    } else {
+                        int orderId = cartDAO.addOrder(account.getUserId(), name, email, phone, totalmoney, address, 5, 1);
+                        for (Cart cart : cartList) {
+                            // Example: Call addOrder method for each cart or handle cart processing logic
+                            // odao.addOrder(account, cart, email, phone, address, note, dateShip, timeShip, "0");
+                            // odao.updateBought(account, cart);
+                            cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 0);
+
+                            // Update stock for the product associated with the cart item
+                            cartDAO.updateStockByCartId(cart.getCartId());
+
+                            // Remove the cart after processing
+                            cartDAO.deleteCar(cart.getCartId());
+
+                        }
+                        request.setAttribute("vnp_TxnRef", vnp_TxnRef);
+                        request.setAttribute("vnp_Amount", vnp_Amount);
+                        request.setAttribute("vnp_OrderInfo", vnp_OrderInfo);
+                        request.setAttribute("vnp_ResponseCode", vnp_ResponseCode);
+                        request.setAttribute("vnp_TransactionNo", vnp_TransactionNo);
+                        request.setAttribute("vnp_BankCode", vnp_BankCode);
+                        request.setAttribute("vnp_TransactionStatus", vnp_TransactionStatus);
+                        request.getRequestDispatcher("thanks.jsp").forward(request, response);
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace(); // Handle exception as needed
                 }
 
-                EmailOrder handleEmail = new EmailOrder();
-                String sub = handleEmail.subjectOrder(name);
-                // Uncomment and modify as needed to create email content
-                // String msg = handleEmail.messageOrder(currentDateTime, formatNumber(totalmoney), phone, name, address, note, cartList);
-                session.removeAttribute("cartList");
-                session.removeAttribute("name");
-                session.removeAttribute("phone");
-                session.removeAttribute("email");
-                session.removeAttribute("address");
-                session.removeAttribute("note");
-                session.setAttribute("size", 0);
-
-                request.setAttribute("vnp_TxnRef", vnp_TxnRef);
-                request.setAttribute("vnp_Amount", vnp_Amount);
-                request.setAttribute("vnp_OrderInfo", vnp_OrderInfo);
-                request.setAttribute("vnp_ResponseCode", vnp_ResponseCode);
-                request.setAttribute("vnp_TransactionNo", vnp_TransactionNo);
-                request.setAttribute("vnp_BankCode", vnp_BankCode);
-                request.setAttribute("vnp_TransactionStatus", vnp_TransactionStatus);
-                request.getRequestDispatcher("thanks.jsp").forward(request, response);
-
-                // Uncomment if needed
-                // executorService.submit(() -> handleEmail.sendEmail(sub, msg, email));
             } else {
-                 int orderId = cartDAO.addOrder(account.getUserId(), name, email, phone, totalmoney, address, 5);
-                for (Cart cart : cartList) {
-                    // Example: Call addOrder method for each cart or handle cart processing logic
-                    // odao.addOrder(account, cart, email, phone, address, note, dateShip, timeShip, "0");
-                    // odao.updateBought(account, cart);
-                    cartDAO.deleteCar(cart.getCartId());
-                      cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 0);
-                   
-                }
-                request.setAttribute("vnp_TxnRef", vnp_TxnRef);
-                request.setAttribute("vnp_Amount", vnp_Amount);
-                request.setAttribute("vnp_OrderInfo", vnp_OrderInfo);
-                request.setAttribute("vnp_ResponseCode", vnp_ResponseCode);
-                request.setAttribute("vnp_TransactionNo", vnp_TransactionNo);
-                request.setAttribute("vnp_BankCode", vnp_BankCode);
-                request.setAttribute("vnp_TransactionStatus", vnp_TransactionStatus);
-                request.getRequestDispatcher("thanks.jsp").forward(request, response);
+                response.sendRedirect("login");
             }
-
-        } catch (ParseException e) {
-            e.printStackTrace(); // Handle exception as needed
         }
-
-    } else {
-        response.sendRedirect("login");
-    }
-}
 
     }
 
@@ -196,7 +205,7 @@ public class ReturnResult extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    
+
     }
 
     /**

@@ -255,7 +255,7 @@
                                                             <fmt:formatNumber value="${(C.product.price * C.quantity)*0.1}" type="number" minFractionDigits="0"/> $
                                                         </td>
                                                         <td class="text-center font-weight-bold p-3">
-                                                            <fmt:formatNumber value="${(C.product.price * C.quantity) * (1 + 0.4) * 1.10}" type="number" minFractionDigits="0"/> $
+                                                            <fmt:formatNumber value="${(C.product.price * C.quantity) * 2.2}" type="number" minFractionDigits="0"/> $
                                                         </td>
                                                     </tr>
 

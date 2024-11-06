@@ -100,23 +100,25 @@ public class OrderDAO extends DBContext {
         String sql = "SELECT acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender, "
                 + "orr.orderId, orr.orderDeliverCode, orr.userId, orr.orderName, orr.orderEmail, "
                 + "orr.orderPhone, orr.totalPrice, orr.note, orr.saleId, orr.shipperId, "
-                + "orr.createDate, orr.shippingAddress, orr.orderStatus, "
+                + "orr.createDate, orr.shippingAddress, orr.orderStatus, orr.payMethod,"
                 + "os.description AS orderStatusDescription, "
                 + "od.orderDetailId, od.productId, od.quantity, od.colorId, od.isfeedback, "
-                + "p.name AS productName, p.price AS productPrice, MIN(pri.imageUrl) AS imageUrl "
+                + "p.name AS productName, p.price AS productPrice, MIN(pri.imageUrl) AS imageUrl, "
+                + "color.colorName AS colorName " // Thêm colorName vào SELECT
                 + "FROM carpipi.order orr "
                 + "JOIN carpipi.account acc ON orr.userId = acc.userId "
                 + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId "
                 + "JOIN carpipi.product p ON od.productId = p.productId "
                 + "JOIN carpipi.productImage pri ON pri.productId = p.productId "
                 + "JOIN carpipi.orderStatus os ON orr.orderStatus = os.statusId "
+                + "JOIN carpipi.color color ON od.colorId = color.colorId " // JOIN với bảng color
                 + "WHERE od.orderId = ? "
                 + "GROUP BY acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender, "
                 + "orr.orderId, orr.orderDeliverCode, orr.userId, orr.orderName, orr.orderEmail, "
                 + "orr.orderPhone, orr.totalPrice, orr.note, orr.saleId, orr.shipperId, "
                 + "orr.createDate, orr.shippingAddress, orr.orderStatus, os.description, "
                 + "od.orderDetailId, od.productId, od.quantity, od.colorId, od.isfeedback, "
-                + "p.name, p.price";
+                + "p.name, p.price, color.colorName"; // Thêm colorName vào GROUP BY
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, orderId);
@@ -151,7 +153,8 @@ public class OrderDAO extends DBContext {
                 o.setProductName(rs.getString("productName"));
                 o.setProductPrice(rs.getDouble("productPrice"));
                 o.setImageUrl(rs.getString("imageUrl"));
-
+                o.setColorName(rs.getString("colorName"));
+                o.setPayMethod(rs.getInt("payMethod"));
                 list.add(o);
             }
 
@@ -161,83 +164,7 @@ public class OrderDAO extends DBContext {
 
         return list;
     }
-
-    public List<OrderDetail> getOrderInforByIdDetail(String orderId, String orderDetailId) {
-        List<OrderDetail> list = new ArrayList<>();
-
-        String sql = "SELECT acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender, "
-                + "orr.orderId, orr.orderDeliverCode, orr.userId, orr.orderName, orr.orderEmail, "
-                + "orr.orderPhone, orr.totalPrice, orr.note, orr.saleId, orr.shipperId, "
-                + "orr.createDate, orr.shippingAddress, orr.orderStatus, "
-                + "os.description AS orderStatusDescription, "
-                + "od.orderDetailId, od.productId, od.quantity, od.colorId, od.isfeedback, "
-                + "p.name AS productName, p.price AS productPrice, MIN(pri.imageUrl) AS imageUrl "
-                + "FROM carpipi.order orr "
-                + "JOIN carpipi.account acc ON orr.userId = acc.userId "
-                + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId "
-                + "JOIN carpipi.product p ON od.productId = p.productId "
-                + "JOIN carpipi.productImage pri ON pri.productId = p.productId "
-                + "JOIN carpipi.orderStatus os ON orr.orderStatus = os.statusId "
-                + "WHERE od.orderId = ? AND od.orderDetailId = ? " // Thêm điều kiện lọc orderDetailId
-                + "GROUP BY acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender, "
-                + "orr.orderId, orr.orderDeliverCode, orr.userId, orr.orderName, orr.orderEmail, "
-                + "orr.orderPhone, orr.totalPrice, orr.note, orr.saleId, orr.shipperId, "
-                + "orr.createDate, orr.shippingAddress, orr.orderStatus, os.description, "
-                + "od.orderDetailId, od.productId, od.quantity, od.colorId, od.isfeedback, "
-                + "p.name, p.price";
-
-        try (PreparedStatement st = connection.prepareStatement(sql)) {
-            st.setString(1, orderId);
-            st.setString(2, orderDetailId); // Set orderDetailId
-
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()) {
-                OrderDetail o = new OrderDetail();
-                o.setUserId(rs.getInt("userId"));
-                o.setFirstName(rs.getString("firstName"));
-                o.setLastName(rs.getString("lastName"));
-                o.setMobile(rs.getString("mobile"));
-                o.setEmail(rs.getString("email"));
-                o.setGender(rs.getInt("gender"));
-                o.setOrderId(rs.getInt("orderId"));
-                o.setOrderDeliverCode(rs.getString("orderDeliverCode"));
-                o.setOrderName(rs.getString("orderName"));
-                o.setOrderEmail(rs.getString("orderEmail"));
-                o.setOrderPhone(rs.getString("orderPhone"));
-                o.setTotalPrice(rs.getDouble("totalPrice"));
-                o.setNote(rs.getString("note"));
-                o.setSaleId(rs.getInt("saleId"));
-                o.setShipperId(rs.getInt("shipperId"));
-                o.setCreateDate(rs.getDate("createDate"));
-                o.setShippingAddress(rs.getString("shippingAddress"));
-                o.setOrderStatus(rs.getInt("orderStatus"));
-                o.setOrderStatusDescription(rs.getString("orderStatusDescription"));
-                o.setOrderDetailId(rs.getInt("orderDetailId"));
-                o.setProductId(rs.getString("productId"));
-                o.setQuantity(rs.getInt("quantity"));
-                
-                o.setColorId(rs.getInt("colorId"));
-                o.setIsFeedback(rs.getInt("isfeedback"));
-                o.setProductName(rs.getString("productName"));
-                o.setProductPrice(rs.getDouble("productPrice"));
-                o.setImageUrl(rs.getString("imageUrl"));
-
-                list.add(o);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace(); // Ghi lại lỗi
-        }
-
-        return list;
-    }
-
-    /// Manhhuy-----------------------------------------------------------------------------------------------------//
-    
-    
-    
-//son--------------//
+    /// Manhuy-end------------------------------------------------------------------------------------------------///
     public List<OrderDetail> getListOrderdetailById(String orderId) {
         List<OrderDetail> list = new ArrayList<>();
 
@@ -288,7 +215,7 @@ public class OrderDAO extends DBContext {
 
         return list;
     }
-    
+
     public OrderDetail getOrderdetailById(String orderId) {
         
         String sql = "SELECT acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"

@@ -156,7 +156,7 @@
                                     <select name="status" style="height:40px; border-radius:10px; padding:10px; border:1px solid #ccc;">
                                         <option value="10">Tất cả</option>
                                         <c:forEach items="${requestScope.listStatusOrder}" var="status">
-                                            <option value="${status.statusId}">
+                                            <option value="${status.statusId}" ${status.statusId == statusSelect ? 'selected' : ''}>
                                                 ${status.description}
                                             </option>
                                         </c:forEach>

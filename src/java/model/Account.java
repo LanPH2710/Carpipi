@@ -11,6 +11,7 @@ import java.math.BigDecimal;
  * @author tuana
  */
 public class Account {
+
     private int userId;
     private String userName;
     private String password;
@@ -24,21 +25,23 @@ public class Account {
     private String avatar;
     private int status;
     private BigDecimal money;
+
     public Account() {
     }
-    public Account(String userName, String password, String firstName, String lastName, 
-                int gender, String email, String mobile, String address, int status) {
-    this.userName = userName;
-    this.password = password;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.gender = gender;
-    this.email = email;
-    this.mobile = mobile;
-    this.address = address;
-    this.status = status;
-    // Đặt giá trị cho các trường khác nếu cần, chẳng hạn như userId, roleId, avatar...
-}
+
+    public Account(String userName, String password, String firstName, String lastName,
+            int gender, String email, String mobile, String address, int status) {
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+        this.mobile = mobile;
+        this.address = address;
+        this.status = status;
+        // Đặt giá trị cho các trường khác nếu cần, chẳng hạn như userId, roleId, avatar...
+    }
 
     public Account(int userId, String userName, String password, String firstName, String lastName, int gender, String email, String mobile, String address, int roleId, String avatar, int status) {
         this.userId = userId;
@@ -54,8 +57,7 @@ public class Account {
         this.avatar = avatar;
         this.status = status;
     }
-    
-    
+
     public Account(int userId, String userName, String password, String firstName, String lastName, int gender, String email, String mobile, String address, int roleId, String avatar) {
         this.userId = userId;
         this.userName = userName;
@@ -109,8 +111,6 @@ public class Account {
         this.status = status;
         this.money = money;
     }
-    
-    
 
     public int getUserId() {
         return userId;
@@ -207,5 +207,14 @@ public class Account {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public BigDecimal getMoney() {
+        return money;
+    }
+
+    public void setMoney(BigDecimal money) {
+        this.money = money;
+    }
     
+
 }

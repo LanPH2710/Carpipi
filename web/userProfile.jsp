@@ -88,7 +88,7 @@
                     <!-- Avatar and User Info -->
                     <div class="col-md-4 border-right">
                         <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <img class="avatar mt-5" width="200px" height="200px" src="img/${user1.avatar}">
+                            <img class="avatar mt-5" width="200px" height="200px" src="${user1.avatar}">
                             <h3 class="font-weight-bold mt-3">${user1.firstName} ${user1.lastName}</h3>
                             <span class="text-black-50">${user1.email}</span>
                         </div>

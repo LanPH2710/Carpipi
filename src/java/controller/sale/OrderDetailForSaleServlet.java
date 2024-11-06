@@ -19,6 +19,7 @@ import java.awt.Image;
 import java.util.List;
 import model.Account;
 import model.Color;
+import model.Order;
 import model.OrderDetail;
 import model.OrderStatus;
 import model.Product;
@@ -79,6 +80,7 @@ public class OrderDetailForSaleServlet extends HttpServlet {
         ProductDAO p = new ProductDAO();
         Product product = new Product();
         ProductImage image = new ProductImage();
+        Order order = new Order();
 
         List<OrderDetail> orderList = orderDao.getListOrderdetailById(orderId);
 
@@ -87,15 +89,21 @@ public class OrderDetailForSaleServlet extends HttpServlet {
         }
 
         List<Color> colorList = colorDao.getListColor();
+        
+        for (Color color : colorList) {
+            System.out.println(color.getColorName());
+        }
+        
+        
 
-        Account accountOrder = accountDao.getAccountById(6);
+        OrderDetail accountOrder = orderDao.getOrderdetailById(orderId);
 
         List<Account> allSaleName = accountDao.getAccountByRole();
 
         List<OrderStatus> listStatusOrder = orderDao.getListOrderStatus();
 
         //  Account saleInfo = accountDao.getAccountById(orderDetail.getSaleId());
-        System.out.println(image.getImageUrl());
+      
         System.out.println(orderId);
 
         request.setAttribute("image", image);

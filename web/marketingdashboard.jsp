@@ -170,22 +170,19 @@
 
                                 </a>
                             </div><!--end col-->
-
-                            <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
-                                <div class="card features feature-primary rounded border-0 shadow p-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon text-center rounded-md">
-                                            <i class="uil uil-shopping-cart h3 mb-0"></i>
-                                        </div>
-                                        <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">${totalQuantitySold}</h5>
-                                            <p class="text-muted mb-0">Tổng Sản Phẩm Bán Ra</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div><!--end col-->
-
+                            <!--                            <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
+                                                            <div class="card features feature-primary rounded border-0 shadow p-4">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="icon text-center rounded-md">
+                                                                        <i class="uil uil-shopping-cart h3 mb-0"></i>
+                                                                    </div>
+                                                                    <div class="flex-1 ms-2">
+                                                                        <h5 class="mb-0">${totalQuantitySold}</h5>
+                                                                        <p class="text-muted mb-0">Tổng Sản Phẩm Bán Ra</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>end col-->
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
                                 <a href="SliderList" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
@@ -201,179 +198,282 @@
                                 </a>
                             </div><!--end col-->
                         </div><!--end row-->
-
                         <div class="row">
-
-
                             <div class="col-xl-8 col-lg-7 mt-4">
+                                <h4>5 Sản Phẩm Bán Chạy Nhất</h4>
+                                <form action="marketingdashboard" method="get" class="filter-form">
+                                    <label for="startDate">Ngày Bắt Đầu:</label>
+                                    <input type="date" id="startDate" name="startDate" required 
+                                           onchange="updateEndDate()" 
+                                           max="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" 
+                                           value="${startDate != null ? startDate : ''}">
+
+                                    <label for="endDate">Ngày Kết Thúc:</label>
+                                    <input type="date" id="endDate" name="endDate" required 
+                                           max="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" 
+                                           value="${endDate != null ? endDate : ''}">
+                                    <button type="submit">Lọc</button>
+                                </form>
                                 <div>
-                                    <h4>5 Sản Phẩm Bán Chạy Nhất</h4>
                                     <div style="width: 700px; margin: auto;"> <!-- Set a specific width for the chart -->
                                         <canvas id="productSalesChart" width="500" height="400"></canvas>
                                     </div>
                                 </div>
+
                                 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
 
-
                                 <script>
-                                    // Prepare product data for the chart
-                                    const products = [];
+                                               // Hàm cập nhật giá trị min của ngày kết thúc sau khi chọn ngày bắt đầu
+                                               function updateEndDate() {
+                                                   var startDate = document.getElementById("startDate").value;
+                                                   var endDate = document.getElementById("endDate");
+
+                                                   // Nếu ngày bắt đầu đã được chọn, set ngày kết thúc có min là ngày bắt đầu
+                                                   if (startDate) {
+                                                       endDate.setAttribute("min", startDate);
+                                                   }
+                                               }
+
+                                               // Prepare product data for the chart
+                                               const products = [];
                                     <c:forEach var="product" items="${productSale}">
-                                    products.push({
-                                        name: '${product.name}',
-                                        totalQuantitySold: ${product.totalQuantitySold}
-                                    });
+                                               products.push({
+                                                   name: '${product.name}',
+                                                   totalQuantitySold: ${product.totalQuantitySold}
+                                               });
                                     </c:forEach>
 
-                                    // Create arrays for labels and data
-                                    const labels = products.map(product => product.name); // Product names
-                                    const data = products.map(product => product.totalQuantitySold); // Total quantities sold
+                                               // Create arrays for labels and data
+                                               const labels = products.map(product => product.name); // Product names
+                                               const data = products.map(product => product.totalQuantitySold); // Total quantities sold
 
-                                    // Create the chart
-                                    const ctx = document.getElementById('productSalesChart').getContext('2d');
-                                    const myChart = new Chart(ctx, {
-                                        type: 'bar',
-                                        data: {
-                                            labels: labels,
-                                            datasets: [{
-                                                    label: 'Số Lượng Sản Phẩm Được Bán',
-                                                    data: data,
-                                                    backgroundColor: [
-                                                        'rgba(255,99,132,0.2)',
-                                                        'rgba(54,162,235,0.2)',
-                                                        'rgba(255,206,86,0.2)',
-                                                        'rgba(153,102,255,0.2)',
-                                                        'rgba(255,158,64,0.2)'
-                                                    ],
-                                                    borderColor: [
-                                                        'rgba(255,99,132,1)',
-                                                        'rgba(54,162,235,1)',
-                                                        'rgba(255,206,86,1)',
-                                                        'rgba(153,102,255,1)',
-                                                        'rgba(255,158,64,1)'
-                                                    ],
-                                                    borderWidth: 1
-                                                }]
-                                        },
-                                        options: {
-                                            scales: {
-                                                x: {
-                                                    beginAtZero: true,
-                                                    ticks: {
-                                                        font: {
-                                                            size: 16 // Set x-axis label font size
-                                                        }
-                                                    }
-                                                },
-                                                y: {
-                                                    beginAtZero: true,
-                                                    ticks: {
-                                                        font: {
-                                                            size: 16 // Set y-axis label font size
-                                                        }
-                                                    }
-                                                }
-                                            },
-                                            plugins: {
-                                                legend: {
-                                                    labels: {
-                                                        font: {
-                                                            size: 18 // Set legend font size
-                                                        }
-                                                    }
-                                                },
-                                                tooltip: {
-                                                    bodyFont: {
-                                                        size: 20 // Set tooltip font size when hovering
-                                                    },
-                                                    titleFont: {
-                                                        size: 20 // Set tooltip title font size
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    });
+                                               // Create the chart
+                                               const ctx = document.getElementById('productSalesChart').getContext('2d');
+                                               const myChart = new Chart(ctx, {
+                                                   type: 'bar',
+                                                   data: {
+                                                       labels: labels, // Product names as labels
+                                                       datasets: [{
+                                                               label: 'Số Lượng Sản Phẩm Được Bán',
+                                                               data: data,
+                                                               backgroundColor: [
+                                                                   'rgba(255,99,132,0.2)',
+                                                                   'rgba(54,162,235,0.2)',
+                                                                   'rgba(255,206,86,0.2)',
+                                                                   'rgba(153,102,255,0.2)',
+                                                                   'rgba(255,158,64,0.2)'
+                                                               ],
+                                                               borderColor: [
+                                                                   'rgba(255,99,132,1)',
+                                                                   'rgba(54,162,235,1)',
+                                                                   'rgba(255,206,86,1)',
+                                                                   'rgba(153,102,255,1)',
+                                                                   'rgba(255,158,64,1)'
+                                                               ],
+                                                               borderWidth: 1
+                                                           }]
+                                                   },
+                                                   options: {
+                                                       scales: {
+                                                           x: {
+                                                               beginAtZero: true,
+                                                               ticks: {
+                                                                   font: {
+                                                                       size: 16 // Set x-axis label font size
+                                                                   }
+                                                               }
+                                                           },
+                                                           y: {
+                                                               beginAtZero: true,
+                                                               ticks: {
+                                                                   font: {
+                                                                       size: 16 // Set y-axis label font size
+                                                                   }
+                                                               }
+                                                           }
+                                                       },
+                                                       plugins: {
+                                                           legend: {
+                                                               labels: {
+                                                                   font: {
+                                                                       size: 18 // Set legend font size
+                                                                   }
+                                                               }
+                                                           },
+                                                           tooltip: {
+                                                               bodyFont: {
+                                                                   size: 20 // Set tooltip font size when hovering
+                                                               },
+                                                               titleFont: {
+                                                                   size: 20 // Set tooltip title font size
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+                                               });
                                 </script>
                             </div>
+                            <!--                            <div class="col-xl-4 col-lg-5 mt-4">
+                                                            <div>
+                                                                <h4>Doanh Thu Theo Thương Hiệu</h4>
+                                                                <div style="width: 400px; margin: auto; margin-top: 50px;"> 
+                            
+                                                                    <canvas id="brandRevenuePie" width="500" height="400"></canvas>
+                                                                </div>
+                                                            </div>
+                            
+                                                            <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+                            
+                                                            <script>
+                                                                           // Prepare data for Brand Revenue Pie Chart
+                                                                           const brandRevenueData = {
+                                                                               labels: [], // This will hold the brand names
+                                                                               datasets: [{
+                                                                                       label: 'Doanh thu',
+                                                                                       data: [], // This will hold the corresponding revenue values
+                                                                                       backgroundColor: [
+                                                                                           'rgba(255, 99, 132,0.2)',
+                                                                                           'rgba(54, 162, 235,0.2)',
+                                                                                           'rgba(255, 205, 86,0.2)',
+                                                                                           'rgba(75, 192, 192,0.2)',
+                                                                                           'rgba(153, 102, 255,0.2)',
+                                                                                           'rgba(255, 159, 64,0.2)'
+                                                                                       ],
+                                                                                       borderColor: [
+                                                                                           'rgba(255, 99, 132,1)',
+                                                                                           'rgba(54, 162, 235,1)',
+                                                                                           'rgba(255, 205, 86,1)',
+                                                                                           'rgba(75, 192, 192,1)',
+                                                                                           'rgba(153, 102, 255,1)',
+                                                                                           'rgba(255, 159, 64,1)'
+                                                                                       ]
+                                                                                   }]
+                                                                           };
+                            
+                                                                           // Fetch total revenue from the request attribute using JSTL
+                            <c:forEach var="totalBrandRevenue" items="${totalBrandRevenue}">
+                                       brandRevenueData.labels.push('${totalBrandRevenue.name}');
+                                       brandRevenueData.datasets[0].data.push(${totalBrandRevenue.totalRevenue}); // Ensure property name matches
+                            </c:forEach>
+
+                                       // Chart configuration
+                                       const brandRevenueConfig = {
+                                           type: 'pie', // or 'doughnut' if you prefer a doughnut chart
+                                           data: brandRevenueData,
+                                           options: {
+                                               plugins: {
+                                                   legend: {
+                                                       labels: {
+                                                           font: {
+                                                               size: 18 // Set legend font size
+                                                           }
+                                                       }
+                                                   },
+                                                   tooltip: {
+                                                       bodyFont: {
+                                                           size: 20 // Set tooltip font size when hovering
+                                                       },
+                                                       titleFont: {
+                                                           size: 20 // Set tooltip title font size
+                                                       }
+                                                   }
+                                               },
+                                               interaction: {
+                                                   mode: 'nearest', // Define interaction mode
+                                                   intersect: false
+                                               }
+                                           }
+                                       };
+
+                                       // Create the chart
+                                       const brandRevenueCtx = document.getElementById('brandRevenuePie').getContext('2d');
+                                       const brandRevenueChart = new Chart(brandRevenueCtx, brandRevenueConfig);
+                        </script>
+
+                    </div>-->
 
                             <div class="col-xl-4 col-lg-5 mt-4">
                                 <div>
-                                    <h4>Doanh Thu Theo Thương Hiệu</h4>
-                                    <div style="width: 400px; margin: auto; margin-top: 50px;"> 
-
-                                        <canvas id="brandRevenuePie" width="500" height="400"></canvas>
+                                    <h4>Tỉ Lệ Giới Tính Của Khách Hàng</h4>
+                                    <div style="width: 400px; margin: auto; margin-top: 50px;">
+                                        <canvas id="genderDistributionPie" width="500" height="400"></canvas>
                                     </div>
                                 </div>
 
                                 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
 
                                 <script>
-                                    // Prepare data for Brand Revenue Pie Chart
-                                    const brandRevenueData = {
-                                        labels: [], // This will hold the brand names
-                                        datasets: [{
-                                                label: 'Doanh thu',
-                                                data: [], // This will hold the corresponding revenue values
-                                                backgroundColor: [
-                                                    'rgba(255, 99, 132,0.2)',
-                                                    'rgba(54, 162, 235,0.2)',
-                                                    'rgba(255, 205, 86,0.2)',
-                                                    'rgba(75, 192, 192,0.2)',
-                                                    'rgba(153, 102, 255,0.2)',
-                                                    'rgba(255, 159, 64,0.2)'
-                                                ],
-                                                borderColor: [
-                                                    'rgba(255, 99, 132,1)',
-                                                    'rgba(54, 162, 235,1)',
-                                                    'rgba(255, 205, 86,1)',
-                                                    'rgba(75, 192, 192,1)',
-                                                    'rgba(153, 102, 255,1)',
-                                                    'rgba(255, 159, 64,1)'
-                                                ]
-                                            }]
-                                    };
+                                               // Prepare data for Gender Distribution Pie Chart
+                                               const genderData = {
+                                                   labels: ['Nam', 'Nữ', 'Khác'], // Gender labels: Nam = Male, Nữ = Female, Khác = Other
+                                                   datasets: [{
+                                                           label: 'Tỉ Lệ % ',
+                                                           data: [0, 0, 0], // Initial data values (will be updated dynamically)
+                                                           backgroundColor: [
+                                                               'rgba(255, 99, 132,0.2)', // Red for Male
+                                                               'rgba(54, 162, 235,0.2)', // Blue for Female
+                                                               'rgba(255, 205, 86,0.2)'  // Yellow for Other
+                                                           ],
+                                                           borderColor: [
+                                                               'rgba(255, 99, 132,1)',
+                                                               'rgba(54, 162, 235,1)',
+                                                               'rgba(255, 205, 86,1)'
+                                                           ]
+                                                       }]
+                                               };
 
-                                    // Fetch total revenue from the request attribute using JSTL
-                                    <c:forEach var="totalBrandRevenue" items="${totalBrandRevenue}">
-                                    brandRevenueData.labels.push('${totalBrandRevenue.name}');
-                                    brandRevenueData.datasets[0].data.push(${totalBrandRevenue.totalRevenue}); // Ensure property name matches
+                                               // Fetch gender distribution data from the request attribute using JSTL
+                                    <c:forEach var="genderEntry" items="${genderData}">
+                                        <c:choose>
+                                            <c:when test="${genderEntry.key == 'male'}">
+                                               genderData.datasets[0].data[0] = ${genderEntry.value}; // Update for Male (gender 0)
+                                            </c:when>
+                                            <c:when test="${genderEntry.key == 'female'}">
+                                               genderData.datasets[0].data[1] = ${genderEntry.value}; // Update for Female (gender 1)
+                                            </c:when>
+                                            <c:when test="${genderEntry.key == 'other'}">
+                                               genderData.datasets[0].data[2] = ${genderEntry.value}; // Update for Other (gender 2)
+                                            </c:when>
+                                        </c:choose>
                                     </c:forEach>
 
-                                    // Chart configuration
-                                    const brandRevenueConfig = {
-                                        type: 'pie', // or 'doughnut' if you prefer a doughnut chart
-                                        data: brandRevenueData,
-                                        options: {
-                                            plugins: {
-                                                legend: {
-                                                    labels: {
-                                                        font: {
-                                                            size: 18 // Set legend font size
-                                                        }
-                                                    }
-                                                },
-                                                tooltip: {
-                                                    bodyFont: {
-                                                        size: 20 // Set tooltip font size when hovering
-                                                    },
-                                                    titleFont: {
-                                                        size: 20 // Set tooltip title font size
-                                                    }
-                                                }
-                                            },
-                                            interaction: {
-                                                mode: 'nearest', // Define interaction mode
-                                                intersect: false
-                                            }
-                                        }
-                                    };
+                                               // Chart configuration
+                                               const genderDistributionConfig = {
+                                                   type: 'pie', // or 'doughnut' if you prefer a doughnut chart
+                                                   data: genderData,
+                                                   options: {
+                                                       plugins: {
+                                                           legend: {
+                                                               labels: {
+                                                                   font: {
+                                                                       size: 18 // Set legend font size
+                                                                   }
+                                                               }
+                                                           },
+                                                           tooltip: {
+                                                               bodyFont: {
+                                                                   size: 20 // Set tooltip font size when hovering
+                                                               },
+                                                               titleFont: {
+                                                                   size: 20 // Set tooltip title font size
+                                                               }
+                                                           }
+                                                       },
+                                                       interaction: {
+                                                           mode: 'nearest', // Define interaction mode
+                                                           intersect: false
+                                                       }
+                                                   }
+                                               };
 
-                                    // Create the chart
-                                    const brandRevenueCtx = document.getElementById('brandRevenuePie').getContext('2d');
-                                    const brandRevenueChart = new Chart(brandRevenueCtx, brandRevenueConfig);
+                                               // Create the chart
+                                               const genderDistributionCtx = document.getElementById('genderDistributionPie').getContext('2d');
+                                               const genderDistributionChart = new Chart(genderDistributionCtx, genderDistributionConfig);
                                 </script>
 
                             </div>
+
+
 
 
 

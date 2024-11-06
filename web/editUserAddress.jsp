@@ -214,7 +214,9 @@
                                     <h5 class="mb-3">Billing address</h5>
                                     <form action="editAddressUser" method="post" class="needs-validation" novalidate>
                                         <!-- Hidden input for addressId -->
-                                        <input type="hidden" name="addressId" value="${addressUser.addressId}" />
+                                        <!-- Hidden input for addressId -->
+                                        <input type="hidden" name="addressId" value="${param.addressId != null ? param.addressId : addressUser.addressId}" />
+
 
                                         <!-- Name -->
                                         <div class="col-12">

@@ -17,6 +17,7 @@ import java.util.List;
 import model.Account;
 import model.Cart;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -84,9 +85,10 @@ public class TaxController extends HttpServlet {
 
         double totalFinal = 0;
         for (Cart cartItem : carts) {
-            totalFinal += cartItem.getQuantity() * cartItem.getProduct().getPrice() * (1 + 0.4) * 1.10;
+            totalFinal += (cartItem.getQuantity() * cartItem.getProduct().getPrice()) * 2.2;
         }
-
+    
+        
         session.setAttribute("totalFinal", totalFinal);
         session.setAttribute("cartsSelect", carts);
         request.getRequestDispatcher("checkout_1.jsp").forward(request, response);

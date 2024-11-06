@@ -31,6 +31,8 @@
         <!-- Css -->
         <link href="assets1/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
+
         <style type="text/css">
             body{
                 margin-top:20px;
@@ -271,7 +273,23 @@
 
         </style>
     </head>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Kiểm tra nếu có thông báo
+            var message = "${messCheckOut}";
+            if (message && message.trim() !== "") {
+                var messageDiv = document.getElementById("message");
+                messageDiv.style.display = "block";
+
+                // Tự động ẩn sau 3 giây
+                setTimeout(function () {
+                    messageDiv.style.display = "none";
+                }, 3000);
+            }
+        });
+    </script>
     <body>
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <!-- Loader -->
@@ -345,6 +363,7 @@
 
             <!-- Start Page Content -->
             <main class="page-content bg-light">
+
                 <div class="top-header">
                     <div class="header-bar d-flex justify-content-between align-items-center border-bottom">
                         <div class="d-flex align-items-center">
@@ -517,7 +536,9 @@
                                                     <div class="feed-item-list">
                                                         <div>
                                                             <h5 class="font-size-16 mb-1">Payment Info</h5>
-                                                            <p class="text-muted text-truncate mb-4">Duis arcu tortor, suscipit eget</p>
+                                                            <p class="text-muted text-truncate mb-4">
+                                                                Số Tiền: <fmt:formatNumber value="${sessionScope.totalFinal}" type="currency" minFractionDigits="" maxFractionDigits="2" />
+                                                            </p>
                                                         </div>
                                                         <div>
                                                             <h5 class="font-size-14 mb-3">Payment method :</h5>
@@ -534,7 +555,21 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-sm-6">
-
+                                                                    <div>
+                                                                        <label class="card-radio-label">
+                                                                            <input type="radio" name="pay-method" id="pay-methodoption2" class="card-radio-input" value="balance">
+                                                                            <span class="card-radio py-3 text-center text-truncate">
+                                                                                <i  class="bx bx-wallet d-block h2 mb-3"></i>
+                                                                                Ví Carpipi
+                                                                            </span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <c:if test="${not empty sessionScope.messCheckOut}">
+                                                                        <div style="color: red;">
+                                                                            ${sessionScope.messCheckOut}
+                                                                        </div>
+                                                                        <c:remove var="messCheckOut" scope="session" />
+                                                                    </c:if>
                                                                 </div>
                                                                 <div class="col-lg-3 col-sm-6">
                                                                     <div>

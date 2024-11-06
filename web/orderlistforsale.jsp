@@ -66,7 +66,9 @@
                                 <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
                                 </c:when>
                             </c:choose>
-                        <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block"></i>Order List</a></li>
+                        <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block" ></i>Order List</a></li>
+                        <li><a href="salecheck"><i class="uil uil-dashboard me-2 d-inline-block"></i>Check Order</a></li>
+
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -148,23 +150,23 @@
                             </nav>
                         </div>
                         <div class="col-sm-2">
-    <form action="orderlistforsale" method="post">
-        <div class="input-group">
-            <label for="status" class="mr-2">Trạng thái:</label>
-            <select name="status" style="height:40px; border-radius:10px; padding:10px; border:1px solid #ccc;">
-                <option value="10">Tất cả</option>
-                <c:forEach items="${requestScope.listStatusOrder}" var="status">
-                    <option value="${status.statusId}">
-                        ${status.description}
-                    </option>
-                </c:forEach>
-            </select>
-            <div class="input-group-append">
-                <button class="btn btn-secondary" type="submit">Lọc</button>
-            </div>
-        </div>
-    </form>
-</div>
+                            <form action="orderlistforsale" method="post">
+                                <div class="input-group">
+                                    <label for="status" class="mr-2">Trạng thái:</label>
+                                    <select name="status" style="height:40px; border-radius:10px; padding:10px; border:1px solid #ccc;">
+                                        <option value="10">Tất cả</option>
+                                        <c:forEach items="${requestScope.listStatusOrder}" var="status">
+                                            <option value="${status.statusId}">
+                                                ${status.description}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="submit">Lọc</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
 
 
                         <div class="row">

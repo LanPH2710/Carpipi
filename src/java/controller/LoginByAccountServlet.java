@@ -118,8 +118,9 @@ public class LoginByAccountServlet extends HttpServlet {
             response.sendRedirect("home");
         } else //login fail
         {
-
-            request.setAttribute("mess", "Wrong username or password");
+            request.setAttribute("userName", username);
+            request.setAttribute("passWord", pass);           
+            request.setAttribute("mess", "Sai tên đăng nhập hoặc mật khẩu");
             request.setAttribute("user", username);
             request.setAttribute("pass", pass);
             request.getRequestDispatcher("login.jsp").forward(request, response);

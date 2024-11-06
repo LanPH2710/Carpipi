@@ -20,7 +20,6 @@ public class OrderDetail {
     private String shippingAddress;
     private String brandName;
     private String colorName;
-    private double discount;
     private String imageUrl;
     private int colorId;
     private int isFeedback;
@@ -41,7 +40,7 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(int orderId, Date createDate, String productId, String productName, int quantity, String brandName, String colorName, double discount, String imageUrl, int colorId, int isFeedback, int orderDetailId, double productPrice, String orderStatusDescription) {
+    public OrderDetail(int orderId, Date createDate, String productId, String productName, int quantity, String brandName, String colorName, String imageUrl, int colorId, int isFeedback, int orderDetailId, double productPrice, String orderStatusDescription) {
         this.orderId = orderId;
         this.createDate = createDate;
         this.productId = productId;
@@ -49,7 +48,6 @@ public class OrderDetail {
         this.quantity = quantity;
         this.brandName = brandName;
         this.colorName = colorName;
-        this.discount = discount;
         this.imageUrl = imageUrl;
         this.colorId = colorId;
         this.isFeedback = isFeedback;
@@ -59,7 +57,7 @@ public class OrderDetail {
     }
 
     
-    public OrderDetail(int orderId, int userId, String firstName, String lastName, Date createDate, String productId, String productName, int quantity, double totalPrice, int orderStatus, String shippingAddress, String brandName, String colorName, double discount, String imageUrl, int colorId, int isFeedback, String mobile, int gender, String orderDeliverCode, String orderName, String email, String orderEmail, String orderPhone, String note, int saleId, int shipperId, int orderDetailId, double productPrice, String orderStatusDescription) {
+    public OrderDetail(int orderId, int userId, String firstName, String lastName, Date createDate, String productId, String productName, int quantity, double totalPrice, int orderStatus, String shippingAddress, String brandName, String colorName, String imageUrl, int colorId, int isFeedback, String mobile, int gender, String orderDeliverCode, String orderName, String email, String orderEmail, String orderPhone, String note, int saleId, int shipperId, int orderDetailId, double productPrice, String orderStatusDescription) {
         this.orderId = orderId;
         this.userId = userId;
         this.firstName = firstName;
@@ -73,7 +71,6 @@ public class OrderDetail {
         this.shippingAddress = shippingAddress;
         this.brandName = brandName;
         this.colorName = colorName;
-        this.discount = discount;
         this.imageUrl = imageUrl;
         this.colorId = colorId;
         this.isFeedback = isFeedback;
@@ -195,9 +192,6 @@ public class OrderDetail {
         return colorName;
     }
 
-    public double getDiscount() {
-        return discount;
-    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -262,10 +256,6 @@ public class OrderDetail {
 
     public void setColorName(String colorName) {
         this.colorName = colorName;
-    }
-
-    public void setDiscount(double discount) {
-        this.discount = discount;
     }
 
     public void setImageUrl(String imageUrl) {

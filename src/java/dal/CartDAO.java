@@ -404,8 +404,8 @@ public class CartDAO extends DBContext {
     }
 
     public boolean updateStockByCartId(int cartId) {
-        String getProductSql = "SELECT productId FROM cart WHERE cartId = ? and isSelect = 1";
-        String updateStockSql = "UPDATE product SET stock = stock - 1 WHERE productId = ? AND stock > 0"; // Ensures stock does not go negative
+        String getProductSql = "SELECT productId, quantity FROM cart WHERE cartId = ? AND isSelect = 1";
+        String updateStockSql = "UPDATE product SET stock = stock - ? WHERE productId = ? AND stock >= ?"; // Ensure stock does not go negative
 
         try (PreparedStatement getProductStmt = connection.prepareStatement(getProductSql)) {
             getProductStmt.setInt(1, cartId);
@@ -413,12 +413,17 @@ public class CartDAO extends DBContext {
 
             if (rs.next()) {
                 String productId = rs.getString("productId");
+                int quantity = rs.getInt("quantity"); // Get the quantity from the cart
+
                 try (PreparedStatement updateStockStmt = connection.prepareStatement(updateStockSql)) {
-                    updateStockStmt.setString(1, productId);
+                    updateStockStmt.setInt(1, quantity);      // Decrement by quantity
+                    updateStockStmt.setString(2, productId);
+                    updateStockStmt.setInt(3, quantity);      // Ensure stock is sufficient
+
                     int rowsAffected = updateStockStmt.executeUpdate();
 
                     if (rowsAffected > 0) {
-                        System.out.println("Stock for product ID " + productId + " has been decremented by 1.");
+                        System.out.println("Stock for product ID " + productId + " has been decremented by " + quantity + ".");
                         return true;
                     } else {
                         System.out.println("Failed to update stock. Product might be out of stock or does not exist.");

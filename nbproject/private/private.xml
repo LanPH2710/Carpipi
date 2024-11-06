@@ -3,9 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Backup/Carpipi/web/thanks.jsp</file>
-            <file>file:/D:/Backup/Carpipi/src/java/controller/cart/CheckoutController.java</file>
-            <file>file:/D:/Backup/Carpipi/src/java/controller/VnPay/ReturnResult.java</file>
+            <file>file:/D:/ACC101/Carpipi/src/java/util/HashPassword.java</file>
+            <file>file:/D:/ACC101/Carpipi/web/shipper.jsp</file>
+            <file>file:/D:/ACC101/Carpipi/src/java/dal/OrderDAO.java</file>
+            <file>file:/D:/ACC101/Carpipi/src/java/controller/shipper/ShipperServlet.java</file>
+            <file>file:/D:/ACC101/Carpipi/web/dashboardforsale.jsp</file>
+            <file>file:/D:/ACC101/Carpipi/src/java/controller/sale/OrderListForSaleServlet.java</file>
         </group>
     </open-files>
 </project-private>

@@ -163,7 +163,7 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Slider</h5>
+                            <h5 class="mb-0"></h5>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
@@ -207,31 +207,13 @@
                                                     <h5>Ngày đặt hàng</h5>
                                                     <p>${accountOrder.createDate}</p>
                                                 </li>
-                                                
+
                                                 <li>
                                                     <h5>Tên nhân viên sale</h5>
 <!--                                                    <p>${saleInfo.firstName} ${saleInfo.lastName}</p>-->
                                                 </li>
                                                 <li>
-                                                    <h5>Trạng thái</h5>
-                                                    <% //   ${status.statusId == orderDetail.orderStatus ? 'selected' : ''}" %>
 
-
-                                                    <form action="orderdetailforsale" method="get" style="display: inline;">
-                                                        <select class="form-select" name="statusId" onchange="this.form.submit()">
-                                                            <c:forEach var="status" items="${requestScope.listStatusOrder}">
-                                                                <option value="${status.statusId}">${status.statusName}</option>
-
-                                                            </c:forEach>
-                                                            <option value="0">aa</option>
-                                                        </select>
-                                                        <input type="hidden" name="orderId" value="${orderDetail.orderId}">
-
-
-                                                        <!-- Vòng lặp thêm input ẩn cho từng styleId đã chọn -->
-
-
-                                                    </form>
 
                                                 </li>
 
@@ -241,6 +223,29 @@
                                     </div>
                                 </div>
                             </div>
+                            <h5>Trạng thái</h5>
+                            <% //   ${status.statusId == orderDetail.orderStatus ? 'selected' : ''}" %>
+
+
+                            <form action="orderdetailforsale" method="post" style="display: inline; width: 300px">
+                                <select class="form-select" name="statusId">
+                                    <c:forEach items="${requestScope.listStatusOrder}" var="status">
+                                        <option value="${status.statusId}" ${status.statusId == statusSelect ? 'selected' : ''}>
+                                            ${status.description}
+                                        </option>
+                                    </c:forEach>
+
+                                </select>
+                                <input type="hidden" name="orderId" value="${orderDetail.orderId}">
+                                <span>
+                                    <input class="btn btn-primary" type="submit" id="searchsubmit" value="Xử lý">
+                                </span>
+
+
+                                <!-- Vòng lặp thêm input ẩn cho từng styleId đã chọn -->
+
+
+                            </form>
                             <div class="review-payment">
                                 <h2>Thông tin sản phẩm</h2>
                             </div>

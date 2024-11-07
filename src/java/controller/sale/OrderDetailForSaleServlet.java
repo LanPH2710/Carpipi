@@ -129,21 +129,7 @@ public class OrderDetailForSaleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Orderdetail");
-        
-        String orderId = request.getParameter("orderId");
-        String statusId = request.getParameter("statusId");
-        
-        System.out.println("orderId" + orderId);
-        System.out.println("statusId: " + statusId);
-        
-        OrderDAO orderDao = new OrderDAO();
-        
-        if(orderId != null && statusId != null){
-            orderDao.updateStatusOfOrder(orderId, statusId);
-        }
-        
-        response.sendRedirect("orderlistforsale");
+        processRequest(request, response);
     }
 
     /**

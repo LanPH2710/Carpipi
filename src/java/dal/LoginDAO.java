@@ -19,7 +19,7 @@ public class LoginDAO extends DBContext {
 
     public Account getUsernameAndPassword(String username, String password) {
 
-        String sql = "select * from account where username = ? and password = ? and status = 1";
+        String sql = "select * from account where username = ? and password = ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -40,6 +40,7 @@ public class LoginDAO extends DBContext {
                 account.setMobile(rs.getString(8));
                 account.setAddress(rs.getString(9));
                 account.setRoleId(rs.getInt(10));
+
                 return account;
 
             }
@@ -191,8 +192,8 @@ public class LoginDAO extends DBContext {
 
     public static void main(String[] args) {
         LoginDAO l = new LoginDAO();
-        Account a = l.getUsernameAndPassword("sales_user1", "password123");
-        System.out.println(a.getMoney());
+        l.inserUserByEmail("s", "s", "s", "s", "2", "abc", "", "", "http");
+        System.out.println(l);
 
     }
 

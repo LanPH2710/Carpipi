@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Feedback List</title>
+        <title>Product List</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -37,40 +37,6 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
-
-        <style>
-            /* CSS cho tooltip */
-            .tooltip-text {
-                visibility: hidden;
-                width: 70px;
-                background-color: white; /* Nền trắng */
-                color: black; /* Màu chữ đen */
-                text-align: center;
-                border-radius: 5px;
-                padding: 5px;
-                border: 1px solid #ddd;
-                position: absolute;
-                z-index: 1;
-                bottom: 125%; /* Đặt tooltip dưới thẻ */
-                left: 50%;
-                margin-left: -35px; /* Để căn giữa tooltip */
-                opacity: 0;
-                transition: opacity 0.3s;
-                font-weight: bold;
-            }
-
-            /* Hiển thị tooltip khi hover */
-            .tooltip-container:hover .tooltip-text {
-                visibility: visible;
-                opacity: 1;
-            }
-
-            /* Đảm bảo thẻ <a> có position relative để tooltip được căn đúng */
-            .tooltip-container {
-                position: relative;
-                display: inline-block;
-            }
-        </style>
 
     </head>
 
@@ -167,7 +133,7 @@
                                                     <option value="">Tất cả</option>
                                                     <option value="1" ${param.status == '1' ? 'selected' : ''}>Hiện</option>
                                                     <option value="0" ${param.status == '0' ? 'selected' : ''}>Ẩn</option>
-
+                                                   
                                                 </select>
                                             </span>
                                             <!-- Search by title or backlink -->
@@ -278,34 +244,13 @@
                                                         <form action="feedbacklistformarketing" method="post" style="display: inline;">
                                                             <input type="hidden" name="feedbackId" value="${list.feedbackId}" />
                                                             <input type="hidden" name="status" value="${list.status == 1 ? 0 : 1}">
-                                                            <input type="hidden" name="currentStatus" value="${status}" />
-
-                                                            <!-- Container cho nút và tooltip -->
-                                                            <div class="tooltip-container" style="position: relative; display: inline-block;">
-                                                                <button 
-                                                                    type="submit" 
-                                                                    name="action" 
-                                                                    value="updateSliderStatus" 
-                                                                    class="btn btn-icon btn-pills ${list.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
-                                                                    <span class="${list.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
-                                                                </button>
-
-                                                                <!-- Tooltip -->
-                                                                <div class="tooltip-text ${list.status == 1 ? '' : 'tooltip-show'}">
-                                                                    ${list.status == 1 ? 'Ẩn' : 'Hiện'}
-                                                                </div>
-                                                            </div>
+                                                            <button type="submit" name="action" value="updateSliderStatus" class="btn btn-icon btn-pills ${list.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
+                                                                <span class="${list.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
+                                                            </button>
                                                         </form>
-                                                        <div class="tooltip-container">
-                                                            <a href="feedbackdetail?id=${list.feedbackId}" class="btn btn-icon btn-pills btn-soft-success">
-                                                                <i class="uil uil-pen"></i>
-                                                            </a>
-
-                                                            <!-- Tooltip cho thẻ <a> -->
-                                                            <div class="tooltip-text">
-                                                                Chi tiết
-                                                            </div>
-                                                        </div>
+                                                        <a href="feedbackdetail?id=${list.feedbackId}" class="btn btn-icon btn-pills btn-soft-success">
+                                                            <i class="uil uil-pen"></i>
+                                                        </a>
                                                     </td>
 
                                                 </tr>
@@ -322,29 +267,8 @@
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
 
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                        <c:set var="queryString" value="" />
-
-                                        <!-- Kiểm tra và thêm tham số sort nếu có -->
-                                        <c:if test="${not empty sort}">
-                                            <c:set var="queryString" value="${queryString}&sort=${sort}&order=${order}" />
-                                        </c:if>
-
-                                        <!-- Kiểm tra và thêm tham số search nếu có -->
-                                        <c:if test="${not empty search}">
-                                            <c:set var="queryString" value="${queryString}&search=${search}" />
-                                        </c:if>
-
-                                        <!-- Kiểm tra và thêm tham số status nếu có -->
-                                        <c:if test="${not empty status}">
-                                            <c:set var="queryString" value="${queryString}&status=${status}" />
-                                        </c:if>
-
-
-
                                         <c:if test="${index > 1}">
-                                            <li class="page-item">
-                                                <a class="page-link" href="feedbacklistformarketing?index=${index - 1}${queryString}" aria-label="Previous">Prev
-                                                </a></li>
+                                            <li class="page-item"><a class="page-link" href="feedbacklistformarketing?index=${index - 1}" aria-label="Previous">Prev</a></li>
                                             </c:if>
                                             <c:forEach begin="${(index - 1) <= 1 ? 1 : (index - 1)}" end="${index + 1 > endP ? endP : index + 1}" var="i">
                                                 <c:choose>
@@ -352,12 +276,12 @@
                                                     <li class="page-item active"><a class="page-link">${i}</a></li>
                                                     </c:when>
                                                     <c:otherwise>
-                                                    <li class="page-item"><a href="feedbacklistformarketing?index=${i}${queryString}" class="page-link">${i}</a></li>
+                                                    <li class="page-item"><a href="feedbacklistformarketing?index=${i}" class="page-link">${i}</a></li>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </c:forEach>
                                             <c:if test="${index < endP}">
-                                            <li class="page-item"><a class="page-link" href="feedbacklistformarketing?index=${index + 1}${queryString}" aria-label="Next">Next</a></li>
+                                            <li class="page-item"><a class="page-link" href="feedbacklistformarketing?index=${index + 1}" aria-label="Next">Next</a></li>
                                             </c:if>
                                     </ul>
                                 </div>

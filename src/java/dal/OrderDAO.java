@@ -165,11 +165,14 @@ public class OrderDAO extends DBContext {
         return list;
     }
     /// Manhuy-end------------------------------------------------------------------------------------------------///
+    
+    
+   //son--------------//
     public List<OrderDetail> getListOrderdetailById(String orderId) {
         List<OrderDetail> list = new ArrayList<>();
 
         String sql = "SELECT acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
-                + "       orr.*, od.productId, od.quantity, od.colorId,\n"
+                + "       orr.*, od.productId, od.quantity, od.discountId, od.colorId,\n"
                 + "       p.name, p.price, MIN(pri.imageUrl) AS imageUrl\n"
                 + "FROM carpipi.order orr\n"
                 + "JOIN carpipi.account acc\n"
@@ -182,7 +185,7 @@ public class OrderDAO extends DBContext {
                 + "ON pri.productId = p.productId\n"
                 + "WHERE od.orderId = ?\n"
                 + "GROUP BY acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
-                + "         orr.orderId, od.productId, od.quantity, od.colorId,\n"
+                + "         orr.orderId, od.productId, od.quantity, od.discountId, od.colorId,\n"
                 + "         p.name, p.price";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
@@ -217,9 +220,9 @@ public class OrderDAO extends DBContext {
     }
 
     public OrderDetail getOrderdetailById(String orderId) {
-        
+
         String sql = "SELECT acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
-                + "       orr.*, od.productId, od.quantity, od.colorId,\n"
+                + "       orr.*, od.productId, od.quantity, od.discountId, od.colorId,\n"
                 + "       p.name, p.price, MIN(pri.imageUrl) AS imageUrl\n"
                 + "FROM carpipi.order orr\n"
                 + "JOIN carpipi.account acc\n"
@@ -232,7 +235,7 @@ public class OrderDAO extends DBContext {
                 + "ON pri.productId = p.productId\n"
                 + "WHERE od.orderId = ?\n"
                 + "GROUP BY acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
-                + "         orr.orderId, od.productId, od.quantity, od.colorId,\n"
+                + "         orr.orderId, od.productId, od.quantity, od.discountId, od.colorId,\n"
                 + "         p.name, p.price";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
@@ -258,7 +261,7 @@ public class OrderDAO extends DBContext {
                 o.setColorId(rs.getInt("od.colorId"));
                 o.setOrderPhone(rs.getString("orderPhone"));
                 o.setOrderEmail(rs.getString("orderEmail"));
-                
+
                 return o;
             }
 
@@ -269,7 +272,7 @@ public class OrderDAO extends DBContext {
         return null;
     }
 
-    public List<OrderDetail> getAllOrderList() {
+    public List<OrderDetail> getAllOrderList(int index) {
         List<OrderDetail> list = new ArrayList<>();
 
         String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId, orr.orderName,"
@@ -280,9 +283,10 @@ public class OrderDAO extends DBContext {
                 + "JOIN carpipi.account acc ON orr.userId = acc.userId "
                 + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId "
                 + "JOIN carpipi.product p ON od.productId = p.productId "
-                + "GROUP BY orr.orderId";
+                + "GROUP BY orr.orderId  limit 5 offset ?";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, ((index - 1) * 5));
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
@@ -314,7 +318,7 @@ public class OrderDAO extends DBContext {
         return list;
     }
 
-    public List<OrderDetail> getListOrderWithStatus(String status) {
+    public List<OrderDetail> getListOrderWithStatus(String status, int index) {
         List<OrderDetail> list = new ArrayList();
 
         String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId, orr.orderName,\n"
@@ -325,11 +329,12 @@ public class OrderDAO extends DBContext {
                 + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId \n"
                 + "JOIN carpipi.product p ON od.productId = p.productId \n"
                 + "Where orr.orderStatus = ?\n"
-                + "GROUP BY orr.orderId";
+                + "GROUP BY orr.orderId limit 5 offset ?";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, status);
+            st.setInt(2, ((index - 1) * 5));
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
@@ -357,7 +362,7 @@ public class OrderDAO extends DBContext {
         return list;
     }
 
-    public List<OrderDetail> getListOrderWithSearch(String search) {
+    public List<OrderDetail> getListOrderWithSearch(String search, int index) {
         List<OrderDetail> list = new ArrayList();
         String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId, orr.orderName,\n"
                 + "       orr.orderStatus, SUBSTRING_INDEX(GROUP_CONCAT(p.name ORDER BY od.orderId SEPARATOR ', '), ', ', 1) AS firstProductName, \n"
@@ -367,7 +372,7 @@ public class OrderDAO extends DBContext {
                 + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId \n"
                 + "JOIN carpipi.product p ON od.productId = p.productId \n"
                 + "GROUP BY orr.orderId\n"
-                + "HAVING firstProductName LIKE ? OR acc.firstName LIKE ? OR acc.lastName LIKE ?";
+                + "HAVING firstProductName LIKE ? OR acc.firstName LIKE ? OR acc.lastName LIKE ?  limit 5 offset ?";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -375,6 +380,7 @@ public class OrderDAO extends DBContext {
             st.setString(1, "%" + search + "%");  // Order status
             st.setString(2, "%" + search + "%");  // First name
             st.setString(3, "%" + search + "%");  // Last name
+            st.setInt(4, ((index - 1) * 5));
 
             ResultSet rs = st.executeQuery();
 
@@ -403,6 +409,280 @@ public class OrderDAO extends DBContext {
         }
 
         return list;
+    }
+
+    public List<OrderDetail> getListOrderWithSearchAndStatus(String search, String status, int index) {
+        List<OrderDetail> list = new ArrayList();
+        String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId, orr.orderName,\n"
+                + "       orr.orderStatus, SUBSTRING_INDEX(GROUP_CONCAT(p.name ORDER BY od.orderId SEPARATOR ', '), ', ', 1) AS firstProductName, \n"
+                + "       COUNT(od.productId) - 1 AS additionalProductCount \n"
+                + "FROM carpipi.`order` orr \n"
+                + "JOIN carpipi.account acc ON orr.userId = acc.userId \n"
+                + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId \n"
+                + "JOIN carpipi.product p ON od.productId = p.productId \n"
+                + "GROUP BY orr.orderId\n"
+                + "HAVING (firstProductName LIKE ? OR acc.firstName LIKE ? OR acc.lastName LIKE ?) And orr.orderstatus = ? limit 5 offset ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setString(1, "%" + search + "%");
+            st.setString(2, "%" + search + "%");
+            st.setString(3, "%" + search + "%");
+            st.setString(4, status);
+            st.setInt(5, ((index - 1) * 5));
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("Record found: " + rs.getString("firstName")); // Kiểm tra xem có bản ghi nào trả về
+
+                OrderDetail o = new OrderDetail();
+                o.setOrderId(rs.getInt("orderId"));
+                o.setUserId(rs.getInt("userId")); // Đảm bảo userId có trong truy vấn SQL nếu cần
+                o.setSaleId(rs.getInt("saleId"));
+                o.setCreateDate(rs.getDate("createDate"));
+                o.setFirstName(rs.getString("firstName"));
+                o.setLastName(rs.getString("lastName"));
+                o.setOrderName(rs.getString("orderName"));
+                o.setTotalPrice(rs.getDouble("totalPrice"));
+                o.setOrderStatus(rs.getInt("orderStatus"));
+                o.setProductName(rs.getString("firstProductName"));
+                o.setQuantity(rs.getInt("additionalProductCount"));
+
+                list.add(o);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();  // In ra lỗi khi có vấn đề xảy ra
+
+        }
+
+        return list;
+    }
+
+    public List<OrderDetail> getListOrderWithSearchAndSort(String search, String sortBy, String order, int index) {
+        List<OrderDetail> list = new ArrayList();
+        String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId, orr.orderName,\n"
+                + "       orr.orderStatus, SUBSTRING_INDEX(GROUP_CONCAT(p.name ORDER BY od.orderId SEPARATOR ', '), ', ', 1) AS firstProductName, \n"
+                + "       COUNT(od.productId) - 1 AS additionalProductCount \n"
+                + "FROM carpipi.`order` orr \n"
+                + "JOIN carpipi.account acc ON orr.userId = acc.userId \n"
+                + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId \n"
+                + "JOIN carpipi.product p ON od.productId = p.productId \n"
+                + "GROUP BY orr.orderId\n"
+                + "HAVING firstProductName LIKE ? OR acc.firstName LIKE ? OR acc.lastName LIKE ? order by " + sortBy + order + " limit 5 offset ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setString(1, "%" + search + "%");  // Order status
+            st.setString(2, "%" + search + "%");  // First name
+            st.setString(3, "%" + search + "%");  // Last name
+            st.setInt(4, ((index - 1) * 5));
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("Record found: " + rs.getString("firstName")); // Kiểm tra xem có bản ghi nào trả về
+
+                OrderDetail o = new OrderDetail();
+                o.setOrderId(rs.getInt("orderId"));
+                o.setUserId(rs.getInt("userId")); // Đảm bảo userId có trong truy vấn SQL nếu cần
+                o.setSaleId(rs.getInt("saleId"));
+                o.setCreateDate(rs.getDate("createDate"));
+                o.setFirstName(rs.getString("firstName"));
+                o.setLastName(rs.getString("lastName"));
+                o.setOrderName(rs.getString("orderName"));
+                o.setTotalPrice(rs.getDouble("totalPrice"));
+                o.setOrderStatus(rs.getInt("orderStatus"));
+                o.setProductName(rs.getString("firstProductName"));
+                o.setQuantity(rs.getInt("additionalProductCount"));
+
+                list.add(o);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();  // In ra lỗi khi có vấn đề xảy ra
+
+        }
+
+        return list;
+    }
+
+    public List<OrderDetail> getListOrderWithSearchAndStatusAndSort(String search, String status, String sortBy, String order, int index) {
+        List<OrderDetail> list = new ArrayList();
+        String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId, orr.orderName,\n"
+                + "       orr.orderStatus, SUBSTRING_INDEX(GROUP_CONCAT(p.name ORDER BY od.orderId SEPARATOR ', '), ', ', 1) AS firstProductName, \n"
+                + "       COUNT(od.productId) - 1 AS additionalProductCount \n"
+                + "FROM carpipi.`order` orr \n"
+                + "JOIN carpipi.account acc ON orr.userId = acc.userId \n"
+                + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId \n"
+                + "JOIN carpipi.product p ON od.productId = p.productId \n"
+                + "GROUP BY orr.orderId\n"
+                + "HAVING (firstProductName LIKE ? OR acc.firstName LIKE ? OR acc.lastName LIKE ?) And orr.orderstatus = ? order by " + sortBy + order + " limit 5 offset ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setString(1, "%" + search + "%");
+            st.setString(2, "%" + search + "%");
+            st.setString(3, "%" + search + "%");
+            st.setString(4, status);
+            st.setInt(5, ((index - 1) * 5));
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("Record found: " + rs.getString("firstName")); // Kiểm tra xem có bản ghi nào trả về
+
+                OrderDetail o = new OrderDetail();
+                o.setOrderId(rs.getInt("orderId"));
+                o.setUserId(rs.getInt("userId")); // Đảm bảo userId có trong truy vấn SQL nếu cần
+                o.setSaleId(rs.getInt("saleId"));
+                o.setCreateDate(rs.getDate("createDate"));
+                o.setFirstName(rs.getString("firstName"));
+                o.setLastName(rs.getString("lastName"));
+                o.setOrderName(rs.getString("orderName"));
+                o.setTotalPrice(rs.getDouble("totalPrice"));
+                o.setOrderStatus(rs.getInt("orderStatus"));
+                o.setProductName(rs.getString("firstProductName"));
+                o.setQuantity(rs.getInt("additionalProductCount"));
+
+                list.add(o);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();  // In ra lỗi khi có vấn đề xảy ra
+
+        }
+
+        return list;
+    }
+
+    public List<OrderDetail> getAllOrderListAndSort(String sortBy, String order, int index) {
+        List<OrderDetail> list = new ArrayList<>();
+
+        String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId, orr.orderName,"
+                + "orr.orderStatus, "
+                + "SUBSTRING_INDEX(GROUP_CONCAT(p.name ORDER BY od.orderId SEPARATOR ', '), ', ', 1) AS firstProductName, "
+                + "COUNT(od.productId) - 1 AS additionalProductCount "
+                + "FROM carpipi.order orr "
+                + "JOIN carpipi.account acc ON orr.userId = acc.userId "
+                + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId "
+                + "JOIN carpipi.product p ON od.productId = p.productId "
+                + "GROUP BY orr.orderId order by " + sortBy + order + " limit 5 offset ?";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, ((index - 1) * 5));
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("Record found: " + rs.getInt("orderId")); // Kiểm tra xem có bản ghi nào trả về
+
+                OrderDetail o = new OrderDetail();
+                o.setOrderId(rs.getInt("orderId"));
+                o.setUserId(rs.getInt("userId")); // Đảm bảo userId có trong truy vấn SQL nếu cần
+                o.setCreateDate(rs.getDate("createDate")); // Thay đổi kiểu Date
+                o.setOrderName(rs.getString("orderName"));
+                o.setTotalPrice(rs.getDouble("totalPrice"));
+                o.setOrderStatus(rs.getInt("orderStatus"));
+                o.setFirstName(rs.getString("firstName"));
+                o.setLastName(rs.getString("lastName"));
+                o.setSaleId(rs.getInt("saleId"));
+                o.setProductName(rs.getString("firstProductName"));
+                o.setQuantity(rs.getInt("additionalProductCount"));
+
+                list.add(o);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Ghi lại lỗi để dễ dàng gỡ lỗi
+        }
+
+        if (list.isEmpty()) {
+            System.out.println("No records found.");
+        }
+
+        return list;
+    }
+
+    public List<OrderDetail> getListOrderWithStatusAndSort(String status, String sortBy, String order, int index) {
+        List<OrderDetail> list = new ArrayList();
+
+        String sql = "SELECT acc.userId, acc.firstName, acc.lastName, orr.orderId, orr.createDate, orr.totalPrice, orr.saleId, orr.orderName,\n"
+                + "orr.orderStatus, SUBSTRING_INDEX(GROUP_CONCAT(p.name ORDER BY od.orderId SEPARATOR ', '), ', ', 1) AS firstProductName, \n"
+                + "COUNT(od.productId) - 1 AS additionalProductCount \n"
+                + "FROM carpipi.order orr \n"
+                + "JOIN carpipi.account acc ON orr.userId = acc.userId \n"
+                + "JOIN carpipi.orderdetail od ON orr.orderId = od.orderId \n"
+                + "JOIN carpipi.product p ON od.productId = p.productId \n"
+                + "Where orr.orderStatus = ?\n"
+                + "GROUP BY " + sortBy + order + " limit 5 offset ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, status);
+            st.setInt(2, ((index - 1) * 5));
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("Record found: " + rs.getInt("orderStatus")); // Kiểm tra xem có bản ghi nào trả về
+
+                OrderDetail o = new OrderDetail();
+                o.setOrderId(rs.getInt("orderId"));
+                o.setUserId(rs.getInt("userId")); // Đảm bảo userId có trong truy vấn SQL nếu cần
+                o.setSaleId(rs.getInt("saleId"));
+                o.setCreateDate(rs.getDate("createDate"));
+                o.setFirstName(rs.getString("firstName"));
+                o.setLastName(rs.getString("lastName"));
+                o.setOrderName(rs.getString("orderName"));
+                o.setTotalPrice(rs.getDouble("totalPrice"));
+                o.setOrderStatus(rs.getInt("orderStatus"));
+                o.setProductName(rs.getString("firstProductName"));
+                o.setQuantity(rs.getInt("additionalProductCount"));
+
+                list.add(o);
+            }
+
+        } catch (Exception e) {
+        }
+
+        return list;
+    }
+
+    public int getTotalOrderList() {
+
+        int total = 0;
+
+        String sql = "SELECT count(*) as total FROM carpipi.order";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Ghi lại lỗi để dễ dàng gỡ lỗi
+        }
+
+        return total;
+    }
+
+    public void updateStatusOfOrder(String orderId, String status) {
+
+        String sql = "UPDATE `carpipi`.`order`\n"
+                + "SET `orderStatus` = ?\n"
+                + "WHERE `orderId` = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, status);
+            st.setString(2, orderId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public double getTotalPrice() {
@@ -501,10 +781,6 @@ public class OrderDAO extends DBContext {
     public static void main(String[] args) {
         OrderDAO o = new OrderDAO();
 
-        List<OrderDetail> l = o.getListOrderWithStatus("1");
-        for (OrderDetail orderDetail : l) {
-            System.out.println(orderDetail.getFirstName());
-        }
-
+        
     }
 }

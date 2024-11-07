@@ -101,12 +101,25 @@
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
 
+                                    <form action="orderlistforsale" role="search" method="get" id="searchform" class="searchform">
+                                        <div class="search-container">
 
-                                    <div class="search-container">
-                                        <!-- Filter by status -->
+                                            <!-- Filter by status -->
+                                            <div class="input-group">
+                                                <span><label for="status" class="mr-2">Trạng thái:</label></span>
+                                                <span>
+                                                    <select name="status" style="height:40px; border-radius:10px; padding:10px; border:1px solid #ccc; margin-left: 5px">
+                                                        <option value="10">Tất cả</option>
+                                                        <c:forEach items="${requestScope.listStatusOrder}" var="status">
+                                                            <option value="${status.statusId}" ${status.statusId == statusSelect ? 'selected' : ''}>
+                                                                ${status.description}
+                                                            </option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                            <!-- Search by title or backlink -->
 
-                                        <!-- Search by title or backlink -->
-                                        <form action="orderlistforsale" role="search" method="post" id="searchform" class="searchform">
                                             <span>
                                                 <input type="text" class="form-control border rounded-pill" id="s" name="search" placeholder="Tìm kiếm theo tên" value="${param.search}" />
                                             </span>
@@ -115,9 +128,9 @@
                                             <span>
                                                 <input type="submit" id="searchsubmit" value="Search">
                                             </span>
-                                        </form>
-                                    </div>
 
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                             <!------------------end search--------------------->
@@ -151,20 +164,7 @@
                         </div>
                         <div class="col-sm-2">
                             <form action="orderlistforsale" method="post">
-                                <div class="input-group">
-                                    <label for="status" class="mr-2">Trạng thái:</label>
-                                    <select name="status" style="height:40px; border-radius:10px; padding:10px; border:1px solid #ccc;">
-                                        <option value="10">Tất cả</option>
-                                        <c:forEach items="${requestScope.listStatusOrder}" var="status">
-                                            <option value="${status.statusId}" ${status.statusId == statusSelect ? 'selected' : ''}>
-                                                ${status.description}
-                                            </option>
-                                        </c:forEach>
-                                    </select>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="submit">Lọc</button>
-                                    </div>
-                                </div>
+
                             </form>
                         </div>
 
@@ -175,14 +175,26 @@
                                     <table class="table table-center bg-white mb-0">
                                         <thead>
                                             <tr>
-                                                <th class="border-bottom p-3" style="min-width: 20px;">Id</th>
+                                                <th class="border-bottom p-3" style="min-width: 20px;">
+                                                    <a class="text-decoration-none" href="orderlistforsale?sort=oid&search=${search}&status=${status}&order=${order == 'asc' && sort == 'oid' ? 'desc' : 'asc'}">
+                                                        ID <i class="fa fa-sort"></i>
+                                                    </a>
+                                                </th>
                                                 <th class="border-bottom p-3">Ngày đặt hàng</th>
-                                                <th class="border-bottom p-3" style="min-width: 140px;">Tên khách hàng</th>
-                                                <th class="border-bottom p-3">Tên sản phẩm</th>
+                                                <th class="border-bottom p-3" style="min-width: 140px;">
+                                                    <a class="text-decoration-none" href="orderlistforsale?sort=nameC&search=${search}&status=${status}&order=${order == 'asc' && sort == 'nameC' ? 'desc' : 'asc'}">
+                                                        Tên khách hàng <i class="fa fa-sort"></i>
+                                                    </a>
+                                                </th>
+                                                <th class="border-bottom p-3">
+                                                    <a class="text-decoration-none" href="orderlistforsale?sort=nameP&search=${search}&status=${status}&order=${order == 'asc' && sort == 'nameP' ? 'desc' : 'asc'}">
+                                                        Tên sản phẩm <i class="fa fa-sort"></i>
+                                                    </a>
+                                                </th>
                                                 <th class="border-bottom p-3">Tên người bán hàng</th>
-                                                <th class="border-bottom p-3" style="max-width: 330px">Tổng chi phí</th>
+                                                <th class="border-bottom p-3" style="max-width: 300px">Tổng chi phí</th>
                                                 <th class="border-bottom p-3">Trạng thái</th>
-                                                <th class="border-bottom p-3" style="min-width: 100px;"></th>
+                                                <th class="border-bottom p-3" style="min-width: 120px;"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -214,7 +226,7 @@
                                                     </td>
                                                     <td>
 
-                                                        <a href="orderdetailforsale?orderId=${order.orderId}" class="btn btn-icon btn-pills btn-soft-success">
+                                                        <a href="orderdetailforsale?orderId=${order.orderId}&statusId=${order.orderStatus}" class="btn btn-icon btn-pills btn-soft-success">
                                                             <i class="uil uil-pen"></i>
                                                         </a>
                                                     </td>
@@ -227,37 +239,53 @@
                             </div>
                         </div>
                         <!--end row-->
-                        <!--                        <div class="row text-center">
-                                                     Pagination 
-                                                    <div class="col-12 mt-4">
-                                                        <div class="d-md-flex align-items-center text-center justify-content-between">
-                                                            <span class="text-muted me-3">Hiển thị ${(currentPage - 1) * 15 + 1} - ${(currentPage - 1) * 15 + sliders.size()} ${totalItems}</span>
-                                                            <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                                                 Previous Button 
-                        <c:if test="${currentPage > 1}">
-                            <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage - 1}&search=${param.search}&status=${param.status}" aria-label="Previous">Prev</a>
-                            </li>
-                        </c:if>
-        
-                         Page Numbers 
-                        <c:forEach begin="1" end="${totalPages}" var="page">
-                            <li class="page-item ${currentPage == page ? 'active' : ''}">
-                                <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${page}&search=${param.search}&status=${param.status}">${page}</a>
-                            </li>
-                        </c:forEach>
-        
-                         Next Button 
-                        <c:if test="${sliders.size() == 15}">
-                            <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/SliderList?page=${currentPage + 1}&search=${param.search}&status=${param.status}" aria-label="Next">Next</a>
-                            </li>
-                        </c:if>
-                    </ul>
-                </div>
-            </div>
-                                                                     PAGINATION END 
-        </div>end row-->
+                        <div class="row text-center">
+                            <!-- Pagination -->
+                            <div class="col-12 mt-4">
+                                <div class="d-md-flex align-items-center text-center justify-content-between">
+
+                                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                        <c:set var="queryString" value="" />
+
+                                        <!-- Kiểm tra và thêm tham số sort nếu có -->
+                                        <c:if test="${not empty sort}">
+                                            <c:set var="queryString" value="${queryString}&sort=${sort}&order=${order}" />
+                                        </c:if>
+
+                                        <!-- Kiểm tra và thêm tham số search nếu có -->
+                                        <c:if test="${not empty search}">
+                                            <c:set var="queryString" value="${queryString}&search=${search}" />
+                                        </c:if>
+
+                                        <!-- Kiểm tra và thêm tham số status nếu có -->
+                                        <c:if test="${not empty status}">
+                                            <c:set var="queryString" value="${queryString}&status=${status}" />
+                                        </c:if>
+
+                                      
+
+                                        <c:if test="${index > 1}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="orderlistforsale?index=${index - 1}${queryString}" aria-label="Previous">Prev
+                                                </a></li>
+                                            </c:if>
+                                            <c:forEach begin="${(index - 1) <= 1 ? 1 : (index - 1)}" end="${index + 1 > endP ? endP : index + 1}" var="i">
+                                                <c:choose>
+                                                    <c:when test="${i == index}">
+                                                    <li class="page-item active"><a class="page-link">${i}</a></li>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                    <li class="page-item"><a href="orderlistforsale?index=${i}${queryString}" class="page-link">${i}</a></li>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+                                            <c:if test="${index < endP}">
+                                            <li class="page-item"><a class="page-link" href="orderlistforsale?index=${index + 1}${queryString}" aria-label="Next">Next</a></li>
+                                            </c:if>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div><!--end container-->
 

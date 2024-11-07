@@ -227,16 +227,16 @@
                             <% //   ${status.statusId == orderDetail.orderStatus ? 'selected' : ''}" %>
 
 
-                            <form action="orderdetailforsale" method="get" style="display: inline; width: 300px">
+                            <form action="orderdetailforsale" method="post" style="display: inline; width: 300px">
                                 <select class="form-select" name="statusId">
                                     <c:forEach items="${requestScope.listStatusOrder}" var="status">
-                                        <option value="${status.statusId}" ${status.statusId == statusSelect ? 'selected' : ''}>
+                                        <option value="${status.statusId}" ${status.statusId == statusId ? 'selected' : ''}>
                                             ${status.description}
                                         </option>
                                     </c:forEach>
 
                                 </select>
-                                <input type="hidden" name="orderId" value="${orderDetail.orderId}">
+                                <input type="hidden" name="orderId" value="${accountOrder.orderId}">
                                 <span>
                                     <input class="btn btn-primary" type="submit" id="searchsubmit" value="Xử lý">
                                 </span>

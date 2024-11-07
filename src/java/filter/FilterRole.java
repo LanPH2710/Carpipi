@@ -33,11 +33,14 @@ public class FilterRole implements Filter {
     }
 
     private List<String> getSaleAdminUrls() {
-        return Arrays.asList("/orderDetailsSale", "/orderlist", "/sale");
+        return Arrays.asList("/orderDetailsSale", "/orderlist", "/sale","/salecheck");
     }
 
     private List<String> getMarketingUrls() {
         return Arrays.asList("/marketing","/marketingdashboard");
+    }
+    private List<String> getShipperUrls() {
+        return Arrays.asList("/shipper");
     }
 
     @Override
@@ -71,6 +74,8 @@ public class FilterRole implements Filter {
             }
             // Check for marketing requests
             else if (getMarketingUrls().stream().anyMatch(requestURI::contains) && roleId != 2) {
+                res.sendRedirect(loginURI);
+            }else if (getShipperUrls().stream().anyMatch(requestURI::contains) && roleId != 5) {
                 res.sendRedirect(loginURI);
             } else {
                 chain.doFilter(request, response);

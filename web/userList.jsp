@@ -83,42 +83,30 @@
                     </div>
 
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="admindashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
 
-
-                        <li class="sidebar-dropdown">
-                            <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
-
-                        </li>
-
-
-
-
-
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Cart</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-
-                                    <li><a href="product-detail.html">Shop Detail</a></li>
-                                    <li><a href="carts">Shopcart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="blogs.html">Blogs</a></li>
-                                    <li><a href="blog-detail.html">Blog Detail</a></li>
-                                </ul>
-                            </div>
-                        </li>
-
-
-
+                        <c:choose>
+                            <c:when test="${sessionScope.account.roleId == 1}">
+                                <li><a href="admindashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                </c:when>
+                                <c:when test="${sessionScope.account.roleId == 2}">
+                                <li><a href="marketingdashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                </c:when>
+                            </c:choose>
+                        <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
+                        <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
+                        <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
+                            <c:choose>
+                                <c:when test="${sessionScope.account.roleId == 1}">
+                                <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
+                                </c:when>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${sessionScope.account.roleId == 1}">
+                                <li><a href="userlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>User List</a></li>
+                                </c:when>
+                            </c:choose>
+                        <li><a href="postlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>Post List</a></li>
+                        <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>

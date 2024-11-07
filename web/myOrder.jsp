@@ -132,10 +132,11 @@
             }
 
             .product-info img {
-                width: auto;
+                width: 500px;
                 height: 280px;
                 margin-right: 20px;
                 border-radius: 10px;
+                object-fit: cover;
             }
 
             .order-details h4 {
@@ -209,7 +210,11 @@
                 justify-content: space-between; /* Căn giữa hoặc phân bổ khoảng cách giữa các nút */
                 align-items: center; /* Căn giữa theo chiều dọc */
             }
-
+            .status {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
         </style>
 
     </head>
@@ -329,29 +334,45 @@
                                                 <c:forEach items="${myOrder}" var="order">
                                                     <article class="order-item">
                                                         <div class="order-shop">
-
                                                             <div class="order-details">
-                                                                <a href="" class="status-link">
-                                                                    <p class="delivery-status">
-                                                                        <c:choose>
-                                                                            <c:when test="${order.orderStatus == 1}">
-                                                                                Đơn hàng đang chờ xử lý
-                                                                            </c:when>
-                                                                            <c:when test="${order.orderStatus == 2}">
-                                                                                Đơn hàng đã được xác nhận
-                                                                            </c:when>
-                                                                            <c:when test="${order.orderStatus == 3}">
-                                                                                Đơn hàng đã được giao đi
-                                                                            </c:when>
-                                                                            <c:when test="${order.orderStatus == 4}">
-                                                                                Đơn hàng đã được giao thành công
-                                                                            </c:when>
-                                                                            <c:when test="${order.orderStatus == 5}">
-                                                                                Đơn hàng đã bị hủy
-                                                                            </c:when>
-                                                                        </c:choose>
-                                                                    </p>
-                                                                </a>
+                                                                <div class="status" >
+                                                                    <a href="" class="status-link">
+                                                                        <p class="delivery-status">
+                                                                            <c:choose>
+                                                                                <c:when test="${order.payMethod == 1}">
+                                                                                    Đơn hàng đã thanh toán trước.
+                                                                                </c:when>
+                                                                                <c:when test="${order.payMethod == 2}">
+                                                                                    Đơn hàng thanh toán khi khách hàng nhận được hàng.
+                                                                                </c:when>
+                                                                                <c:when test="${order.payMethod == 3}">
+                                                                                    Đơn hàng đã được thanh toán trước.
+                                                                                </c:when>
+                                                                            </c:choose>
+                                                                        </p>
+                                                                    </a>
+                                                                    <a href="" class="status-link">
+                                                                        <p class="delivery-status">
+                                                                            <c:choose>
+                                                                                <c:when test="${order.orderStatus == 1}">
+                                                                                    Đơn hàng đang chờ xử lý
+                                                                                </c:when>
+                                                                                <c:when test="${order.orderStatus == 2}">
+                                                                                    Đơn hàng đã được xác nhận
+                                                                                </c:when>
+                                                                                <c:when test="${order.orderStatus == 3}">
+                                                                                    Đơn hàng đã được giao đi
+                                                                                </c:when>
+                                                                                <c:when test="${order.orderStatus == 4}">
+                                                                                    Đơn hàng đã được giao thành công
+                                                                                </c:when>
+                                                                                <c:when test="${order.orderStatus == 5}">
+                                                                                    Đơn hàng đã bị hủy
+                                                                                </c:when>
+                                                                            </c:choose>
+                                                                        </p>
+                                                                    </a>
+                                                                </div>
                                                                 <c:forEach items="${orderDetailsMap[order.orderId]}" var="detail">
                                                                     <div class="order-detail-item">
                                                                         <div class="product-info">
@@ -401,7 +422,7 @@
                                                                         </c:if>
                                                                         <script type="text/javascript">
                                                                             function confirmCancel() {
-                                                                                
+
                                                                                 var confirmation = confirm("Bạn chắc chắn muốn hủy đơn hàng này?");
                                                                                 if (confirmation) {
                                                                                     return true;

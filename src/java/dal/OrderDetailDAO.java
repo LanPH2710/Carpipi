@@ -212,7 +212,7 @@ public class OrderDetailDAO extends DBContext {
         String query = "SELECT * "
                 + "FROM `order` "
                 + "WHERE userId = ? "
-                + "ORDER BY orderStatus ASC, createDate";
+                + "ORDER BY orderStatus ASC, createDate asc";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, userId);

@@ -255,11 +255,6 @@
                     <div class="d-flex align-items-center">
                         <c:choose>
                             <c:when test="${sessionScope.account != null}">
-                                <form action="payment" method="get">
-                                    <input type="hidden" name="productId" value="${pro.productId}">
-                                    <input type="hidden" name="quantity" id="quantityFieldPayment" value="1">
-                                    <button type="submit" class="btn btn-warning">Buy now</button>
-                                </form> &nbsp;&nbsp;
                                 <form action="addtocart" method="get" onsubmit="return validateForm()">
                                     <input type="hidden" name="productId" value="${pro.productId}">
                                     <input type="hidden" name="color" id="colorInput" value="">

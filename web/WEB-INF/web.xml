@@ -29,6 +29,8 @@
         <url-pattern>/addUser</url-pattern>
         <url-pattern>/marketingdashboard</url-pattern>
         <url-pattern>/settingdetail</url-pattern>
+        <url-pattern>/salecheck</url-pattern>
+        <url-pattern>/shipper</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>

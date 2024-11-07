@@ -106,33 +106,95 @@ public class CheckOutDAO extends DBContext{
             return false;
         }
     }
-       public static void main(String[] args) {
-    CheckOutDAO dao = new CheckOutDAO();
+  public static void main(String[] args) {
+        CheckOutDAO checkOutDAO = new CheckOutDAO();
+        
+        int userId = 1; // Replace with a valid user ID
+        double amountToAdd = 100.00; // Amount to add to the user's balance
 
-    // Sample data for testing the update
-    int addressId = 1; // Replace with a valid addressId for testing
-    String updatedAddress = "456 Updated Avenue, New City";
-    String updatedName = "Jane Smith";
-    String updatedEmail = "janesmith@example.com";
-    String updatedPhone = "0987654321";
-
-    // Call the updateAddress method and print the result
-    boolean isUpdated = dao.updateAddress(addressId, updatedName, updatedEmail, updatedPhone, updatedAddress);
-
-    if (isUpdated) {
-        System.out.println("Address updated successfully.");
-    } else {
-        System.out.println("Failed to update address.");
+        // Call addMoneyToBalance and print the result
+        boolean isUpdated = checkOutDAO.addMoneyToBalance(userId, amountToAdd);
+        
+        if (isUpdated) {
+            System.out.println("Balance updated successfully for user ID: " + userId);
+            System.out.println("New Balance: " + checkOutDAO.getMoneyByUserId(userId));
+        } else {
+            System.out.println("Failed to update balance for user ID: " + userId);
+        }
     }
 
-    // Close the connection if necessary
-    try {
-        dao.connection.close();
+  public double getMoneyByUserId(int userId) {
+    String sql = "SELECT money FROM account WHERE userId = ?";
+    double money = -1.0; // Default to -1.0 if no money is found
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, userId);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                money = rs.getDouble("money");
+            }
+        }
     } catch (SQLException e) {
-        e.printStackTrace();
+        e.printStackTrace(); // You could also log the exception instead of printing it
     }
+
+    return money;
 }
 
+public boolean updateMoneyAfterPurchase(int userId, double totalPrice) {
+    String sql = "UPDATE account SET money = money - ? WHERE userId = ? AND money >= ?";
+    boolean success = false;
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setDouble(1, totalPrice);
+        ps.setInt(2, userId);
+        ps.setDouble(3, totalPrice); // Ensures money does not go negative
+
+        int affectedRows = ps.executeUpdate();
+        success = affectedRows > 0; // If rows were affected, the update was successful
+    } catch (SQLException e) {
+        e.printStackTrace(); // You could also log the exception instead of printing it
+    }
+
+    return success;
+}
+public boolean addMoneyToBalance(int userId, double amountToAdd) {
+    String selectSql = "SELECT money FROM account WHERE userId = ?";
+    String updateSql = "UPDATE account SET money = ? WHERE userId = ?";
+
+    try (
+        PreparedStatement selectPs = connection.prepareStatement(selectSql);
+        PreparedStatement updatePs = connection.prepareStatement(updateSql)
+    ) {
+        // Step 1: Retrieve current balance
+        selectPs.setInt(1, userId);
+        double currentBalance = 0.0;
+
+        try (ResultSet rs = selectPs.executeQuery()) {
+            if (rs.next()) {
+                currentBalance = rs.getDouble("money");
+            } else {
+                System.out.println("User not found with ID: " + userId);
+                return false;
+            }
+        }
+
+        // Step 2: Calculate new balance
+        double newBalance = currentBalance + amountToAdd;
+
+        // Step 3: Update balance in the database
+        updatePs.setDouble(1, newBalance);
+        updatePs.setInt(2, userId);
+
+        int rowsUpdated = updatePs.executeUpdate();
+        return rowsUpdated > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
 
 
 }

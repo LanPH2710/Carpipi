@@ -83,42 +83,30 @@
                     </div>
 
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="admindashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                      
 
-                        <li class="sidebar-dropdown">
-                            <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
-                            
-                        </li>
-
-                      
-
-                      
-
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Cart</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                   
-                                    <li><a href="product-detail.html">Shop Detail</a></li>
-                                    <li><a href="carts">Shopcart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="blogs.html">Blogs</a></li>
-                                    <li><a href="blog-detail.html">Blog Detail</a></li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        
-                       
+                        <c:choose>
+                            <c:when test="${sessionScope.account.roleId == 1}">
+                                <li><a href="admindashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                </c:when>
+                                <c:when test="${sessionScope.account.roleId == 2}">
+                                <li><a href="marketingdashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                </c:when>
+                            </c:choose>
+                        <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
+                        <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
+                        <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
+                            <c:choose>
+                                <c:when test="${sessionScope.account.roleId == 1}">
+                                <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
+                                </c:when>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${sessionScope.account.roleId == 1}">
+                                <li><a href="userlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>User List</a></li>
+                                </c:when>
+                            </c:choose>
+                        <li><a href="postlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>Post List</a></li>
+                        <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -170,12 +158,12 @@
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
                             <h5 class="mb-0">User List</h5>
-                             <c:if test="${not empty sessionScope.msg_suc}">
-                                                <div class="alert alert-success">
-                                                    ${sessionScope.msg_suc}
-                                                </div>
-                                                <c:remove var="msg_suc" scope="session" />
-                                            </c:if>
+                            <c:if test="${not empty sessionScope.msg_suc}">
+                                <div class="alert alert-success">
+                                    ${sessionScope.msg_suc}
+                                </div>
+                                <c:remove var="msg_suc" scope="session" />
+                            </c:if>
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                                     <li class="breadcrumb-item"><a href="home">Home</a></li>
@@ -268,38 +256,40 @@
                                                                 </c:if>
 
                                                             </td>
+                                                            <c:if test="${account.userId != sessionScope.account.userId}">
 
-                                                            <td class="text-center p-4">
-                                                                <div class="dropdown">
-                                                                    <a href="" class="btn btn-icon btn-pills btn-soft-success dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
-                                                                        <i class="uil uil-pen"></i>
-                                                                    </a>
-                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=1">Admin</a>
-                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=2">Marketing</a>
-                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=3">Sale</a>
-                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=4">Customer</a>
-                                                                        <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=5">Shipper</a>
+                                                                <td class="text-center p-4">
+                                                                    <div class="dropdown">
+                                                                        <a href="" class="btn btn-icon btn-pills btn-soft-success dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
+                                                                            <i class="uil uil-pen"></i>
+                                                                        </a>
+                                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                            <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=1">Admin</a>
+                                                                            <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=2">Marketing</a>
+                                                                            <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=3">Sale</a>
+                                                                            <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=4">Customer</a>
+                                                                            <a class="dropdown-item" href="editRole?userId=${account.userId}&roleId=5">Shipper</a>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
-                                                                <div class="dropdown">
-                                                                    <a href="" class="btn btn-icon btn-pills btn-soft-danger dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
-                                                                        <i class="uil uil-ban"></i>
-                                                                    </a>
-                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        <a class="dropdown-item" href="banUser?userId=${account.userId}&status=0">Duyệt Lại</a>
-                                                                        <a class="dropdown-item" href="banUser?userId=${account.userId}&status=1">Hoạt Động</a>
-                                                                        <a class="dropdown-item" href="banUser?userId=${account.userId}&status=2">Cấm</a>
+                                                                    <div class="dropdown">
+                                                                        <a href="" class="btn btn-icon btn-pills btn-soft-danger dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
+                                                                            <i class="uil uil-ban"></i>
+                                                                        </a>
+                                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                            <a class="dropdown-item" href="banUser?userId=${account.userId}&status=0">Duyệt Lại</a>
+                                                                            <a class="dropdown-item" href="banUser?userId=${account.userId}&status=1">Hoạt Động</a>
+                                                                            <a class="dropdown-item" href="banUser?userId=${account.userId}&status=2">Cấm</a>
 
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <a href="userprofileadmin?userId=${account.userId}" class="btn btn-icon btn-pills btn-soft-primary">
-                                                                    <i class="uil uil-eye"></i>
+                                                                    <a href="userprofileadmin?userId=${account.userId}" class="btn btn-icon btn-pills btn-soft-primary">
+                                                                        <i class="uil uil-eye"></i>
 
 
 
-                                                            </td>
+                                                                </td>
+                                                            </c:if>
                                                         </tr>
                                                     </c:forEach>
                                                 </c:if>
@@ -369,13 +359,13 @@
                                 <div class="col-12 mt-4">
                                     <div class="d-md-flex align-items-center text-center justify-content-between">
 
-<!--                                        <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                            <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>
-                                            <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>
-                                        </ul>-->
+                                        <!--                                        <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                                                                    <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>
+                                                                                    <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                                                                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                                                                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                                                                                    <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>
+                                                                                </ul>-->
                                     <c:choose>
                                         <c:when test="${accountListAdmin==null || accountListAdmin.size()==0}">
                                             Not founds

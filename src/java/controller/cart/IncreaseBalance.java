@@ -2,23 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.common;
+package controller.cart;
 
-import dal.AccountDAO;
-import dal.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author tuana
+ * @author hiule
  */
-public class CancelOrderServlet extends HttpServlet {
+@WebServlet(name = "IncreaseBalance", urlPatterns = {"/increaseBalance"})
+public class IncreaseBalance extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +37,10 @@ public class CancelOrderServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CancelOrderServlet</title>");
+            out.println("<title>Servlet IncreaseBalance</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CancelOrderServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet IncreaseBalance at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,26 +58,7 @@ public class CancelOrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        OrderDAO od = new OrderDAO();
-        AccountDAO adao = new AccountDAO();
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        int orderId = Integer.parseInt(request.getParameter("orderId"));
-        int payMethod = Integer.parseInt(request.getParameter("payMethod"));
-
-        // Kiểm tra xem tham số totalPrice có tồn tại và hợp lệ không
-        String totalPriceStr = request.getParameter("totalPrice");
-        BigDecimal totalPrice = (totalPriceStr != null && !totalPriceStr.isEmpty())
-                ? new BigDecimal(totalPriceStr)
-                : BigDecimal.ZERO;  // Giá trị mặc định nếu không có giá trị hợp lệ
-
-        // Hủy đơn hàng
-        od.cancelOrder(orderId);
-
-        // Hoàn lại tiền cho người dùngì
-        if (payMethod == 1 && payMethod==3) {
-            adao.payback(userId, totalPrice);
-        }
-        response.sendRedirect("myorder");
+        processRequest(request, response);
     }
 
     /**
@@ -91,7 +72,25 @@ public class CancelOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        HttpSession session = request.getSession();
+        try {
+            double increaseAmount = Double.parseDouble(request.getParameter("increaseAmount"));
+
+            // Check if the balance attribute exists in the session, if not, set it to an initial value
+          
+           
+            // Calculate the new balance
+           
+
+            // Update the balance in the session
+            session.setAttribute("balance", increaseAmount);
+            session.setAttribute("ThanhHieu", "1");
+            // Redirect to a success page or display a success message
+              response.sendRedirect("vnpay_pay_balance.jsp");
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "Vui lòng nhập một số hợp lệ.");
+            request.getRequestDispatcher("userProfile.jsp").forward(request, response);
+        }
     }
 
     /**

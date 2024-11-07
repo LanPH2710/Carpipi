@@ -111,10 +111,11 @@
             }
 
             .product-info img {
-                width: auto;
+                width: 500px;
                 height: 280px;
                 margin-right: 20px;
                 border-radius: 10px;
+                object-fit: cover;
             }
 
             .order-details h4 {
@@ -211,10 +212,8 @@
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
-                        <li>
-                            <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
-                        </li>
-                        <li><a href="salecheck"><i class="uil uil-cube me-2 d-inline-block"></i>Xác nhận đơn hàng</a></li>
+                        <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block"></i>Order List</a></li>
+                        <li><a href="salecheck"><i class="uil uil-dashboard me-2 d-inline-block"></i>Check Order</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -384,7 +383,6 @@
                                                             </div>
                                                         </c:forEach>
                                                         <div class="order-actions">
-
                                                             <a href="" class="status-link">
                                                                 <p class="delivery-status">
                                                                     <c:choose>

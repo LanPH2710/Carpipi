@@ -114,7 +114,7 @@ public class CheckoutController extends HttpServlet {
             return;
         }
         CartDAO cartDAO = new CartDAO();
-         List<Cart> cartList = cartDAO.getCartsByUserId(acc.getUserId()); 
+        List<Cart> cartList = cartDAO.getCartsSelectByUserId(acc.getUserId());
         // Retrieve selected address ID from the form
         String selectedAddressIdStr = request.getParameter("address");
         int selectedAddressId = -1;
@@ -165,16 +165,17 @@ public class CheckoutController extends HttpServlet {
             session.setAttribute("phone", phone);
             session.setAttribute("email", email);
             session.setAttribute("address", address);
+            session.setAttribute("ThanhHieu", "2");
             // Redirect to online payment page
             response.sendRedirect("vnpay_pay.jsp");
         } else if (payMethod.equals("cod")) {
             // Process COD order
-           double totalmoney = (double) session.getAttribute("totalFinal");// Ensure to implement a method to calculate total money if needed
-            int orderId = cartDAO.addOrder(acc.getUserId(), name, email, phone, totalmoney, address, 1);
+            double totalmoney = (double) session.getAttribute("totalFinal");// Ensure to implement a method to calculate total money if needed
+            int orderId = cartDAO.addOrder(acc.getUserId(), name, email, phone, totalmoney, address, 1,2);
 
             for (Cart cart : cartList) {
                 // Add each cart's details to the order
-                cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(), cart.getColorId(), 0);
+                cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(),  cart.getColorId(), 0);
 
                 // Update stock for the product associated with the cart item
                 cartDAO.updateStockByCartId(cart.getCartId());
@@ -185,6 +186,33 @@ public class CheckoutController extends HttpServlet {
 
             // Redirect to order confirmation page after processing
             response.sendRedirect("thanks.jsp");
+        } else if (payMethod.equals("balance")) {
+            // Process COD order
+            double totalmoney = (double) session.getAttribute("totalFinal");// Ensure to implement a method to calculate total money if needed
+
+            double balance = checkoutDAO.getMoneyByUserId(acc.getUserId());
+            if (totalmoney > balance) {
+                session.setAttribute("messCheckOut", "Số dư không đủ");
+                response.sendRedirect("checkout");
+                return;
+            }else{
+            checkoutDAO.updateMoneyAfterPurchase(acc.getUserId(), totalmoney);
+            int orderId = cartDAO.addOrder(acc.getUserId(), name, email, phone, totalmoney, address, 1,3);
+            
+            for (Cart cart : cartList) {
+                // Add each cart's details to the order
+                             cartDAO.addOrderDetail(orderId, cart.getProduct().getProductId(), cart.getQuantity(),  cart.getColorId(), 0);
+
+
+                // Update stock for the product associated with the cart item
+                cartDAO.updateStockByCartId(cart.getCartId());
+
+                // Remove the cart after processing
+                cartDAO.deleteCar(cart.getCartId());
+            }
+
+            // Redirect to order confirmation page after processing
+            response.sendRedirect("thanks.jsp");}
         } else {
             // Handle other payment methods if any
             request.setAttribute("error", "Invalid payment method selected.");

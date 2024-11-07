@@ -343,7 +343,7 @@
                             <div class="table-responsive bg-white shadow rounded p-4">
                                 <!-- Header Section -->
                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <a href="myorder" class="back-link text-primary font-weight-bold">← TRỞ LẠI</a>
+                                    <a href="javascript:void(0)" onclick="window.history.back()" class="back-link text-primary font-weight-bold">← TRỞ LẠI</a>
                                     <span class="order-status text-muted">
                                         <c:forEach var="detail" items="${orderInfor}" begin="0" end="0">
                                             <strong>MÃ ĐƠN HÀNG:</strong> ${detail.orderId}&nbsp;&nbsp;||&nbsp;&nbsp;<span class="text-success">${detail.orderStatusDescription}</span>
@@ -377,8 +377,16 @@
                                                 <h4 class="mb-2">
                                                     <a href="#" class="text-dark text-decoration-none font-weight-bold">${order.productName}</a>
                                                 </h4>
-                                                <p class="text-muted mb-1">Hãng xe</p>
-                                                <p class="text-muted mb-3">Số lượng: ${order.quantity}</p>
+                                                <p class="text-muted mb-1">Màu xe: ${order.colorName}</p>
+                                                <p class="text-muted mb-1">Số lượng: ${order.quantity}</p>
+                                                <p class="text-muted mb-1">Phương thức thanh toán: 
+                                                    <c:choose>
+                                                        <c:when test="${order.payMethod == 1}">Chuyển khoản VNPay</c:when>
+                                                        <c:when test="${order.payMethod == 2}">COD</c:when>
+                                                        <c:when test="${order.payMethod == 3}">Số dư tài khoản</c:when>
+                                                        <c:otherwise>Khác</c:otherwise>
+                                                    </c:choose>
+                                                </p>
                                                 <p class="price mb-0">
                                                     <span class="text-muted">Giá: </span>
                                                     <%-- 
@@ -410,6 +418,7 @@
                                             <div class="timeline-entry">
                                                 <span class="time text-muted">${user.createDate}</span>
                                                 <span class="status">Đặt hàng thành công</span>
+                                                <span class="time text-muted">Mã vận chuyển: ${user.orderDeliverCode}</span>
                                             </div>
                                         </div>
                                     </c:forEach>
@@ -434,10 +443,27 @@
 
                                     <c:forEach var="rebuy" items="${orderInfor}" begin="0" end="0">
                                         <div class="reorder-btn ml-3">
+                                            <!-- Nút mua lại -->
                                             <a href="addtocart?productId=${rebuy.productId}&colorId=${rebuy.colorId}&quantity=1" 
                                                class="btn btn-primary">Mua lại</a>
+
+                                            <!-- Thêm khoảng cách giữa các nút -->
+                                            <c:if test="${rebuy.orderStatus == 1}">
+                                                <a href="cancelorder?orderId=${rebuy.orderId}&totalprice=${rebuy.totalPrice}&userId=${rebuy.userId}&payMethod=${rebuy.payMethod}"
+                                                   onclick="return confirmCancel();" class="ml-2">
+                                                    <button class="btn btn-danger">Hủy Đơn</button>
+                                                </a>
+                                            </c:if>
                                         </div>
+
+                                        <!-- JavaScript xác nhận hủy đơn hàng -->
+                                        <script type="text/javascript">
+                                            function confirmCancel() {
+                                                return confirm("Bạn chắc chắn muốn hủy đơn hàng này?");
+                                            }
+                                        </script>
                                     </c:forEach>
+
                                 </div>
 
 

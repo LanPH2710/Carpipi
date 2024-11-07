@@ -15,6 +15,8 @@ import java.util.regex.Pattern;
 import model.Account;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.util.HashMap;
+import java.util.Map;
 import util.HashPassword;
 
 /**
@@ -364,7 +366,9 @@ public class AccountDAO extends DBContext {
 
     // Kiểm tra email có đúng định dạng không
     public boolean isValidEmail(String email) {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@gmail\\.com$";
+        // Regex for a valid email format
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+
         return email != null && Pattern.compile(emailRegex).matcher(email).matches();
     }
 
@@ -905,7 +909,7 @@ public class AccountDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Account> getTop5Customer() {
         List<Account> list = new ArrayList<>();
         String sql = "SELECT a.* FROM Account a \n"
@@ -959,6 +963,79 @@ public class AccountDAO extends DBContext {
         }
     }
 
+//    public Map<String, Integer> getCustomersByGender() {
+//        Map<String, Integer> genderCounts = new HashMap<>();
+//        
+//        String sql = "SELECT a.gender, COUNT(DISTINCT a.userId) AS totalCustomers "
+//                     + "FROM account a "
+//                     + "JOIN `order` o ON a.userId = o.userId "
+//                     + "GROUP BY a.gender";
+//        
+//        try{ PreparedStatement st = connection.prepareStatement(sql);
+//            ResultSet rs = st.executeQuery();
+//
+//            while (rs.next()) {
+//                int gender = rs.getInt("gender"); // Get gender (0, 1, 2)
+//                int totalCustomers = rs.getInt("totalCustomers");
+//
+//                // Map gender values to readable names
+//                if (gender == 0) {
+//                    genderCounts.put("male", totalCustomers);
+//                } else if (gender == 1) {
+//                    genderCounts.put("female", totalCustomers);
+//                } else if (gender == 2) {
+//                    genderCounts.put("other", totalCustomers);
+//                }
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return genderCounts;
+//    }
+//    
+    public Map<String, Double> getCustomersByGender() {
+        Map<String, Double> genderPercentages = new HashMap<>();
+        int totalCustomers = 0;
+
+        String sql = "SELECT a.gender, COUNT(DISTINCT a.userId) AS totalCustomers "
+                + "FROM account a "
+                + "JOIN `order` o ON a.userId = o.userId "
+                + "GROUP BY a.gender";
+
+        try (PreparedStatement st = connection.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
+
+            // Get the gender counts
+            while (rs.next()) {
+                int gender = rs.getInt("gender"); // Get gender (0, 1, 2)
+                int count = rs.getInt("totalCustomers");
+                totalCustomers += count;
+
+                // Map gender values to readable names
+                if (gender == 0) {
+                    genderPercentages.put("male", (double) count);
+                } else if (gender == 1) {
+                    genderPercentages.put("female", (double) count);
+                } else if (gender == 2) {
+                    genderPercentages.put("other", (double) count);
+                }
+            }
+
+            // Calculate percentage for each gender
+            if (totalCustomers > 0) {
+                genderPercentages.put("male", (genderPercentages.get("male") / totalCustomers) * 100);
+                genderPercentages.put("female", (genderPercentages.get("female") / totalCustomers) * 100);
+                genderPercentages.put("other", (genderPercentages.get("other") / totalCustomers) * 100);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return genderPercentages;
+    }
+
     public static void main(String[] args) {
         AccountDAO add = new AccountDAO();
         List<Account> acc = add.getAccountByRole();
@@ -966,5 +1043,14 @@ public class AccountDAO extends DBContext {
 
         int customerCount = add.getCustomerCount();
         System.out.println("Số lượng customer: " + customerCount);
+        String email = "lanphhe181690@fpt.edu.vn";  // Test email
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+
+        // Validate email using the regex
+        if (email.matches(emailRegex)) {
+            System.out.println("Valid email: " + email);
+        } else {
+            System.out.println("Invalid email: " + email);
+        }
     }
 }

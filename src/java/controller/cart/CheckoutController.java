@@ -165,6 +165,7 @@ public class CheckoutController extends HttpServlet {
             session.setAttribute("phone", phone);
             session.setAttribute("email", email);
             session.setAttribute("address", address);
+            session.setAttribute("ThanhHieu", "2");
             // Redirect to online payment page
             response.sendRedirect("vnpay_pay.jsp");
         } else if (payMethod.equals("cod")) {

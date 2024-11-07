@@ -100,7 +100,7 @@ public class CustomerListServlet extends HttpServlet {
 
         // Phân trang
         int page = 1;
-        int numperpage = 2; // Số bản ghi mỗi trang (có thể điều chỉnh)
+        int numperpage = 5; // Số bản ghi mỗi trang (có thể điều chỉnh)
         String xpage = request.getParameter("page");
         if (xpage != null) {
             try {

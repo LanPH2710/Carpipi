@@ -74,7 +74,7 @@ public class CancelOrderServlet extends HttpServlet {
         od.cancelOrder(orderId);
 
         // Hoàn lại tiền cho người dùngì
-        if (payMethod == 1) {
+        if (payMethod == 1 && payMethod==3) {
             adao.payback(userId, totalPrice);
         }
         response.sendRedirect("myorder");

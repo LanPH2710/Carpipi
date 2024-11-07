@@ -88,7 +88,7 @@
                     <!-- Avatar and User Info -->
                     <div class="col-md-4 border-right">
                         <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <img class="avatar mt-5" width="200px" height="200px" src="${user1.avatar}">
+                            <img class="avatar mt-5" width="200px" height="200px" src="img/${user1.avatar}">
                             <h3 class="font-weight-bold mt-3">${user1.firstName} ${user1.lastName}</h3>
                             <span class="text-black-50">${user1.email}</span>
                         </div>
@@ -134,7 +134,7 @@
                                     <label class="labels">Số dư tài khoản</label>
                                     <input name="role" type="text" class="form-control" value="${user1.money} USD" readonly>
                                 </div>
-
+                                
                                 <!-- Email (Read-Only) -->
                                 <div class="col-md-12">
                                     <label class="labels">Email</label>
@@ -157,16 +157,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </form><form action="increaseBalance" method="post">
-            <div class="container mt-3">
-                <div class="col-md-12">
-                    <label class="labels">Tăng số dư tài khoản</label>
-                    <input name="increaseAmount" type="number" class="form-control" placeholder="Nhập số tiền muốn nạp" min="1" required>
-                </div>
-                <span class="mt-3 text-center">
-                    <button class="btn btn-success profile-button" type="submit">Tăng Số Dư</button>
-                </span>
             </div>
         </form>
         <jsp:include page="footerDemo.jsp"></jsp:include>

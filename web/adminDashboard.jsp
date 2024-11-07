@@ -550,13 +550,6 @@
                                                             </small>
                                                         </div>
                                                     </div>
-<!--                                                    <div class="dropdown">
-                                                        <button class="btn btn-icon btn-pills btn-soft-success dropdown-toggle" id="dropdownMenuButton" aria-expanded="false" onclick="toggleDropdown(event)">
-                                                            <i class="uil uil-pen"></i>
-                                                        </button>
-                                                    </div>-->
-                                                </div>
-                                            </li>
                                         </c:forEach>
                                     </ul>
                                 </div>
@@ -763,7 +756,7 @@
                                                             
                                                         
 
-                                                        <div class="col-xl-4 col-lg-12 mt-4">
+<!--                                                        <div class="col-xl-4 col-lg-12 mt-4">
                                                             <div class="card border-0 shadow rounded">
                                                                 <div class="p-4 border-bottom">
                                                                     <div class="d-flex justify-content-between align-items-center">
@@ -885,7 +878,7 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                        </div>
+                                                        </div>-->
                         </div><!--end row-->
                     </div>
                 </div><!--end container-->

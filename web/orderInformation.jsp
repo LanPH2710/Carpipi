@@ -343,7 +343,7 @@
                             <div class="table-responsive bg-white shadow rounded p-4">
                                 <!-- Header Section -->
                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <a href="myorder" class="back-link text-primary font-weight-bold">← TRỞ LẠI</a>
+                                    <a href="javascript:void(0)" onclick="window.history.back()" class="back-link text-primary font-weight-bold">← TRỞ LẠI</a>
                                     <span class="order-status text-muted">
                                         <c:forEach var="detail" items="${orderInfor}" begin="0" end="0">
                                             <strong>MÃ ĐƠN HÀNG:</strong> ${detail.orderId}&nbsp;&nbsp;||&nbsp;&nbsp;<span class="text-success">${detail.orderStatusDescription}</span>

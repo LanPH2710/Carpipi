@@ -301,7 +301,7 @@
                                         <ul class="tabs">
                                             <li class="${currentStatusId == 0 ? 'active' : ''}"><a href="shipper">Tất cả</a></li>
                                             <li class="${currentStatusId == 2 ? 'active' : ''}"><a href="shipper?statusId=2">Đã xác nhận</a></li>
-                                            <li class="${currentStatusId == 3 ? 'active' : ''}"><a href="shipper?statusId=3">Chờ giao hàng</a></li>
+                                            <li class="${currentStatusId == 3 ? 'active' : ''}"><a href="shipper?statusId=3">Đang giao hàng</a></li>
                                             <li class="${currentStatusId == 4 ? 'active' : ''}"><a href="shipper?statusId=4">Hoàn thành</a></li>
                                         </ul>
                                     </div>
@@ -337,7 +337,7 @@
                                                                             Đơn hàng đã được xác nhận
                                                                         </c:when>
                                                                         <c:when test="${order.orderStatus == 3}">
-                                                                            Đơn hàng đã được giao đi
+                                                                            Đơn hàng đang được giao đi
                                                                         </c:when>
                                                                         <c:when test="${order.orderStatus == 4}">
                                                                             Đơn hàng đã được giao thành công
@@ -360,7 +360,7 @@
                                                                     <!-- Dropdown để chọn trạng thái -->
                                                                     <select class="form-control" name="orderStatus" onchange="checkAndSubmit(this)">
                                                                         <option value="">Cập nhật đơn hàng</option>
-                                                                        <option value="3" ${order.orderStatus == 3 ? 'selected' : ''}>Shipped</option>
+                                                                        <option value="3" ${order.orderStatus == 3 ? 'selected' : ''}>Shipping</option>
                                                                         <option value="4" ${order.orderStatus == 4 ? 'selected' : ''}>Done</option>
                                                                     </select>
                                                                 </c:if>
@@ -417,7 +417,7 @@
                                                                 <p class="delivery-status">
                                                                     <c:choose>
                                                                         <c:when test="${order.payMethod == 1}">
-                                                                            Đơn hàng đã thanh toán trước
+                                                                            Đơn hàng đã được thanh toán trước
                                                                         </c:when>
                                                                         <c:when test="${order.payMethod == 2}">
                                                                             Đơn hàng thanh toán khi khách hàng nhận được hàng
@@ -450,7 +450,7 @@
                             <!-- Pagination -->
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
-                                    <span class="text-muted me-3">Showing <b>${page}</b> out of <b>${num}</b> pages customers</span>
+                                    <span class="text-muted me-3">Showing <b>${page}</b> out of <b>${num}</b> pages orders</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${page > 1}">
                                             <li class="page-item"><a class="page-link" href="shipper?page=${page - 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Previous">Prev</a></li>

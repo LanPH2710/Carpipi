@@ -66,11 +66,11 @@
     </head>
     <body>
         <div class="modal-content">
-            
+
             <form action="addbymarketing" method="post">
                 <div class="modal-header">						
                     <h4 class="modal-title">Thêm sản phẩm </h4>
-                    <p style="color: red;">${errorMessage}</p>
+                    <p style="color: red;"></p>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">	
@@ -84,21 +84,7 @@
                         <input type="text" placeholder="Tên xe" name="name" class="form-control" required>
 
                     </div>
-                    <div class="form-group form-group-image">
-                        <label>Ảnh</label>
-                        <ul class="image">
-                            <c:forEach items="${requestScope.imageList}" var="imageList">
-                                <li>
-                                    <img style="width: 200px; cursor: pointer;" src="${imageList.imageUrl}" alt="Xe" onclick="openModal('${imageList.imageUrl}')"/>
-                                </li>
-                            </c:forEach>
 
-                            <li>
-                                <label>Enter Image URL</label>
-                                <input type="text" name="imageUrl" placeholder="Nhập link ảnh" class="form-control">
-                            </li>
-                        </ul>
-                    </div>
 
                     <div class="form-select">
                         <div class="form-group">
@@ -147,13 +133,12 @@
 
                     <div class="form-group">
                         <label>Giá</label>
-                        <fmt:formatNumber var="formattedPrice" value="${car.price}" type="number" pattern="####"/>
                         <input type="text" name="price" placeholder="Giá" class="form-control" required>
                     </div>
 
                     <div class="form-group">
                         <label>Nhiên liệu</label>
-                        <input type="text" name="fuel" name="price" placeholder="Nhiên liệu" class="form-control" required>
+                        <input type="text" name="fuel" placeholder="Nhiên liệu" class="form-control" required>
                     </div>
 
 
@@ -168,7 +153,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="proformarketing">Cancel</a>
+                    <!-- Thêm sự kiện onclick vào link để hiển thị hộp thoại xác nhận -->
+                    <a href="javascript:void(0);" onclick="confirmCancel()">Cancel</a>
                     <input type="submit" class="btn btn-info" value="Save">
                 </div>
             </form>
@@ -250,6 +236,16 @@
                     event.preventDefault();  // Ngăn form gửi đi
                 }
             });
+
+            function confirmCancel() {
+                // Hiển thị hộp thoại xác nhận
+                var result = confirm("Bạn có chắc chắn muốn hủy thêm sản phẩm không?");
+                if (result) {
+                    // Nếu người dùng nhấn "OK", chuyển hướng đến trang proformarketing
+                    window.location.href = "proformarketing";
+                }
+                // Nếu người dùng nhấn "Cancel", không làm gì cả
+            }
 
         </script>
 

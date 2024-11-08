@@ -180,7 +180,7 @@
 
                             <div class="mt-4 mt-sm-0">
                                 
-                                <a href="addbymarketing" class="btn btn-primary">Add Product</a>
+                                <a href="addbymarketing" class="btn btn-primary">Thêm sản phẩm</a>
                             </div>
                         </div>
 

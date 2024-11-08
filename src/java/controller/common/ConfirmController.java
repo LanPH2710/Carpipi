@@ -1,3 +1,5 @@
+package controller.common;
+
 import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;

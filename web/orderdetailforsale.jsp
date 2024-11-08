@@ -230,13 +230,13 @@
                             <form action="orderdetailforsale" method="post" style="display: inline; width: 300px">
                                 <select class="form-select" name="statusId">
                                     <c:forEach items="${requestScope.listStatusOrder}" var="status">
-                                        <option value="${status.statusId}" ${status.statusId == statusId ? 'selected' : ''}>
+                                        <option value="${status.statusId}" ${status.statusId == statusSelect ? 'selected' : ''}>
                                             ${status.description}
                                         </option>
                                     </c:forEach>
 
                                 </select>
-                                <input type="hidden" name="orderId" value="${accountOrder.orderId}">
+                                <input type="hidden" name="orderId" value="${orderDetail.orderId}">
                                 <span>
                                     <input class="btn btn-primary" type="submit" id="searchsubmit" value="Xử lý">
                                 </span>

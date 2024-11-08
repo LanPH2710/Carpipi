@@ -63,13 +63,12 @@ public class FeedbackListMarketingServlet extends HttpServlet {
             listFeedback = feDao.getAllFeedbackAndPaging(index);
         } else {
             listFeedback = feDao.getFeedbackBySearchAndPaging(index, search, status);
-            request.setAttribute("search", search);
-            request.setAttribute("status", status);
         }
 
         if (sort != null && !sort.isEmpty()) {
             if ((search == null || search.isEmpty()) && (status == null || status.isEmpty())) {
                 listFeedback = feDao.getAllFeedbackAndPaging(index);
+
                 switch (sort) {
                     case "name":
                         listFeedback = feDao.getOrderByProductName(index, order);
@@ -98,8 +97,7 @@ public class FeedbackListMarketingServlet extends HttpServlet {
                         break;
                 }
             }
-            request.setAttribute("sort", sort);
-            request.setAttribute("order", order);
+
         }
 
         List<Account> listAccount = new ArrayList<>();
@@ -155,8 +153,16 @@ public class FeedbackListMarketingServlet extends HttpServlet {
 
         }
 
-        int endPage = numberOfPage(feDao.getFeedbackCount());
+        int count = feDao.getFeedbackCount();
+        int endPage = count / 5;
+        if (count % 5 != 0) {
+            endPage++;
+        }
 
+        request.setAttribute("sort", sort);
+        request.setAttribute("order", order);
+        request.setAttribute("status", status);
+        request.setAttribute("search", search);
         request.setAttribute("index", index);
         request.setAttribute("endP", endPage);
         request.setAttribute("listProduct", listProduct);
@@ -198,7 +204,6 @@ public class FeedbackListMarketingServlet extends HttpServlet {
         String feedbackId = request.getParameter("feedbackId");
         int feeId = Integer.parseInt(feedbackId);
         String status = request.getParameter("status");
-        String currentStatus = request.getParameter("currentStatus");
         int staId = Integer.parseInt(status);
 
         System.out.println(feedbackId);
@@ -209,7 +214,9 @@ public class FeedbackListMarketingServlet extends HttpServlet {
 
         feDao.updateFeedbackStatus(feeId, staId);
 
-        response.sendRedirect("feedbacklistformarketing?status=" + currentStatus);
+        processRequest(request, response);
+
+        response.sendRedirect("feedbacklistformarketing");
     }
 
     /**
@@ -222,13 +229,4 @@ public class FeedbackListMarketingServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int numberOfPage(int total) {
-
-        int endPage = total / 5;
-        if (total % 5 != 0) {
-            endPage++;
-        }
-
-        return endPage;
-    }
 }

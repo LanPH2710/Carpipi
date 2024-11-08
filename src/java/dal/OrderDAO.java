@@ -166,8 +166,7 @@ public class OrderDAO extends DBContext {
     }
     /// Manhuy-end------------------------------------------------------------------------------------------------///
     
-    
-   //son--------------//
+    //son--------------//
     public List<OrderDetail> getListOrderdetailById(String orderId) {
         List<OrderDetail> list = new ArrayList<>();
 
@@ -764,7 +763,7 @@ public class OrderDAO extends DBContext {
     }
 
 //son--------------//  
-    
+
     
 //tuan----------------------------------------------------------------------//
     public void cancelOrder(int orderId) {
@@ -781,6 +780,7 @@ public class OrderDAO extends DBContext {
     public static void main(String[] args) {
         OrderDAO o = new OrderDAO();
 
-        
+       
+
     }
 }

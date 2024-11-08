@@ -146,6 +146,8 @@
                                     </div>
                                 </form>
                             </div>
+                                        
+                                        
                             <div class="row">
                                 <c:forEach var="blog" items="${blogList}">
                                     <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4">

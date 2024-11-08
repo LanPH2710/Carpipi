@@ -212,7 +212,7 @@ public class OrderDetailDAO extends DBContext {
         String query = "SELECT * "
                 + "FROM `order` "
                 + "WHERE userId = ? "
-                + "ORDER BY orderStatus ASC, createDate";
+                + "ORDER BY orderStatus ASC, createDate asc";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, userId);
@@ -248,7 +248,8 @@ public class OrderDetailDAO extends DBContext {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT *"
                 + "FROM `order` "
-                + "WHERE userId = ? and orderStatus = ?";
+                + "WHERE userId = ? and orderStatus = ? "
+                + "ORDER BY createDate asc";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, userId);
@@ -356,7 +357,7 @@ public class OrderDetailDAO extends DBContext {
         String query = "SELECT * "
                 + "FROM `order` "
                 + "WHERE orderStatus IN (2,3,4) and shipperId = ? "
-                + "ORDER BY orderStatus ASC, shippingAddress DESC;";
+                + "ORDER BY createDate asc";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);  // Đặt tham số trước khi thực thi câu truy vấn
@@ -392,7 +393,8 @@ public class OrderDetailDAO extends DBContext {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * "
                 + "FROM `order` "
-                + "WHERE orderStatus = ? and shipperId = ?";
+                + "WHERE orderStatus = ? and shipperId = ? "
+                + "ORDER BY createDate DESC";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, statusId);
@@ -596,7 +598,8 @@ public class OrderDetailDAO extends DBContext {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * "
                 + "FROM `order` "
-                + "WHERE orderStatus = ? and saleId = ?";
+                + "WHERE orderStatus = ? and saleId = ? "
+                + "ORDER BY createDate DESC";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, statusId);

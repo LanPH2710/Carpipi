@@ -11,10 +11,18 @@ package model;
 public class Role {
     private int roleId;
     private String roleName;
-
+    private int roleCount;
+    private int status;
     public Role() {
     }
 
+    public Role(int roleId, String roleName, int roleCount, int status) {
+        this.roleId = roleId;
+        this.roleName = roleName;
+        this.roleCount = roleCount;
+        this.status = status;
+    }
+    
     public Role(int roleId, String roleName) {
         this.roleId = roleId;
         this.roleName = roleName;
@@ -34,6 +42,22 @@ public class Role {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public int getRoleCount() {
+        return roleCount;
+    }
+
+    public void setRoleCount(int roleCount) {
+        this.roleCount = roleCount;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
     
 }

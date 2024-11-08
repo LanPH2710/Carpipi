@@ -2,22 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.common;
 
+import controller.common.GoogleLogin;
+import Constain.Iconstant;
+import dal.LoginDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
+import model.GoogleAccount;
+import util.HashPassword;
 
 /**
  *
- * @author hiule
+ * @author Sonvu
  */
-@WebServlet(name = "UserDetail", urlPatterns = {"/userdetails"})
-public class UserDetail extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,19 +34,39 @@ public class UserDetail extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UserDetail</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>user deataild (ADMIN)</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String code = request.getParameter("code");
+        GoogleLogin gg = new GoogleLogin();
+        String accessToken = gg.getToken(code);
+        GoogleAccount ggAcount = gg.getUserInfo(accessToken);
+        System.out.println(ggAcount);
+        String firstName = ggAcount.getGiven_name();
+        String lastName = ggAcount.getFamily_name();
+        String gender = "2";
+        String email = ggAcount.getEmail();
+        String picture = ggAcount.getPicture();
+        String password = Iconstant.generateRandomPassword(8);
+        String cpass = HashPassword.toSHA1(password);
+
+        HttpSession session = request.getSession();
+        LoginDAO login = new LoginDAO();
+
+        try {
+            Account account = login.getByEmail(email);
+
+            if (account == null) {
+                login.inserUserByEmail(email, cpass, firstName, lastName, gender, email, "", "", picture);
+                account = login.getByEmail(email);
+
+            }
+
+            session.setAttribute("account", account);
+            session.setMaxInactiveInterval(60 * 600);
+            request.getRequestDispatcher("home").forward(request, response);
+            System.out.println("Da cp");
+
+        } catch (Exception e) {
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

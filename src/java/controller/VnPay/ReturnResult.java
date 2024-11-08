@@ -5,6 +5,7 @@
 package controller.VnPay;
 
 import dal.CartDAO;
+import dal.CheckOutDAO;
 import dal.OrderDAO;
 import dal.PaymentDAO;
 import java.io.IOException;
@@ -73,8 +74,16 @@ public class ReturnResult extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         CartDAO cartDAO = new CartDAO();
         HttpSession session = request.getSession();
+        Object thanhHieuObj = session.getAttribute("ThanhHieu");
+        String thanhHieu = (thanhHieuObj instanceof String) ? (String) thanhHieuObj : thanhHieuObj.toString();
+
+        if ("1".equalsIgnoreCase(thanhHieu)) {
+            doPost(request, response);
+            return;
+        }
         Account account = (Account) session.getAttribute("account");
         List<Cart> cartList = cartDAO.getCartsSelectByUserId(account.getUserId()); // Get a list of carts
 
@@ -205,6 +214,58 @@ public class ReturnResult extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        String thanhHieu = (String) session.getAttribute("ThanhHieu");
+
+        CheckOutDAO checkOutDAO = new CheckOutDAO();
+        Account account = (Account) session.getAttribute("account");
+
+        OrderDAO odao = new OrderDAO();
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if (account != null) {
+            String vnp_TxnRef = request.getParameter("vnp_TxnRef");
+            String vnp_Amount = request.getParameter("vnp_Amount");
+            vnp_Amount = vnp_Amount.substring(0, vnp_Amount.length() - 2);
+            String vnp_OrderInfo = request.getParameter("vnp_OrderInfo");
+            String vnp_ResponseCode = request.getParameter("vnp_ResponseCode");
+            String vnp_TransactionNo = request.getParameter("vnp_TransactionNo");
+            String vnp_BankCode = request.getParameter("vnp_BankCode");
+            String vnp_PayDate_raw = request.getParameter("vnp_PayDate");
+            String vnp_TransactionStatus = request.getParameter("vnp_TransactionStatus");
+
+            PaymentDAO padao = new PaymentDAO();
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+            SimpleDateFormat outputFormatDTB = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat outputFormatWeb = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+            try {
+                Date date = inputFormat.parse(vnp_PayDate_raw);
+                String vnp_PayDateWeb = outputFormatWeb.format(date);
+                String vnp_PayDateDTB = outputFormatDTB.format(date);
+                request.setAttribute("vnp_PayDate", vnp_PayDateWeb);
+                double balance = (double) session.getAttribute("balance");
+                Payment p = new Payment("", vnp_TxnRef, vnp_Amount, vnp_OrderInfo, vnp_ResponseCode, vnp_TransactionNo, vnp_BankCode, vnp_PayDateDTB, vnp_TransactionStatus, account.getUserId());
+                padao.addPayment(p);
+
+                if (vnp_TransactionStatus.equals("00")) {
+                    checkOutDAO.addMoneyToBalance(account.getUserId(), balance);
+                    response.sendRedirect("userprofile");
+                    // Uncomment if needed
+                    // executorService.submit(() -> handleEmail.sendEmail(sub, msg, email));
+                } else {
+
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace(); // Handle exception as needed
+            }
+
+        } else {
+            response.sendRedirect("login");
+        }
 
     }
 

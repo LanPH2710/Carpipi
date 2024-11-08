@@ -60,11 +60,17 @@
                         <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
                         <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
                         <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
-                        <c:choose>
-                                <c:when test="${sessionScope.account.roleId == 1}">
-                                <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
-                                </c:when>
-                            </c:choose>
+                         <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)">
+                                <i class="uil uil-flip-h me-2 d-inline-block"></i>Setting List</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="settingsList">Setting List for Product</a></li>
+                                    <li><a href="settinglistblog">Setting List for Blog</a></li>
+                                    <li><a href="settinglistrole">Setting List for Role</a></li>    
+                                </ul>
+                            </div>
+                        </li>
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)">
                                 <i class="uil uil-flip-h me-2 d-inline-block"></i>Posts List</a>

@@ -111,10 +111,11 @@
             }
 
             .product-info img {
-                width: auto;
+                width: 500px;
                 height: 280px;
                 margin-right: 20px;
                 border-radius: 10px;
+                object-fit: cover;
             }
 
             .order-details h4 {
@@ -211,10 +212,8 @@
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
-                        <li>
-                            <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
-                        </li>
-                        <li><a href="salecheck"><i class="uil uil-cube me-2 d-inline-block"></i>Xác nhận đơn hàng</a></li>
+                        <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block"></i>Order List</a></li>
+                        <li><a href="salecheck"><i class="uil uil-dashboard me-2 d-inline-block"></i>Check Order</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -302,7 +301,7 @@
                                             <li class="${currentStatusId == 0 ? 'active' : ''}"><a href="salecheck">Tất cả</a></li>
                                             <li class="${currentStatusId == 1 ? 'active' : ''}"><a href="salecheck?statusId=1">Chờ xác nhận</a></li>
                                             <li class="${currentStatusId == 2 ? 'active' : ''}"><a href="salecheck?statusId=2">Đã xác nhận</a></li>
-                                            <li class="${currentStatusId == 3 ? 'active' : ''}"><a href="salecheck?statusId=3">Chờ giao hàng</a></li>
+                                            <li class="${currentStatusId == 3 ? 'active' : ''}"><a href="salecheck?statusId=3">Đang giao hàng</a></li>
                                             <li class="${currentStatusId == 4 ? 'active' : ''}"><a href="salecheck?statusId=4">Hoàn thành</a></li>
                                             <li class="${currentStatusId == 5 ? 'active' : ''}"><a href="salecheck?statusId=5">Đã hủy</a></li>
                                         </ul>
@@ -338,7 +337,7 @@
                                                                             Đơn hàng đã được xác nhận
                                                                         </c:when>
                                                                         <c:when test="${order.orderStatus == 3}">
-                                                                            Đơn hàng đã được giao đi
+                                                                            Đơn hàng đang được giao đi
                                                                         </c:when>
                                                                         <c:when test="${order.orderStatus == 4}">
                                                                             Đơn hàng đã được giao thành công
@@ -384,12 +383,11 @@
                                                             </div>
                                                         </c:forEach>
                                                         <div class="order-actions">
-
                                                             <a href="" class="status-link">
                                                                 <p class="delivery-status">
                                                                     <c:choose>
                                                                         <c:when test="${order.payMethod == 1}">
-                                                                            Đơn hàng đã thanh toán trước
+                                                                            Đơn hàng đã được thanh toán trước
                                                                         </c:when>
                                                                         <c:when test="${order.payMethod == 2}">
                                                                             Đơn hàng thanh toán khi khách hàng nhận được hàng
@@ -423,7 +421,7 @@
                             <!-- Pagination -->
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
-                                    <span class="text-muted me-3">Showing <b>${page}</b> out of <b>${num}</b> pages customers</span>
+                                    <span class="text-muted me-3">Showing <b>${page}</b> out of <b>${num}</b> pages orders</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${page > 1}">
                                             <li class="page-item"><a class="page-link" href="salecheck?page=${page - 1}&statusId=${statusId}&keyword=${keyword}" aria-label="Previous">Prev</a></li>

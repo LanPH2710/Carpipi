@@ -2,22 +2,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.common;
 
+import dal.*;
+import model.*;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.SQLException;
 
 /**
  *
- * @author hiule
+ * @author nguye
  */
-@WebServlet(name = "Feedback", urlPatterns = {"/feedbacksList"})
-public class Feedback extends HttpServlet {
+public class HomePageServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,18 +39,37 @@ public class Feedback extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Feedback</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>feedbacksList (Marketing)</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        HttpSession session = request.getSession();
+        ProductDAO productDAO = new ProductDAO();
+        BrandDAO brandDao = new BrandDAO();
+        StyleDAO styleDao = new StyleDAO();
+        CartDAO cartDAO = new CartDAO();
+        SliderDAO sliderDAO = new SliderDAO();
+        AccountDAO accountDAO = new AccountDAO();
+        Account account = (Account) session.getAttribute("account");
+        if (account !=null) {
+             int sizeCart = cartDAO.countCartsByUserId(account.getUserId());
+             session.setAttribute("sizeCart", sizeCart);
         }
+       
+        List<Style> styleList = styleDao.getAllStyleCar();
+        List<Brand> brandList = brandDao.getAllBrand();
+
+        List<Product> featuredProducts = productDAO.getLastestProductsByProductIdPrefix("ME", 4);
+        featuredProducts.addAll(productDAO.getProductsByProductIdPrefix("VO", 4));
+        featuredProducts.addAll(productDAO.getProductsByProductIdPrefix("BM", 4));
+        featuredProducts.addAll(productDAO.getProductsByProductIdPrefix("AU", 4));
+        featuredProducts.addAll(productDAO.getProductsByProductIdPrefix("PO", 4));
+
+        List<Slider> newProducts = sliderDAO.getAllActiveSlider();
+        // Truyền danh sách sản phẩm đến JSP
+        
+        request.setAttribute("featuredProducts", featuredProducts); // Sử dụng tên đúng cho JSP
+        request.setAttribute("newProducts", newProducts); // Sử dụng tên đúng cho JSP
+        request.setAttribute("brandList", brandList);
+        request.setAttribute("styleList", styleList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("HomePage.jsp");
+        dispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -361,7 +361,7 @@
                                                                                     Đơn hàng đã được xác nhận
                                                                                 </c:when>
                                                                                 <c:when test="${order.orderStatus == 3}">
-                                                                                    Đơn hàng đã được giao đi
+                                                                                    Đơn hàng đang được giao đi
                                                                                 </c:when>
                                                                                 <c:when test="${order.orderStatus == 4}">
                                                                                     Đơn hàng đã được giao thành công
@@ -447,7 +447,7 @@
                             <!-- Pagination -->
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
-                                    <span class="text-muted me-3">Showing <b>${page}</b> out of <b>${num}</b> pages customers</span>
+                                    <span class="text-muted me-3">Showing <b>${page}</b> out of <b>${num}</b> pages orders</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${page > 1}">
                                             <li class="page-item"><a class="page-link" href="myorder?page=${page - 1}&statusId=${orderStatus}&keyword=${keyword}" aria-label="Previous">Prev</a></li>

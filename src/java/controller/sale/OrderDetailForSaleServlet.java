@@ -7,6 +7,7 @@ package controller.sale;
 import dal.AccountDAO;
 import dal.ColorDAO;
 import dal.OrderDAO;
+import dal.OrderDetailDAO;
 import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -69,17 +70,26 @@ public class OrderDetailForSaleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+       
 
-        HttpSession session = request.getSession();
-
+        
         String orderId = request.getParameter("orderId");
+        int oId = 0;
+        if(orderId != null && !orderId.isEmpty()){
+            oId = Integer.parseInt(orderId);
+        }
+        
+        String statusParam = request.getParameter("statusId");
+        
 
         AccountDAO accountDao = new AccountDAO();
         OrderDAO orderDao = new OrderDAO();
+        OrderDetailDAO orderDetailDao = new OrderDetailDAO();
         ColorDAO colorDao = new ColorDAO();
         ProductDAO p = new ProductDAO();
         Product product = new Product();
         ProductImage image = new ProductImage();
+        
         Order order = new Order();
 
         List<OrderDetail> orderList = orderDao.getListOrderdetailById(orderId);
@@ -88,6 +98,8 @@ public class OrderDetailForSaleServlet extends HttpServlet {
 
         }
 
+        
+        
         List<Color> colorList = colorDao.getListColor();
         
         for (Color color : colorList) {
@@ -95,26 +107,33 @@ public class OrderDetailForSaleServlet extends HttpServlet {
         }
         
         
+        System.out.println("orderId: " + orderId);
+        System.out.println("status: " + statusParam);
+        
+        if(!orderId.isEmpty() && orderId != null && statusParam != null && !statusParam.isEmpty()){
+            orderDao.updateStatusOfOrder(orderId, statusParam);
+        }
 
-        OrderDetail accountOrder = orderDao.getOrderdetailById(orderId);
+        
+        
 
         List<Account> allSaleName = accountDao.getAccountByRole();
 
         List<OrderStatus> listStatusOrder = orderDao.getListOrderStatus();
 
-        //  Account saleInfo = accountDao.getAccountById(orderDetail.getSaleId());
+        
       
         System.out.println(orderId);
 
         request.setAttribute("image", image);
 
-        //    request.setAttribute("saleInfo", saleInfo);
+        request.setAttribute("orderId", orderId);
+        request.setAttribute("statusSelect", statusParam);
         request.setAttribute("listStatusOrder", listStatusOrder);
         request.setAttribute("allSaleName", allSaleName);
         request.setAttribute("colorList", colorList);
         request.setAttribute("product", product);
         request.setAttribute("orderList", orderList);
-        request.setAttribute("accountOrder", accountOrder);
         request.getRequestDispatcher("orderdetailforsale.jsp").forward(request, response);
     }
 
@@ -142,4 +161,4 @@ public class OrderDetailForSaleServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-}
+}   

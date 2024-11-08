@@ -2,78 +2,50 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
 
-import Constain.Iconstant;
-import dal.LoginDAO;
+package controller.common;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Account;
-import model.GoogleAccount;
-import util.HashPassword;
 
 /**
  *
  * @author Sonvu
  */
-public class LoginServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+public class LogoutServlet extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String code = request.getParameter("code");
-        GoogleLogin gg = new GoogleLogin();
-        String accessToken = gg.getToken(code);
-        GoogleAccount ggAcount = gg.getUserInfo(accessToken);
-        System.out.println(ggAcount);
-        String firstName = ggAcount.getGiven_name();
-        String lastName = ggAcount.getFamily_name();
-        String gender = "2";
-        String email = ggAcount.getEmail();
-        String picture = ggAcount.getPicture();
-        String password = Iconstant.generateRandomPassword(8);
-        String cpass = HashPassword.toSHA1(password);
-
-        HttpSession session = request.getSession();
-        LoginDAO login = new LoginDAO();
-
-        try {
-            Account account = login.getByEmail(email);
-
-            if (account == null) {
-                login.inserUserByEmail(email, cpass, firstName, lastName, gender, email, "", "", picture);
-                account = login.getByEmail(email);
-
-            }
-
-            session.setAttribute("account", account);
-            session.setMaxInactiveInterval(60 * 600);
-            request.getRequestDispatcher("home").forward(request, response);
-            System.out.println("Da cp");
-
-        } catch (Exception e) {
+    throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet LogoutServlet</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet LogoutServlet at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -82,12 +54,18 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
+        
+        // Lấy session hiện tại, nếu có
+        HttpSession session = request.getSession(false); // 'false' để không tạo session mới nếu không có
+        if (session != null) {
+            session.invalidate();  // Hủy session hiện tại
+        }
 
-    /**
+        response.sendRedirect("home");
+    } 
+
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -95,13 +73,12 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

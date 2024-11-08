@@ -29,6 +29,8 @@
         <url-pattern>/addUser</url-pattern>
         <url-pattern>/marketingdashboard</url-pattern>
         <url-pattern>/settingdetail</url-pattern>
+        <url-pattern>/salecheck</url-pattern>
+        <url-pattern>/shipper</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
@@ -48,19 +50,19 @@
     </servlet>
     <servlet>
         <servlet-name>HomePageServlet</servlet-name>
-        <servlet-class>controller.HomePageServlet</servlet-class>
+        <servlet-class>controller.common.HomePageServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginByAccountServlet</servlet-name>
-        <servlet-class>controller.LoginByAccountServlet</servlet-class>
+        <servlet-class>controller.common.LoginByAccountServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>controller.LoginServlet</servlet-class>
+        <servlet-class>controller.common.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>controller.LogoutServlet</servlet-class>
+        <servlet-class>controller.common.LogoutServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewCustomerServlet</servlet-name>
@@ -72,7 +74,7 @@
     </servlet>
     <servlet>
         <servlet-name>BlogListServlet</servlet-name>
-        <servlet-class>controller.BlogListServlet</servlet-class>
+        <servlet-class>controller.common.BlogListServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ProductListMarketingServlet</servlet-name>
@@ -81,10 +83,6 @@
     <servlet>
         <servlet-name>EditByMarketingServlet</servlet-name>
         <servlet-class>controller.marketing.EditByMarketingServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Admin</servlet-name>
-        <servlet-class>controller.Admin</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddProductMarketingServlet</servlet-name>
@@ -100,7 +98,7 @@
     </servlet>
     <servlet>
         <servlet-name>ConfirmController</servlet-name>
-        <servlet-class>ConfirmController</servlet-class>
+        <servlet-class>controller.common.ConfirmController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PostListServlet</servlet-name>
@@ -112,7 +110,7 @@
     </servlet>
     <servlet>
         <servlet-name>ProductListServlet</servlet-name>
-        <servlet-class>controller.ProductListServlet</servlet-class>
+        <servlet-class>controller.common.ProductListServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SettingsListServlet</servlet-name>
@@ -132,7 +130,7 @@
     </servlet>
     <servlet>
         <servlet-name>ChangePasswordServlet</servlet-name>
-        <servlet-class>controller.ChangePasswordServlet</servlet-class>
+        <servlet-class>controller.common.ChangePasswordServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>EditProductImageServlet</servlet-name>
@@ -257,10 +255,6 @@
     <servlet-mapping>
         <servlet-name>EditByMarketingServlet</servlet-name>
         <url-pattern>/editproductbymarketing</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Admin</servlet-name>
-        <url-pattern>/admin</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddProductMarketingServlet</servlet-name>

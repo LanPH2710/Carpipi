@@ -100,68 +100,54 @@ public class AddProductMarketingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        System.out.println("Dopost addproduct");
         Product product = new Product();
         ProductDAO pDao = new ProductDAO();
 
-        String id = request.getParameter("id").trim();
-        String name = request.getParameter("name").trim();
-        String priceStr = request.getParameter("price").trim();
-        String seatNumberStr = request.getParameter("seatNumber").trim();
-        String stockStr = request.getParameter("stock").trim();
-        String imageUrl = request.getParameter("imageUrl").trim();
-        String des = request.getParameter("des").trim();
-
-// Kiểm tra các trường không được để trống
-        if (name.isEmpty() || priceStr.isEmpty() || seatNumberStr.isEmpty() || stockStr.isEmpty() || des.isEmpty()) {
-            request.setAttribute("errorMessage", "Vui lòng điền đầy đủ thông tin.");
-            request.getRequestDispatcher("addproductbymarketing.jsp").forward(request, response);
-            return;
-        }
-
-// Chuyển đổi chuỗi sang số và xử lý ngoại lệ
-        int price;
-        int seatNumber;
-        int stock;
-        try {
-            price = Integer.parseInt(priceStr);
-            seatNumber = Integer.parseInt(seatNumberStr);
-            stock = Integer.parseInt(stockStr);
-        } catch (NumberFormatException e) {
-            request.setAttribute("errorMessage", "Giá, số chỗ ngồi và số lượng phải là số hợp lệ.");
-            request.getRequestDispatcher("addproductbymarketing.jsp").forward(request, response);
-            return;
-        }
-
-// Tiếp tục xử lý lưu dữ liệu vào cơ sở dữ liệu
-
-      
-        String brandCar = request.getParameter("brand");
-        int brandId = Integer.parseInt(brandCar);
-
-        String styleCar = request.getParameter("style");
-        int styleId = Integer.parseInt(styleCar);
-
-        String segmentCar = request.getParameter("segment");
-        int segmentId = Integer.parseInt(segmentCar);
-
-        String suppliCar = request.getParameter("supply");
-        int supplyId = Integer.parseInt(suppliCar);
-
+        String name = request.getParameter("name");
+        String imageUrl = request.getParameter("imageUrl");
+        String brand = request.getParameter("brand");
+        String style = request.getParameter("style");
+        String segment = request.getParameter("segment");
+        String supply = request.getParameter("supply");
+        String seatNumber = request.getParameter("seatNumber");
+        String price = request.getParameter("price");
         String fuel = request.getParameter("fuel");
+        String stock = request.getParameter("stock");
+        String des = request.getParameter("des");
 
         
-        pDao.insertProduct(des, name, seatNumber, price, fuel, stock, des, stock, supplyId, brandId, segmentId, styleId);
+        
+
         System.out.println("name: " + name);
+        System.out.println("imageUrl: " + imageUrl);
         System.out.println("seat: " + seatNumber);
         System.out.println("price: " + price);
-        System.out.println("brand: " + brandId);
-        System.out.println("style: " + styleCar);
-        System.out.println("segment: " + segmentCar);
-        System.out.println("supply: " + suppliCar);
+        System.out.println("brand: " + brand);
+        System.out.println("style: " + style);
+        System.out.println("segment: " + segment);
+        System.out.println("supply: " + supply);
         System.out.println("fuel: " + fuel);
-        System.out.println("des: " + des);
+        System.out.println("stock:" + stock);
+        System.out.println("des: " + des); 
+        
+        int brandId = 0;
+        double priceP = 0;
+        if(brand != null && !brand.isEmpty()){
+            brandId = Integer.parseInt(brand);
+        }
+        if(price != null && !price.isEmpty()){
+            priceP = Integer.parseInt(price);
+        }
+        String id = pDao.checkBrand(brandId);
+        String productId = pDao.getProductToScanId(id);
+        
+        System.out.println("id: " + productId);
+        
+        pDao.insertProduct(productId, name, seatNumber, priceP, fuel, stock, des, "10", supply, brand, segment, style);
+        
         System.out.println("-------------------------------------");
-     
 
         response.sendRedirect("proformarketing");
     }

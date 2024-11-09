@@ -423,7 +423,7 @@
                                                                             </a>
                                                                         </c:if>
                                                                         <c:if test="${order.orderStatus == 1}">
-                                                                            <a href="cancelorder?orderId=${order.orderId}&totalprice=${order.totalPrice}&userId=${order.userId}&payMethod=${order.payMethod}"
+                                                                            <a href="cancelorder?orderId=${order.orderId}&totalPrice=${order.totalPrice}&userId=${order.userId}&payMethod=${order.payMethod}"
                                                                                onclick="return confirmCancel();">
                                                                                 <button class="buy-again-btn">Hủy Đơn</button>
                                                                             </a>

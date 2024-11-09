@@ -45,7 +45,7 @@
         <!-- Loader -->
 
         <div class="page-wrapper doctris-theme toggled">
-            <nav id="sidebar" class="sidebar-wrapper">
+           <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
                         <a href="home">
@@ -56,15 +56,16 @@
 
                     <ul class="sidebar-menu pt-3">
                         <c:if test="${sessionScope.account == null||sessionScope.account.roleId == 1}">
-                            <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                            <li><a href="admindashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                             </c:if>
 
 
 
                         <li class="sidebar-dropdown">
-                            <a href="userpro"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
+                            <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
 
                         </li>
+                        <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
 
 
 
@@ -82,15 +83,7 @@
                             </div>
                         </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="blogs.html">Blogs</a></li>
-                                    <li><a href="blog-detail.html">Blog Detail</a></li>
-                                </ul>
-                            </div>
-                        </li>
+                       
 
 
 

@@ -81,9 +81,9 @@ public class SaleCheckServlet extends HttpServlet {
             }
         }
         if (statusId > 0) {
-            order = od1dao.getSaleOrderByStatus(statusId, saleId);
+            order = od1dao.getSaleOrderByStatus(statusId);
         } else {
-            order = od1dao.getSaleCheckOrder(saleId);
+            order = od1dao.getSaleCheckOrder();
         }
         for (Order order1 : order) {
             List<OrderDetail> orderDetails = od1dao.getOrderDetail(order1.getOrderId());

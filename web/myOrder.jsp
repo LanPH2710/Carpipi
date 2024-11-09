@@ -228,6 +228,9 @@
                         </a>
                     </div>
                       <ul class="sidebar-menu pt-3">
+                        <li>
+                            <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
+                        </li>
                         <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Shopping Cart</a>

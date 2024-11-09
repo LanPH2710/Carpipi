@@ -91,10 +91,9 @@
                         <span class="headerN"><a href="sale">Sale</a></span>
                     </c:when>
                 </c:choose>
-                
                 <c:choose>
                     <c:when test="${sessionScope.account.roleId == 5}">
-                        <li><a href="shipper">Shipper</a></li>
+                        <span class="headerN"><a href="shipper">Shipper</a></span>
                         </c:when>
                     </c:choose>
 

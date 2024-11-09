@@ -8,6 +8,7 @@ import context.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import model.Blog;
@@ -50,7 +51,7 @@ public class BlogDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Blog> getAllBlogCommon() {
         List<Blog> list = new ArrayList<>();
         String sql = "SELECT * FROM Blog where status = 1";
@@ -282,7 +283,7 @@ public class BlogDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Blog> getBlogByAuthor(int userID) {
         List<Blog> list = new ArrayList<>();
         String sql = "SELECT * FROM Blog WHERE userId = ? ORDER BY blogTime DESC;";
@@ -315,7 +316,7 @@ public class BlogDAO extends DBContext {
         }
         return list;
     }
-    
+
     public void updateBlogStatus(int blogId, int status) {
         String sql = "UPDATE blog SET status = ? WHERE blogId = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -326,7 +327,7 @@ public class BlogDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     public List<Blog> getBlogListByPage(List<Blog> blogs, int start, int end) {
         ArrayList<Blog> arr = new ArrayList<>();
         for (int i = start; i < end; i++) {
@@ -334,8 +335,8 @@ public class BlogDAO extends DBContext {
         }
         return arr;
     }
-    
-     public void updateBlog(int blogId, int blogTopicId, String title, String open,
+
+    public void updateBlog(int blogId, int blogTopicId, String title, String open,
             String main1, String sp1, String main2, String sp2,
             String main3, String sp3, String end) {
 
@@ -374,14 +375,49 @@ public class BlogDAO extends DBContext {
         }
 
     }
-     
-     public int getBlogCount() {
+
+    public boolean insertTopic(String userId, String blogTopicId, String title, Timestamp blogTime, String openBlog,
+            String main1, String sp1, String main2, String sp2,
+            String main3, String sp3, String endBlog) {
+
+        String sql = "INSERT INTO `carpipi`.`blog`\n"
+                + "(`userId`, `blogTopicId`, `blogTitle`, `blogTime`, `openBlog`, `bodyMain1`, \n"
+                + "`bodySp1`, `bodyMain2`, `bodySp2`, `bodyMain3`, `bodySp3`, `endBlog`, `status`)\n"
+                + "VALUES\n"
+                + "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, userId);
+            st.setString(2, blogTopicId);
+            st.setString(3, title);
+            st.setTimestamp(4, blogTime);
+            st.setString(5, openBlog);
+            st.setString(6, main1);
+            st.setString(7, sp1);
+            st.setString(8, main2);
+            st.setString(9, sp2);
+            st.setString(10, main3);
+            st.setString(11, sp3);
+            st.setString(12, endBlog);
+            st.setString(13, "1");
+
+            st.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);  // Thêm để hiển thị lỗi chi tiết nếu có
+
+        }
+        return false;
+    }
+
+    public int getBlogCount() {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM blog";
 
         try (
-             PreparedStatement stmt = connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+                PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {
                 count = rs.getInt(1); // Lấy giá trị của cột đầu tiên
@@ -392,14 +428,13 @@ public class BlogDAO extends DBContext {
 
         return count;
     }
-     
-     public int getActiveBlogCount() {
+
+    public int getActiveBlogCount() {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM blog where status=1";
 
         try (
-             PreparedStatement stmt = connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+                PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {
                 count = rs.getInt(1); // Lấy giá trị của cột đầu tiên
@@ -410,8 +445,8 @@ public class BlogDAO extends DBContext {
 
         return count;
     }
-    
-     public static void main(String[] args) {
+
+    public static void main(String[] args) {
         BlogDAO blogDAO = new BlogDAO();
         int blogCount = blogDAO.getBlogCount();
         System.out.println("Số lượng blog: " + blogCount);

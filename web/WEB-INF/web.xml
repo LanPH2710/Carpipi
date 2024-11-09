@@ -204,6 +204,10 @@
         <servlet-name>SettingListRoleServlet</servlet-name>
         <servlet-class>controller.admin.SettingListRoleServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddBlogByMarketingServlet</servlet-name>
+        <servlet-class>controller.marketing.AddBlogByMarketingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/userprofile</url-pattern>
@@ -375,5 +379,9 @@
     <servlet-mapping>
         <servlet-name>SettingListRoleServlet</servlet-name>
         <url-pattern>/settinglistrole</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddBlogByMarketingServlet</servlet-name>
+        <url-pattern>/addblogbymarketing</url-pattern>
     </servlet-mapping>
 </web-app>

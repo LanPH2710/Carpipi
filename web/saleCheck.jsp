@@ -212,7 +212,8 @@
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block"></i>Order List</a></li>
+                        <li><a href="dashboardforsale"><i class="uil uil-dashboard me-2 d-inline-block" ></i>Dashboard</a></li>
+                        <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block" ></i>Order List</a></li>
                         <li><a href="salecheck"><i class="uil uil-dashboard me-2 d-inline-block"></i>Check Order</a></li>
                     </ul>
                     <!-- sidebar-menu  -->

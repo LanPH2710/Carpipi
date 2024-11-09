@@ -57,19 +57,49 @@
                     </div>
 
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                        <li><a href="patients.html"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
-                        <li><a href="patients.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a>
-                        </li>
-                        <li><a href="sliderList.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a>
-                        </li>
-                        <li><a href="patients.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a>
-                        </li>
-                        <li><a href="patients.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a>
-                        </li>
-                        <li><a href="patients.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Post List</a></li>
-
-
+                        <c:choose>
+                            <c:when test="${sessionScope.account.roleId == 1}">
+                                <li><a href="admindashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
+                                <li><a href="userlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>User List</a></li>
+                                <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
+                                <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
+                                <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
+                                <li class="sidebar-dropdown">
+                                    <a href="javascript:void(0)">
+                                        <i class="uil uil-flip-h me-2 d-inline-block"></i>Posts List</a>
+                                    <div class="sidebar-submenu">
+                                        <ul>
+                                            <li><a href="postlist">Tất cả bài viết</a></li>
+                                                <c:forEach items="${topic}" var="t">
+                                                <li><a href="postlist?topic=${t.blogTopicId}">${t.toppicName}</a></li>
+                                                </c:forEach>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block" ></i>Order List</a></li>
+                                <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
+                            </c:when>
+                            <c:when test="${sessionScope.account.roleId == 2}">
+                                <li><a href="marketingdashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                                <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
+                                <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
+                                <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
+                                <li class="sidebar-dropdown">
+                                    <a href="javascript:void(0)">
+                                        <i class="uil uil-flip-h me-2 d-inline-block"></i>Posts List</a>
+                                    <div class="sidebar-submenu">
+                                        <ul>
+                                            <li><a href="postlist">Tất cả bài viết</a></li>
+                                                <c:forEach items="${topic}" var="t">
+                                                <li><a href="postlist?topic=${t.blogTopicId}">${t.toppicName}</a></li>
+                                                </c:forEach>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
+                            </c:when>
+                        </c:choose> 
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -113,7 +143,16 @@
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="marketingdashboard">Marketing</a></li>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.account.roleId == 1}">
+                                            <li class="breadcrumb-item"><a href="admindashboard">Admin</a></li>
+                                            </c:when>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.account.roleId == 2}">
+                                            <li class="breadcrumb-item"><a href="marketingdashboard">Marketing</a></li>
+                                            </c:when>
+                                        </c:choose>
                                     <li class="breadcrumb-item"><a href="feedbacklistformarketing">Feedback List</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Feedback Detail</li>
                                 </ul>
@@ -244,7 +283,7 @@
                                                             <c:choose>
                                                                 <c:when test="${empty feedbackImg}">
                                                                     <!-- If feedbackImg is empty, show a message indicating no image -->
-                                                                    <p>khong co anh</p>
+                                                                    <p>không có ảnh</p>
                                                                 </c:when>
                                                                 <c:otherwise>
                                                                     <!-- Otherwise, show the actual feedback image -->

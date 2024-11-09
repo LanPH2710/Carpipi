@@ -136,7 +136,6 @@
                                 <a href="home" style="text-decoration:none; color: black"> <img class="headerLogo"
                                                                                                 src="img/logoWnoBG.png" alt="" style="height: 78px;"></a>
                                 <!--                                <a class="navbar-brand" href="index.html">Carpipi<span></span></a>-->
-
                             </div><!--/.navbar-header-->
                             <!-- End Header Navigation -->
 
@@ -170,7 +169,7 @@
                                             </c:when>
                                         </c:choose>
                                     
-                                    <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>
+<!--                                    <li class="scroll"><a href="#featured-cars">Xe tiêu biểu</a></li>-->
 
 
                                     <li class=""><a href="productlist">Danh sách mẫu</a></li>

@@ -227,11 +227,19 @@
                             <img src="img/logoBlack.png" height="120" class="logo-light-mode" alt="">
                         </a>
                     </div>
-                    <ul class="sidebar-menu pt-3">
-                        <li>
-                            <a href="userprofile"><i class="uil uil-user me-2 d-inline-block"></i>Profile</a>
-                        </li>
+                      <ul class="sidebar-menu pt-3">
                         <li><a href="myorder"><i class="uil uil-cube me-2 d-inline-block"></i>Đơn Mua</a></li>
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Shopping Cart</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="home">Home</a></li>
+                                    <li><a href="carts">Giỏ Hàng</a></li>
+                                    <li><a href="tax">Thuế</a></li>
+                                    <li><a href="checkout.jsp">Checkout</a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>

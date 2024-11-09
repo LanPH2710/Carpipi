@@ -448,7 +448,12 @@ public class BlogDAO extends DBContext {
 
     public static void main(String[] args) {
         BlogDAO blogDAO = new BlogDAO();
-        int blogCount = blogDAO.getBlogCount();
-        System.out.println("Số lượng blog: " + blogCount);
+        
+                Timestamp time = Timestamp.valueOf(LocalDateTime.now());
+
+        boolean b = blogDAO.insertTopic("4", "1", "aaaa", time, "abc",
+                "ádf", "qưer", "llll", "tttt", "tyuty", "67567", "eeeeee");
+
+        System.out.println(b);
     }
 }

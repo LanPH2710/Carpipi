@@ -238,11 +238,13 @@
                         <p><textarea name="open" rows="6" class="form-control" placeholder="Nhập mô tả" required></textarea></p>
                     </div>
 
+
 <!--                    <div class="blog-image-container">
 
                         <h2>Tiêu đề hình ảnh: </h2>
                         <strong class="textImage"><textarea name="imageText1" rows="2" class="form-control" placeholder="Nhập mô tả" required></textarea></strong>
                     </div>-->
+
 
                     <div class="blog-section">
                         <h1>Luận điểm 1: </h1>
@@ -256,16 +258,19 @@
                         <strong class="textImage"><textarea name="imageText2" rows="2" class="form-control" placeholder="Nhập mô tả" ></textarea></strong>
                     </div>-->
 
+
                     <div class="blog-section">
                         <h1>Luận điểm 2: </h1>
                         <h5><textarea name="main2" rows="2" class="form-control" placeholder="Nhập mô tả" required></textarea></h5>
                         <p><textarea name="sp2" rows="6" class="form-control" placeholder="Nhập mô tả" required></textarea></p>
                     </div>
 
+
 <!--                    <div class="blog-image-container">
 
                         <strong class="textImage"><textarea name="imageText3" rows="2" class="form-control" placeholder="Nhập mô tả" ></textarea></strong>
                     </div>-->
+
 
                     <div class="blog-section">
                         <h1>Luận điểm 3: </h1>

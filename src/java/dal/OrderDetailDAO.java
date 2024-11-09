@@ -212,7 +212,7 @@ public class OrderDetailDAO extends DBContext {
         String query = "SELECT * "
                 + "FROM `order` "
                 + "WHERE userId = ? "
-                + "ORDER BY orderStatus ASC, createDate asc";
+                + "ORDER BY createDate desc, orderStatus ASC ";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, userId);
@@ -249,7 +249,7 @@ public class OrderDetailDAO extends DBContext {
         String query = "SELECT *"
                 + "FROM `order` "
                 + "WHERE userId = ? and orderStatus = ? "
-                + "ORDER BY createDate asc";
+                + "ORDER BY createDate desc";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, userId);
@@ -269,7 +269,8 @@ public class OrderDetailDAO extends DBContext {
                             resultSet.getInt("shipperId"),
                             resultSet.getDate("createDate"), // Use getDate
                             resultSet.getString("shippingAddress"), // Ensure shippingAddress is retrieved
-                            resultSet.getInt("orderStatus")
+                            resultSet.getInt("orderStatus"),
+                            resultSet.getInt("payMethod")
                     );
                     orders.add(order);
                 }
@@ -352,36 +353,32 @@ public class OrderDetailDAO extends DBContext {
         return orderDetails;
     }
 
-    public List<Order> getShipOrder(int id) {
+    public List<Order> getShipOrder() {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * "
                 + "FROM `order` "
-                + "WHERE orderStatus IN (2,3,4) and shipperId = ? "
-                + "ORDER BY createDate asc";
+                + "WHERE orderStatus IN (2,3,4) "
+                + "ORDER BY createDate desc";
 
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, id);  // Đặt tham số trước khi thực thi câu truy vấn
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Order order = new Order(
-                            resultSet.getInt("orderId"),
-                            resultSet.getString("orderDeliverCode"),
-                            resultSet.getInt("userId"),
-                            resultSet.getString("orderName"),
-                            resultSet.getString("orderEmail"),
-                            resultSet.getString("orderPhone"),
-                            resultSet.getBigDecimal("totalPrice"),
-                            resultSet.getString("note"),
-                            resultSet.getInt("saleId"),
-                            resultSet.getInt("shipperId"),
-                            resultSet.getDate("createDate"), // Nếu là DATETIME, sử dụng getTimestamp()
-                            resultSet.getString("shippingAddress"),
-                            resultSet.getInt("orderStatus"),
-                            resultSet.getInt("payMethod")
-                    );
-                    orders.add(order);
-                }
+        try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {  // Chỉ cần gọi executeQuery() mà không cần tham số query
+            while (resultSet.next()) {
+                Order order = new Order(
+                        resultSet.getInt("orderId"),
+                        resultSet.getString("orderDeliverCode"),
+                        resultSet.getInt("userId"),
+                        resultSet.getString("orderName"),
+                        resultSet.getString("orderEmail"),
+                        resultSet.getString("orderPhone"),
+                        resultSet.getBigDecimal("totalPrice"),
+                        resultSet.getString("note"),
+                        resultSet.getInt("saleId"),
+                        resultSet.getInt("shipperId"),
+                        resultSet.getTimestamp("createDate"), // Dùng getTimestamp() để lấy cả ngày và giờ
+                        resultSet.getString("shippingAddress"),
+                        resultSet.getInt("orderStatus"),
+                        resultSet.getInt("payMethod")
+                );
+                orders.add(order);
             }
         } catch (SQLException e) {
             System.err.println("Error retrieving ship orders: " + e.getMessage());
@@ -389,16 +386,15 @@ public class OrderDetailDAO extends DBContext {
         return orders;
     }
 
-    public List<Order> getShipOrderByStatus(int statusId, int id) {
+    public List<Order> getShipOrderByStatus(int statusId) {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * "
                 + "FROM `order` "
-                + "WHERE orderStatus = ? and shipperId = ? "
+                + "WHERE orderStatus = ? "
                 + "ORDER BY createDate DESC";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, statusId);
-            statement.setInt(2, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Order order = new Order(
@@ -448,90 +444,11 @@ public class OrderDetailDAO extends DBContext {
         }
     }
 
-    public List<OrderDetail> getAllOrder(int userId, int orderId) {
-        List<OrderDetail> orderDetails = new ArrayList<>();
-        String sql = "SELECT \n"
-                + "    od.orderDetailId,\n"
-                + "    od.orderId,\n"
-                + "    od.productId,\n"
-                + "    od.quantity,\n"
-                + "    od.colorId,\n"
-                + "    od.isfeedback,\n"
-                + "    p.name AS productName,\n"
-                + "    os.description,\n"
-                + "    o.createDate,\n"
-                + "    b.name AS brandName,\n"
-                + "    c.colorName,\n"
-                + "    p.price,\n"
-                + "    IFNULL(d.discount, 0) AS discount,\n"
-                + "    pi.imageUrl\n"
-                + "FROM \n"
-                + "    orderdetail od\n"
-                + "JOIN \n"
-                + "    `order` o ON od.orderId = o.orderId\n"
-                + "JOIN \n"
-                + "    OrderStatus os ON o.orderStatus = os.statusId\n"
-                + "JOIN \n"
-                + "    product p ON od.productId = p.productId\n"
-                + "JOIN \n"
-                + "    brand b ON p.brandId = b.brandId\n"
-                + "JOIN \n"
-                + "    colorofcar coc ON od.productId = coc.productId AND od.colorId = coc.colorId\n"
-                + "JOIN \n"
-                + "    color c ON coc.colorId = c.colorId\n"
-                + "LEFT JOIN \n"
-                + "    discount d ON od.discountId = d.discountId AND od.productId = d.productId\n"
-                + "LEFT JOIN \n"
-                + "    (\n"
-                + "        SELECT productId, imageUrl\n"
-                + "        FROM productimage\n"
-                + "        WHERE (productId, imageId) IN (\n"
-                + "            SELECT productId, MIN(imageId)\n"
-                + "            FROM productimage\n"
-                + "            GROUP BY productId\n"
-                + "        )\n"
-                + "    ) pi ON p.productId = pi.productId\n"
-                + "WHERE \n"
-                + "    o.userId = ? and o.orderId = ?\n"
-                + "ORDER BY o.createDate desc\n"
-                + "LIMIT 0, 1000;";
-
-        try (PreparedStatement st = connection.prepareStatement(sql)) {
-            st.setInt(1, userId); // Thiết lập userId
-            try (ResultSet rs = st.executeQuery()) {
-                while (rs.next()) {
-                    OrderDetail orderDetail = new OrderDetail(
-                            rs.getInt("orderId"),
-                            rs.getDate("createDate"), // Change to getDate
-                            rs.getString("productId"),
-                            rs.getString("productName"),
-                            rs.getInt("quantity"),
-                            rs.getString("brandName"),
-                            rs.getString("colorName"),
-                            rs.getString("imageUrl"),
-                            rs.getInt("colorId"),
-                            rs.getInt("isfeedback"),
-                            rs.getInt("orderDetailId"),
-                            rs.getDouble("price"), // Assuming this is productPrice
-                            rs.getString("description") // Assuming this is orderStatusDescription
-                    );
-                    orderDetails.add(orderDetail);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return orderDetails;
-    }
-
     public List<Order> getSaleCheckOrder() {
         List<Order> orders = new ArrayList<>();
-        String query = "SELECT * "
-                + "FROM `order` "
-                + "ORDER BY orderStatus ASC, createDate desc";
+        String query = "SELECT * FROM `order` ORDER BY createDate DESC, orderStatus ASC ";
 
         try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
-
             while (resultSet.next()) {
                 Order order = new Order(
                         resultSet.getInt("orderId"),
@@ -546,64 +463,26 @@ public class OrderDetailDAO extends DBContext {
                         resultSet.getInt("shipperId"),
                         resultSet.getDate("createDate"), // Use getDate
                         resultSet.getString("shippingAddress"), // Ensure shippingAddress is retrieved
-                        resultSet.getInt("orderStatus")
+                        resultSet.getInt("orderStatus"),
+                        resultSet.getInt("payMethod")
                 );
                 orders.add(order);
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving ship orders: " + e.getMessage());
+            System.err.println("Error retrieving ship orders: " + e.getMessage()); // Consider using logging
         }
         return orders;
     }
 
-    public List<Order> getSaleCheckOrder(int id) {
+    public List<Order> getSaleOrderByStatus(int statusId) {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * "
                 + "FROM `order` "
-                + "WHERE saleId = ? "
-                + "ORDER BY orderStatus ASC, createDate DESC";
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            // Đặt tham số saleId trước khi thực thi truy vấn
-            statement.setInt(1, id);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Order order = new Order(
-                            resultSet.getInt("orderId"),
-                            resultSet.getString("orderDeliverCode"),
-                            resultSet.getInt("userId"),
-                            resultSet.getString("orderName"),
-                            resultSet.getString("orderEmail"),
-                            resultSet.getString("orderPhone"),
-                            resultSet.getBigDecimal("totalPrice"),
-                            resultSet.getString("note"),
-                            resultSet.getInt("saleId"),
-                            resultSet.getInt("shipperId"),
-                            resultSet.getDate("createDate"), // Nếu là DATETIME, sử dụng getTimestamp()
-                            resultSet.getString("shippingAddress"),
-                            resultSet.getInt("orderStatus"),
-                            resultSet.getInt("payMethod")
-                    );
-                    orders.add(order);
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("Error retrieving sale check orders: " + e.getMessage());
-        }
-        return orders;
-    }
-
-    public List<Order> getSaleOrderByStatus(int statusId, int id) {
-        List<Order> orders = new ArrayList<>();
-        String query = "SELECT * "
-                + "FROM `order` "
-                + "WHERE orderStatus = ? and saleId = ? "
+                + "WHERE orderStatus = ? "
                 + "ORDER BY createDate DESC";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, statusId);
-            statement.setInt(2, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Order order = new Order(

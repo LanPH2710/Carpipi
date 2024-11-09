@@ -59,8 +59,8 @@
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
-
-                        <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block"></i>Order List</a></li>
+                        <li><a href="dashboardforsale"><i class="uil uil-dashboard me-2 d-inline-block" ></i>Sale</a></li>
+                        <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block" ></i>Order List</a></li>
                         <li><a href="salecheck"><i class="uil uil-dashboard me-2 d-inline-block"></i>Check Order</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
@@ -107,7 +107,7 @@
                                 <a href="postlist" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
                                         <div class="icon text-center rounded-md">
-                                            
+
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0"> <fmt:formatNumber value="${total}" type="number" pattern="#,###"/></h5>
@@ -146,9 +146,9 @@
                                 </a>
                             </div><!--end col-->
 
-                           
 
-                            
+
+
                         </div><!--end row-->
 
                         <div class="row">
@@ -165,7 +165,7 @@
                                 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
 
                                 <script>
-                               
+
                                     // Chuẩn bị dữ liệu từ orderCount để hiển thị trên biểu đồ
                                     const orders = [];
                                     <c:forEach var="order" items="${orderCount}">
@@ -233,7 +233,7 @@
 
                             <div class="col-xl-4 col-lg-5 mt-4">
                                 <div>
-                                    
+
                                     <div style="width: 400px; margin: auto; margin-top: 50px;"> 
 
                                         <canvas id="brandRevenuePie" width="500" height="400"></canvas>

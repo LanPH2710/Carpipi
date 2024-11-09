@@ -538,43 +538,39 @@ public class ProductDAO extends DBContext {
 //    private int styleId;
 //    private List<ProductImage> images; 
     //Son: Thêm sản phẩm 
-    public void insertProduct(String id, String name, int seatNumber, double price, String fuel,
-            int stock, String des, double vat, int supplyId, int brandId, int segmentId, int styleId) {
-        String sql = "INSERT INTO `carpipi`.`product`\n"
-                + "(`productId`,\n"
-                + "`name`,\n"
-                + "`seatNumber`,\n"
-                + "`price`,\n"
-                + "`fuel`,\n"
-                + "`stock`,\n"
-                + "`description`,\n"
-                + "`VAT`,\n"
-                + "`supplyId`,\n"
-                + "`brandId`,\n"
-                + "`segmentId`,\n"
-                + "`styleId`)\n"
-                + "VALUES\n"
-                + "(?,?,?,?,?,?,?,?,?,?,?,?);";
+   public void insertProduct(String productId, String name, String seatNumber, double price, String fuel,
+            String stock, String description, String vat, String supplyId, String brandId,
+            String segmentId, String styleId) {
+        String sql = "INSERT INTO `carpipi`.`product` "
+                + "(`productId`, `name`, `seatNumber`, `price`, `fuel`, `stock`, `description`, `VAT`, `supplyId`, "
+                + "`brandId`, `segmentId`, `styleId`, `status`) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         try {
+            // Chuẩn bị câu lệnh SQL
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, id);
+
+            // Thiết lập tất cả các tham số cho PreparedStatement
+            st.setString(1, productId);
             st.setString(2, name);
-            st.setInt(3, seatNumber);
+            st.setString(3, seatNumber);
             st.setDouble(4, price);
             st.setString(5, fuel);
-            st.setInt(6, stock);
-            st.setString(7, des);
-            st.setDouble(8, vat);
-            st.setInt(9, supplyId);
-            st.setInt(10, brandId);
-            st.setInt(11, segmentId);
-            st.setInt(12, styleId);
+            st.setString(6, stock);
+            st.setString(7, description);
+            st.setString(8, vat);
+            st.setString(9, supplyId);
+            st.setString(10, brandId);
+            st.setString(11, segmentId);
+            st.setString(12, styleId);
+            st.setString(13, "1");  // Giả sử trạng thái là '1' cho sản phẩm kích hoạt
 
+            // Thực thi câu lệnh
             st.executeUpdate();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            System.out.println("Lỗi: " + e);
         }
-
     }
 
     public void deleteProductById(String id) {

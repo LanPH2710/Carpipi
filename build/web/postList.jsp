@@ -128,7 +128,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <a href="createpost" class="btn btn-primary">Tạo Mới Bài Viết</a>
+                                <a href="addblogbymarketing" class="btn btn-primary">Tạo Mới Bài Viết</a>
                             </div>
 
                             <!-- Khối lọc trạng thái -->

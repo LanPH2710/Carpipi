@@ -81,10 +81,10 @@ public class MktDashboardServlet extends HttpServlet {
 //
 //    // Set the data to the request so it's accessible in the JSP
 //    request.setAttribute("genderData", genderData);
-  Map<String, Double> genderData = accountDAO.getCustomersByGender();
+//  Map<String, Double> genderData = accountDAO.getCustomersByGender();
 
     // Set the data to the request so it's accessible in the JSP
-    request.setAttribute("genderData", genderData);
+//    request.setAttribute("genderData", genderData);
 
         // Get the date range from the request
         String startDateStr = request.getParameter("startDate");

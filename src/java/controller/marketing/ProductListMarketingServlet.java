@@ -17,6 +17,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import model.Brand;
 import model.Product;
@@ -81,7 +83,7 @@ public class ProductListMarketingServlet extends HttpServlet {
         String brandId = request.getParameter("brandId");
 
         String indexPage = request.getParameter("index");
-        String search = request.getParameter("searchse");
+        String search = request.getParameter("search");
         String[] styleIds = request.getParameterValues("styleId");
         // Xử lý submit từ Form 1
         HttpSession session = request.getSession();
@@ -93,13 +95,10 @@ public class ProductListMarketingServlet extends HttpServlet {
         } else {
             System.out.println("Không có kiểu dáng nào được chọn.");
         }
-        session.setAttribute("styleIdList", styleIds);
 
         String[] segmentIds = request.getParameterValues("segmentId");
-        session.setAttribute("segmentIdList", segmentIds);
 
         String[] supplyIds = request.getParameterValues("supplyId");
-        session.setAttribute("supplyIdList", supplyIds);
 
         String orderId = request.getParameter("orderId");
         String orderName = request.getParameter("orderName");
@@ -130,6 +129,21 @@ public class ProductListMarketingServlet extends HttpServlet {
 
         List<Product> listProductByName = new ArrayList<>();
 
+        
+
+        System.out.println("Style IDs: " + Arrays.toString(styleIds));
+        System.out.println("Segment IDs: " + Arrays.toString(segmentIds));
+        System.out.println("Supply IDs: " + Arrays.toString(supplyIds));
+        if (styleIds != null) {
+            session.setAttribute("styleIdList", Arrays.asList(styleIds));
+        }
+        if (segmentIds != null) {
+            session.setAttribute("segmentIdList", Arrays.asList(segmentIds));
+        }
+        if (supplyIds != null) {
+            session.setAttribute("supplyIdList", Arrays.asList(supplyIds));
+        }
+
         List<ProductImage> pImageList = new ArrayList<>();
         for (Product p : productList) {
             String pId = p.getProductId();
@@ -142,43 +156,105 @@ public class ProductListMarketingServlet extends HttpServlet {
 
         int count = pDao.getTotalAccount();
 
-        if (brandId != null && !brandId.isEmpty()) {
-            productList = pDao.getProductByBrandId(brandId);
-            request.setAttribute("productListGetBrand", productListGetBrand);
-            count = pDao.getTotalProductWithBrandId(brandId);
-            request.setAttribute("chooseBrand", brandId);
-
-        }
+        productList = styleDao.getListFilter(brandId, styleIds, segmentIds, supplyIds);
         
         if (search != null && !search.isEmpty()) {
-            listProduct = pDao.getPagingProductBySearch(search, index);
-            if (listProduct != null && !listProduct.isEmpty()) {
-
-                request.setAttribute("listProduct", listProduct);
-                count = pDao.getToTalPagingProductBySearch(search);
-            }
+            productList = pDao.getProductBySearch(search); // Tìm kiếm sản phẩm dựa trên từ khóa
+        } else {
+            productList = styleDao.getListFilter(brandId, styleIds, segmentIds, supplyIds); // Lọc sản phẩm nếu không tìm kiếm
         }
 
-        productList = styleDao.getListFilter(brandId, styleIds, segmentIds, supplyIds, index);
+        if (orderName != null && !orderName.isEmpty()) {
 
-        int endPage = count / 16;
-        if (count % 16 != 0) {
+            switch (orderName) {
+                case "1": // Từ bé đến lớn (tăng dần)
+                    productList = styleDao.getListFilterOrderByName(brandId, styleIds, segmentIds, supplyIds, "asc");
+                    break;
+                case "0": // Từ lớn đến bé (giảm dần)
+                    productList = styleDao.getListFilterOrderByName(brandId, styleIds, segmentIds, supplyIds, "desc");
+                    break;
+                default:
+                    break;
+            }
+            request.setAttribute("orderName", orderName);
+        }
+
+        if (orderPrice != null && !orderPrice.isEmpty()) {
+
+            // Xử lý sắp xếp theo giá
+            switch (orderPrice) {
+                case "1": // Từ bé đến lớn (tăng dần)
+                    productList = styleDao.getListFilterOrderByPrice(brandId, styleIds, segmentIds, supplyIds, "asc");
+                    break;
+                case "0": // Từ lớn đến bé (giảm dần)
+                    productList = styleDao.getListFilterOrderByPrice(brandId, styleIds, segmentIds, supplyIds, "desc");
+                    break;
+                default:
+                    break;
+            }
+            request.setAttribute("orderPrice", orderPrice);
+        }
+
+//        styleList = styleDao.getStyleFilter(styleIds);
+//        System.out.println(styleList);
+//
+//        request.setAttribute("styleIds", styleIds);
+        int pageSize = 16;  // Số sản phẩm trên mỗi trang
+        int totalProducts = productList.size();
+        int start = (index - 1) * pageSize;  // start = 0
+        int end = Math.min(start + pageSize, totalProducts);  // end = 16
+        productList = styleDao.getProductListByPage(productList, start, end);
+
+        System.out.println("index: " + index);
+        System.out.println("count: " + count);
+        int endPage = totalProducts / 16;
+        if (totalProducts % 16 != 0) {
             endPage++;
         }
 
-        styleList = styleDao.getStyleFilter(styleIds);
-        System.out.println(styleList);
+        StringBuilder queryString = new StringBuilder();
+        if (styleIds != null) {
+            for (String styleId : styleIds) {
+                queryString.append("&styleId=").append(styleId);
+            }
+        }
+        if (segmentIds != null) {
+            for (String segmentId : segmentIds) {
+                queryString.append("&segmentId=").append(segmentId);
+            }
+        }
+        if (supplyIds != null) {
+            for (String supplyId : supplyIds) {
+                queryString.append("&supplyId=").append(supplyId);
+            }
+        }
+        if (orderName != null && !orderName.isEmpty()) {
+            queryString.append("&orderName=").append(orderName);
+        }
+        if (orderPrice != null && !orderPrice.isEmpty()) {
+            queryString.append("&orderPrice=").append(orderPrice);
+        }
+        if (search != null && !search.isEmpty()) {
+            queryString.append("&search=").append(search);
+        }
 
-        request.setAttribute("styleIds", styleIds);
+        request.setAttribute("queryString", queryString.toString());
+
+        System.out.println("endPage: " + endPage);
+        request.setAttribute("search", search);
 
         request.setAttribute("brandId", brandId);
         request.setAttribute("productList", productList);
 
         request.setAttribute("imageList", pImageList);
         request.setAttribute("searchch", search);
+        request.setAttribute("index", index);
         request.setAttribute("endP", endPage);
-        request.setAttribute("tag", index);
         request.getRequestDispatcher("product_list_maketing.jsp").forward(request, response);
+
+        session.removeAttribute("styleIdList");
+        session.removeAttribute("segmentIdList");
+        session.removeAttribute("supplyIdList");
 
         System.out.println("---------------------------");
 
@@ -213,3 +289,6 @@ public class ProductListMarketingServlet extends HttpServlet {
     }// </editor-fold>
 
 }
+
+
+

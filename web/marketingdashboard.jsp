@@ -1,10 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
-
 <html lang="en">
-
     <head>
         <meta charset="utf-8" />
         <title>Carpipi</title>
@@ -183,19 +180,6 @@
 
                                 </a>
                             </div><!--end col-->
-                            <!--                            <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
-                                                            <div class="card features feature-primary rounded border-0 shadow p-4">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="icon text-center rounded-md">
-                                                                        <i class="uil uil-shopping-cart h3 mb-0"></i>
-                                                                    </div>
-                                                                    <div class="flex-1 ms-2">
-                                                                        <h5 class="mb-0">${totalQuantitySold}</h5>
-                                                                        <p class="text-muted mb-0">Tổng Sản Phẩm Bán Ra</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>end col-->
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
                                 <a href="SliderList" class="card features feature-primary rounded border-0 shadow p-4 text-decoration-none">
                                     <div class="d-flex align-items-center">
@@ -220,7 +204,6 @@
                                            onchange="updateEndDate()" 
                                            max="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" 
                                            value="${startDate != null ? startDate : ''}">
-
                                     <label for="endDate">Ngày Kết Thúc:</label>
                                     <input type="date" id="endDate" name="endDate" required 
                                            max="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" 
@@ -232,9 +215,7 @@
                                         <canvas id="productSalesChart" width="500" height="400"></canvas>
                                     </div>
                                 </div>
-
                                 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
-
                                 <script>
                                                // Hàm cập nhật giá trị min của ngày kết thúc sau khi chọn ngày bắt đầu
                                                function updateEndDate() {
@@ -326,86 +307,7 @@
                                                });
                                 </script>
                             </div>
-                            <!--                            <div class="col-xl-4 col-lg-5 mt-4">
-                                                            <div>
-                                                                <h4>Doanh Thu Theo Thương Hiệu</h4>
-                                                                <div style="width: 400px; margin: auto; margin-top: 50px;"> 
-                            
-                                                                    <canvas id="brandRevenuePie" width="500" height="400"></canvas>
-                                                                </div>
-                                                            </div>
-                            
-                                                            <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
-                            
-                                                            <script>
-                                                                           // Prepare data for Brand Revenue Pie Chart
-                                                                           const brandRevenueData = {
-                                                                               labels: [], // This will hold the brand names
-                                                                               datasets: [{
-                                                                                       label: 'Doanh thu',
-                                                                                       data: [], // This will hold the corresponding revenue values
-                                                                                       backgroundColor: [
-                                                                                           'rgba(255, 99, 132,0.2)',
-                                                                                           'rgba(54, 162, 235,0.2)',
-                                                                                           'rgba(255, 205, 86,0.2)',
-                                                                                           'rgba(75, 192, 192,0.2)',
-                                                                                           'rgba(153, 102, 255,0.2)',
-                                                                                           'rgba(255, 159, 64,0.2)'
-                                                                                       ],
-                                                                                       borderColor: [
-                                                                                           'rgba(255, 99, 132,1)',
-                                                                                           'rgba(54, 162, 235,1)',
-                                                                                           'rgba(255, 205, 86,1)',
-                                                                                           'rgba(75, 192, 192,1)',
-                                                                                           'rgba(153, 102, 255,1)',
-                                                                                           'rgba(255, 159, 64,1)'
-                                                                                       ]
-                                                                                   }]
-                                                                           };
-                            
-                                                                           // Fetch total revenue from the request attribute using JSTL
-                            <c:forEach var="totalBrandRevenue" items="${totalBrandRevenue}">
-                                       brandRevenueData.labels.push('${totalBrandRevenue.name}');
-                                       brandRevenueData.datasets[0].data.push(${totalBrandRevenue.totalRevenue}); // Ensure property name matches
-                            </c:forEach>
-
-                                       // Chart configuration
-                                       const brandRevenueConfig = {
-                                           type: 'pie', // or 'doughnut' if you prefer a doughnut chart
-                                           data: brandRevenueData,
-                                           options: {
-                                               plugins: {
-                                                   legend: {
-                                                       labels: {
-                                                           font: {
-                                                               size: 18 // Set legend font size
-                                                           }
-                                                       }
-                                                   },
-                                                   tooltip: {
-                                                       bodyFont: {
-                                                           size: 20 // Set tooltip font size when hovering
-                                                       },
-                                                       titleFont: {
-                                                           size: 20 // Set tooltip title font size
-                                                       }
-                                                   }
-                                               },
-                                               interaction: {
-                                                   mode: 'nearest', // Define interaction mode
-                                                   intersect: false
-                                               }
-                                           }
-                                       };
-
-                                       // Create the chart
-                                       const brandRevenueCtx = document.getElementById('brandRevenuePie').getContext('2d');
-                                       const brandRevenueChart = new Chart(brandRevenueCtx, brandRevenueConfig);
-                        </script>
-
-                    </div>-->
-
-                            <div class="col-xl-4 col-lg-5 mt-4">
+<!--                            <div class="col-xl-4 col-lg-5 mt-4">
                                 <div>
                                     <h4>Tỉ Lệ Giới Tính Của Khách Hàng</h4>
                                     <div style="width: 400px; margin: auto; margin-top: 50px;">
@@ -483,34 +385,19 @@
                                                const genderDistributionCtx = document.getElementById('genderDistributionPie').getContext('2d');
                                                const genderDistributionChart = new Chart(genderDistributionCtx, genderDistributionConfig);
                                 </script>
-
-                            </div>
-
-
-
-
-
+                            </div>-->
                         </div><!--end row-->
-
-
-
-
                     </div><!--end row-->
                 </div>
         </div><!--end container-->
-
         <!-- Footer Start -->
                 <footer class="bg-white shadow py-3">
-
                 </footer><!--end footer-->
-
         <!-- End -->
     </main>
     <!--End page-content" -->
 </div>
 <!-- page-wrapper -->
-
-
 <!-- javascript -->
 <script src="assetsSlider/js/bootstrap.bundle.min.js"></script>
 <!-- simplebar -->
@@ -522,7 +409,5 @@
 <script src="assetsSlider/js/feather.min.js"></script>
 <!-- Main Js -->
 <script src="assetsSlider/js/app.js"></script>
-
 </body>
-
 </html>

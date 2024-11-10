@@ -523,7 +523,7 @@ public class StyleDAO extends DBContext {
         return sql;
     }
 
-    public List<Product> getListFilter(String brandId, String[] styleId, String[] segmentId, String[] supplyId, int index) {
+    public List<Product> getListFilter(String brandId, String[] styleId, String[] segmentId, String[] supplyId) {
 
         List<Product> list = new ArrayList<>();
 
@@ -538,21 +538,72 @@ public class StyleDAO extends DBContext {
                 + "On seg.segmentId = pro.segmentId\n"
                 + "Join carpipi.supply sup \n"
                 + "On sup.supplyId = pro.supplyId\n"
-                + "Where " + string +"\n"
-                + "AND pro.status = 1 \n"
+                + "Where " + string + "\n"
                 + "And sty.status = 1\n"
                 + "AND seg.status = 1 \n"
                 + "And sup.status = 1\n"
-                + "ORDER BY pro.productId ASC limit 16 offset ?";
-        
-        
+                + "ORDER BY pro.productId ASC ";
 
         System.out.println("sql: " + sql);
 
         try {
 
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, ((index - 1) * 16));
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setProductId(rs.getString("productId"));
+                product.setName(rs.getString("name"));
+                product.setSeatNumber(rs.getInt("seatNumber"));
+                product.setPrice(rs.getDouble("price"));
+                product.setFuel(rs.getString("fuel"));
+                product.setStock(rs.getInt("stock"));
+                product.setDescription(rs.getString("description"));
+                product.setVAT(rs.getDouble("VAT"));
+                product.setSupplyId(rs.getInt("supplyId"));
+                product.setBrandId(rs.getInt("brandId"));
+                product.setSegmentId(rs.getInt("segmentId"));
+                product.setStyleId(rs.getInt("styleId"));
+                product.setStatus(rs.getInt("status"));
+
+                list.add(product);
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return list;
+    }
+
+    public List<Product> getListFilterOrderByName(String brandId, String[] styleId, String[] segmentId, String[] supplyId, String order) {
+
+        List<Product> list = new ArrayList<>();
+
+        String string = checkFilter(brandId, styleId, segmentId, supplyId);
+
+        System.out.println("string: " + string);
+
+        String sql = "SELECT pro.* FROM \n"
+                + "carpipi.product pro Join carpipi.style sty\n"
+                + "On pro.styleId = sty.styleId\n"
+                + "Join carpipi.segment seg \n"
+                + "On seg.segmentId = pro.segmentId\n"
+                + "Join carpipi.supply sup \n"
+                + "On sup.supplyId = pro.supplyId\n"
+                + "Where " + string + "\n"
+                + "And sty.status = 1\n"
+                + "AND seg.status = 1 \n"
+                + "And sup.status = 1\n"
+                + "ORDER BY pro.name " + order + " ";
+
+        System.out.println("sql: " + sql);
+
+        try {
+
+            PreparedStatement st = connection.prepareStatement(sql);
+
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Product product = new Product();
@@ -578,41 +629,114 @@ public class StyleDAO extends DBContext {
 
         return list;
     }
-    
-    public void updateStyle(String styleId, String styleName, int styleStatus) throws SQLException {
-    String query = "UPDATE style SET styleName = ?, status = ? WHERE styleId = ?";
-    try (
-         PreparedStatement stmt = connection.prepareStatement(query)) {
-        stmt.setString(1, styleName);
-        stmt.setInt(2, styleStatus);
-        stmt.setString(3, styleId);
-        stmt.executeUpdate();
+
+    public List<Product> getListFilterOrderByPrice(String brandId, String[] styleId, String[] segmentId, String[] supplyId, String order) {
+
+        List<Product> list = new ArrayList<>();
+
+        String string = checkFilter(brandId, styleId, segmentId, supplyId);
+
+        System.out.println("string: " + string);
+
+        String sql = "SELECT pro.* FROM \n"
+                + "carpipi.product pro Join carpipi.style sty\n"
+                + "On pro.styleId = sty.styleId\n"
+                + "Join carpipi.segment seg \n"
+                + "On seg.segmentId = pro.segmentId\n"
+                + "Join carpipi.supply sup \n"
+                + "On sup.supplyId = pro.supplyId\n"
+                + "Where " + string + "\n"
+                + "And sty.status = 1\n"
+                + "AND seg.status = 1 \n"
+                + "And sup.status = 1\n"
+                + "ORDER BY pro.price " + order + " ";
+
+        System.out.println("sql: " + sql);
+
+        try {
+
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setProductId(rs.getString("productId"));
+                product.setName(rs.getString("name"));
+                product.setSeatNumber(rs.getInt("seatNumber"));
+                product.setPrice(rs.getDouble("price"));
+                product.setFuel(rs.getString("fuel"));
+                product.setStock(rs.getInt("stock"));
+                product.setDescription(rs.getString("description"));
+                product.setVAT(rs.getDouble("VAT"));
+                product.setSupplyId(rs.getInt("supplyId"));
+                product.setBrandId(rs.getInt("brandId"));
+                product.setSegmentId(rs.getInt("segmentId"));
+                product.setStyleId(rs.getInt("styleId"));
+                product.setStatus(rs.getInt("status"));
+
+                list.add(product);
+
+            }
+        } catch (Exception e) {
+        }
+
+        return list;
     }
-}
-    
+
+    public List<Product> getProductListByPage(List<Product> product, int start, int end) {
+        ArrayList<Product> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(product.get(i));
+        }
+        return arr;
+    }
+
+    public void updateProductStatus(String productId, int status) {
+        String sql = "UPDATE carpipi.product SET status = ? WHERE productId = ?";
+        try (
+                PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, status);
+            stm.setString(2, productId);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateStyle(String styleId, String styleName, int styleStatus) throws SQLException {
+        String query = "UPDATE style SET styleName = ?, status = ? WHERE styleId = ?";
+        try (
+                PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, styleName);
+            stmt.setInt(2, styleStatus);
+            stmt.setString(3, styleId);
+            stmt.executeUpdate();
+        }
+    }
+
     public Style getStyleById(String styleId) {
         Style style = null;
         String sql = "SELECT * FROM style WHERE styleId = ?";
-        
+
         try (
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, styleId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     style = new Style();
                     style.setStyleId(rs.getString("styleId"));
                     style.setStyleName(rs.getString("styleName"));
-                  //  brand.setProductCount(rs.getInt("productCount"));
+                    //  brand.setProductCount(rs.getInt("productCount"));
                     style.setStatus(rs.getInt("status"));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return style;
     }
-    
+
     public static void main(String[] args) {
         StyleDAO s = new StyleDAO();
 //        List<Style> styletList = s.getStyleListWithProductCount();
@@ -629,12 +753,11 @@ public class StyleDAO extends DBContext {
 //            System.out.println("No style found with the given ID.");
 //        }
 
-try {
-    s.updateStyle("1", "Sedan", 1);
-} catch (SQLException e) {
-    e.printStackTrace();  // Handle the exception, maybe log it or notify the user
-}
+        try {
+            s.updateStyle("1", "Sedan", 1);
+        } catch (SQLException e) {
+            e.printStackTrace();  // Handle the exception, maybe log it or notify the user
+        }
 
-
-}
+    }
 }

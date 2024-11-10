@@ -75,9 +75,9 @@ public class ShipperServlet extends HttpServlet {
             }
         }
         if (statusId > 0) {
-            order = od1dao.getShipOrderByStatus(statusId, shipperId);
+            order = od1dao.getShipOrderByStatus(statusId);
         } else {
-            order = od1dao.getShipOrder(shipperId);
+            order = od1dao.getShipOrder();
         }
         for (Order order1 : order) {
             List<OrderDetail> orderDetails = od1dao.getOrderDetail(order1.getOrderId());

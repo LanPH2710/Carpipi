@@ -167,7 +167,8 @@ public class OrderDAO extends DBContext {
     /// Manhuy-end------------------------------------------------------------------------------------------------///
     
     //son--------------//
-    public List<OrderDetail> getListOrderdetailById(String orderId) {
+    
+public List<OrderDetail> getListOrderdetailById(String orderId) {
         List<OrderDetail> list = new ArrayList<>();
 
         String sql = "SELECT acc.firstName, acc.lastName, acc.mobile, acc.email, acc.gender,\n"
@@ -197,10 +198,14 @@ public class OrderDAO extends DBContext {
                 o.setUserId(rs.getInt("userId")); // Đảm bảo userId có trong truy vấn SQL nếu cần
                 o.setCreateDate(rs.getDate("createDate")); // Thay đổi kiểu Date
                 o.setOrderName(rs.getString("orderName"));
+                o.setOrderEmail(rs.getString("orderEmail"));
+                o.setOrderPhone(rs.getString("orderPhone"));
                 o.setTotalPrice(rs.getDouble("totalPrice"));
                 o.setOrderStatus(rs.getInt("orderStatus"));
                 o.setFirstName(rs.getString("firstName"));
                 o.setLastName(rs.getString("lastName"));
+                o.setMobile(rs.getString("acc.mobile"));
+                o.setEmail(rs.getString("email"));
                 o.setSaleId(rs.getInt("saleId"));
                 o.setProductName(rs.getString("p.name"));
                 o.setQuantity(rs.getInt("od.quantity"));
@@ -247,10 +252,16 @@ public class OrderDAO extends DBContext {
                 o.setUserId(rs.getInt("userId")); // Đảm bảo userId có trong truy vấn SQL nếu cần
                 o.setCreateDate(rs.getDate("createDate")); // Thay đổi kiểu Date
                 o.setOrderName(rs.getString("orderName"));
+                o.setOrderEmail(rs.getString("orderEmail"));
+                o.setOrderPhone(rs.getString("orderPhone"));
+                o.setShippingAddress(rs.getString("shippingAddress"));
                 o.setTotalPrice(rs.getDouble("totalPrice"));
                 o.setOrderStatus(rs.getInt("orderStatus"));
                 o.setFirstName(rs.getString("firstName"));
                 o.setLastName(rs.getString("lastName"));
+                o.setNote(rs.getString("note"));
+                o.setMobile(rs.getString("acc.mobile"));
+                o.setEmail(rs.getString("email"));
                 o.setSaleId(rs.getInt("saleId"));
                 o.setProductName(rs.getString("p.name"));
                 o.setQuantity(rs.getInt("od.quantity"));
@@ -258,9 +269,6 @@ public class OrderDAO extends DBContext {
                 o.setProductPrice(rs.getDouble("p.price"));
                 o.setProductId(rs.getString("productId"));
                 o.setColorId(rs.getInt("od.colorId"));
-                o.setOrderPhone(rs.getString("orderPhone"));
-                o.setOrderEmail(rs.getString("orderEmail"));
-
                 return o;
             }
 
@@ -270,6 +278,9 @@ public class OrderDAO extends DBContext {
 
         return null;
     }
+
+
+
 
     public List<OrderDetail> getAllOrderList(int index) {
         List<OrderDetail> list = new ArrayList<>();

@@ -55,11 +55,116 @@
                 object-fit: cover; /* Ảnh sẽ căn chỉnh và giữ tỷ lệ */
             }
 
-            li {
-                flex: 1 0 30%; /* Chia mỗi phần tử chiếm 30% chiều rộng, đảm bảo 3 phần tử trong mỗi hàng */
-                margin: 5px; /* Thêm khoảng cách giữa các phần tử */
-                text-align: start;
+
+
+            td.id-column {
+                max-width: 150px; /* Đặt kích thước tối đa cho cột ID */
+                white-space: nowrap; /* Ngăn ngắt dòng cho nội dung trong ô */
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
+
+            /* Đặt chiều rộng cố định cho cột nút */
+            td.button-column {
+                width: 150px; /* Điều chỉnh kích thước phù hợp với nội dung */
+                display: flex;
+                gap: 5px; /* Khoảng cách giữa các nút */
+                align-items: center;
+                justify-content: space-around;
+            }
+            .card .shop-image img {
+                width: 100%;
+                height: 200px; /* Đặt chiều cao cố định, điều chỉnh tùy theo yêu cầu */
+                object-fit: cover; /* Đảm bảo ảnh vừa khít với khung */
+            }
+
+
+
+            /* Đặt chiều cao cố định cho thẻ card */
+            .card {
+                height: 400px; /* Chiều cao cố định cho thẻ card */
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+
+            /* CSS cho tooltip */
+            .tooltip-text {
+                visibility: hidden;
+                width: 70px;
+                background-color: white; /* Nền trắng */
+                color: black; /* Màu chữ đen */
+                text-align: center;
+                border-radius: 5px;
+                padding: 5px;
+                border: 1px solid #ddd;
+                position: absolute;
+                z-index: 1;
+                bottom: 125%; /* Đặt tooltip dưới thẻ */
+                left: 50%;
+                margin-left: -35px; /* Để căn giữa tooltip */
+                opacity: 0;
+                transition: opacity 0.3s;
+                font-weight: bold;
+            }
+
+            /* Hiển thị tooltip khi hover */
+            .tooltip-container:hover .tooltip-text {
+                visibility: visible;
+                opacity: 1;
+            }
+
+            /* Đảm bảo thẻ <a> có position relative để tooltip được căn đúng */
+            .tooltip-container {
+                position: relative;
+                display: inline-block;
+            }
+
+            /* CSS cho tooltip chỉnh sửa */
+            .edit-tooltip {
+                visibility: hidden;
+                width: 90px;
+                background-color: white; /* Nền trắng */
+                color: black; /* Màu chữ đen */
+                text-align: center;
+                border-radius: 5px;
+                padding: 5px;
+                border: 1px solid #ddd;
+                position: absolute;
+                z-index: 1;
+                bottom: 125%; /* Đặt tooltip phía trên thẻ */
+                left: 50%;
+                transform: translateX(-50%); /* Căn giữa tooltip */
+                opacity: 0;
+                transition: opacity 0.3s;
+                font-weight: bold;
+            }
+
+            /* Tam giác cho tooltip */
+            .edit-tooltip::after {
+                content: "";
+                position: absolute;
+                top: 100%; /* Đặt phía dưới tooltip */
+                left: 50%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: white transparent transparent transparent;
+            }
+
+            /* Hiển thị tooltip khi hover vào nút */
+            .edit-tooltip-container:hover .edit-tooltip {
+                visibility: visible;
+                opacity: 1;
+            }
+
+            /* Đảm bảo thẻ <a> có position relative để tooltip được căn đúng */
+            .edit-tooltip-container {
+                position: relative;
+                display: inline-block;
+            }
+
 
 
         </style>
@@ -82,55 +187,42 @@
             <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
-                        <a href="index.html">
+                        <a href="home">
                             <img src="img/logoBnoBG.png" height="120px" class="logo-light-mode" alt="">
-                           
+
                         </a>
                     </div>
                     <ul class="sidebar-menu pt-3">
+
                         <c:choose>
                             <c:when test="${sessionScope.account.roleId == 1}">
                                 <li><a href="admindashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                                <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
-                                <li><a href="userlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>User List</a></li>
-                                <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
-                                <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
-                                <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
-                                <li class="sidebar-dropdown">
-                                    <a href="javascript:void(0)">
-                                        <i class="uil uil-flip-h me-2 d-inline-block"></i>Posts List</a>
-                                    <div class="sidebar-submenu">
-                                        <ul>
-                                            <li><a href="postlist">Tất cả bài viết</a></li>
-                                                <c:forEach items="${topic}" var="t">
-                                                <li><a href="postlist?topic=${t.blogTopicId}">${t.toppicName}</a></li>
-                                                </c:forEach>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block" ></i>Order List</a></li>
-                                <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
-                            </c:when>
-                            <c:when test="${sessionScope.account.roleId == 2}">
+                                </c:when>
+                                <c:when test="${sessionScope.account.roleId == 2}">
                                 <li><a href="marketingdashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                                <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
-                                <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
-                                <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
-                                <li class="sidebar-dropdown">
-                                    <a href="javascript:void(0)">
-                                        <i class="uil uil-flip-h me-2 d-inline-block"></i>Posts List</a>
-                                    <div class="sidebar-submenu">
-                                        <ul>
-                                            <li><a href="postlist">Tất cả bài viết</a></li>
-                                                <c:forEach items="${topic}" var="t">
-                                                <li><a href="postlist?topic=${t.blogTopicId}">${t.toppicName}</a></li>
-                                                </c:forEach>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
-                            </c:when>
-                        </c:choose> 
+                                </c:when>
+                            </c:choose>
+                        <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
+                        <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
+                        <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
+                            <c:choose>
+                                <c:when test="${sessionScope.account.roleId == 1}">
+                                <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
+                                </c:when>
+                            </c:choose>
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)">
+                                <i class="uil uil-flip-h me-2 d-inline-block"></i>Posts List</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="postlist">Tất cả bài viết</a></li>
+                                        <c:forEach items="${topic}" var="t">
+                                        <li><a href="postlist?topic=${t.blogTopicId}">${t.toppicName}</a></li>
+                                        </c:forEach>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -164,8 +256,9 @@
                                 <div id="search" class="menu-search mb-0">
                                     <form action="proformarketing" method="get" id="searchform" class="searchform">
                                         <div>
-                                            <input type="text" class="form-control border rounded-pill" name="searchse" id="s" placeholder="Search Keywords...">
+                                            <input type="text" class="form-control border rounded-pill" value="${param.search}" name="search" id="s" placeholder="Search Keywords...">
                                             <input type="submit" id="searchsubmit" value="Search">
+
                                         </div>
                                     </form>
                                 </div>
@@ -179,36 +272,32 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-<!--                            <div>
-                                <h5 class="mb-0">Shop</h5>
-
-                                <nav aria-label="breadcrumb" class="d-inline-block mt-1">
-                                    <ul class="breadcrumb breadcrumb-muted bg-transparent rounded mb-0 p-0">
-                                        <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Shop</li>
-                                    </ul>
-                                </nav>
-
-                            </div>-->
+                            <!--                            <div>
+                                                            <h5 class="mb-0">Shop</h5>
+                            
+                                                            <nav aria-label="breadcrumb" class="d-inline-block mt-1">
+                                                                <ul class="breadcrumb breadcrumb-muted bg-transparent rounded mb-0 p-0">
+                                                                    <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
+                                                                    <li class="breadcrumb-item active" aria-current="page">Shop</li>
+                                                                </ul>
+                                                            </nav>
+                            
+                                                        </div>-->
 
                             <div class="mt-4 mt-sm-0">
-                                
-                                <a href="addbymarketing" class="btn btn-primary">Add Product</a>
+
+                                <a href="addbymarketing" class="btn btn-primary">Thêm sản phẩm mới</a>
                             </div>
                         </div>
 
-                        <h6 class="mt-4 mb-0">Most Viewed Products</h6>
+                        <h6 class="mt-4 mb-0"></h6>
 
                         <div class="container">
                             <div class="row row-cols-auto">
                                 <div class="col">
-                                    <a href="product?brandId=ME&page=1"><button class="btn btn-outline-primary">Tất cả</button></a>
+
                                 </div>
-                                <c:forEach var="brand" items="${brandList}">
-                                    <div class="col">
-                                        <a href="proformarketing?brandId=${brand.brandId}"><button class="btn btn-outline-primary">${brand.brandName}</button></a>
-                                    </div>
-                                </c:forEach>
+
 
                             </div>
                         </div>
@@ -216,7 +305,7 @@
                         <form action="proformarketing" method="get">
                             <div class="card-group">
 
-                                <div class="card" style="width: 50%; border-radius: 3px">
+                                <div class="card" style="width: 50%; border-radius: 3px; height: 300px">
 
                                     <div class="card-body">
 
@@ -225,10 +314,12 @@
 
                                             <ul class="nav nav-stacked">
                                                 <c:forEach var="style" items="${styleList}">
-                                                    <li>
-                                                        <input class="form-check-input" type="checkbox" id="check${style.styleId}" name="styleId" value="${style.styleId}">
-                                                        <label class="form-check-label" for="check${style.styleId}">${style.styleName}</label><br>
-
+                                                    <li style="flex: 1 0 30%; /* Chia mỗi phần tử chiếm 30% chiều rộng, đảm bảo 3 phần tử trong mỗi hàng */
+                                                        margin: 5px; /* Thêm khoảng cách giữa các phần tử */
+                                                        text-align: start;">
+                                                        <input class="form-check-input" type="checkbox" id="styleCheck${style.styleId}" name="styleId" value="${style.styleId}"
+                                                               <c:if test="${sessionScope.styleIdList != null && sessionScope.styleIdList.contains(style.styleId)}">checked</c:if>>
+                                                        <label class="form-check-label" for="styleCheck${style.styleId}">${style.styleName}</label><br>
                                                     </li>
                                                 </c:forEach>
                                             </ul>                                      
@@ -237,7 +328,7 @@
                                     </div>
                                 </div>
 
-                                <div class="card" style="width: 50%;">
+                                <div class="card car-segment" style="width: 50%; height: 300px  ">
 
                                     <div class="card-body">
 
@@ -246,10 +337,12 @@
 
                                             <ul class="nav nav-stacked">
                                                 <c:forEach var="segment" items="${segmentList}">
-                                                    <li>
-                                                        <input class="form-check-input" type="checkbox" id="check${segment.segmentId}" name="segmentId" value="${segment.segmentId}">
-                                                        <label class="form-check-label" for="check${segment.segmentId}">${segment.segmentName}</label><br>
-
+                                                    <li style="flex: 1 0 30%; /* Chia mỗi phần tử chiếm 30% chiều rộng, đảm bảo 3 phần tử trong mỗi hàng */
+                                                        margin: 5px; /* Thêm khoảng cách giữa các phần tử */
+                                                        text-align: start;">
+                                                        <input class="form-check-input" type="checkbox" id="segmentCheck${segment.segmentId}" name="segmentId" value="${segment.segmentId}"
+                                                               <c:if test="${sessionScope.segmentIdList != null && sessionScope.segmentIdList.contains(segment.segmentId.toString())}">checked</c:if>>
+                                                        <label class="form-check-label" for="segmentCheck${segment.segmentId}">${segment.segmentName}</label><br>
                                                     </li>
                                                 </c:forEach>
                                             </ul>
@@ -259,10 +352,12 @@
                                             <span class="bg-danger"><h5>Nhà cung cấp: </h5></span>  
                                             <ul class="nav nav-stacked">
                                                 <c:forEach var="supply" items="${supplyList}">
-                                                    <li>
-                                                        <input class="form-check-input" type="checkbox" id="check${supply.supplyId}" name="supplyId" value="${supply.supplyId}">
-                                                        <label class="form-check-label" for="check${supply.supplyId}">${supply.supplyName}</label><br>
-
+                                                    <li style="flex: 1 0 30%; /* Chia mỗi phần tử chiếm 30% chiều rộng, đảm bảo 3 phần tử trong mỗi hàng */
+                                                        margin: 5px; /* Thêm khoảng cách giữa các phần tử */
+                                                        text-align: start;">
+                                                        <input class="form-check-input" type="checkbox" id="supplyCheck${supply.supplyId}" name="supplyId" value="${supply.supplyId}"
+                                                               <c:if test="${sessionScope.supplyIdList != null && sessionScope.supplyIdList.contains(supply.supplyId)}">checked</c:if>>
+                                                        <label class="form-check-label" for="supplyCheck${supply.supplyId}">${supply.supplyName}</label><br>
                                                     </li>
                                                 </c:forEach>
                                             </ul>
@@ -271,22 +366,19 @@
                                     </div>                  
                                 </div>
 
-
-                            </div>
-                            <input type="hidden" name="brandId" value="${requestScope.brandId}">
+                            </div>                         
                             <input class="btn btn-primary mt-3" type="submit" value="Tìm kiếm">
                         </form>
-                        <div class="order" style="display: flex" >
+                        <div class="order" style="display: flex; margin-top: 20px;">
                             <div class="col-2">
                                 Sắp xếp theo tên 
                                 <form action="proformarketing" method="get" style="display: inline;">
-
                                     <select class="form-select" name="orderName" onchange="this.form.submit()">
                                         <option value="1" ${requestScope.orderName == 1 ? 'selected' : ''}>Từ bé đến lớn</option>
                                         <option value="0" ${requestScope.orderName == 0 ? 'selected' : ''}>Từ lớn đến bé</option>
                                     </select>
 
-                                    <input type="hidden" name="brandId" value="${requestScope.brandId}">
+
 
                                     <!-- Vòng lặp thêm input ẩn cho từng styleId đã chọn -->
                                     <c:forEach var="styleId" items="${sessionScope.styleIdList}">
@@ -298,22 +390,19 @@
                                     <c:forEach var="supplyId" items="${sessionScope.supplyIdList}">
                                         <input type="hidden" name="supplyId" value="${supplyId}">
                                     </c:forEach>
-
                                 </form>
                             </div>
 
-
-                            <div class="col-2">
+                            <div class="col-2" style=" margin-left: 20px">
                                 <div>
                                     Sắp xếp theo giá 
                                     <form action="proformarketing" method="get" style="display: inline;">
-
-                                        <select class="form-select" name="orderName" onchange="this.form.submit()">
-                                            <option value="1" ${requestScope.orderName == 1 ? 'selected' : ''}>Từ bé đến lớn</option>
-                                            <option value="0" ${requestScope.orderName == 0 ? 'selected' : ''}>Từ lớn đến bé</option>
+                                        <select class="form-select" name="orderPrice" onchange="this.form.submit()">
+                                            <option value="1" ${requestScope.orderPrice == 1 ? 'selected' : ''}>Từ bé đến lớn</option>
+                                            <option value="0" ${requestScope.orderPrice == 0 ? 'selected' : ''}>Từ lớn đến bé</option>
                                         </select>
 
-                                        <input type="hidden" name="brandId" value="${requestScope.brandId}">
+
 
                                         <!-- Vòng lặp thêm input ẩn cho từng styleId đã chọn -->
                                         <c:forEach var="styleId" items="${sessionScope.styleIdList}">
@@ -325,32 +414,17 @@
                                         <c:forEach var="supplyId" items="${sessionScope.supplyIdList}">
                                             <input type="hidden" name="supplyId" value="${supplyId}">
                                         </c:forEach>
-
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-2">
-                                <div>
-                                    Sắp xếp theo nhiên liệu 
-                                    <form action="proformarketing" method="post" style="display: inline;">
-                                        <input type="hidden" name="sliderId" value="${slider.sliderId}" />
-                                        <select class="form-select" name="orderPrice" onchange="this.form.submit()">
-                                            <option value="1" ${requestScope.orderName == 1 ? 'selected' : ''}>Từ bé đến lớn</option>
-                                            <option value="0" ${requestScope.orderName == 0 ? 'selected' : ''}>Từ lớn đến bé</option>
-                                        </select>
-                                    </form>
-                                </div>
-                            </div>
-
                         </div>
+
                         <div class="row row-cols-md-2 row-cols-lg-5">
                             <c:forEach items="${productList}" var="product">
 
                                 <div class="col-lg-3 col-md-4 col-sm-6 mt-4">
                                     <div class="card shop-list border-0 overflow-hidden rounded shadow">
-                                        <ul class="label list-unstyled mb-0">
-                                            <li><a href="javascript:void(0)" class="badge badge-pill badge-success">Featured</a></li>
-                                        </ul>
+
                                         <div class="shop-image position-relative overflow-hidden">
                                             <a href="editproductbymarketing?id=${product.productId}">
                                                 <c:forEach items="${imageList}" var="image">
@@ -367,7 +441,11 @@
                                             </a>
                                             <ul class="list-unstyled shop-icons">
 
-                                                <li class="mt-2"><a href="editproductbymarketing?id=${product.productId}" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
+                                                <li class="mt-2">
+                                                    <a href="editproductbymarketing?id=${product.productId}" class="btn btn-icon btn-pills btn-soft-primary">
+                                                        <i data-feather="eye" class="icons"></i>
+                                                    </a>
+                                                </li>
                                             </ul>                                
 
 
@@ -377,25 +455,55 @@
 
                                                 <tbody>
                                                     <tr>
-                                                        <td>
-                                                            <a href="editproductbymarketing?id=${product.productId}" class="text-dark product-name h6">${product.name}</a>
+                                                        <td class="">
+                                                            <a href="editproductbymarketing?id=${product.productId}" class="text-dark product-name h6" style="max-width: 147px">${product.name}</a>
 
                                                         </td>
                                                         <td>
-                                                            <h6 class="text-muted small font-italic mb-0 mt-1"><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></h6>
+                                                            <h6 class="text-muted small font-italic mb-0 mt-1"><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/>$</h6>
 
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
+                                                        <td class="id-column">
                                                             <h6 class="text-muted small font-italic mb-0 mt-1">ID: ${product.productId}</h6>
-
                                                         </td>
-                                                        <td>
-                                                            <a href="editproductbymarketing?id=${product.productId}" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a>
-
+                                                        <td class="button-column">
+                                                            <div class="tooltip-container">
+                                                                <a href="editproductbymarketing?id=${product.productId}" 
+                                                                   class="btn btn-icon btn-pills btn-soft-primary">
+                                                                    <i data-feather="edit" class="icons"></i> <!-- Icon chỉnh sửa -->
+                                                                </a>
+                                                                <!-- Tooltip -->
+                                                                <div class="tooltip-text" style="width: 90px">Chỉnh sửa</div>
+                                                            </div>
+<!--                                                            <form action="changestatusproductbymarketing" method="get">
+                                                                <div class="tooltip-container" style="position: relative; display: inline-block;">
+                                                                    <input type="hidden" name="productId" value="${product.productId}" />
+                                                                    <input type="hidden" name="status" value="${product.status == 1 ? 0 : 1}">
+                                                                    <input type="hidden" name="currentStatus" value="${status}" />
+                                                                    <button type="submit" name="action" value="update" 
+                                                                            class="btn btn-icon btn-pills ${product.status == 1 ? 'btn-soft-danger' : 'btn-soft-success'}">
+                                                                        <span class="${product.status == 1 ? 'uil uil-times' : 'uil uil-check'}"></span>
+                                                                    </button>
+                                                                     Tooltip 
+                                                                    <div class="tooltip-text ${product.status == 1 ? '' : 'tooltip-show'}">
+                                                                        ${product.status == 1 ? 'Ẩn' : 'Hiện'}
+                                                                    </div>
+                                                                </div>
+                                                            </form>-->
+                                                            <div class="tooltip-container">
+                                                                <a href="deletebymarketing?id=${product.productId}" 
+                                                                   class="btn btn-icon btn-pills btn-soft-danger" 
+                                                                   onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');">
+                                                                    <i data-feather="trash-2" class="icons"></i> <!-- Icon xóa -->
+                                                                </a>
+                                                                <!-- Tooltip -->
+                                                                <div class="tooltip-text" style="width: 90px">Xóa</div>
+                                                            </div>
                                                         </td>
                                                     </tr>
+
                                                 </tbody>
                                             </table>
 
@@ -408,18 +516,44 @@
                         </div><!--end row-->
 
 
-                        <div class="clearfix">
+                        <div class="row text-center">
+                            <!-- Pagination -->
+                            <div class="col-12 mt-4">
+                                <div class="d-md-flex align-items-center text-center justify-content-between">
+                                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                        <!-- Previous Page -->
+                                        <c:if test="${index > 1}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="proformarketing?index=${index - 1}${queryString}" aria-label="Previous">Prev</a>
+                                            </li>
+                                        </c:if>
 
-                        <ul class="pagination">
+                                        <!-- Page Number Links -->
+                                        <c:forEach begin="${(index - 1) <= 1 ? 1 : (index - 1)}" end="${index + 1 > endP ? endP : index + 1}" var="i">
+                                            <c:choose>
+                                                <c:when test="${i == index}">
+                                                    <li class="page-item active"><a class="page-link">${i}</a></li>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                    <li class="page-item">
+                                                        <a href="proformarketing?index=${i}${queryString}" class="page-link">${i}</a>
+                                                    </li>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
 
-                             
-                                <c:forEach begin="1" end="${endP}" var="i">
-                                    <li style="flex: 1 0 2% " class="${tag == i?"page-item active":"page-item"}"><a class="page-link" href="proformarketing?index=${i}&brandId=${chooseBrand}">${i}</a></li>
-                                </c:forEach>
+                                        <!-- Next Page -->
+                                        <c:if test="${index < endP}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="proformarketing?index=${index + 1}${queryString}" aria-label="Next">Next</a>
+                                            </li>
+                                        </c:if>
 
-                          
-                        </ul>
-                    </div> 
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
 
                     </div>
                 </div><!--end container-->
@@ -596,3 +730,5 @@
     </body>
 
 </html>
+
+

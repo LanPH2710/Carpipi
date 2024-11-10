@@ -293,11 +293,13 @@
                                                     <div>
                                                         <a href="productdetail?productId=${pro.productId}" class="product-detail-link">${pro.name}</a>
                                                     </div>
-                                                    <a href="addtocart?productId=${pro.productId}&quantity=1" 
+                                                        <c:forEach items="${colorsMap[pro.productId]}" var="color" begin="0" end="0">
+                                                    <a href="addtocart?productId=${pro.productId}&quantity=1&color=${color.colorId}" 
                                                        class="btn btn-default add-to-cart"
                                                        >
                                                         <i class="fa fa-shopping-cart"></i>Add to cart
                                                     </a>
+                                                       </c:forEach>
                                                 </div>                                            </div>
                                         </div>
                                     </div>

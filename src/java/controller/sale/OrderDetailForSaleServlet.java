@@ -70,26 +70,22 @@ public class OrderDetailForSaleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
 
-        
         String orderId = request.getParameter("orderId");
         int oId = 0;
-        if(orderId != null && !orderId.isEmpty()){
+        if (orderId != null && !orderId.isEmpty()) {
             oId = Integer.parseInt(orderId);
         }
-        
-        String statusParam = request.getParameter("statusId");
-        
 
         AccountDAO accountDao = new AccountDAO();
         OrderDAO orderDao = new OrderDAO();
+        OrderDetail accountOrder = new OrderDetail();
         OrderDetailDAO orderDetailDao = new OrderDetailDAO();
         ColorDAO colorDao = new ColorDAO();
         ProductDAO p = new ProductDAO();
         Product product = new Product();
         ProductImage image = new ProductImage();
-        
+
         Order order = new Order();
 
         List<OrderDetail> orderList = orderDao.getListOrderdetailById(orderId);
@@ -98,35 +94,33 @@ public class OrderDetailForSaleServlet extends HttpServlet {
 
         }
 
-        
-        
+        accountOrder = orderDao.getOrderdetailById(orderId);
+
         List<Color> colorList = colorDao.getListColor();
-        
+
         for (Color color : colorList) {
             System.out.println(color.getColorName());
         }
-        
-        
+
+        String statusParam = request.getParameter("statusId");
+
         System.out.println("orderId: " + orderId);
         System.out.println("status: " + statusParam);
-        
-        if(!orderId.isEmpty() && orderId != null && statusParam != null && !statusParam.isEmpty()){
-            orderDao.updateStatusOfOrder(orderId, statusParam);
-        }
 
-        
-        
-
+//        if (!orderId.isEmpty() && orderId != null && statusParam != null && !statusParam.isEmpty()) {
+//            orderDao.updateStatusOfOrder(orderId, statusParam);
+//            response.sendRedirect("orderlistforsale");
+//            return;
+//        }
         List<Account> allSaleName = accountDao.getAccountByRole();
 
         List<OrderStatus> listStatusOrder = orderDao.getListOrderStatus();
 
-        
-      
         System.out.println(orderId);
 
         request.setAttribute("image", image);
 
+        request.setAttribute("accountOrder", accountOrder);
         request.setAttribute("orderId", orderId);
         request.setAttribute("statusSelect", statusParam);
         request.setAttribute("listStatusOrder", listStatusOrder);
@@ -148,7 +142,26 @@ public class OrderDetailForSaleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        System.out.println("Do post");
+        AccountDAO accountDao = new AccountDAO();
+        OrderDAO orderDao = new OrderDAO();
+        OrderDetail accountOrder = new OrderDetail();
+        OrderDetailDAO orderDetailDao = new OrderDetailDAO();
+        ColorDAO colorDao = new ColorDAO();
+
+        String statusParam = request.getParameter("statusId");
+        String orderId = request.getParameter("orderId");
+
+        System.out.println("orderId: " + orderId);
+        System.out.println("status: " + statusParam);
+
+        if (!orderId.isEmpty() && orderId != null && statusParam != null && !statusParam.isEmpty()) {
+            orderDao.updateStatusOfOrder(orderId, statusParam);
+            
+            
+        }
+        response.sendRedirect("orderlistforsale");
     }
 
     /**
@@ -161,4 +174,7 @@ public class OrderDetailForSaleServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-}   
+}
+
+
+

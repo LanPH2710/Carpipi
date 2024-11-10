@@ -94,34 +94,11 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.account.roleId == 1}">
-                                <li><a href="admindashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                                 <li><a href="settingsList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Setting List</a></li>
-                                <li><a href="userlist"><i class="uil uil-dashboard me-2 d-inline-block"></i>User List</a></li>
-                                <li><a href="customerlist"><i class="uil uil-user me-2 d-inline-block"></i>Customer List</a></li>
-                                <li><a href="proformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Product List</a></li>
-                                <li><a href="SliderList"><i class="uil uil-dashboard me-2 d-inline-block"></i>Slider List</a></li>
-                                <li class="sidebar-dropdown">
-                                    <a href="javascript:void(0)">
-                                        <i class="uil uil-flip-h me-2 d-inline-block"></i>Posts List</a>
-                                    <div class="sidebar-submenu">
-                                        <ul>
-                                            <li><a href="postlist">Tất cả bài viết</a></li>
-                                                <c:forEach items="${topic}" var="t">
-                                                <li><a href="postlist?topic=${t.blogTopicId}">${t.toppicName}</a></li>
-                                                </c:forEach>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block" ></i>Order List</a></li>
-                                <li><a href="feedbacklistformarketing"><i class="uil uil-dashboard me-2 d-inline-block"></i>Feedback List</a></li>
-                                </c:when>
-                                <c:when test="${sessionScope.account.roleId == 3}">
-                                <li><a href="dashboardforsale"><i class="uil uil-dashboard me-2 d-inline-block" ></i>Dashboard</a></li>
-                                <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block" ></i>Order List</a></li>
-                                <li><a href="salecheck"><i class="uil uil-dashboard me-2 d-inline-block"></i>Check Order</a></li>
                                 </c:when>
                             </c:choose>
-
+                        <li><a href="orderlistforsale"><i class="uil uil-dashboard me-2 d-inline-block" ></i>Order List</a></li>
+                        <li><a href="salecheck"><i class="uil uil-dashboard me-2 d-inline-block"></i>Check Order</a></li>
 
                     </ul>
                     <!-- sidebar-menu  -->
@@ -192,15 +169,15 @@
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                                     <c:choose>
                                         <c:when test="${sessionScope.account.roleId == 1}">
-                                            <li class="breadcrumb-item"><a href="admindashboard">Admin</a></li>
+                                            <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
                                             </c:when>
                                         </c:choose>
                                         <c:choose>
                                             <c:when test="${sessionScope.account.roleId == 2}">
-                                            <li class="breadcrumb-item"><a href="dashboardforsale">Sale</a></li>
+                                            <li class="breadcrumb-item"><a href="index.html">Marketing</a></li>
                                             </c:when>
                                         </c:choose>
-                                    <li class="breadcrumb-item"><a href="orderlistforsale">Sale</a></li>
+
                                     <li class="breadcrumb-item active" aria-current="page">Order detail</li>
                                 </ul>
                             </nav>
@@ -216,29 +193,28 @@
 
                                                 <li>
                                                     <h5>Họ tên</h5>
-                                                    <p>${accountOrder.orderName}</p>
+                                                    <p>${accountOrder.firstName} ${accountOrder.lastName}</p>
                                                 </li>
                                                 <li>
                                                     <h5>Emai</h5>
-                                                    <p>${accountOrder.orderEmail}</p>
+                                                    <p>${accountOrder.email}</p>
                                                 </li>
                                                 <li>
                                                     <h5>Số điện thoại</h5>
-                                                    <p>${accountOrder.orderPhone}</p>
-                                                </li>
+                                                    <p>${accountOrder.mobile}</p>
+                                                </li>                                              
                                                 <li>
                                                     <h5>Ngày đặt hàng</h5>
                                                     <p>${accountOrder.createDate}</p>
                                                 </li>
 
                                                 <li>
-                                                    <h5>Tên nhân viên sale</h5>
-<!--                                                    <p>${saleInfo.firstName} ${saleInfo.lastName}</p>-->
+                                                    <h5>Note</h5>
+                                                   <p>
+                                                       <textarea rows="2" class="form-control">${accountOrder.note}</textarea>
+                                                   </p>
                                                 </li>
-                                                <li>
-
-
-                                                </li>
+                                                
 
                                             </ul>
 
@@ -259,7 +235,7 @@
                                     </c:forEach>
 
                                 </select>
-                                <input type="hidden" name="orderId" value="${orderDetail.orderId}">
+                                <input type="hidden" name="orderId" value="${accountOrder.orderId}">
                                 <span>
                                     <input class="btn btn-primary" type="submit" id="searchsubmit" value="Xử lý">
                                 </span>
@@ -313,10 +289,10 @@
                                                         <fmt:formatNumber value="${od.productPrice}" type="number" pattern="#,###"/>
                                                     </td>
                                                     <td>
-                                                        <fmt:formatNumber value="${od.productPrice * 0.3}" type="number" pattern="#,###"/>
+                                                        <fmt:formatNumber value="${od.productPrice * 1.2}" type="number" pattern="#,###"/>
                                                     </td>
                                                     <td>
-                                                        <fmt:formatNumber value="${od.productPrice * 0.3 + od.productPrice}" type="number" pattern="#,###"/>
+                                                        <fmt:formatNumber value="${od.productPrice * 1.2 + od.productPrice}" type="number" pattern="#,###"/>
                                                     </td>
 
                                                 </tr>
@@ -332,13 +308,10 @@
                                                             <td>Giá vận chuyển</td>
                                                             <td>Miễn phí</td>										
                                                         </tr>
-                                                        <tr class="shipping-cost">
-                                                            <td>Thuế</td>
-                                                            <td></td>										
-                                                        </tr>
+                                                        
                                                         <tr>
                                                             <td>Tổng</td>
-                                                            <td><span><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/></span></td>
+                                                            <td><span><fmt:formatNumber value="${accountOrder.totalPrice}" type="number" pattern="#,###"/></span></td>
                                                         </tr>
 
                                                     </table>
@@ -359,19 +332,19 @@
                                             <ul class="infor-customer">
                                                 <li>
                                                     <h5>Họ tên</h5>
-                                                    <p>${accountOrder.firstName} ${accountOrder.lastName}</p>
+                                                    <p>${accountOrder.orderName}</p>
                                                 </li>
                                                 <li>
                                                     <h5>Emai</h5>
-                                                    <p>${accountOrder.email}</p>
+                                                    <p>${accountOrder.orderEmail}</p>
                                                 </li>
                                                 <li>
                                                     <h5>Số điện thoại</h5>
-                                                    <p>${accountOrder.mobile}</p>
-                                                </li>
+                                                    <p>${accountOrder.orderPhone}</p>
+                                                </li>                                              
                                                 <li>
                                                     <h5>Địa chỉ người nhận</h5>
-                                                    <p>${orderDetail.shippingAddress}</p>
+                                                    <p>${accountOrder.shippingAddress}</p>
                                                 </li>
                                             </ul>
 
@@ -435,3 +408,5 @@
 
     </body>
 </html>
+
+

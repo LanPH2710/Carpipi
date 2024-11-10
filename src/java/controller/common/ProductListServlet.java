@@ -5,6 +5,7 @@
 package controller.common;
 
 import dal.BrandDAO;
+import dal.ColorDAO;
 import dal.ProductDAO;
 import dal.StyleDAO;
 import jakarta.servlet.RequestDispatcher;
@@ -15,8 +16,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Brand;
+import model.Color;
+import model.OrderDetail;
 import model.Product;
 import model.Style;
 
@@ -41,7 +46,9 @@ public class ProductListServlet extends HttpServlet {
         BrandDAO brandDao = new BrandDAO();
         ProductDAO productDao = new ProductDAO();
         StyleDAO styleDao = new StyleDAO();
+        ColorDAO cdao = new ColorDAO();
         HttpSession session = request.getSession();
+        Map<String, List<Color>> colorsMap = new HashMap<>();
         // Lấy số trang từ yêu cầu (mặc định là 1)
         int page = 1;
         String pageParam = request.getParameter("page");
@@ -79,7 +86,10 @@ public class ProductListServlet extends HttpServlet {
     } else if ("desc".equals(sort)) {
         allPro.sort(Comparator.comparing(Product::getPrice).reversed());  // Sắp xếp giảm dần theo giá
     }
-
+        for (Product color : allPro) {
+            List<Color> colors = cdao.getColorOfCar(color.getProductId());
+            colorsMap.put(color.getProductId(), colors);
+        }
         int totalPro = allPro.size();
         // Tính toán chỉ số sản phẩm bắt đầu và kết thúc cho trang hiện tại
         int start = (page - 1) * 12;
@@ -102,6 +112,7 @@ public class ProductListServlet extends HttpServlet {
         request.setAttribute("selectedStyleId", styleId);
         request.setAttribute("keyword", keyword);
         request.setAttribute("sort", sort);
+        request.setAttribute("colorsMap", colorsMap);
         session.setAttribute("urlHistory", "productlist");
         RequestDispatcher dispatcher = request.getRequestDispatcher("productList.jsp");
         dispatcher.forward(request, response);

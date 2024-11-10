@@ -69,7 +69,6 @@ public class ProductDAO extends DBContext {
                 product.setBrandId(resultSet.getInt("brandId"));
                 product.setSegmentId(resultSet.getInt("segmentId"));
                 product.setStyleId(resultSet.getInt("styleId"));
-
                 // Lấy danh sách hình ảnh của sản phẩm
                 product.setImages(getImagesByProductId(product.getProductId()));
 
